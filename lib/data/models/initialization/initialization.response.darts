@@ -1,0 +1,114 @@
+import 'dart:convert';
+
+import 'package:equatable/equatable.dart';
+
+import 'help.dart';
+import 'locators_list.dart';
+import 'secret_question.dart';
+import 'walk_through.dart';
+
+class InitializationResponse extends Equatable {
+  final List<WalkThrough>? walkThrough;
+  final String? termsAndConditions;
+  final String? privacyPolicy;
+  final List<SecretQuestion>? secretQuestions;
+  final Help? help;
+  final List<LocatorsList>? locatorsList;
+  final String? imageBaseUrl;
+  final String? imageDirectory;
+
+  const InitializationResponse({
+    this.walkThrough,
+    this.termsAndConditions,
+    this.privacyPolicy,
+    this.secretQuestions,
+    this.help,
+    this.locatorsList,
+    this.imageBaseUrl,
+    this.imageDirectory,
+  });
+
+  factory InitializationResponse.fromMap(Map<String, dynamic> data) {
+    return InitializationResponse(
+      walkThrough: (data['walkThrough'] as List<dynamic>?)
+          ?.map((e) => WalkThrough.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      termsAndConditions: data['termsAndConditions'] as String?,
+      privacyPolicy: data['privacyPolicy'] as String?,
+      secretQuestions: (data['secretQuestions'] as List<dynamic>?)
+          ?.map((e) => SecretQuestion.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      help: data['help'] == null
+          ? null
+          : Help.fromMap(data['help'] as Map<String, dynamic>),
+      locatorsList: (data['locatorsList'] as List<dynamic>?)
+          ?.map((e) => LocatorsList.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      imageBaseUrl: data['imageBaseUrl'] as String?,
+      imageDirectory: data['imageDirectory'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+        'walkThrough': walkThrough?.map((e) => e.toMap()).toList(),
+        'termsAndConditions': termsAndConditions,
+        'privacyPolicy': privacyPolicy,
+        'secretQuestions': secretQuestions?.map((e) => e.toMap()).toList(),
+        'help': help?.toMap(),
+        'locatorsList': locatorsList?.map((e) => e.toMap()).toList(),
+        'imageBaseUrl': imageBaseUrl,
+        'imageDirectory': imageDirectory,
+      };
+
+  /// `dart:convert`
+  ///
+  /// Parses the string and returns the resulting Json object as [InitializationResponse].
+  factory InitializationResponse.fromJson(String data) {
+    return InitializationResponse.fromMap(
+        json.decode(data) as Map<String, dynamic>);
+  }
+
+  /// `dart:convert`
+  ///
+  /// Converts [InitializationResponse] to a JSON string.
+  String toJson() => json.encode(toMap());
+
+  InitializationResponse copyWith({
+    List<WalkThrough>? walkThrough,
+    String? termsAndConditions,
+    String? privacyPolicy,
+    List<SecretQuestion>? secretQuestions,
+    Help? help,
+    List<LocatorsList>? locatorsList,
+    String? imageBaseUrl,
+    String? imageDirectory,
+  }) {
+    return InitializationResponse(
+      walkThrough: walkThrough ?? this.walkThrough,
+      termsAndConditions: termsAndConditions ?? this.termsAndConditions,
+      privacyPolicy: privacyPolicy ?? this.privacyPolicy,
+      secretQuestions: secretQuestions ?? this.secretQuestions,
+      help: help ?? this.help,
+      locatorsList: locatorsList ?? this.locatorsList,
+      imageBaseUrl: imageBaseUrl ?? this.imageBaseUrl,
+      imageDirectory: imageDirectory ?? this.imageDirectory,
+    );
+  }
+
+  @override
+  bool get stringify => true;
+
+  @override
+  List<Object?> get props {
+    return [
+      walkThrough,
+      termsAndConditions,
+      privacyPolicy,
+      secretQuestions,
+      help,
+      locatorsList,
+      imageBaseUrl,
+      imageDirectory,
+    ];
+  }
+}
