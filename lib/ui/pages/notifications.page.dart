@@ -7,13 +7,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import 'package:agent_digital_banking/blocs/notification/notification_bloc.dart';
-import 'package:agent_digital_banking/data/models/push_notification.dart';
-import 'package:agent_digital_banking/logger.dart';
-import 'package:agent_digital_banking/ui/components/form/search_box.dart';
-import 'package:agent_digital_banking/ui/components/list_loading_shimmer_.cm.dart';
-import 'package:agent_digital_banking/ui/layouts/main.layout.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
+import 'package:my_sage_agent/data/models/push_notification.dart';
+import 'package:my_sage_agent/logger.dart';
+import 'package:my_sage_agent/ui/components/form/search_box.dart';
+import 'package:my_sage_agent/ui/components/list_loading_shimmer_.cm.dart';
+import 'package:my_sage_agent/ui/layouts/main.layout.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class PushNotificationsPage extends StatefulWidget {
   const PushNotificationsPage({super.key});

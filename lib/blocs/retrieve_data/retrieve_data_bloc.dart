@@ -1,16 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:agent_digital_banking/constants/activity_type.const.dart';
-import 'package:agent_digital_banking/data/models/collection/institution.dart';
-import 'package:agent_digital_banking/data/models/enquiry.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_form.dart';
-import 'package:agent_digital_banking/data/models/response.modal.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity_datum.dart';
-import 'package:agent_digital_banking/data/repository/fbl_online.repo.dart';
-import 'package:agent_digital_banking/data/repository/payment.repo.dart';
-import 'package:agent_digital_banking/data/repository/quickflow.repo.dart';
-import 'package:agent_digital_banking/utils/response.util.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
+import 'package:my_sage_agent/data/models/collection/institution.dart';
+import 'package:my_sage_agent/data/models/enquiry.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
+import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
+import 'package:my_sage_agent/data/repository/payment.repo.dart';
+import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
+import 'package:my_sage_agent/utils/response.util.dart';
 
 part 'retrieve_data_event.dart';
 part 'retrieve_data_state.dart';

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/data/models/otp_verification.request.dart';
-import 'package:agent_digital_banking/data/models/verify_ghana_card_response.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/otp.dart';
-import 'package:agent_digital_banking/ui/layouts/plain_with_header.layout.dart';
-import 'package:agent_digital_banking/ui/pages/signup/account_holder/setup_account.page.dart';
-import 'package:agent_digital_banking/ui/pages/signup/account_holder/setup_account_password.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/data/models/otp_verification.request.dart';
+import 'package:my_sage_agent/data/models/verify_ghana_card_response.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/otp.dart';
+import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account.page.dart';
+import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account_password.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class OtpAccountVerificationPage extends StatefulWidget {
   const OtpAccountVerificationPage({super.key});

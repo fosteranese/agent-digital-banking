@@ -2,18 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:agent_digital_banking/constants/activity_type.const.dart';
-import 'package:agent_digital_banking/ui/pages/process_flow/enquiry_flow.page.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:agent_digital_banking/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_form.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity_datum.dart';
-import 'package:agent_digital_banking/ui/components/actions/action_tile.dart';
-import 'package:agent_digital_banking/ui/pages/process_flow/process_form.page.dart';
-import 'package:agent_digital_banking/ui/pages/quick_actions.page.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
+import 'package:my_sage_agent/ui/components/actions/action_tile.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
+import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class GeneralCategoryTile extends StatefulWidget {
   const GeneralCategoryTile({super.key, required this.form, required this.activity, this.amDoing = AmDoing.transaction});

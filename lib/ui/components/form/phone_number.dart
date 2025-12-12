@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 import '../../../blocs/app/app_bloc.dart';
 import '../../../data/models/initialization_response.dart';

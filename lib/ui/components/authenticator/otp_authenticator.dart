@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
-import 'package:agent_digital_banking/ui/components/form/otp.dart';
-import 'package:agent_digital_banking/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:my_sage_agent/ui/components/form/otp.dart';
+import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
 
 import '../form/button.dart';
 

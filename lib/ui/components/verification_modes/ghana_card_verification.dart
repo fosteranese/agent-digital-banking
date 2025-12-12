@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
-import 'package:agent_digital_banking/data/models/verification.response.dart';
-import 'package:agent_digital_banking/logger.dart';
-import 'package:agent_digital_banking/ui/components/face_detection_overlay.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/outline_button.dart';
-import 'package:agent_digital_banking/ui/pages/picture_preview.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/data/models/verification.response.dart';
+import 'package:my_sage_agent/logger.dart';
+import 'package:my_sage_agent/ui/components/face_detection_overlay.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/outline_button.dart';
+import 'package:my_sage_agent/ui/pages/picture_preview.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class GhanaCardVerification extends StatefulWidget {
   const GhanaCardVerification({super.key, required this.data, required this.onVerify, this.onSkip, this.onBack});

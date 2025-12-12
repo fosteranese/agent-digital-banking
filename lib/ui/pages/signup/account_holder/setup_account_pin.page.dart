@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/blocs/biometric/biometric_bloc.dart';
-import 'package:agent_digital_banking/data/models/complete_signup.request.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/password_input.dart';
-import 'package:agent_digital_banking/ui/layouts/plain_with_header.layout.dart';
-import 'package:agent_digital_banking/ui/pages/dashboard/dashboard.page.dart';
-import 'package:agent_digital_banking/ui/pages/signup/account_holder/setup_account_secret_question_and_answer.page.dart';
-import 'package:agent_digital_banking/utils/loader.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
+import 'package:my_sage_agent/data/models/complete_signup.request.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/password_input.dart';
+import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account_secret_question_and_answer.page.dart';
+import 'package:my_sage_agent/utils/loader.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class SetupAccountPinPage extends StatefulWidget {
   const SetupAccountPinPage({super.key, required this.password, required this.question, required this.answer, required this.isLoginBioEnabled});

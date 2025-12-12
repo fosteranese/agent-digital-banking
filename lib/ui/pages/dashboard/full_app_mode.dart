@@ -8,24 +8,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/blocs/history/history_bloc.dart';
-import 'package:agent_digital_banking/blocs/notification/notification_bloc.dart';
-import 'package:agent_digital_banking/constants/activity_type.const.dart';
-import 'package:agent_digital_banking/data/models/account/source.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_form.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity_datum.dart';
-import 'package:agent_digital_banking/ui/components/accounts_carousel.dart';
-import 'package:agent_digital_banking/ui/components/advertisement.dart';
-import 'package:agent_digital_banking/ui/components/fx_rate_horizontal_list.dart';
-import 'package:agent_digital_banking/ui/components/quick_access_card.cm.dart';
-import 'package:agent_digital_banking/ui/pages/more/profile.page.dart';
-import 'package:agent_digital_banking/ui/pages/process_flow/actions.page.dart';
-import 'package:agent_digital_banking/ui/pages/process_flow/process_form.page.dart';
-import 'package:agent_digital_banking/ui/pages/quick_actions.page.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/blocs/history/history_bloc.dart';
+import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
+import 'package:my_sage_agent/data/models/account/source.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/user_response/activity.dart';
+import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
+import 'package:my_sage_agent/ui/components/accounts_carousel.dart';
+import 'package:my_sage_agent/ui/components/advertisement.dart';
+import 'package:my_sage_agent/ui/components/fx_rate_horizontal_list.dart';
+import 'package:my_sage_agent/ui/components/quick_access_card.cm.dart';
+import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/actions.page.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
+import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 enum FavouriteTypes { favourites, linkWallet, empty }
 

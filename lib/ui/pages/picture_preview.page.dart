@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image/image.dart' as img;
 
-import 'package:agent_digital_banking/utils/theme.util.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/layouts/plain.layout.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/layouts/plain.layout.dart';
 
 class PicturePreviewPage extends StatefulWidget {
   const PicturePreviewPage({super.key, required this.title, required this.image, required this.onSuccess, this.height = 300, this.width = 300});

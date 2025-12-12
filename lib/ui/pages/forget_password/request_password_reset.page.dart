@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/data/models/forgot_password/forgot_password.request.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/password_input.dart';
-import 'package:agent_digital_banking/ui/components/form/phone_number.dart';
-import 'package:agent_digital_banking/ui/layouts/plain_with_header.layout.dart';
-import 'package:agent_digital_banking/ui/pages/forget_password/verify_password_reset.page.dart';
-import 'package:agent_digital_banking/ui/pages/forgot_secret_answer/request_secret_answer.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/data/models/forgot_password/forgot_password.request.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/password_input.dart';
+import 'package:my_sage_agent/ui/components/form/phone_number.dart';
+import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/ui/pages/forget_password/verify_password_reset.page.dart';
+import 'package:my_sage_agent/ui/pages/forgot_secret_answer/request_secret_answer.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class RequestPasswordResetPage extends StatefulWidget {
   const RequestPasswordResetPage({super.key});

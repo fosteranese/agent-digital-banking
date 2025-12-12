@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ScheduleItem extends StatelessWidget {
   const ScheduleItem({super.key, required this.keyName, required this.value});

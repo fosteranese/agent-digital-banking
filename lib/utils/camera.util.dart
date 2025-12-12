@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class CameraUtil {
   static void showCamera({void Function()? begin, void Function()? after, required void Function(XFile imageFile) onSuccess}) async {

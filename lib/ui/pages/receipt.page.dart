@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:agent_digital_banking/utils/theme.util.dart';
-import 'package:agent_digital_banking/constants/field.const.dart';
-import 'package:agent_digital_banking/data/models/request_response.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:my_sage_agent/constants/field.const.dart';
+import 'package:my_sage_agent/data/models/request_response.dart';
 
 class ReceiptPage extends StatefulWidget {
   const ReceiptPage({super.key, required this.request, required this.imageBaseUrl, required this.imageDirectory, required this.fblLogo});

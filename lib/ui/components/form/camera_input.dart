@@ -5,9 +5,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'package:agent_digital_banking/logger.dart';
-import 'package:agent_digital_banking/ui/components/wizard.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/logger.dart';
+import 'package:my_sage_agent/ui/components/wizard.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class MyCamera extends StatefulWidget {
   const MyCamera(this.cameras, {super.key, required this.onSuccess});

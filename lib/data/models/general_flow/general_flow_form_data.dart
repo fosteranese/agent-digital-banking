@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:agent_digital_banking/data/models/collection/institution.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/collection/institution.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
 
 class GeneralFlowFormData extends Equatable {
   final GeneralFlowForm? form;

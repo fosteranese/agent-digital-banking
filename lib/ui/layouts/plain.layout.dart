@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/utils/help.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/help.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class PlainLayout extends StatelessWidget {
   const PlainLayout({super.key, this.backIcon, this.onPressHelped, this.title, this.subtitle, this.miniTitle, required this.children, this.useCloseIcon = false, this.onBackPressed, this.centerTitle = false, this.centerSubtitle = false, this.titleTextColor = Colors.black, this.noHelp = false});

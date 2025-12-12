@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:agent_digital_banking/logger.dart';
+import 'package:my_sage_agent/logger.dart';
 
 void main() {
   final libDir = Directory('lib');

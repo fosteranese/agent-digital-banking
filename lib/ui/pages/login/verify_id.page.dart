@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/data/models/login/verify_id_response.dart';
-import 'package:agent_digital_banking/data/models/verification.response.dart';
-import 'package:agent_digital_banking/ui/components/verification_modes/verification.dart';
-import 'package:agent_digital_banking/ui/pages/login/secret_answer_login.page.dart';
-import 'package:agent_digital_banking/ui/pages/login/set_secret_answer_login.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
+import 'package:my_sage_agent/data/models/verification.response.dart';
+import 'package:my_sage_agent/ui/components/verification_modes/verification.dart';
+import 'package:my_sage_agent/ui/pages/login/secret_answer_login.page.dart';
+import 'package:my_sage_agent/ui/pages/login/set_secret_answer_login.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class VerifyIdPage extends StatefulWidget {
   const VerifyIdPage({super.key});

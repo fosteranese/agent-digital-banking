@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 import '../../../blocs/auth/auth_bloc.dart';
 import '../../components/form/button.dart';
 import '../../components/form/phone_number.dart';

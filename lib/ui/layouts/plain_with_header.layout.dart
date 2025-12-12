@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:agent_digital_banking/ui/pages/welcome.page.dart';
-import 'package:agent_digital_banking/utils/help.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/ui/pages/welcome.page.dart';
+import 'package:my_sage_agent/utils/help.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class PlainWithHeaderLayout extends StatefulWidget {
   const PlainWithHeaderLayout({super.key, this.backIcon, this.onPressHelped, this.title, this.subtitle, this.miniTitle, required this.children, this.useCloseIcon = false, this.onBackPressed, this.onPressedSubtitle, this.sidesPadding = 10, this.subtitleWidget, this.bottomNavigationBar});

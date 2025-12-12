@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/ui/components/bottom_navbar.cm.dart';
-import 'package:agent_digital_banking/ui/pages/dashboard/dashboard.page.dart';
-import 'package:agent_digital_banking/ui/pages/history.page.dart';
-import 'package:agent_digital_banking/ui/pages/more/more.page.dart';
-import 'package:agent_digital_banking/ui/pages/recipient/recipient.page.dart';
+import 'package:my_sage_agent/ui/components/bottom_navbar.cm.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/history.page.dart';
+import 'package:my_sage_agent/ui/pages/more/more.page.dart';
+import 'package:my_sage_agent/ui/pages/recipient/recipient.page.dart';
 
 final authRouter = StatefulShellRoute.indexedStack(
   builder: (context, state, navigationShell) {

@@ -1,4 +1,4 @@
-package com.digital.bank.agent
+package com.mysage.agent
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 import android.os.Bundle

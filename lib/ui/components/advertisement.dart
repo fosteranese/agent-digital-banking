@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:agent_digital_banking/utils/app.util.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
 
 class Advertisement extends StatefulWidget {
   const Advertisement({super.key});

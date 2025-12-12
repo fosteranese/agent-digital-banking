@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity_datum.dart';
-import 'package:agent_digital_banking/ui/components/actions/action_tile.dart';
-import 'package:agent_digital_banking/ui/components/form/search_box.dart';
-import 'package:agent_digital_banking/ui/layouts/main.layout.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
+import 'package:my_sage_agent/ui/components/actions/action_tile.dart';
+import 'package:my_sage_agent/ui/components/form/search_box.dart';
+import 'package:my_sage_agent/ui/layouts/main.layout.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 enum AmDoing { transaction, addPayee, payeeTransaction, createBulkPaymentGroup, createSchedule, createScheduleFromPayee }
 

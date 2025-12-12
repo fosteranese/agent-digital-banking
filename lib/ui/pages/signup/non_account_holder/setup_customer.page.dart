@@ -3,21 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/blocs/setup/setup_bloc.dart';
-import 'package:agent_digital_banking/data/models/account_opening_lovs.dart';
-import 'package:agent_digital_banking/data/models/non_customer_sign_up/non_customer_sign_up.request.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/ghana_card_input.dart';
-import 'package:agent_digital_banking/ui/components/form/input.dart';
-import 'package:agent_digital_banking/ui/components/form/phone_number.dart';
-import 'package:agent_digital_banking/ui/components/form/select.dart';
-import 'package:agent_digital_banking/ui/layouts/plain_with_header.layout.dart';
-import 'package:agent_digital_banking/ui/pages/signup/non_account_holder/non_account_ghana_card_verification.page.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/loader.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/blocs/setup/setup_bloc.dart';
+import 'package:my_sage_agent/data/models/account_opening_lovs.dart';
+import 'package:my_sage_agent/data/models/non_customer_sign_up/non_customer_sign_up.request.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/ghana_card_input.dart';
+import 'package:my_sage_agent/ui/components/form/input.dart';
+import 'package:my_sage_agent/ui/components/form/phone_number.dart';
+import 'package:my_sage_agent/ui/components/form/select.dart';
+import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/ui/pages/signup/non_account_holder/non_account_ghana_card_verification.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/loader.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class SetupCustomerPage extends StatefulWidget {
   const SetupCustomerPage({super.key});

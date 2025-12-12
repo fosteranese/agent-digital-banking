@@ -6,10 +6,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
-import 'package:agent_digital_banking/blocs/history/history_bloc.dart';
-import 'package:agent_digital_banking/ui/pages/dashboard/dashboard.page.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/history/history_bloc.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key, required this.navigationShell, required GoRouterState state});

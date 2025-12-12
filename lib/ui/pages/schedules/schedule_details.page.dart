@@ -5,16 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-import 'package:agent_digital_banking/blocs/schedule/schedule_bloc.dart';
-import 'package:agent_digital_banking/data/models/payee/payees_response.dart';
-import 'package:agent_digital_banking/data/models/schedule/schedules.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/outline_button.dart';
-import 'package:agent_digital_banking/ui/components/popover.dart';
-import 'package:agent_digital_banking/ui/layouts/profile.layout.dart';
-import 'package:agent_digital_banking/ui/pages/more/profile.page.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/schedule/schedule_bloc.dart';
+import 'package:my_sage_agent/data/models/payee/payees_response.dart';
+import 'package:my_sage_agent/data/models/schedule/schedules.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/outline_button.dart';
+import 'package:my_sage_agent/ui/components/popover.dart';
+import 'package:my_sage_agent/ui/layouts/profile.layout.dart';
+import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ScheduleDetailsPage extends StatefulWidget {
   const ScheduleDetailsPage(this.schedules, {super.key});

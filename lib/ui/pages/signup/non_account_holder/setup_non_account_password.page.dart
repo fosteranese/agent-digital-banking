@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/password_input.dart';
-import 'package:agent_digital_banking/ui/components/password_strength_checker.dart';
-import 'package:agent_digital_banking/ui/layouts/plain.layout.dart';
-import 'package:agent_digital_banking/ui/pages/signup/account_holder/setup_account.page.dart';
-import 'package:agent_digital_banking/ui/pages/signup/non_account_holder/setup_non_account_secret_qa.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/string.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/password_input.dart';
+import 'package:my_sage_agent/ui/components/password_strength_checker.dart';
+import 'package:my_sage_agent/ui/layouts/plain.layout.dart';
+import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account.page.dart';
+import 'package:my_sage_agent/ui/pages/signup/non_account_holder/setup_non_account_secret_qa.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/string.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class SetupNonAccountPasswordPage extends StatefulWidget {
   const SetupNonAccountPasswordPage({super.key});

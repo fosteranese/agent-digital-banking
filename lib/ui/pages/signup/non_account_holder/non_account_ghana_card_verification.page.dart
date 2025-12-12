@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 import '../../../../blocs/auth/auth_bloc.dart';
 import '../../../../data/models/verification.response.dart';

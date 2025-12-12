@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/input.dart';
-import 'package:agent_digital_banking/ui/components/form/secret_question.dart';
-import 'package:agent_digital_banking/ui/components/form/select.dart';
-import 'package:agent_digital_banking/ui/layouts/plain_with_header.layout.dart';
-import 'package:agent_digital_banking/ui/pages/signup/account_holder/setup_account_pin.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/input.dart';
+import 'package:my_sage_agent/ui/components/form/secret_question.dart';
+import 'package:my_sage_agent/ui/components/form/select.dart';
+import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account_pin.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class SetupAccountSecretQuestionAndAnswerPage extends StatefulWidget {
   const SetupAccountSecretQuestionAndAnswerPage({super.key, required this.password, required this.isLoginBioEnabled});

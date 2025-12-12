@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 import '../../utils/navigator.util.dart';
 

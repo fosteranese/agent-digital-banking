@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:agent_digital_banking/main.dart';
+import 'package:my_sage_agent/main.dart';
 
 import '../../data/models/history/activity.dart';
 import '../../data/models/history/history.response.dart';

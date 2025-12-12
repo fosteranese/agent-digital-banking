@@ -4,24 +4,24 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:agent_digital_banking/blocs/bulk_payment/bulk_payment_bloc.dart';
-import 'package:agent_digital_banking/blocs/payee/payee_bloc.dart';
-import 'package:agent_digital_banking/data/models/bulk_payment/bulk_payment_group_payees.dart' as bulk_payment;
-import 'package:agent_digital_banking/data/models/bulk_payment/bulk_payment_groups.dart';
-import 'package:agent_digital_banking/data/models/payee/payees_response.dart';
-import 'package:agent_digital_banking/data/models/response.modal.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/pages/dashboard/dashboard.page.dart';
-import 'package:agent_digital_banking/utils/list.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/service.util.dart';
-import 'package:agent_digital_banking/ui/components/form/search_box.dart';
-import 'package:agent_digital_banking/ui/components/item_level_3.dart';
-import 'package:agent_digital_banking/ui/layouts/main.layout.dart';
-import 'package:agent_digital_banking/ui/pages/quick_actions.page.dart';
-import 'package:agent_digital_banking/ui/pages/recipient/recipient_details.page.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/bulk_payment/bulk_payment_bloc.dart';
+import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
+import 'package:my_sage_agent/data/models/bulk_payment/bulk_payment_group_payees.dart' as bulk_payment;
+import 'package:my_sage_agent/data/models/bulk_payment/bulk_payment_groups.dart';
+import 'package:my_sage_agent/data/models/payee/payees_response.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/utils/list.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/service.util.dart';
+import 'package:my_sage_agent/ui/components/form/search_box.dart';
+import 'package:my_sage_agent/ui/components/item_level_3.dart';
+import 'package:my_sage_agent/ui/layouts/main.layout.dart';
+import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/ui/pages/recipient/recipient_details.page.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 enum PayeeAction { normal, selectPayee }
 

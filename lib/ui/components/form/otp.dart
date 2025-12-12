@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 import '../../../env/env.dart';
 import '../../../logger.dart';
 import '../../../utils/formatter.util.dart';

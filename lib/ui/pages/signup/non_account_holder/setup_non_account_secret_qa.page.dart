@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/input.dart';
-import 'package:agent_digital_banking/ui/components/form/secret_question.dart';
-import 'package:agent_digital_banking/ui/components/form/select.dart';
-import 'package:agent_digital_banking/ui/layouts/plain.layout.dart';
-import 'package:agent_digital_banking/ui/pages/signup/non_account_holder/setup_customer.page.dart';
-import 'package:agent_digital_banking/ui/pages/signup/non_account_holder/setup_non_account_pin.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/input.dart';
+import 'package:my_sage_agent/ui/components/form/secret_question.dart';
+import 'package:my_sage_agent/ui/components/form/select.dart';
+import 'package:my_sage_agent/ui/layouts/plain.layout.dart';
+import 'package:my_sage_agent/ui/pages/signup/non_account_holder/setup_customer.page.dart';
+import 'package:my_sage_agent/ui/pages/signup/non_account_holder/setup_non_account_pin.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class SetupNonAccountSecretQAPage extends StatefulWidget {
   const SetupNonAccountSecretQAPage({super.key, required this.password});

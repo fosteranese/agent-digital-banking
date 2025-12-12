@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/data/models/login/verify_id_response.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/password_input.dart';
-import 'package:agent_digital_banking/ui/components/form/secret_question.dart';
-import 'package:agent_digital_banking/ui/components/form/select.dart';
-import 'package:agent_digital_banking/ui/layouts/plain_with_header.layout.dart';
-import 'package:agent_digital_banking/ui/pages/login/new_device_login.page.dart';
-import 'package:agent_digital_banking/ui/pages/login/otp_login.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/password_input.dart';
+import 'package:my_sage_agent/ui/components/form/secret_question.dart';
+import 'package:my_sage_agent/ui/components/form/select.dart';
+import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
+import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class SetSecretAnswerLoginPage extends StatefulWidget {
   const SetSecretAnswerLoginPage(this.data, {super.key});

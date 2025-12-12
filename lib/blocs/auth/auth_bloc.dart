@@ -1,24 +1,24 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/complete_signup.request.dart';
-import '../../data/models/customer_sign_up/customer_sign_up.request.dart';
-import '../../data/models/forgot_password/forgot_password.request.dart';
-import '../../data/models/forgot_password/forgot_password.response.dart';
-import '../../data/models/forgot_password/reset_password.request.dart';
-import '../../data/models/login/complete_login.request.dart';
-import '../../data/models/login/initiate_login.request.dart';
-import '../../data/models/login/verify_id_response.dart';
-import '../../data/models/non_customer_sign_up/non_customer_sign_up.request.dart';
-import '../../data/models/otp_verification.request.dart';
-import '../../data/models/response.modal.dart';
-import '../../data/models/unlock_screen.request.dart';
-import '../../data/models/user_response/user_response.dart';
-import '../../data/models/verification.response.dart';
-import '../../data/models/verify_ghana_card_response.dart';
-import '../../data/repository/auth.repo.dart';
-import '../../utils/app.util.dart';
-import '../../utils/response.util.dart';
+import 'package:my_sage_agent/data/models/complete_signup.request.dart';
+import 'package:my_sage_agent/data/models/customer_sign_up/customer_sign_up.request.dart';
+import 'package:my_sage_agent/data/models/forgot_password/forgot_password.request.dart';
+import 'package:my_sage_agent/data/models/forgot_password/forgot_password.response.dart';
+import 'package:my_sage_agent/data/models/forgot_password/reset_password.request.dart';
+import 'package:my_sage_agent/data/models/login/complete_login.request.dart';
+import 'package:my_sage_agent/data/models/login/initiate_login.request.dart';
+import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
+import 'package:my_sage_agent/data/models/non_customer_sign_up/non_customer_sign_up.request.dart';
+import 'package:my_sage_agent/data/models/otp_verification.request.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/data/models/unlock_screen.request.dart';
+import 'package:my_sage_agent/data/models/user_response/user_response.dart';
+import 'package:my_sage_agent/data/models/verification.response.dart';
+import 'package:my_sage_agent/data/models/verify_ghana_card_response.dart';
+import 'package:my_sage_agent/data/repository/auth.repo.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/response.util.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -91,210 +91,111 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String picture = '';
   String code = '';
 
-  Future<void> _onNewCustomerSignUp(
-    NewCustomerSignUp event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onNewCustomerSignUp(NewCustomerSignUp event, Emitter<AuthState> emit) async {
     try {
       emit(SubmittingNewCustomerDetails());
-      final result = await _authRepo.signUpNewCustomer(
-        event.payload,
-      );
+      final result = await _authRepo.signUpNewCustomer(event.payload);
 
       signUp = result;
-      emit(
-        NewCustomerDetailsSubmitted(
-          data: result,
-          resendPayload: event.payload,
-        ),
-      );
+      emit(NewCustomerDetailsSubmitted(data: result, resendPayload: event.payload));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) =>
-            emit(SubmitNewCustomerDetailsError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(SubmitNewCustomerDetailsError(error)));
     }
   }
 
-  Future<void> _onNewCustomerReSignUp(
-    NewCustomerReSignUp event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onNewCustomerReSignUp(NewCustomerReSignUp event, Emitter<AuthState> emit) async {
     try {
       emit(ReSubmittingNewCustomerDetails());
-      final result = await _authRepo.signUpNewCustomer(
-        event.payload,
-      );
+      final result = await _authRepo.signUpNewCustomer(event.payload);
 
       signUp = result;
-      emit(
-        NewCustomerDetailsReSubmitted(
-          data: result,
-          resendPayload: event.payload,
-        ),
-      );
+      emit(NewCustomerDetailsReSubmitted(data: result, resendPayload: event.payload));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) =>
-            emit(ReSubmitNewCustomerDetailsError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReSubmitNewCustomerDetailsError(error)));
     }
   }
 
-  Future<void> _onVerifyOtp(
-    VerifyOtp event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onVerifyOtp(VerifyOtp event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingOtp());
-      final result = !event.isNewCustomer
-          ? await _authRepo.verifyNewCustomerOtp(
-              event.payload,
-            )
-          : await _authRepo.verifyNoNNewCustomerOtp(
-              event.payload,
-            );
+      final result = !event.isNewCustomer ? await _authRepo.verifyNewCustomerOtp(event.payload) : await _authRepo.verifyNoNNewCustomerOtp(event.payload);
 
       requestId = result;
       emit(OtpVerified(result));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(VerifyOtpError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyOtpError(error)));
     }
   }
 
-  Future<void> _onCustomerSignUp(
-    CustomerSignUp event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onCustomerSignUp(CustomerSignUp event, Emitter<AuthState> emit) async {
     try {
       emit(SubmittingCustomerDetails());
-      final result = await _authRepo.signUpCustomer(
-        event.payload,
-      );
+      final result = await _authRepo.signUpCustomer(event.payload);
 
       signUp = result;
       emit(CustomerDetailsSubmitted(result));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(SubmitCustomerDetailsError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(SubmitCustomerDetailsError(error)));
     }
   }
 
-  Future<void> _onVerifyCustomer(
-    VerifyCustomer event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onVerifyCustomer(VerifyCustomer event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingCustomerOtp());
-      final result = await _authRepo.verifyNewCustomerOtp(
-        event.payload,
-      );
+      final result = await _authRepo.verifyNewCustomerOtp(event.payload);
 
       requestId = result;
-      emit(
-        CustomerOtpVerified(
-          requestId: result,
-          data: event.data,
-        ),
-      );
+      emit(CustomerOtpVerified(requestId: result, data: event.data));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(VerifyCustomerOtpError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyCustomerOtpError(error)));
     }
   }
 
-  Future<void> _onCompleteSignUp(
-    CompleteSignUp event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onCompleteSignUp(CompleteSignUp event, Emitter<AuthState> emit) async {
     try {
       emit(CompletingSignUp());
-      final payload = event.payload.copyWith(
-        registrationId: signUp!.registrationId,
-      );
-      final result = await _authRepo
-          .completeNewCustomerSignup(payload);
+      final payload = event.payload.copyWith(registrationId: signUp!.registrationId);
+      final result = await _authRepo.completeNewCustomerSignup(payload);
       await _authRepo.clearDbForNewUser();
 
       AppUtil.currentUser = result;
-      _authRepo.saveLoggedUser(
-        user: result,
-        password: event.payload.password ?? '',
-      );
+      _authRepo.saveLoggedUser(user: result, password: event.payload.password ?? '');
 
       emit(SignUpCompleted(result));
       emit(LoggedIn(result));
 
-      await _onRetrieveProfilePicture(
-        const RetrieveProfilePicture(),
-        emit,
-      );
+      await _onRetrieveProfilePicture(const RetrieveProfilePicture(), emit);
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(CompleteSignUpError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(CompleteSignUpError(error)));
     }
   }
 
-  Future<void> _onCompleteCustomerSignUp(
-    CompleteCustomerSignUp event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onCompleteCustomerSignUp(CompleteCustomerSignUp event, Emitter<AuthState> emit) async {
     try {
       emit(CompletingSignUp());
-      final payload = event.payload.copyWith(
-        registrationId: signUp!.registrationId,
-      );
-      final result = await _authRepo.completeCustomerSignup(
-        payload,
-      );
+      final payload = event.payload.copyWith(registrationId: signUp!.registrationId);
+      final result = await _authRepo.completeCustomerSignup(payload);
       await _authRepo.clearDbForNewUser();
 
       AppUtil.currentUser = result;
-      _authRepo.saveLoggedUser(
-        user: result,
-        password: event.payload.password ?? '',
-      );
+      _authRepo.saveLoggedUser(user: result, password: event.payload.password ?? '');
 
-      await _authRepo.saveCurrentUserPin(
-        event.payload.pin ?? '',
-      );
+      await _authRepo.saveCurrentUserPin(event.payload.pin ?? '');
 
       emit(SignUpCompleted(result));
       emit(LoggedIn(result));
 
-      await _onRetrieveProfilePicture(
-        const RetrieveProfilePicture(),
-        emit,
-      );
+      await _onRetrieveProfilePicture(const RetrieveProfilePicture(), emit);
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(CompleteSignUpError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(CompleteSignUpError(error)));
     }
   }
 
-  Future<void> _onRetrieveProfilePicture(
-    RetrieveProfilePicture event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onRetrieveProfilePicture(RetrieveProfilePicture event, Emitter<AuthState> emit) async {
     try {
       final result = await _authRepo.getProfilePicture();
 
-      AppUtil.currentUser = AppUtil.currentUser.copyWith(
-        profilePicture: result,
-      );
+      AppUtil.currentUser = AppUtil.currentUser.copyWith(profilePicture: result);
       _authRepo.saveJustLoggedUser(AppUtil.currentUser);
 
       emit(LoggedIn(AppUtil.currentUser));
@@ -307,293 +208,141 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   // verify ghana card
-  Future<void> _onVerifyGhanaCard(
-    VerifyGhanaCard event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onVerifyGhanaCard(VerifyGhanaCard event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingGhanaCard());
       picture = event.picture;
       code = event.code;
-      final result = await _authRepo.verifyGhanaCard(
-        registrationId: event.registrationId,
-        picture: picture,
-        code: code,
-      );
+      final result = await _authRepo.verifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
 
-      emit(
-        GhanaCardVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(GhanaCardVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(VerifyGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyGhanaCardError(error)));
     }
   }
 
-  Future<void> _onReVerifyGhanaCard(
-    ReVerifyGhanaCard event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onReVerifyGhanaCard(ReVerifyGhanaCard event, Emitter<AuthState> emit) async {
     try {
       emit(ReVerifyingGhanaCard());
-      final result = await _authRepo.verifyGhanaCard(
-        registrationId: event.registrationId,
-        picture: picture,
-        code: code,
-      );
+      final result = await _authRepo.verifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
 
-      emit(
-        GhanaCardReVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(GhanaCardReVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(ReVerifyGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReVerifyGhanaCardError(error)));
     }
   }
 
   // verify ghana card
-  Future<void> _onVerifyPicture(
-    VerifyPicture event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onVerifyPicture(VerifyPicture event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingGhanaCard());
       picture = event.picture;
       code = event.code;
-      final result = !event.isNewCustomer
-          ? await _authRepo.verifyPicture(
-              registrationId: event.registrationId,
-              picture: picture,
-              code: code,
-            )
-          : await _authRepo.verifyPicture(
-              registrationId: event.registrationId,
-              picture: picture,
-              code: code,
-            );
+      final result = !event.isNewCustomer ? await _authRepo.verifyPicture(registrationId: event.registrationId, picture: picture, code: code) : await _authRepo.verifyPicture(registrationId: event.registrationId, picture: picture, code: code);
 
-      emit(
-        GhanaCardVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(GhanaCardVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(VerifyGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyGhanaCardError(error)));
     }
   }
 
-  Future<void> _onReVerifyPicture(
-    ReVerifyPicture event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onReVerifyPicture(ReVerifyPicture event, Emitter<AuthState> emit) async {
     try {
       emit(ReVerifyingGhanaCard());
-      final result = await _authRepo.verifyPicture(
-        registrationId: event.registrationId,
-        picture: picture,
-        code: code,
-      );
+      final result = await _authRepo.verifyPicture(registrationId: event.registrationId, picture: picture, code: code);
 
-      emit(
-        GhanaCardReVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(GhanaCardReVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(ReVerifyGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReVerifyGhanaCardError(error)));
     }
   }
 
   // verify ghana card
-  Future<void> _onSignInVerifyGhanaCard(
-    SignInVerifyGhanaCard event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onSignInVerifyGhanaCard(SignInVerifyGhanaCard event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingGhanaCard());
       picture = event.picture;
       code = event.code;
-      final result = await _authRepo.signUpVerifyGhanaCard(
-        registrationId: event.registrationId,
-        picture: picture,
-        code: code,
-      );
+      final result = await _authRepo.signUpVerifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
 
-      emit(
-        GhanaCardVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(GhanaCardVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(VerifyGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyGhanaCardError(error)));
     }
   }
 
-  Future<void> _onSignInReVerifyGhanaCard(
-    SignInReVerifyGhanaCard event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onSignInReVerifyGhanaCard(SignInReVerifyGhanaCard event, Emitter<AuthState> emit) async {
     try {
       emit(ReVerifyingGhanaCard());
-      final result = await _authRepo.signUpVerifyGhanaCard(
-        registrationId: event.registrationId,
-        picture: picture,
-        code: code,
-      );
+      final result = await _authRepo.signUpVerifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
 
-      emit(
-        GhanaCardReVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(GhanaCardReVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(ReVerifyGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReVerifyGhanaCardError(error)));
     }
   }
 
-  Future<void> _onInitiateForgetPassword(
-    InitiateForgotPassword event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onInitiateForgetPassword(InitiateForgotPassword event, Emitter<AuthState> emit) async {
     try {
       emit(InitiatingForgotPassword());
-      final result = await _authRepo.forgotPassword(
-        event.payload,
-      );
+      final result = await _authRepo.forgotPassword(event.payload);
 
-      emit(
-        ForgotPasswordInitiated(
-          data: result,
-          resendPassword: event.payload,
-        ),
-      );
+      emit(ForgotPasswordInitiated(data: result, resendPassword: event.payload));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(InitiateForgotPasswordError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(InitiateForgotPasswordError(error)));
     }
   }
 
-  Future<void> _onReInitiateForgetPassword(
-    ReInitiateForgotPassword event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onReInitiateForgetPassword(ReInitiateForgotPassword event, Emitter<AuthState> emit) async {
     try {
       emit(ReInitiatingForgotPassword());
-      final result = await _authRepo.forgotPassword(
-        event.payload,
-      );
+      final result = await _authRepo.forgotPassword(event.payload);
 
-      emit(
-        ForgotPasswordReInitiated(
-          data: result,
-          resendPassword: event.payload,
-        ),
-      );
+      emit(ForgotPasswordReInitiated(data: result, resendPassword: event.payload));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) =>
-            emit(ReInitiateForgotPasswordError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReInitiateForgotPasswordError(error)));
     }
   }
 
-  Future<void> _onVerifyForgetPassword(
-    VerifyForgotPassword event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onVerifyForgetPassword(VerifyForgotPassword event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingForgotPassword());
-      final result = await _authRepo.verifyForgotPassword(
-        event.payload,
-      );
+      final result = await _authRepo.verifyForgotPassword(event.payload);
 
       emit(ForgotPasswordVerified(result));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(VerifyForgotPasswordError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyForgotPasswordError(error)));
     }
   }
 
-  Future<void> _onResetPassword(
-    ResetPassword event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onResetPassword(ResetPassword event, Emitter<AuthState> emit) async {
     try {
       emit(ResettingPassword());
-      final result = await _authRepo.resetPassword(
-        event.payload,
-      );
+      final result = await _authRepo.resetPassword(event.payload);
 
       emit(PasswordResetCompleted(result));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(ResetPasswordError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ResetPasswordError(error)));
     }
   }
 
   // forgot secret answer
-  Future<void> _onRetrieveSecretAnswer(
-    RetrieveSecretAnswer event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onRetrieveSecretAnswer(RetrieveSecretAnswer event, Emitter<AuthState> emit) async {
     try {
       emit(RetrievingSecretAnswer());
-      final result = await _authRepo.forgotSecretAnswer(
-        event.phoneNumber,
-      );
+      final result = await _authRepo.forgotSecretAnswer(event.phoneNumber);
 
       emit(SecretAnswerRetrieved(result));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(RetrieveSecretAnswerError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(RetrieveSecretAnswerError(error)));
     }
   }
 
   // login
-  Future<void> _onInitiateLogin(
-    InitiateLogin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onInitiateLogin(InitiateLogin event, Emitter<AuthState> emit) async {
     try {
       emit(InitiatingLogin());
-      final result = await _authRepo.initiateLogin(
-        event.payload,
-      );
+      final result = await _authRepo.initiateLogin(event.payload);
       phoneNumber = event.payload.phoneNumber ?? '';
       password = event.payload.password ?? '';
 
@@ -603,236 +352,117 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (error.code == '2000') {
           phoneNumber = event.payload.phoneNumber ?? '';
           password = event.payload.password ?? '';
-          emit(
-            VerifyId(
-              Response(
-                code: error.code,
-                status: error.status,
-                message: error.message,
-                data: VerifyIdResponse.fromMap(error.data),
-              ),
-            ),
-          );
+          emit(VerifyId(Response(code: error.code, status: error.status, message: error.message, data: VerifyIdResponse.fromMap(error.data))));
           return;
         }
       }
 
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(InitiateLoginError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(InitiateLoginError(error)));
     }
   }
 
   // login
-  Future<void> _onReInitiateLogin(
-    ReInitiateLogin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onReInitiateLogin(ReInitiateLogin event, Emitter<AuthState> emit) async {
     try {
       emit(ReInitiatingLogin());
-      final result = await _authRepo.initiateLogin(
-        InitiateLoginRequest(
-          phoneNumber: phoneNumber,
-          password: password,
-        ),
-      );
+      final result = await _authRepo.initiateLogin(InitiateLoginRequest(phoneNumber: phoneNumber, password: password));
 
       emit(ReLoginInitiated(result.data['requestId']));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(ReInitiateLoginError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReInitiateLoginError(error)));
     }
   }
 
-  Future<void> _onVerifyLogin(
-    VerifyLogin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onVerifyLogin(VerifyLogin event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingLogin());
-      final result = await _authRepo.verifyLogin(
-        event.payload,
-      );
+      final result = await _authRepo.verifyLogin(event.payload);
 
-      emit(
-        LoginVerified(
-          data: result,
-          resendPayload: event.payload,
-        ),
-      );
+      emit(LoginVerified(data: result, resendPayload: event.payload));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(VerifyLoginError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyLoginError(error)));
     }
   }
 
-  Future<void> _onReVerifyLogin(
-    ReVerifyLogin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onReVerifyLogin(ReVerifyLogin event, Emitter<AuthState> emit) async {
     try {
       emit(ReVerifyingLogin());
-      final result = await _authRepo.verifyLogin(
-        event.payload,
-      );
+      final result = await _authRepo.verifyLogin(event.payload);
 
-      emit(
-        LoginReVerified(
-          data: result,
-          resendPayload: event.payload,
-        ),
-      );
+      emit(LoginReVerified(data: result, resendPayload: event.payload));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(ReVerifyLoginError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReVerifyLoginError(error)));
     }
   }
 
-  Future<void> _onSetSecurityAnswerLogin(
-    SetSecurityAnswerLogin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onSetSecurityAnswerLogin(SetSecurityAnswerLogin event, Emitter<AuthState> emit) async {
     try {
       emit(SettingSecurityAnswerLogin());
-      final result = await _authRepo.resetSecurityAnswer(
-        registrationId: event.registrationId,
-        question: event.question,
-        answer: event.answer,
-      );
+      final result = await _authRepo.resetSecurityAnswer(registrationId: event.registrationId, question: event.question, answer: event.answer);
 
-      emit(
-        SecurityAnswerLoginSet(
-          data: result,
-          resendPayload: {
-            "registrationId": event.registrationId,
-            "question": event.question,
-            "answer": event.answer,
-          },
-        ),
-      );
+      emit(SecurityAnswerLoginSet(data: result, resendPayload: {"registrationId": event.registrationId, "question": event.question, "answer": event.answer}));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(SetSecurityAnswerLoginError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(SetSecurityAnswerLoginError(error)));
     }
   }
 
-  Future<void> _onResetSecurityAnswerLogin(
-    ResetSecurityAnswerLogin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onResetSecurityAnswerLogin(ResetSecurityAnswerLogin event, Emitter<AuthState> emit) async {
     try {
       emit(ResettingSecurityAnswerLogin());
-      final result = await _authRepo.resetSecurityAnswer(
-        registrationId: event.registrationId,
-        question: event.question,
-        answer: event.answer,
-      );
+      final result = await _authRepo.resetSecurityAnswer(registrationId: event.registrationId, question: event.question, answer: event.answer);
 
-      emit(
-        SecurityAnswerLoginReset(
-          data: result,
-          resendPayload: {
-            "registrationId": event.registrationId,
-            "question": event.question,
-            "answer": event.answer,
-          },
-        ),
-      );
+      emit(SecurityAnswerLoginReset(data: result, resendPayload: {"registrationId": event.registrationId, "question": event.question, "answer": event.answer}));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) =>
-            emit(ResetSecurityAnswerLoginError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ResetSecurityAnswerLoginError(error)));
     }
   }
 
-  Future<void> _onCompleteLogin(
-    CompleteLogin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onCompleteLogin(CompleteLogin event, Emitter<AuthState> emit) async {
     try {
       emit(CompletingLogin());
-      final result = await _authRepo.completeLogin(
-        event.payload,
-      );
+      final result = await _authRepo.completeLogin(event.payload);
       await _authRepo.clearDbForNewUser();
 
       AppUtil.currentUser = result;
-      _authRepo.saveLoggedUser(
-        user: result,
-        password: password,
-      );
+      _authRepo.saveLoggedUser(user: result, password: password);
       password = '';
 
       emit(LoginCompleted(result));
       emit(LoggedIn(result));
 
-      await _onRetrieveProfilePicture(
-        const RetrieveProfilePicture(),
-        emit,
-      );
+      await _onRetrieveProfilePicture(const RetrieveProfilePicture(), emit);
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(CompleteLoginError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(CompleteLoginError(error)));
     }
   }
 
   // unlock screen
-  Future<void> _onUnlockScreen(
-    UnLockScreen event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onUnlockScreen(UnLockScreen event, Emitter<AuthState> emit) async {
     try {
       emit(UnLockingScreen());
 
       var pwd = event.payload.password;
       if (!(event.payload.isPassword ?? false)) {
-        pwd =
-            (await _authRepo.getCurrentUserPassword()) ??
-            '';
+        pwd = (await _authRepo.getCurrentUserPassword()) ?? '';
       }
 
       final payload = event.payload.copyWith(password: pwd);
       final result = await _authRepo.unLockScreen(payload);
-      _authRepo.saveLoggedUser(
-        user: result,
-        password: payload.password!,
-      );
+      _authRepo.saveLoggedUser(user: result, password: payload.password!);
 
       AppUtil.currentUser = result;
 
       emit(ScreenUnLocked(result));
       emit(LoggedIn(result));
 
-      await _onRetrieveProfilePicture(
-        const RetrieveProfilePicture(),
-        emit,
-      );
+      await _onRetrieveProfilePicture(const RetrieveProfilePicture(), emit);
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(UnlockScreenError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(UnlockScreenError(error)));
     }
   }
 
   // refresh user data
-  Future<void> _onRefreshUserData(
-    RefreshUserData event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onRefreshUserData(RefreshUserData event, Emitter<AuthState> emit) async {
     try {
       emit(const RefreshingUserData());
       final result = await _authRepo.refreshUserData();
@@ -840,77 +470,47 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(LoggedIn(result));
 
-      await _onRetrieveProfilePicture(
-        const RetrieveProfilePicture(),
-        emit,
-      );
+      await _onRetrieveProfilePicture(const RetrieveProfilePicture(), emit);
     } catch (ex) {
       emit(const RefreshUserDataFailed());
     }
   }
 
   // logout
-  Future<void> _onLogout(
-    Logout event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onLogout(Logout event, Emitter<AuthState> emit) async {
     emit(const LoggedOut());
   }
 
   // force update
-  Future<void> _onForceUpdate(
-    ForceUpdate event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onForceUpdate(ForceUpdate event, Emitter<AuthState> emit) async {
     emit(const ForcingUpdate());
     emit(UpdateForced(event.result));
   }
 
   // save pin
-  Future<void> _onSavePin(
-    SavePin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onSavePin(SavePin event, Emitter<AuthState> emit) async {
     pin = event.pin;
     _authRepo.saveCurrentUserPin(event.pin);
   }
 
   // retrieve pin
-  Future<void> _onRetrievePin(
-    RetrievePin event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onRetrievePin(RetrievePin event, Emitter<AuthState> emit) async {
     pin = await _authRepo.getCurrentUserPin() ?? '';
   }
 
   // refresh user data
-  Future<void> _onChangeProfilePicture(
-    ChangeProfilePicture event,
-    Emitter<AuthState> emit,
-  ) async {
+  Future<void> _onChangeProfilePicture(ChangeProfilePicture event, Emitter<AuthState> emit) async {
     try {
       emit(ChangingProfilePicture(event.routeName));
-      final result = await _authRepo.changeProfilePicture(
-        event.picture,
-      );
-      AppUtil.currentUser = AppUtil.currentUser.copyWith(
-        profilePicture: result,
-      );
+      final result = await _authRepo.changeProfilePicture(event.picture);
+      AppUtil.currentUser = AppUtil.currentUser.copyWith(profilePicture: result);
 
       emit(ProfilePictureChanged(event.routeName));
       _authRepo.saveJustLoggedUser(AppUtil.currentUser);
 
       emit(LoggedIn(AppUtil.currentUser));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(
-          ProfilePictureError(
-            routeName: event.routeName,
-            result: error,
-          ),
-        ),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ProfilePictureError(routeName: event.routeName, result: error)));
     }
   }
 }

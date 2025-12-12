@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:agent_digital_banking/blocs/activity/activity_bloc.dart';
+import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
 
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class AmountInput extends StatefulWidget {
   const AmountInput({super.key, required this.controller, this.focusNode});

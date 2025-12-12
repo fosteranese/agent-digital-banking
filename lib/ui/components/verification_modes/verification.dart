@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:agent_digital_banking/constants/access_type.const.dart';
-import 'package:agent_digital_banking/data/models/verification.response.dart';
-import 'package:agent_digital_banking/ui/components/verification_modes/access_type_verification.dart';
-import 'package:agent_digital_banking/ui/components/verification_modes/ghana_card_verification.dart';
+import 'package:my_sage_agent/constants/access_type.const.dart';
+import 'package:my_sage_agent/data/models/verification.response.dart';
+import 'package:my_sage_agent/ui/components/verification_modes/access_type_verification.dart';
+import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification.dart';
 
 class Verification extends StatelessWidget {
   const Verification({super.key, required this.data, required this.onVerify, this.onSkip, this.onBack, required this.action});

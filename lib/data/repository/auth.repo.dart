@@ -1,4 +1,4 @@
-import 'package:agent_digital_banking/data/models/complete_signup.request.dart';
+import 'package:my_sage_agent/data/models/complete_signup.request.dart';
 
 import '../../constants/status.const.dart';
 import '../database/db.dart';

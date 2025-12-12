@@ -3,12 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/components/help.dart';
-import 'package:agent_digital_banking/ui/components/popover.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/components/help.dart';
+import 'package:my_sage_agent/ui/components/popover.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class HelpPage extends StatefulWidget {
   const HelpPage({super.key});

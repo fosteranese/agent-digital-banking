@@ -15,7 +15,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart' as pip;
-import 'package:agent_digital_banking/ui/components/form/outline_button.dart';
+import 'package:my_sage_agent/ui/components/form/outline_button.dart';
 
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/notification/notification_bloc.dart';

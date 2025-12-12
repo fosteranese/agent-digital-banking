@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 import '../../data/models/user_response/activity_datum.dart';
 import '../../data/models/user_response/user_response.dart';

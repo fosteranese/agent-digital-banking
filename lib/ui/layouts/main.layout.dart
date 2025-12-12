@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/utils/navigator.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/utils/navigator.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class MainLayout extends StatelessWidget {
   const MainLayout({super.key, this.nav, this.onBackPressed, this.showNavBarOnPop = true, this.backIcon, this.title, this.bottom, this.actions, this.showBackBtn = false, this.useCloseIcon = false, this.titleColor, this.backgroundColor, this.child, this.children = const [], this.sliver, this.slivers = const [], this.isTopPadded = true, this.useCustomScroll = true, this.scrollController, this.physics, this.floatingActionButton, this.floatingActionButtonLocation, this.floatingActionButtonMargin = 50, this.refreshController, this.onRefresh, this.refreshBackgroundColor, this.refreshColor, this.bottomNavigationBar, this.flexibleSpace});

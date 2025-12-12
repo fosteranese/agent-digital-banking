@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 import '../../../blocs/loader/loader_bloc.dart';
 import '../../../constants/status.const.dart';

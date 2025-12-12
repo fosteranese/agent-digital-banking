@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/blocs/biometric/biometric_bloc.dart';
-import 'package:agent_digital_banking/constants/activity_type.const.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_form.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity_datum.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/pages/process_flow/process_form.page.dart';
-import 'package:agent_digital_banking/ui/pages/quick_actions.page.dart';
-import 'package:agent_digital_banking/utils/authentication.util.dart';
-import 'package:agent_digital_banking/utils/biometric.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
-import 'package:agent_digital_banking/env/env.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/user_response/activity.dart';
+import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
+import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/utils/authentication.util.dart';
+import 'package:my_sage_agent/utils/biometric.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:my_sage_agent/env/env.dart';
 
 class PinAuthenticator extends StatefulWidget {
   const PinAuthenticator({super.key, required this.onSuccess, this.allowBiometric = false, required this.end});
@@ -147,6 +147,7 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
   }
 
   void _biometricAuthentication() {
+    final nav = GoRouter.of(context);
     BiometricUtil.authenticateWithBiometrics(() async {
       final pin = await AuthenticationUtil.getPin;
 
@@ -155,7 +156,7 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
         return;
       }
 
-      context.pop();
+      nav.pop();
       return widget.onSuccess(pin);
     });
   }

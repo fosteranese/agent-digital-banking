@@ -4,22 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:agent_digital_banking/constants/activity_type.const.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_category.dart';
-import 'package:agent_digital_banking/data/models/general_flow/general_flow_form.dart';
-import 'package:agent_digital_banking/data/models/response.modal.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity.dart';
-import 'package:agent_digital_banking/data/models/user_response/activity_datum.dart';
-import 'package:agent_digital_banking/ui/components/item.dart';
-import 'package:agent_digital_banking/ui/layouts/main.layout.dart';
-import 'package:agent_digital_banking/ui/pages/dashboard/dashboard.page.dart';
-import 'package:agent_digital_banking/ui/pages/more/profile.page.dart';
-import 'package:agent_digital_banking/ui/pages/more/security_settings.page.dart';
-import 'package:agent_digital_banking/ui/pages/process_flow/enquiry_flow.page.dart';
-import 'package:agent_digital_banking/ui/pages/process_flow/process_form.page.dart';
-import 'package:agent_digital_banking/ui/pages/quick_actions.page.dart';
-import 'package:agent_digital_banking/utils/help.util.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
+import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/data/models/user_response/activity.dart';
+import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
+import 'package:my_sage_agent/ui/components/item.dart';
+import 'package:my_sage_agent/ui/layouts/main.layout.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
+import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
+import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/utils/help.util.dart';
 import 'package:uuid/uuid.dart';
 
 class MorePage extends StatefulWidget {

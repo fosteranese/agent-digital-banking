@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:agent_digital_banking/blocs/activity/activity_bloc.dart';
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/logger.dart';
+import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/logger.dart';
 
 class SessionTimeout extends StatefulWidget {
   const SessionTimeout({super.key, required this.child});

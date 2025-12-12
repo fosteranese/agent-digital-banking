@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/app/app_bloc.dart';
-import 'package:agent_digital_banking/constants/status.const.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/pages/login/new_device_login.page.dart';
-import 'package:agent_digital_banking/ui/pages/signup/account_holder/setup_account.page.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/help.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/app/app_bloc.dart';
+import 'package:my_sage_agent/constants/status.const.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
+import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/help.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});

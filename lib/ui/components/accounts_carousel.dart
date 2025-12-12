@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
-import 'package:agent_digital_banking/data/models/account/source.dart';
+import 'package:my_sage_agent/data/models/account/source.dart';
 
 class AccountsCarousel extends StatefulWidget {
   const AccountsCarousel({super.key, required this.accounts, required ValueNotifier<bool> displayBalance, required ValueNotifier<bool> viewAccounts, required ScrollController controller}) : _displayBalance = displayBalance, _viewAccounts = viewAccounts;

@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:agent_digital_banking/data/models/response.modal.dart';
-import 'package:agent_digital_banking/data/repository/auth.repo.dart';
-import 'package:agent_digital_banking/data/repository/biometric.repo.dart';
-import 'package:agent_digital_banking/utils/response.util.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/data/repository/auth.repo.dart';
+import 'package:my_sage_agent/data/repository/biometric.repo.dart';
+import 'package:my_sage_agent/utils/response.util.dart';
 
 part 'biometric_event.dart';
 part 'biometric_state.dart';

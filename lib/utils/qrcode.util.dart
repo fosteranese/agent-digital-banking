@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/general_flow/general_flow_bloc.dart';
-import 'package:agent_digital_banking/constants/activity_type.const.dart';
-import 'package:agent_digital_banking/data/models/user_response/scan_to_pay.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/pages/dashboard/dashboard.page.dart';
-import 'package:agent_digital_banking/ui/pages/qr_code.page.dart';
+import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
+import 'package:my_sage_agent/data/models/user_response/scan_to_pay.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/qr_code.page.dart';
 
 class QrCodeUtil {
   static void openScanToPay({required ScanToPay scanToPay, required String iconBaseUrl}) {

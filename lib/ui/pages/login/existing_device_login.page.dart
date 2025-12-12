@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/utils/theme.util.dart';
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/blocs/biometric/biometric_bloc.dart';
-import 'package:agent_digital_banking/constants/status.const.dart';
-import 'package:agent_digital_banking/data/models/unlock_screen.request.dart';
-import 'package:agent_digital_banking/ui/components/form/button.dart';
-import 'package:agent_digital_banking/ui/components/form/password_input.dart';
-import 'package:agent_digital_banking/ui/pages/dashboard/dashboard.page.dart';
-import 'package:agent_digital_banking/ui/pages/forget_password/request_password_reset.page.dart';
-import 'package:agent_digital_banking/ui/pages/login/new_device_login.page.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/biometric.util.dart';
-import 'package:agent_digital_banking/utils/help.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
+import 'package:my_sage_agent/constants/status.const.dart';
+import 'package:my_sage_agent/data/models/unlock_screen.request.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/password_input.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
+import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/biometric.util.dart';
+import 'package:my_sage_agent/utils/help.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class ExistingDeviceLoginPage extends StatefulWidget {
   const ExistingDeviceLoginPage(this.autoShowBiometric, {super.key});

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
-import 'package:agent_digital_banking/env/env.dart';
-import 'package:agent_digital_banking/logger.dart';
+import 'package:my_sage_agent/env/env.dart';
+import 'package:my_sage_agent/logger.dart';
 
 class Database {
   static late Box<dynamic> box;

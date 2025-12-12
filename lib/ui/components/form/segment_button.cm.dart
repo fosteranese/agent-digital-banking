@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class MySegmentButton extends StatefulWidget {
   const MySegmentButton({super.key, required this.controller, required this.label, required this.value, this.showDivider = true, this.showIcon = false, required this.onSelected, this.isSelectable = true});

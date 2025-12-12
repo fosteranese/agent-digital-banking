@@ -9,6 +9,7 @@
         "pbxproj",
         "swiftpm",
         "Symbolication",
+        "Talsec",
         "xcodeproj"
     ]
 }

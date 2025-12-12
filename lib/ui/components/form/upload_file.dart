@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/components/popover.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/components/popover.dart';
 
 class FormUploadFileControl extends StatefulWidget {
   const FormUploadFileControl({super.key, this.label, required this.caption, required this.controller});

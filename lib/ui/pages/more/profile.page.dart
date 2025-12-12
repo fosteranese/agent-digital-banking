@@ -7,13 +7,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/components/popover.dart';
-import 'package:agent_digital_banking/ui/layouts/profile.layout.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/components/popover.dart';
+import 'package:my_sage_agent/ui/layouts/profile.layout.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:agent_digital_banking/blocs/map/map_bloc.dart';
-import 'package:agent_digital_banking/data/models/google_map/auto_complete_response.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/components/form/select.dart';
-import 'package:agent_digital_banking/ui/components/form/select_screen.dart';
-import 'package:agent_digital_banking/utils/app.util.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/blocs/map/map_bloc.dart';
+import 'package:my_sage_agent/data/models/google_map/auto_complete_response.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/components/form/select.dart';
+import 'package:my_sage_agent/ui/components/form/select_screen.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class SearchLocation extends StatefulWidget {
   const SearchLocation({super.key, required this.onSelectedCurrentLocation, required this.onSelectedOption});

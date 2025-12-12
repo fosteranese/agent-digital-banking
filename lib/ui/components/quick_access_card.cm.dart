@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class QuickAccessCard extends StatelessWidget {
   const QuickAccessCard({super.key, required this.title, required this.onTap, this.isPrimary = false, this.icon, this.img});

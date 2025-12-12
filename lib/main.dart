@@ -9,12 +9,12 @@ import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:agent_digital_banking/data/models/response.modal.dart';
-import 'package:agent_digital_banking/logger.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/logger.dart';
 
-import 'package:agent_digital_banking/utils/theme.util.dart';
-import 'package:agent_digital_banking/blocs/history/history_bloc.dart';
-import 'package:agent_digital_banking/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/history/history_bloc.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'blocs/account/account_bloc.dart';
 import 'blocs/activity/activity_bloc.dart';
 import 'blocs/app/app_bloc.dart';
@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    _securityCheck();
+    // _securityCheck();
     super.initState();
     // isMounted = true;
   }
@@ -125,7 +125,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => HistoryBloc()),
         ],
         child: MaterialApp.router(
-          title: 'UMB SpeedApp',
+          title: 'Agent Digital Banking',
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
           localizationsDelegates: const [

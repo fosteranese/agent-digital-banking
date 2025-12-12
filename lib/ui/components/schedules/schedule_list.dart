@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-import 'package:agent_digital_banking/data/models/schedule/schedules.dart';
-import 'package:agent_digital_banking/ui/components/schedules/schedule_item.dart';
-import 'package:agent_digital_banking/ui/pages/schedules/schedule_details.page.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/data/models/schedule/schedules.dart';
+import 'package:my_sage_agent/ui/components/schedules/schedule_item.dart';
+import 'package:my_sage_agent/ui/pages/schedules/schedule_details.page.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ScheduleList extends StatelessWidget {
   const ScheduleList({super.key, required this.schedules, required this.formatter, required this.onTap, required this.location});

@@ -1,0 +1,13 @@
+dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/img/UMB-SpeedApp-AppStore-Logo.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  background_color_ios: "#000000"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/img/UMB-SpeedApp-AppStore-Logo.jpg"
+  adaptive_icon_foreground_inset: 20

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class IntroSlide extends StatelessWidget {
   const IntroSlide({super.key, required this.title, required this.subtitle, required this.imageUrl});

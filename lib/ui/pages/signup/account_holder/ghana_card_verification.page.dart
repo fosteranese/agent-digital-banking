@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:agent_digital_banking/blocs/auth/auth_bloc.dart';
-import 'package:agent_digital_banking/data/models/verification.response.dart';
-import 'package:agent_digital_banking/ui/components/verification_modes/verification.dart';
-import 'package:agent_digital_banking/ui/pages/signup/account_holder/otp_account_verification.page.dart';
-import 'package:agent_digital_banking/utils/message.util.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/data/models/verification.response.dart';
+import 'package:my_sage_agent/ui/components/verification_modes/verification.dart';
+import 'package:my_sage_agent/ui/pages/signup/account_holder/otp_account_verification.page.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 
 class GhanaCardVerificationPage extends StatefulWidget {
   const GhanaCardVerificationPage({super.key});

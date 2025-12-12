@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:agent_digital_banking/blocs/payee/payee_bloc.dart';
+import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
 
-import 'package:agent_digital_banking/data/models/payee/payees_response.dart';
-import 'package:agent_digital_banking/main.dart';
-import 'package:agent_digital_banking/ui/layouts/profile.layout.dart';
-import 'package:agent_digital_banking/ui/pages/more/profile.page.dart';
-import 'package:agent_digital_banking/utils/service.util.dart';
-import 'package:agent_digital_banking/utils/theme.util.dart';
+import 'package:my_sage_agent/data/models/payee/payees_response.dart';
+import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/layouts/profile.layout.dart';
+import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
+import 'package:my_sage_agent/utils/service.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class PayeeDetailsPage extends StatefulWidget {
   const PayeeDetailsPage(this.payee, {super.key});
