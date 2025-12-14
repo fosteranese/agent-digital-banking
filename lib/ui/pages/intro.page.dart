@@ -24,20 +24,14 @@ class IntroPage extends StatefulWidget {
 }
 
 class IntroPageState extends State<IntroPage> {
-  final PageController _pageController = PageController(
-    initialPage: 0,
-  );
+  final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
   InitializationResponse? data;
 
   List<Widget> _buildPageIndicator(int length) {
     List<Widget> list = [];
     for (int i = 0; i < length; i++) {
-      list.add(
-        i == _currentPage
-            ? _indicator(true)
-            : _indicator(false),
-      );
+      list.add(i == _currentPage ? _indicator(true) : _indicator(false));
     }
     return list;
   }
@@ -52,9 +46,7 @@ class IntroPageState extends State<IntroPage> {
   }
 
   void _slide() {
-    _timer = Timer.periodic(const Duration(seconds: 5), (
-      timer,
-    ) {
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       try {
         final data = (context.read<AppBloc>().data);
         if (data == null) {
@@ -64,8 +56,7 @@ class IntroPageState extends State<IntroPage> {
         if (_pause) {
           return;
         }
-        if (data.walkThrough == null ||
-            _currentPage == data.walkThrough!.length - 1) {
+        if (data.walkThrough == null || _currentPage == data.walkThrough!.length - 1) {
           // _currentPage = 0;
           // _pageController.jumpToPage(_currentPage);
         } else {
@@ -88,12 +79,8 @@ class IntroPageState extends State<IntroPage> {
       height: 5.0,
       width: width,
       decoration: BoxDecoration(
-        color: isActive
-            ? ThemeUtil.secondaryColor
-            : Colors.white,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(10),
-        ),
+        color: isActive ? ThemeUtil.secondaryColor : Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
     );
   }
@@ -114,11 +101,7 @@ class IntroPageState extends State<IntroPage> {
           case StatusConstants.pending:
             return const Scaffold(
               body: Center(
-                child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: CircularProgressIndicator(),
-                ),
+                child: SizedBox(height: 100, width: 100, child: CircularProgressIndicator()),
               ),
             );
 
@@ -129,17 +112,13 @@ class IntroPageState extends State<IntroPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center,
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         AppUtil.deviceStatus.message,
                         textAlign: TextAlign.center,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.headlineMedium,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ],
                   ),
@@ -148,9 +127,7 @@ class IntroPageState extends State<IntroPage> {
             );
         }
 
-        if (state is! NewDevice &&
-            state is! ExistingDevice &&
-            state is! UserExistOnDevice) {
+        if (state is! NewDevice && state is! ExistingDevice && state is! UserExistOnDevice) {
           return Center(
             child: Container(
               height: 100,
@@ -174,9 +151,7 @@ class IntroPageState extends State<IntroPage> {
           body: Stack(
             fit: StackFit.expand,
             children: [
-              Container(
-                color: Theme.of(context).primaryColorDark,
-              ),
+              Container(color: Theme.of(context).primaryColorDark),
               GestureDetector(
                 onLongPressStart: (_) {
                   _pause = true;
@@ -186,8 +161,7 @@ class IntroPageState extends State<IntroPage> {
                 },
                 child: PageView(
                   physics: const ClampingScrollPhysics(),
-                  dragStartBehavior:
-                      DragStartBehavior.start,
+                  dragStartBehavior: DragStartBehavior.start,
                   controller: _pageController,
                   onPageChanged: _nextPage,
                   pageSnapping: true,
@@ -206,21 +180,14 @@ class IntroPageState extends State<IntroPage> {
               ),
               Container(
                 alignment: Alignment.bottomCenter,
-                padding: const EdgeInsets.only(
-                  bottom: 40,
-                  left: 20,
-                  right: 20,
-                ),
+                padding: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
                 child: Builder(
                   builder: (context) {
-                    if (_currentPage ==
-                        data.walkThrough!.length - 1) {
+                    if (_currentPage == data.walkThrough!.length - 1) {
                       return FormButton(
                         key: buttonKey,
-                        backgroundColor:
-                            ThemeUtil.secondaryColor,
-                        foregroundColor:
-                            ThemeUtil.primaryColor,
+                        backgroundColor: ThemeUtil.secondaryColor,
+                        foregroundColor: ThemeUtil.primaryColor,
                         icon: Icons.east_outlined,
                         onPressed: () {
                           context.go(WelcomePage.routeName);
@@ -232,11 +199,8 @@ class IntroPageState extends State<IntroPage> {
                     return Row(
                       children: [
                         Row(
-                          mainAxisAlignment:
-                              MainAxisAlignment.center,
-                          children: _buildPageIndicator(
-                            data.walkThrough!.length,
-                          ),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: _buildPageIndicator(data.walkThrough!.length),
                         ),
                         const SizedBox(width: 30),
                         const Spacer(),
@@ -244,18 +208,14 @@ class IntroPageState extends State<IntroPage> {
                           width: 157,
                           child: FormButton(
                             key: buttonKey,
-                            backgroundColor:
-                                ThemeUtil.secondaryColor,
-                            foregroundColor:
-                                ThemeUtil.primaryColor,
+                            backgroundColor: ThemeUtil.secondaryColor,
+                            foregroundColor: ThemeUtil.primaryColor,
                             icon: Icons.east_outlined,
                             onPressed: () {
                               _nextPage(_currentPage + 1);
                               _pageController.animateToPage(
                                 _currentPage,
-                                duration: const Duration(
-                                  milliseconds: 500,
-                                ),
+                                duration: const Duration(milliseconds: 500),
                                 curve: Curves.easeInOut,
                               );
                             },

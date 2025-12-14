@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 import 'input.dart';
 
-class SearchBox extends StatelessWidget
-    implements PreferredSizeWidget {
+class SearchBox extends StatelessWidget implements PreferredSizeWidget {
   const SearchBox({
     super.key,
     this.filterBy,
@@ -23,62 +23,72 @@ class SearchBox extends StatelessWidget
     return PreferredSize(
       preferredSize: const Size(double.maxFinite, 50),
       child: Container(
-        color: Colors.transparent,
-        padding: const EdgeInsets.only(
-          top: 0,
-          left: 10,
-          right: 10,
-          bottom: 10,
-        ),
-        child: Row(
+        color: Colors.white,
+        padding: const .all(20),
+        child: Column(
           children: [
             Expanded(
-              child: FormInput(
-                color: Color(0xffF9F9F9),
-                inputHeight: 40,
-                zeroLeftPadding: false,
-                borderRadius: 4,
-                controller: controller,
-                bottomSpace: 0,
-                onChange: (value) {
-                  // _search(value, _sourceList.data?.request ?? []);
-                  onSearch(value);
-                },
-                placeholder: 'Search ${filterBy ?? ''}',
-                prefixIconPadding: const EdgeInsets.only(
-                  left: 40,
-                ),
-                prefix: SvgPicture.asset(
-                  'assets/img/search.svg',
-                  width: 20,
-                ),
+              child: Row(
+                mainAxisAlignment: .spaceAround,
+                crossAxisAlignment: .center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Collections',
+                      style: const PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        Icon(Icons.filter_list_outlined),
+                        const SizedBox(width: 2),
+                        Text(
+                          'Filter',
+                          style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            FormInput(
+              inputHeight: 40,
+              zeroLeftPadding: false,
+              borderRadius: 4,
+              controller: controller,
+              bottomSpace: 0,
 
-                suffix: Row(
-                  children: [
-                    if (controller.text.isNotEmpty)
-                      IconButton(
-                        onPressed: () {
-                          controller.text = '';
-                          // _search('', _sourceList.data?.request ?? []);
-                          onSearch(controller.text);
-                        },
-                        icon: const Icon(Icons.close),
+              onChange: (value) {
+                // _search(value, _sourceList.data?.request ?? []);
+                onSearch(value);
+              },
+              placeholder: 'Search ${filterBy ?? ''}',
+              suffix: Builder(
+                builder: (context) {
+                  if (controller.text.isNotEmpty) {
+                    return IconButton(
+                      onPressed: () {
+                        controller.text = '';
+                        // _search('', _sourceList.data?.request ?? []);
+                        onSearch(controller.text);
+                      },
+                      icon: const Icon(Icons.close),
+                    );
+                  }
+                  if (onFilter != null) {
+                    return Padding(
+                      padding: const .symmetric(vertical: 10),
+                      child: InkWell(
+                        onTap: onFilter!,
+                        child: SvgPicture.asset('assets/img/search.svg', width: 20),
                       ),
-                    if (onFilter != null)
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 10,
-                        ),
-                        child: InkWell(
-                          onTap: onFilter!,
-                          child: SvgPicture.asset(
-                            'assets/img/filter.svg',
-                            width: 20,
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
               ),
             ),
           ],
@@ -88,6 +98,5 @@ class SearchBox extends StatelessWidget
   }
 
   @override
-  Size get preferredSize =>
-      const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

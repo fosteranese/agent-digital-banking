@@ -8,7 +8,37 @@ import 'package:my_sage_agent/utils/navigator.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class MainLayout extends StatelessWidget {
-  const MainLayout({super.key, this.nav, this.onBackPressed, this.showNavBarOnPop = true, this.backIcon, this.title, this.bottom, this.actions, this.showBackBtn = false, this.useCloseIcon = false, this.titleColor, this.backgroundColor, this.child, this.children = const [], this.sliver, this.slivers = const [], this.isTopPadded = true, this.useCustomScroll = true, this.scrollController, this.physics, this.floatingActionButton, this.floatingActionButtonLocation, this.floatingActionButtonMargin = 50, this.refreshController, this.onRefresh, this.refreshBackgroundColor, this.refreshColor, this.bottomNavigationBar, this.flexibleSpace});
+  const MainLayout({
+    super.key,
+    this.nav,
+    this.onBackPressed,
+    this.showNavBarOnPop = true,
+    this.backIcon,
+    this.title,
+    this.bottom,
+    this.actions,
+    this.showBackBtn = false,
+    this.useCloseIcon = false,
+    this.titleColor,
+    this.backgroundColor,
+    this.child,
+    this.children = const [],
+    this.sliver,
+    this.slivers = const [],
+    this.isTopPadded = true,
+    this.useCustomScroll = true,
+    this.scrollController,
+    this.physics,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonMargin = 50,
+    this.refreshController,
+    this.onRefresh,
+    this.refreshBackgroundColor,
+    this.refreshColor,
+    this.bottomNavigationBar,
+    this.flexibleSpace,
+  });
 
   final NavigatorState? nav;
   final Widget? backIcon;
@@ -38,8 +68,6 @@ class MainLayout extends StatelessWidget {
   final Color? refreshColor;
   final ScrollController? scrollController;
   final Widget? flexibleSpace;
-
-  static const _backgroundImage = AssetImage('assets/img/bg.png');
 
   bool get _hasAppBar => title != null || showBackBtn || bottom != null;
 
@@ -75,11 +103,20 @@ class MainLayout extends StatelessWidget {
     }
 
     if (slivers.isNotEmpty) {
-      sliverList.addAll(slivers.expand((e) => [e, if (e == slivers.last) SliverToBoxAdapter(child: SizedBox(height: spaceAllowed))]));
+      sliverList.addAll(
+        slivers.expand(
+          (e) => [
+            e,
+            if (e == slivers.last) SliverToBoxAdapter(child: SizedBox(height: spaceAllowed)),
+          ],
+        ),
+      );
     }
 
     if (child != null) {
-      sliverList.add(_safeSliver(SliverFillRemaining(hasScrollBody: false, child: child!), spaceAllowed));
+      sliverList.add(
+        _safeSliver(SliverFillRemaining(hasScrollBody: false, child: child!), spaceAllowed),
+      );
     }
 
     if (children.isNotEmpty) {
@@ -87,45 +124,55 @@ class MainLayout extends StatelessWidget {
         _safeSliver(
           SliverFillRemaining(
             hasScrollBody: false,
-            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: children),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            ),
           ),
           spaceAllowed,
         ),
       );
     }
 
-    return CustomScrollView(primary: false, controller: scrollController, physics: physics ?? AlwaysScrollableScrollPhysics(), slivers: sliverList);
+    return CustomScrollView(
+      primary: false,
+      controller: scrollController,
+      physics: physics ?? AlwaysScrollableScrollPhysics(),
+      slivers: sliverList,
+    );
   }
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
+      backgroundColor: ThemeUtil.primaryColor1,
       automaticallyImplyLeading: false,
       leading: showBackBtn
           ? IconButton(
-              style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
               onPressed:
                   onBackPressed ??
                   () {
-                    NavigatorUtil.pop(context, nav: nav ?? MyApp.navigatorKey.currentState ?? Navigator.of(context), showNavBar: showNavBarOnPop);
+                    NavigatorUtil.pop(
+                      context,
+                      nav: nav ?? MyApp.navigatorKey.currentState ?? Navigator.of(context),
+                      showNavBar: showNavBarOnPop,
+                    );
                   },
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
             )
           : null,
       title: Text(
         title ?? '',
-        style: PrimaryTextStyle(color: titleColor ?? Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+        style: PrimaryTextStyle(
+          color: titleColor ?? Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
       ),
       centerTitle: true,
       bottom: bottom,
       elevation: 0,
       actions: actions,
-      flexibleSpace:
-          flexibleSpace ??
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(image: _backgroundImage, fit: BoxFit.cover),
-            ),
-          ),
     );
   }
 
@@ -140,11 +187,16 @@ class MainLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final spaceAllowed = _spaceAllowed(context);
 
-    final content = (useCustomScroll || child == null) ? _buildScrollContent(context, spaceAllowed) : child ?? const SizedBox.shrink();
+    final content = (useCustomScroll || child == null)
+        ? _buildScrollContent(context, spaceAllowed)
+        : child ?? const SizedBox.shrink();
 
     final body = (onRefresh != null)
         ? EasyRefresh(
-            header: MaterialHeader(backgroundColor: Theme.of(context).primaryColor, color: Colors.white),
+            header: MaterialHeader(
+              backgroundColor: Theme.of(context).primaryColor,
+              color: Colors.white,
+            ),
             onRefresh: () async {
               final completer = Completer<void>();
               isRefreshing = true;
@@ -170,8 +222,11 @@ class MainLayout extends StatelessWidget {
         padding: EdgeInsets.only(bottom: floatingActionButtonMargin),
         child: floatingActionButton,
       ),
-      floatingActionButtonLocation: floatingActionButtonLocation ?? FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: bottomNavigationBar != null ? SafeArea(child: bottomNavigationBar!) : null,
+      floatingActionButtonLocation:
+          floatingActionButtonLocation ?? FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: bottomNavigationBar != null
+          ? SafeArea(child: bottomNavigationBar!)
+          : null,
     );
   }
 }

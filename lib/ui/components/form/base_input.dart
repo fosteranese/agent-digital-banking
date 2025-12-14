@@ -2,13 +2,55 @@ import 'package:el_tooltip/el_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-
 import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class BaseFormInput extends StatefulWidget {
-  const BaseFormInput({super.key, this.label = '', this.labelStyle, this.bottomSpace = 10, this.prefix, this.suffix, this.suffixIconConstraints, this.controller, this.placeholder, this.inputFormatters, this.validation, this.showIconOnSuccessfulValidation = false, this.showIconOnFailedValidation = false, this.keyboardType, this.textInputAction, this.onSuccess, this.decoration, this.info, this.readOnly = false, this.onTap, this.inputHeight = 64, this.focus, this.onChange, this.zeroLeftPadding = false, this.borderRadius = 10, this.color = Colors.white, this.multiLine = false, this.contentPadding, this.obscureText = false, this.placeholderStyle, this.textAlign, this.textStyle, this.maxLength, this.prefixIconPadding, this.focusedColor, this.showReadOnlyColor = false, this.onFocus, this.onUnfocus, this.showNumberToolbar = true, this.hideOnTapOutside = true, this.tooltip, this.onDoneUnfocus = true, this.maxLines, this.minLines, this.visibilityBorderColor});
+  const BaseFormInput({
+    super.key,
+    this.label = '',
+    this.labelStyle,
+    this.bottomSpace = 20,
+    this.prefix,
+    this.suffix,
+    this.suffixIconConstraints,
+    this.controller,
+    this.placeholder,
+    this.inputFormatters,
+    this.validation,
+    this.showIconOnSuccessfulValidation = false,
+    this.showIconOnFailedValidation = false,
+    this.keyboardType,
+    this.textInputAction,
+    this.onSuccess,
+    this.decoration,
+    this.info,
+    this.readOnly = false,
+    this.onTap,
+    this.inputHeight = 50,
+    this.focus,
+    this.onChange,
+    this.zeroLeftPadding = false,
+    this.borderRadius = 4,
+    this.color = Colors.white,
+    this.multiLine = false,
+    this.contentPadding,
+    this.obscureText = false,
+    this.placeholderStyle,
+    this.textAlign,
+    this.textStyle,
+    this.maxLength,
+    this.prefixIconPadding,
+    this.focusedColor,
+    this.showReadOnlyColor = false,
+    this.onFocus,
+    this.onUnfocus,
+    this.showNumberToolbar = true,
+    this.hideOnTapOutside = true,
+    this.tooltip,
+  });
 
   final String label;
   final TextStyle? labelStyle;
@@ -42,7 +84,7 @@ class BaseFormInput extends StatefulWidget {
   final TextAlign? textAlign;
   final TextStyle? textStyle;
   final int? maxLength;
-  final EdgeInsets? prefixIconPadding;
+  final EdgeInsetsGeometry? prefixIconPadding;
   final Color? focusedColor;
   final bool showReadOnlyColor;
   final void Function(EdgeInsets edgeInset)? onFocus;
@@ -50,10 +92,6 @@ class BaseFormInput extends StatefulWidget {
   final bool showNumberToolbar;
   final bool hideOnTapOutside;
   final String? tooltip;
-  final bool onDoneUnfocus;
-  final int? maxLines;
-  final int? minLines;
-  final Color? visibilityBorderColor;
 
   @override
   State<BaseFormInput> createState() => _BaseFormInputState();
@@ -62,25 +100,20 @@ class BaseFormInput extends StatefulWidget {
 class _BaseFormInputState extends State<BaseFormInput> {
   bool? _isValid;
   late final FocusNode _focus;
-  // late Color _color = widget.color;
-  final _tooltipController = ElTooltipController();
-  var _contentPadding = const EdgeInsets.symmetric(vertical: 20, horizontal: 20);
-
-  final _isFocused = ValueNotifier(false);
   late Color _color = widget.color;
+  final _tooltipController = ElTooltipController();
 
   @override
   void initState() {
     _focus = widget.focus ?? FocusNode();
     _focus.addListener(() {
-      _isFocused.value = _focus.hasFocus;
       setState(() {
         if (_focus.hasFocus) {
           if (widget.onFocus != null) {
             widget.onFocus!(_scrollPadding);
           }
           if (!widget.showReadOnlyColor) {
-            _color = widget.focusedColor ?? widget.color;
+            _color = widget.focusedColor ?? Colors.white;
           }
         } else {
           _color = widget.color;
@@ -90,106 +123,78 @@ class _BaseFormInputState extends State<BaseFormInput> {
         }
       });
     });
-
-    if (widget.contentPadding != null) {
-      _contentPadding = widget.contentPadding!;
-      if (widget.multiLine) {
-        _contentPadding = _contentPadding.copyWith(top: 20, bottom: 20);
-      }
-    }
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: _isFocused,
-      builder: (context, value, child) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (widget.label.isNotEmpty && (widget.info != null || widget.tooltip != null))
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8, right: 5),
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.center, children: [const Spacer(), widget.tooltip != null ? _info! : widget.info!]),
-              ),
-            Container(
-              height: widget.multiLine ? 150 : widget.inputHeight,
-              margin: EdgeInsets.only(bottom: widget.bottomSpace),
-              decoration: BoxDecoration(
-                color: _color,
-                border: _isFocused.value ? Border.all(color: (widget.visibilityBorderColor ?? Theme.of(context).primaryColor), width: 1.5) : Border.all(color: (widget.visibilityBorderColor ?? Color(0xffD9DADB))),
-                borderRadius: _isFocused.value ? BorderRadius.circular(widget.borderRadius) : BorderRadius.circular(widget.borderRadius),
-              ),
-              child: Stack(
-                children: [
-                  if (value || (widget.controller?.text.isNotEmpty ?? false))
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, top: 5),
-                        child: Text(
-                          widget.label,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: widget.labelStyle ?? PrimaryTextStyle(color: const Color(0xff919195), fontWeight: FontWeight.w400, fontSize: 13, backgroundColor: Colors.transparent),
-                        ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (widget.label.isNotEmpty && (widget.info != null || widget.tooltip != null))
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8, right: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  widget.label,
+                  style:
+                      widget.labelStyle ??
+                      GoogleFonts.mulish(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
                       ),
-                    ),
-                  if (!value && ((widget.placeholder?.isNotEmpty ?? false) || widget.label.isNotEmpty) && (widget.controller?.text.isEmpty ?? false)) _placeholder,
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if (widget.prefix != null) Padding(padding: _prefixPadding!, child: widget.prefix!),
-                      Expanded(child: _fullInputControl),
-                      if (_suffixIcon != null) Align(alignment: Alignment.centerRight, child: _suffixIcon!),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                widget.tooltip != null ? _info! : widget.info!,
+              ],
             ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget get _placeholder {
-    var text = widget.placeholder ?? '';
-    if (text.isEmpty) {
-      text = widget.label;
-    }
-
-    return Align(
-      alignment: widget.multiLine ? Alignment.topLeft : Alignment.centerLeft,
-      child: Padding(
-        padding: _contentPadding.copyWith(left: widget.prefix == null ? _contentPadding.left : widget.prefixIconPadding?.left ?? (widget.prefixIconPadding?.left ?? 70), top: widget.prefixIconPadding?.top ?? _contentPadding.top, bottom: widget.prefixIconPadding?.bottom ?? _contentPadding.bottom),
-        child: Text(
-          text,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: widget.placeholderStyle ?? PrimaryTextStyle(color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16, backgroundColor: Colors.transparent),
+          ),
+        if (widget.label.isNotEmpty && widget.tooltip == null && widget.info == null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              widget.label,
+              style:
+                  widget.labelStyle ??
+                  GoogleFonts.mulish(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+            ),
+          ),
+        SizedBox(
+          height: widget.multiLine ? 150 : widget.inputHeight ?? 50,
+          child:
+              widget.showNumberToolbar &&
+                  (widget.keyboardType != null &&
+                      (widget.keyboardType!.index == 2 || widget.keyboardType!.index == 3))
+              ? KeyboardActions(
+                  autoScroll: false,
+                  overscroll: 0,
+                  disableScroll: true,
+                  enable: true,
+                  config: _buildConfig(context),
+                  child: _input,
+                )
+              : _input,
         ),
-      ),
+        if (widget.bottomSpace > 0) SizedBox(height: widget.bottomSpace),
+      ],
     );
-  }
-
-  Widget get _fullInputControl {
-    if (widget.showNumberToolbar && (widget.keyboardType != null && (widget.keyboardType!.index == 2 || widget.keyboardType!.index == 3))) {
-      return KeyboardActions(autoScroll: false, overscroll: 0, disableScroll: true, enable: true, config: _buildConfig(context), child: _input);
-    }
-
-    return _input;
   }
 
   Widget? get _info {
     return ElTooltip(
       controller: _tooltipController,
+      distance: 10.0,
+      position: ElTooltipPosition.bottomEnd,
+      showModal: true,
+      padding: const EdgeInsets.all(20.0),
+      color: const Color(0xff54534A),
       content: Container(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -197,7 +202,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.tooltip ?? '', style: PrimaryTextStyle(color: Colors.white)),
+            Text(widget.tooltip ?? '', style: const TextStyle(color: Colors.white)),
             Align(
               alignment: Alignment.bottomRight,
               child: InkWell(
@@ -205,11 +210,11 @@ class _BaseFormInputState extends State<BaseFormInput> {
                 onTap: () {
                   _tooltipController.hide();
                 },
-                child: Padding(
+                child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child: Text(
-                    'Okay',
-                    style: PrimaryTextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    'Done',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -222,7 +227,10 @@ class _BaseFormInputState extends State<BaseFormInput> {
   }
 
   EdgeInsets get _scrollPadding {
-    return widget.keyboardType != null && (widget.keyboardType!.index == 2 || widget.keyboardType!.index == 3) ? const EdgeInsets.only(bottom: 40.0) : const EdgeInsets.all(0.0);
+    return widget.keyboardType != null &&
+            (widget.keyboardType!.index == 2 || widget.keyboardType!.index == 3)
+        ? const EdgeInsets.only(bottom: 40.0)
+        : const EdgeInsets.all(0.0);
   }
 
   KeyboardActionsConfig _buildConfig(BuildContext context) {
@@ -252,19 +260,22 @@ class _BaseFormInputState extends State<BaseFormInput> {
   }
 
   Widget? get _suffixIcon {
-    if (widget.suffix != null && (widget.showIconOnSuccessfulValidation != true || _isValid == null)) {
+    if (widget.suffix != null &&
+        (widget.showIconOnSuccessfulValidation != true || _isValid == null)) {
       return widget.suffix;
     }
 
     if (widget.showIconOnSuccessfulValidation && _isValid == true) {
-      return Container(
-        padding: widget.zeroLeftPadding ? const EdgeInsets.symmetric(horizontal: 15) : const EdgeInsets.only(right: 15),
+      return Padding(
+        padding: widget.zeroLeftPadding
+            ? const EdgeInsets.symmetric(horizontal: 15)
+            : const EdgeInsets.only(right: 15),
         child: const Icon(Icons.check_circle, color: Color(0xff039612)),
       );
     }
 
     if (widget.showIconOnFailedValidation && _isValid == false) {
-      return Container(
+      return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: const Icon(Icons.check_circle, color: Color(0xff039612)),
       );
@@ -273,7 +284,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
     return null;
   }
 
-  void _onValidate() {
+  _onValidate() {
     if (widget.validation != null) {
       _isValid = widget.validation!();
       if (_isValid == true && widget.onSuccess != null) {
@@ -286,104 +297,180 @@ class _BaseFormInputState extends State<BaseFormInput> {
   }
 
   Widget get _input {
-    return Padding(
-      padding: EdgeInsets.only(top: widget.multiLine ? 10 : 0),
-      child: SizedBox(
-        height: double.maxFinite,
-        width: double.maxFinite,
-        child: TextField(
-          cursorHeight: 16,
-          expands: widget.multiLine,
-          onTapOutside: (p) {
-            if (widget.hideOnTapOutside) {
-              _focus.unfocus();
-            }
-          },
-          textAlignVertical: widget.multiLine ? TextAlignVertical.top : TextAlignVertical.center,
+    return TextField(
+      onTapOutside: (p) {
+        if (widget.hideOnTapOutside) {
+          _focus.unfocus();
+        }
+      },
+      maxLength: widget.maxLength,
+      obscureText: widget.obscureText,
+      scrollPadding: _scrollPadding,
+      focusNode: _focus,
+      onTap: widget.onTap,
+      controller: widget.controller,
+      readOnly: widget.readOnly,
+      style:
+          widget.textStyle ??
+          const TextStyle(fontSize: 15, color: Color(0xff242424), fontWeight: FontWeight.w500),
+      textAlign: widget.textAlign ?? TextAlign.left,
+      decoration: widget.decoration != null
+          ? widget.decoration!.copyWith(
+              prefixIcon: widget.prefix != null
+                  ? Padding(
+                      padding:
+                          widget.prefixIconPadding ??
+                          (widget.zeroLeftPadding
+                              ? const EdgeInsets.only(left: 17, right: 10)
+                              : const EdgeInsets.symmetric(horizontal: 17)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [widget.prefix!],
+                      ),
+                    )
+                  : null,
+              contentPadding: widget.contentPadding,
+              suffixIcon: _suffixIcon,
+              suffixIconConstraints: widget.suffixIconConstraints,
+              hintText: widget.placeholder,
+              hintStyle: widget.placeholderStyle ?? Theme.of(context).textTheme.headlineMedium,
+              enabledBorder:
+                  widget.decoration?.enabledBorder ??
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.borderRadius),
+                    borderSide: const BorderSide(color: ThemeUtil.fade),
+                  ),
+              focusedBorder:
+                  widget.decoration?.focusedBorder ??
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(widget.borderRadius),
+                    borderSide: const BorderSide(color: ThemeUtil.fade),
+                  ),
+              filled: true,
+              fillColor: _color,
+            )
+          : InputDecoration(
+              contentPadding: widget.contentPadding,
+              prefixIcon: widget.prefix != null
+                  ? Padding(
+                      padding:
+                          widget.prefixIconPadding ??
+                          (widget.zeroLeftPadding
+                              ? const EdgeInsets.only(left: 17, right: 10)
+                              : const EdgeInsets.symmetric(horizontal: 5)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [widget.prefix!],
+                      ),
+                    )
+                  : null,
+              suffixIconConstraints: widget.suffixIconConstraints,
+              suffixIcon: _suffixIcon,
+              hintText: widget.placeholder,
+              hintStyle: widget.placeholderStyle ?? Theme.of(context).textTheme.headlineMedium,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                borderSide: const BorderSide(color: ThemeUtil.fade),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                borderSide: const BorderSide(color: ThemeUtil.fade, width: 1.5),
+              ),
+              filled: true,
+              fillColor: _color,
+            ),
+      keyboardType: widget.multiLine ? TextInputType.multiline : widget.keyboardType,
+      maxLines: widget.multiLine ? 5 : 1,
+      textInputAction: widget.textInputAction,
+      inputFormatters: widget.inputFormatters,
+      onChanged: (value) {
+        context.read<ActivityBloc>().add(PerformActivityEvent());
+        // if (widget.controller != null) {
+        //   widget.controller!.selection = TextSelection.fromPosition(TextPosition(offset: widget.controller!.text.length));
+        // }
 
-          // maxLength: widget.maxLength,
-          obscureText: widget.obscureText,
+        if (widget.onChange != null) {
+          widget.onChange!(value);
+        }
 
-          obscuringCharacter: "*",
-          focusNode: _focus,
-          onTap: widget.onTap,
-          controller: widget.controller,
-          readOnly: widget.readOnly,
-          style: widget.textStyle ?? PrimaryTextStyle(fontSize: 16, color: Color(0xff242424), fontWeight: FontWeight.w600),
+        if (widget.validation == null) {
+          setState(() {
+            _isValid = null;
+          });
+          return;
+        }
+        _onValidate();
+      },
+      onEditingComplete: () {
+        context.read<ActivityBloc>().add(PerformActivityEvent());
 
-          textAlign: widget.textAlign ?? TextAlign.left,
-          decoration: InputDecoration(
-            // fillColor: Colors.pink,
-            // filled: true,
-            border: InputBorder.none,
-            contentPadding: ((widget.inputHeight ?? 0) > 40 ? _inputPadding : EdgeInsets.only(top: 0, bottom: 10, left: widget.zeroLeftPadding ? (_inputPadding?.left ?? 0) : 0)),
-            isDense: false,
-          ),
-          keyboardType: widget.multiLine ? TextInputType.multiline : widget.keyboardType,
-          maxLines: !widget.multiLine ? 1 : null /*widget.maxLines*/,
-          minLines: !widget.multiLine ? null : widget.minLines,
-          textInputAction: widget.multiLine ? TextInputAction.newline : widget.textInputAction ?? TextInputAction.done,
-          inputFormatters: widget.maxLength == null || widget.maxLength! < 1 ? widget.inputFormatters : [...widget.inputFormatters ?? [], LengthLimitingTextInputFormatter(widget.maxLength)],
-          onChanged: (value) {
-            context.read<ActivityBloc>().add(PerformActivityEvent());
+        _onValidate();
+      },
+      onSubmitted: (value) {
+        context.read<ActivityBloc>().add(PerformActivityEvent());
 
-            if (widget.onChange != null) {
-              widget.onChange!(value);
-            }
-
-            if (widget.validation == null) {
-              setState(() {
-                _isValid = null;
-              });
-              return;
-            }
-            _onValidate();
-          },
-          onEditingComplete: () {
-            context.read<ActivityBloc>().add(PerformActivityEvent());
-
-            _onValidate();
-          },
-          onSubmitted: (value) {
-            context.read<ActivityBloc>().add(PerformActivityEvent());
-
-            if (widget.focus == null) {
-              // _focus.unfocus(disposition: UnfocusDisposition.scope);
-              _focus.unfocus();
-            } else if (widget.focus != null && widget.onDoneUnfocus) {
-              widget.focus!.unfocus();
-            }
-          },
-        ),
-      ),
+        if (widget.focus == null) {
+          _focus.unfocus(disposition: UnfocusDisposition.scope);
+        }
+      },
     );
   }
+}
 
-  EdgeInsets? get _inputPadding {
-    if (widget.label.isEmpty) {
-      return EdgeInsets.only(left: 10, right: 10);
+class SimpleInputFormatter extends TextInputFormatter {
+  SimpleInputFormatter({required this.mask});
+
+  String mask = "";
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    // masking
+    final StringBuffer newText = StringBuffer();
+    if (newValue.text.isNotEmpty && newValue.text.substring(0, 1) == '0') {
+      const format = 'xxx xxx xxxx';
+      for (int i = 0; i < newValue.text.length; i++) {
+        final maskCharacter = format.characters.elementAt(i);
+        final character = newValue.text.characters.elementAt(i);
+        if (maskCharacter.toLowerCase() != 'x' && maskCharacter != character) {
+          newText.write('$maskCharacter$character');
+          continue;
+        }
+        newText.write(character);
+
+        if (i == (format.characters.length - 1)) {
+          return TextEditingValue(
+            text: newText.toString(),
+            selection: TextSelection.collapsed(offset: newText.length),
+          );
+        }
+      }
+    } else if (newValue.text.isNotEmpty) {
+      const format = 'xx xxx xxxx';
+      for (int i = 0; i < newValue.text.length; i++) {
+        final maskCharacter = format.characters.elementAt(i);
+        final character = newValue.text.characters.elementAt(i);
+        if (maskCharacter.toLowerCase() != 'x' && maskCharacter != character) {
+          newText.write('$maskCharacter$character');
+          continue;
+        }
+        newText.write(character);
+
+        if (i == (format.characters.length - 1)) {
+          return TextEditingValue(
+            text: newText.toString(),
+            selection: TextSelection.collapsed(offset: newText.length),
+          );
+        }
+      }
     }
 
-    if (!_isFocused.value && (widget.controller?.text.isEmpty ?? false)) {
-      return widget.contentPadding;
-    }
-
-    return EdgeInsets.only(top: widget.obscureText ? 30 : 15, left: 10, right: 10);
-  }
-
-  EdgeInsets? get _prefixPadding {
-    if (widget.label.isEmpty) {
-      return EdgeInsets.only(left: 10, right: 10);
-    }
-
-    if (!_isFocused.value && (widget.controller?.text.isEmpty ?? false)) {
-      return _contentPadding.copyWith(left: 0, right: 0);
-    }
-
-    return EdgeInsets.only(
-      top: widget.obscureText ? 30 : 15,
-      // left: 10,
-      // right: 10,
+    return TextEditingValue(
+      text: newText.toString(),
+      selection: TextSelection.collapsed(offset: newText.length),
     );
   }
 }

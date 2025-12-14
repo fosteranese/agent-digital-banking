@@ -35,7 +35,18 @@ class AuthRepo {
   }
 
   Future<VerificationResponse> signUpNewCustomer(NonCustomerSignUpRequest payload) async {
-    final response = await _fbl.post(path: 'UserAccess/initiateAccountOpening', body: {"phoneNumber": payload.phoneNumber, "email": payload.email, "cardNumber": payload.cardNumber, "branch": payload.branch, "accountType": payload.accountType, "residentialAddress": payload.residentialAddress, "city": payload.city});
+    final response = await _fbl.post(
+      path: 'UserAccess/initiateAccountOpening',
+      body: {
+        "phoneNumber": payload.phoneNumber,
+        "email": payload.email,
+        "cardNumber": payload.cardNumber,
+        "branch": payload.branch,
+        "accountType": payload.accountType,
+        "residentialAddress": payload.residentialAddress,
+        "city": payload.city,
+      },
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -45,7 +56,10 @@ class AuthRepo {
   }
 
   Future<VerificationResponse> signUpCustomer(CustomerSignUpRequest payload) async {
-    final response = await _fbl.post(path: 'UserAccess/signUpCustomer', body: {"accountNumber": payload.accountNumber, "cardNumber": payload.ghanaCardNumber});
+    final response = await _fbl.post(
+      path: 'UserAccess/signUpCustomer',
+      body: {"accountNumber": payload.accountNumber, "cardNumber": payload.ghanaCardNumber},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -55,7 +69,10 @@ class AuthRepo {
   }
 
   Future<String> verifyNewCustomerOtp(OtpVerificationRequest payload) async {
-    final response = await _fbl.post(path: 'UserAccess/validateSignUpOtp', body: {"otpId": payload.otpId, "otpValue": payload.otpValue});
+    final response = await _fbl.post(
+      path: 'UserAccess/validateSignUpOtp',
+      body: {"otpId": payload.otpId, "otpValue": payload.otpValue},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -65,7 +82,10 @@ class AuthRepo {
   }
 
   Future<String> verifyNoNNewCustomerOtp(OtpVerificationRequest payload) async {
-    final response = await _fbl.post(path: 'UserAccess/CompleteAccountOpeningGhana', body: {"otpId": payload.otpId, "otpValue": payload.otpValue});
+    final response = await _fbl.post(
+      path: 'UserAccess/CompleteAccountOpeningGhana',
+      body: {"otpId": payload.otpId, "otpValue": payload.otpValue},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -75,7 +95,16 @@ class AuthRepo {
   }
 
   Future<UserResponse> completeNewCustomerSignup(CompleteSignUpRequest payload) async {
-    final response = await _fbl.post(path: 'UserAccess/CompleteCustomerSignUp', body: {"registrationId": payload.registrationId, "secretQuestion": payload.question, "secretAnswer": payload.answer, "password": payload.password, "pin": payload.pin});
+    final response = await _fbl.post(
+      path: 'UserAccess/CompleteCustomerSignUp',
+      body: {
+        "registrationId": payload.registrationId,
+        "secretQuestion": payload.question,
+        "secretAnswer": payload.answer,
+        "password": payload.password,
+        "pin": payload.pin,
+      },
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -85,7 +114,16 @@ class AuthRepo {
   }
 
   Future<UserResponse> completeCustomerSignup(CompleteSignUpRequest payload) async {
-    final response = await _fbl.post(path: 'UserAccess/CompleteCustomerSignUp', body: {"registrationId": payload.registrationId, "password": payload.password, "secretQuestion": payload.question, "secretAnswer": payload.answer, "pin": payload.pin});
+    final response = await _fbl.post(
+      path: 'UserAccess/CompleteCustomerSignUp',
+      body: {
+        "registrationId": payload.registrationId,
+        "password": payload.password,
+        "secretQuestion": payload.question,
+        "secretAnswer": payload.answer,
+        "pin": payload.pin,
+      },
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -95,7 +133,11 @@ class AuthRepo {
   }
 
   Future<String> getProfilePicture() async {
-    final response = await _fbl.post(path: 'MyAccount/myProfilePicture', body: {}, isAuthenticated: true);
+    final response = await _fbl.post(
+      path: 'MyAccount/myProfilePicture',
+      body: {},
+      isAuthenticated: true,
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -104,8 +146,15 @@ class AuthRepo {
     return response.data as String;
   }
 
-  Future<VerifyGhanaCardResponse> verifyGhanaCard({required String registrationId, required String picture, required String code}) async {
-    final response = await _fbl.post(path: 'UserAccess/ConfirmGhanaCard', body: {"registrationId": registrationId, "picture": picture, "code": code});
+  Future<VerifyGhanaCardResponse> verifyGhanaCard({
+    required String registrationId,
+    required String picture,
+    required String code,
+  }) async {
+    final response = await _fbl.post(
+      path: 'UserAccess/ConfirmGhanaCard',
+      body: {"registrationId": registrationId, "picture": picture, "code": code},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -114,8 +163,15 @@ class AuthRepo {
     return VerifyGhanaCardResponse.fromMap(response.data);
   }
 
-  Future<VerifyGhanaCardResponse> verifyPicture({required String registrationId, required String picture, required String code}) async {
-    final response = await _fbl.post(path: 'UserAccess/ConfirmGhanaCard', body: {"registrationId": registrationId, "picture": picture, "code": code});
+  Future<VerifyGhanaCardResponse> verifyPicture({
+    required String registrationId,
+    required String picture,
+    required String code,
+  }) async {
+    final response = await _fbl.post(
+      path: 'UserAccess/ConfirmGhanaCard',
+      body: {"registrationId": registrationId, "picture": picture, "code": code},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -124,8 +180,15 @@ class AuthRepo {
     return VerifyGhanaCardResponse.fromMap(response.data);
   }
 
-  Future<VerifyGhanaCardResponse> signUpVerifyGhanaCard({required String registrationId, required String picture, required String code}) async {
-    final response = await _fbl.post(path: 'SignIn/VerifyGhanaCard', body: {"registrationId": registrationId, "picture": picture, "code": code});
+  Future<VerifyGhanaCardResponse> signUpVerifyGhanaCard({
+    required String registrationId,
+    required String picture,
+    required String code,
+  }) async {
+    final response = await _fbl.post(
+      path: 'SignIn/VerifyGhanaCard',
+      body: {"registrationId": registrationId, "picture": picture, "code": code},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -134,8 +197,14 @@ class AuthRepo {
     return VerifyGhanaCardResponse.fromMap(response.data);
   }
 
-  Future<VerifyGhanaCardResponse> verifyAccountOpeningGhanaCard({required String registrationId, required String picture}) async {
-    final response = await _fbl.post(path: 'UserAccess/verifyAccountOpeningGhanaCard', body: {"registrationId": registrationId, "picture": picture});
+  Future<VerifyGhanaCardResponse> verifyAccountOpeningGhanaCard({
+    required String registrationId,
+    required String picture,
+  }) async {
+    final response = await _fbl.post(
+      path: 'UserAccess/verifyAccountOpeningGhanaCard',
+      body: {"registrationId": registrationId, "picture": picture},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -146,7 +215,10 @@ class AuthRepo {
 
   // forgot password
   Future<ForgotPasswordResponse> forgotPassword(ForgotPasswordRequest payload) async {
-    final response = await _fbl.post(path: 'Forgot/initiateForgotPassword', body: {"phoneNumber": payload.phoneNumber, "securityAnswer": payload.answer});
+    final response = await _fbl.post(
+      path: 'Forgot/initiateForgotPassword',
+      body: {"phoneNumber": payload.phoneNumber, "securityAnswer": payload.answer},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -156,7 +228,10 @@ class AuthRepo {
   }
 
   Future<String> verifyForgotPassword(OtpVerificationRequest payload) async {
-    final response = await _fbl.post(path: 'Forgot/validateOtp', body: {"otpId": payload.otpId, "otpValue": payload.otpValue});
+    final response = await _fbl.post(
+      path: 'Forgot/validateOtp',
+      body: {"otpId": payload.otpId, "otpValue": payload.otpValue},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -166,7 +241,10 @@ class AuthRepo {
   }
 
   Future<String> resetPassword(ResetPasswordRequest payload) async {
-    final response = await _fbl.post(path: 'Forgot/setNewPassword', body: {"requestId": payload.requestId, "password": payload.password});
+    final response = await _fbl.post(
+      path: 'Forgot/setNewPassword',
+      body: {"requestId": payload.requestId, "password": payload.password},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -177,7 +255,10 @@ class AuthRepo {
 
   // forgot secret answer
   Future<String> forgotSecretAnswer(String phoneNumber) async {
-    final response = await _fbl.post(path: 'Forgot/initiateForgotSecurityAnswer', body: {"phoneNumber": phoneNumber});
+    final response = await _fbl.post(
+      path: 'Forgot/initiateForgotSecurityAnswer',
+      body: {"phoneNumber": phoneNumber},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -188,18 +269,11 @@ class AuthRepo {
 
   // login
 
-  Future<Response> initiateLogin(InitiateLoginRequest payload) async {
-    final response = await _fbl.post(path: 'SignIn/newDevice', body: {"phoneNumber": payload.phoneNumber, "password": payload.password});
-
-    if (response.status != StatusConstants.success) {
-      return Future.error(response);
-    }
-
-    return response;
-  }
-
-  Future<VerificationResponse> verifyLogin(VerifyLoginRequest payload) async {
-    final response = await _fbl.post(path: 'SignIn/verifySecurityAnswer', body: {"requestId": payload.requestId, "securityAnswer": payload.securityAnswer});
+  Future<VerificationResponse> initiateLogin(InitiateLoginRequest payload) async {
+    final response = await _fbl.post(
+      path: 'SignIn/newDevice',
+      body: {"phoneNumber": payload.phoneNumber, "password": payload.password},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -208,8 +282,28 @@ class AuthRepo {
     return VerificationResponse.fromMap(response.data);
   }
 
-  Future<VerificationResponse> resetSecurityAnswer({required String registrationId, required String question, required String answer}) async {
-    final response = await _fbl.post(path: 'Forgot/setNewSecurityQuestion', body: {"registrationId": registrationId, "secretQuestion": question, "secretAnswer": answer});
+  Future<VerificationResponse> verifyLogin(VerifyLoginRequest payload) async {
+    final response = await _fbl.post(
+      path: 'SignIn/verifySecurityAnswer',
+      body: {"requestId": payload.requestId, "securityAnswer": payload.securityAnswer},
+    );
+
+    if (response.status != StatusConstants.success) {
+      return Future.error(response);
+    }
+
+    return VerificationResponse.fromMap(response.data);
+  }
+
+  Future<VerificationResponse> resetSecurityAnswer({
+    required String registrationId,
+    required String question,
+    required String answer,
+  }) async {
+    final response = await _fbl.post(
+      path: 'Forgot/setNewSecurityQuestion',
+      body: {"registrationId": registrationId, "secretQuestion": question, "secretAnswer": answer},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -219,7 +313,10 @@ class AuthRepo {
   }
 
   Future<UserResponse> completeLogin(OtpVerificationRequest payload) async {
-    final response = await _fbl.post(path: 'SignIn/verifyOtp', body: {"otpId": payload.otpId, "otpValue": payload.otpValue});
+    final response = await _fbl.post(
+      path: 'SignIn/verifyOtp',
+      body: {"otpId": payload.otpId, "otpValue": payload.otpValue},
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -229,7 +326,11 @@ class AuthRepo {
   }
 
   Future<UserResponse> unLockScreen(UnLockScreenRequest payload) async {
-    final response = await _fbl.post(path: 'SignIn/existingDevice', body: {"isPassword": payload.isPassword, "password": payload.password}, isAuthenticated: true);
+    final response = await _fbl.post(
+      path: 'SignIn/existingDevice',
+      body: {"isPassword": payload.isPassword, "password": payload.password},
+      isAuthenticated: true,
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -239,7 +340,11 @@ class AuthRepo {
   }
 
   Future<UserResponse> refreshUserData() async {
-    final response = await _fbl.post(path: 'MyAccount/refreshDasboard', body: {}, isAuthenticated: true);
+    final response = await _fbl.post(
+      path: 'MyAccount/refreshDasboard',
+      body: {},
+      isAuthenticated: true,
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -292,7 +397,11 @@ class AuthRepo {
   }
 
   Future<Response> authenticatePin(String pin) async {
-    final response = await _fbl.post(path: 'MyAccount/verifyPin', body: {'pin': pin}, isAuthenticated: true);
+    final response = await _fbl.post(
+      path: 'MyAccount/verifyPin',
+      body: {'pin': pin},
+      isAuthenticated: true,
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -302,7 +411,11 @@ class AuthRepo {
   }
 
   Future<Response> resendOtp(String formId) async {
-    final response = await _fbl.post(path: 'UserAccess/resendFormOtp', body: {'formId': formId}, isAuthenticated: true);
+    final response = await _fbl.post(
+      path: 'UserAccess/resendFormOtp',
+      body: {'formId': formId},
+      isAuthenticated: true,
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -311,8 +424,22 @@ class AuthRepo {
     return Response(code: response.code, status: response.status, message: response.message);
   }
 
-  Future<Response> retrieveAccessCode({required String registrationId, required String phoneNumber, required String emailAddress, required String action}) async {
-    final response = await _fbl.post(path: 'Forgot/initiateForgotAccessCode', body: {'registrationId': registrationId, 'phoneNumber': phoneNumber, 'emailAddress': emailAddress, 'requestType': action}, isAuthenticated: false);
+  Future<Response> retrieveAccessCode({
+    required String registrationId,
+    required String phoneNumber,
+    required String emailAddress,
+    required String action,
+  }) async {
+    final response = await _fbl.post(
+      path: 'Forgot/initiateForgotAccessCode',
+      body: {
+        'registrationId': registrationId,
+        'phoneNumber': phoneNumber,
+        'emailAddress': emailAddress,
+        'requestType': action,
+      },
+      isAuthenticated: false,
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -322,7 +449,11 @@ class AuthRepo {
   }
 
   Future<String> changeProfilePicture(String picture) async {
-    final response = await _fbl.post(path: 'MyAccount/updateProfilePicture', body: {'picture': picture}, isAuthenticated: true);
+    final response = await _fbl.post(
+      path: 'MyAccount/updateProfilePicture',
+      body: {'picture': picture},
+      isAuthenticated: true,
+    );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);

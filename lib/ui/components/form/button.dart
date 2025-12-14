@@ -5,7 +5,24 @@ import 'package:my_sage_agent/utils/theme.util.dart';
 enum ButtonIconAlignment { left, right }
 
 class FormButton extends StatelessWidget {
-  const FormButton({super.key, required this.onPressed, required this.text, this.labelSize, this.icon, this.buttonIconAlignment = ButtonIconAlignment.right, this.backgroundColor = ThemeUtil.primaryColor, this.foregroundColor = Colors.white, this.iconColor, this.height = 56, this.loading = false, this.iconSize, this.iconSpacerBeforeAfter, this.svgIcon, this.fontWeight, this.borderRadius});
+  const FormButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    this.labelSize,
+    this.icon,
+    this.buttonIconAlignment = ButtonIconAlignment.right,
+    this.backgroundColor = ThemeUtil.primaryColor,
+    this.foregroundColor = Colors.white,
+    this.iconColor,
+    this.height = 56,
+    this.loading = false,
+    this.iconSize,
+    this.iconSpacerBeforeAfter,
+    this.svgIcon,
+    this.fontWeight,
+    this.borderRadius,
+  });
 
   final void Function() onPressed;
   final String text;
@@ -32,7 +49,9 @@ class FormButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: !loading ? backgroundColor : Color(0xffF8F8F8),
           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.circular(height)),
+          shape: RoundedRectangleBorder(
+            borderRadius: borderRadius ?? BorderRadius.circular(height),
+          ),
           fixedSize: Size(double.maxFinite, height),
         ),
         onPressed: () {
@@ -64,13 +83,21 @@ class FormButton extends StatelessWidget {
     return Text(
       text,
       maxLines: 1,
-      style: PrimaryTextStyle(fontSize: labelSize ?? 16, fontWeight: fontWeight ?? FontWeight.bold, color: foregroundColor),
+      style: PrimaryTextStyle(
+        fontSize: labelSize ?? 16,
+        fontWeight: fontWeight ?? FontWeight.bold,
+        color: foregroundColor,
+      ),
     );
   }
 
   Widget get _icon {
     if (svgIcon?.isNotEmpty ?? false) {
-      return SvgPicture.asset(svgIcon!, colorFilter: ColorFilter.mode(iconColor ?? foregroundColor, BlendMode.srcIn), width: iconSize ?? labelSize ?? 30);
+      return SvgPicture.asset(
+        svgIcon!,
+        colorFilter: ColorFilter.mode(iconColor ?? foregroundColor, BlendMode.srcIn),
+        width: iconSize ?? labelSize ?? 30,
+      );
     }
 
     return Icon(icon, color: iconColor ?? foregroundColor, size: iconSize ?? labelSize ?? 30);

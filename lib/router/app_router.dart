@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
-import 'package:my_sage_agent/data/models/payee/payees_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
-import 'package:my_sage_agent/data/models/schedule/schedules.dart';
-import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/router/auth.router.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
@@ -17,7 +14,6 @@ import 'package:my_sage_agent/ui/pages/intro.page.dart';
 import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
-import 'package:my_sage_agent/ui/pages/login/secret_answer_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/set_secret_answer_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/verify_id.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
@@ -30,16 +26,6 @@ import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
-import 'package:my_sage_agent/ui/pages/recipient/recipient_details.page.dart';
-import 'package:my_sage_agent/ui/pages/schedules/schedule_details.page.dart';
-import 'package:my_sage_agent/ui/pages/schedules/schedules.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/ghana_card_verification.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/otp_account_verification.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account_password.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account_pin.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account_secret_question_and_answer.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/non_account_holder/setup_customer.page.dart';
 import 'package:my_sage_agent/ui/pages/update.page.dart';
 import 'package:my_sage_agent/ui/pages/welcome.page.dart';
 
@@ -71,45 +57,65 @@ final router = GoRouter(
           path: ActionsPage.routeName,
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>;
-            return ActionsPage(action: extra['action'] ?? extra['activity'], amDoing: extra['amDoing'], payment: extra['payment']);
+            return ActionsPage(
+              action: extra['action'] ?? extra['activity'],
+              amDoing: extra['amDoing'],
+              payment: extra['payment'],
+            );
           },
         ),
         GoRoute(path: ProfilePage.routeName, builder: (context, state) => ProfilePage()),
         GoRoute(
           path: QuickActionsPage.routeName,
           builder: (context, state) {
-            return QuickActionsPage(amDoing: state.extra != null ? state.extra as AmDoing : AmDoing.transaction);
+            return QuickActionsPage(
+              amDoing: state.extra != null ? state.extra as AmDoing : AmDoing.transaction,
+            );
           },
         ),
         GoRoute(
           path: ProcessFormPage.routeName,
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>;
-            return ProcessFormPage(form: extra['form'], amDoing: extra['amDoing'], activity: extra['activity'], payee: extra['payee'], receiptId: extra['receiptId']);
+            return ProcessFormPage(
+              form: extra['form'],
+              amDoing: extra['amDoing'],
+              activity: extra['activity'],
+              payee: extra['payee'],
+              receiptId: extra['receiptId'],
+            );
           },
         ),
         GoRoute(
           path: ConfirmationFormPage.routeName,
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>;
-            return ConfirmationFormPage(verifyData: extra['verifyData'], formData: extra['formData'], payload: extra['payload'], amDoing: extra['amDoing'], activityType: extra['activityType'], activity: extra['activity']);
-          },
-        ),
-        GoRoute(
-          path: SchedulesPage.routeName,
-          builder: (context, state) {
-            return SchedulesPage(state.extra as ActivityDatum);
+            return ConfirmationFormPage(
+              verifyData: extra['verifyData'],
+              formData: extra['formData'],
+              payload: extra['payload'],
+              amDoing: extra['amDoing'],
+              activityType: extra['activityType'],
+              activity: extra['activity'],
+            );
           },
         ),
         GoRoute(
           path: ReceiptPage.routeName,
           builder: (context, state) {
             final extra = state.extra as Map<String, dynamic>;
-            return ReceiptPage(request: extra['request'], fblLogo: extra['fblLogo'], imageBaseUrl: extra['imageBaseUrl'], imageDirectory: extra['imageDirectory']);
+            return ReceiptPage(
+              request: extra['request'],
+              fblLogo: extra['fblLogo'],
+              imageBaseUrl: extra['imageBaseUrl'],
+              imageDirectory: extra['imageDirectory'],
+            );
           },
         ),
-        GoRoute(path: PayeeDetailsPage.routeName, builder: (context, state) => PayeeDetailsPage(state.extra as Payees)),
-        GoRoute(path: SecuritySettingsPage.routeName, builder: (context, state) => SecuritySettingsPage()),
+        GoRoute(
+          path: SecuritySettingsPage.routeName,
+          builder: (context, state) => SecuritySettingsPage(),
+        ),
         GoRoute(
           path: EnquiryFlowPage.routeName,
           builder: (context, state) {
@@ -117,51 +123,60 @@ final router = GoRouter(
             return EnquiryFlowPage(form: extra['form'], enquiry: extra['enquiry']);
           },
         ),
-        GoRoute(path: PushNotificationsPage.routeName, builder: (context, state) => PushNotificationsPage()),
-        GoRoute(path: ScheduleDetailsPage.routeName, builder: (context, state) => ScheduleDetailsPage(state.extra as Schedules)),
+        GoRoute(
+          path: PushNotificationsPage.routeName,
+          builder: (context, state) => PushNotificationsPage(),
+        ),
       ],
     ),
     GoRoute(path: WelcomePage.routeName, builder: (context, state) => const WelcomePage()),
     GoRoute(path: IntroPage.routeName, builder: (context, state) => const IntroPage()),
 
-    GoRoute(path: ExistingDeviceLoginPage.routeName, builder: (context, state) => ExistingDeviceLoginPage(state.extra as bool)),
-    GoRoute(path: AppErrorPage.routeName, builder: (context, state) => AppErrorPage(state.extra as Response<dynamic>)),
+    GoRoute(
+      path: ExistingDeviceLoginPage.routeName,
+      builder: (context, state) => ExistingDeviceLoginPage(state.extra as bool),
+    ),
+    GoRoute(
+      path: AppErrorPage.routeName,
+      builder: (context, state) => AppErrorPage(state.extra as Response<dynamic>),
+    ),
     GoRoute(path: IntroPage.routeName, builder: (context, state) => const IntroPage()),
     GoRoute(path: IntroPage.routeName, builder: (context, state) => const IntroPage()),
-    GoRoute(path: NewDeviceLoginPage.routeName, builder: (context, state) => const NewDeviceLoginPage()),
-    GoRoute(path: SetupAccountPage.routeName, builder: (context, state) => const SetupAccountPage()),
-    GoRoute(path: RequestPasswordResetPage.routeName, builder: (context, state) => const RequestPasswordResetPage()),
-    GoRoute(path: SecretAnswerLoginPage.routeName, builder: (context, state) => const SecretAnswerLoginPage()),
+    GoRoute(
+      path: NewDeviceLoginPage.routeName,
+      builder: (context, state) => const NewDeviceLoginPage(),
+    ),
+    GoRoute(
+      path: RequestPasswordResetPage.routeName,
+      builder: (context, state) => const RequestPasswordResetPage(),
+    ),
     GoRoute(path: VerifyIdPage.routeName, builder: (context, state) => VerifyIdPage()),
-    GoRoute(path: RequestSecretAnswerPage.routeName, builder: (context, state) => RequestSecretAnswerPage()),
+    GoRoute(
+      path: RequestSecretAnswerPage.routeName,
+      builder: (context, state) => RequestSecretAnswerPage(),
+    ),
     GoRoute(path: OtpLoginPage.routeName, builder: (context, state) => OtpLoginPage()),
-    GoRoute(path: SetSecretAnswerLoginPage.routeName, builder: (context, state) => SetSecretAnswerLoginPage(state.extra as VerifyIdResponse)),
-    GoRoute(path: SetupCustomerPage.routeName, builder: (context, state) => SetupCustomerPage()),
-    GoRoute(path: GhanaCardVerificationPage.routeName, builder: (context, state) => GhanaCardVerificationPage()),
+    GoRoute(
+      path: SetSecretAnswerLoginPage.routeName,
+      builder: (context, state) => SetSecretAnswerLoginPage(state.extra as VerifyIdResponse),
+    ),
     GoRoute(
       path: PicturePreviewPage.routeName,
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
-        return PicturePreviewPage(image: extra['image'], onSuccess: extra['onSuccess'], title: extra['title'], height: extra['height'], width: extra['width']);
-      },
-    ),
-    GoRoute(path: OtpAccountVerificationPage.routeName, builder: (context, state) => OtpAccountVerificationPage()),
-    GoRoute(path: SetupAccountPasswordPage.routeName, builder: (context, state) => SetupAccountPasswordPage()),
-    GoRoute(
-      path: SetupAccountSecretQuestionAndAnswerPage.routeName,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        return SetupAccountSecretQuestionAndAnswerPage(password: extra['password'], isLoginBioEnabled: extra['isLoginBioEnabled']);
+        return PicturePreviewPage(
+          image: extra['image'],
+          onSuccess: extra['onSuccess'],
+          title: extra['title'],
+          height: extra['height'],
+          width: extra['width'],
+        );
       },
     ),
     GoRoute(
-      path: SetupAccountPinPage.routeName,
-      builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        return SetupAccountPinPage(password: extra['password'], question: extra['question'], answer: extra['answer'], isLoginBioEnabled: extra['isLoginBioEnabled']);
-      },
+      path: VerifyPasswordResetPage.routeName,
+      builder: (context, state) => VerifyPasswordResetPage(),
     ),
-    GoRoute(path: VerifyPasswordResetPage.routeName, builder: (context, state) => VerifyPasswordResetPage()),
     GoRoute(path: ResetPasswordPage.routeName, builder: (context, state) => ResetPasswordPage()),
   ],
 );

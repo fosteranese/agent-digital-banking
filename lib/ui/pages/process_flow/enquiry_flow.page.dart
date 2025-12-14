@@ -11,7 +11,6 @@ import 'package:my_sage_agent/data/models/enquiry.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/ui/components/form/search_box.dart';
-import 'package:my_sage_agent/ui/components/schedules/schedule_item.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -47,13 +46,27 @@ class _EnquiryFlowPageState extends State<EnquiryFlowPage> {
 
   void _load({required bool skipSavedData}) {
     _id = const Uuid().v4();
-    context.read<RetrieveDataBloc>().add(RetrieveEnquiry(id: _id, action: _enquiry?.endPoint ?? widget.form.formId, skipSavedData: skipSavedData, enquiry: _enquiry, form: widget.form));
+    context.read<RetrieveDataBloc>().add(
+      RetrieveEnquiry(
+        id: _id,
+        action: _enquiry?.endPoint ?? widget.form.formId,
+        skipSavedData: skipSavedData,
+        enquiry: _enquiry,
+        form: widget.form,
+      ),
+    );
   }
 
   void _search(String value, List<Sources> sources, shouldSetState) {
     final query = value.trim().toLowerCase();
     _list = sources.where((element) {
-      final result = element.source?.where((s) => (s.key?.toLowerCase().contains(query) ?? false) || (s.value?.toLowerCase().contains(query) ?? false)).toList();
+      final result = element.source
+          ?.where(
+            (s) =>
+                (s.key?.toLowerCase().contains(query) ?? false) ||
+                (s.value?.toLowerCase().contains(query) ?? false),
+          )
+          .toList();
       return result?.isNotEmpty ?? false;
     }).toList();
     if (shouldSetState) {
@@ -70,7 +83,10 @@ class _EnquiryFlowPageState extends State<EnquiryFlowPage> {
         }
       },
       builder: (context, state) {
-        if (state case DataRetrieved(:final data, :final id) when data is Response<Enquiry> && id == _id) {
+        if (state case DataRetrieved(
+          :final data,
+          :final id,
+        ) when data is Response<Enquiry> && id == _id) {
           _enquiry = data.data;
           _search(_controller.text.trim(), _enquiry?.sources ?? [], false);
         }
@@ -105,12 +121,23 @@ class _EnquiryFlowPageState extends State<EnquiryFlowPage> {
       return null;
     }
 
-    return [IconButton(onPressed: () => setState(() => _enableSearch = !_enableSearch), icon: SvgPicture.asset(_enableSearch ? 'assets/img/close-search.svg' : 'assets/img/search.svg', width: 25))];
+    return [
+      IconButton(
+        onPressed: () => setState(() => _enableSearch = !_enableSearch),
+        icon: SvgPicture.asset(
+          _enableSearch ? 'assets/img/close-search.svg' : 'assets/img/search.svg',
+          width: 25,
+        ),
+      ),
+    ];
   }
 
   PreferredSizeWidget? _buildSearchBar() {
     if ((_enquiry?.header?.isEmpty ?? true) || _enableSearch) {
-      return SearchBox(controller: _controller, onSearch: (value) => _search(value, _enquiry?.sources ?? [], true));
+      return SearchBox(
+        controller: _controller,
+        onSearch: (value) => _search(value, _enquiry?.sources ?? [], true),
+      );
     }
     return null;
   }
@@ -124,7 +151,16 @@ class _EnquiryFlowPageState extends State<EnquiryFlowPage> {
       itemBuilder: (context, index) {
         final info = _list[index];
         return InkWell(
-          onTap: (_enquiry?.hasEnquiry ?? false) ? () => context.read<GeneralFlowBloc>().add(GeneralFlowSubEnquiry(routeName: _id, formId: info.formId ?? '', hashValue: info.hashValue ?? '', endpoint: _enquiry?.endPoint ?? '')) : null,
+          onTap: (_enquiry?.hasEnquiry ?? false)
+              ? () => context.read<GeneralFlowBloc>().add(
+                  GeneralFlowSubEnquiry(
+                    routeName: _id,
+                    formId: info.formId ?? '',
+                    hashValue: info.hashValue ?? '',
+                    endpoint: _enquiry?.endPoint ?? '',
+                  ),
+                )
+              : null,
           child: Container(
             margin: const EdgeInsets.only(bottom: 15),
             decoration: BoxDecoration(
@@ -132,7 +168,12 @@ class _EnquiryFlowPageState extends State<EnquiryFlowPage> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(width: 1, color: const Color(0xffF6F6F6)),
             ),
-            child: isFxRate ? FxRateItem(heading: info.source?.first.value ?? '', rates: info.source?.skip(1) ?? []) : _ScheduleList(info: info),
+            child: isFxRate
+                ? FxRateItem(
+                    heading: info.source?.first.value ?? '',
+                    rates: info.source?.skip(1) ?? [],
+                  )
+                : _ScheduleList(info: info),
           ),
         );
       },
@@ -180,7 +221,11 @@ class _HeaderSection extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
-          image: const DecorationImage(image: AssetImage('assets/img/background.png'), opacity: 0.1, fit: BoxFit.cover),
+          image: const DecorationImage(
+            image: AssetImage('assets/img/background.png'),
+            opacity: 0.1,
+            fit: BoxFit.cover,
+          ),
         ),
         child: Column(
           children: [
@@ -188,7 +233,11 @@ class _HeaderSection extends StatelessWidget {
               header.elementAtOrNull(0) ?? '',
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 5),
             Text(
@@ -202,7 +251,11 @@ class _HeaderSection extends StatelessWidget {
               header.elementAtOrNull(2) ?? '',
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ],
         ),
@@ -223,12 +276,6 @@ class _ScheduleList extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [...sources.map((e) => ScheduleItem(keyName: e.key ?? '', value: e.value ?? ''))],
-          ),
-        ),
         const SizedBox(width: 5),
         Padding(
           padding: const EdgeInsets.only(top: 15),

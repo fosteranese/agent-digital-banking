@@ -33,7 +33,11 @@ class _HelpPageState extends State<HelpPage> {
             children: [
               Text(
                 'Help',
-                style: PrimaryTextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700),
+                style: PrimaryTextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               IconButton(
                 onPressed: () {
@@ -44,7 +48,10 @@ class _HelpPageState extends State<HelpPage> {
             ],
           ),
           const SizedBox(height: 10),
-          Text(AppUtil.data.help?.descrption ?? '', style: PrimaryTextStyle(color: Colors.white, fontSize: 16)),
+          Text(
+            AppUtil.data.help?.descrption ?? '',
+            style: PrimaryTextStyle(color: Colors.white, fontSize: 16),
+          ),
           const SizedBox(height: 20),
           HelpItem(
             iconSvg: 'assets/img/call-us.svg',
@@ -128,7 +135,10 @@ class _HelpPageState extends State<HelpPage> {
                     launchUrl(url);
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Twitter/X', style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                  title: Text(
+                    'Twitter/X',
+                    style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
                   trailing: const Icon(Icons.navigate_next),
                 ),
                 ListTile(
@@ -138,7 +148,10 @@ class _HelpPageState extends State<HelpPage> {
                     launchUrl(url);
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Instagram', style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                  title: Text(
+                    'Instagram',
+                    style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
                   trailing: const Icon(Icons.navigate_next),
                 ),
                 ListTile(
@@ -148,7 +161,10 @@ class _HelpPageState extends State<HelpPage> {
                     launchUrl(url);
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text('TikTok', style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                  title: Text(
+                    'TikTok',
+                    style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
                   trailing: const Icon(Icons.navigate_next),
                 ),
                 ListTile(
@@ -158,7 +174,10 @@ class _HelpPageState extends State<HelpPage> {
                     launchUrl(url);
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Facebook', style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                  title: Text(
+                    'Facebook',
+                    style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
                   trailing: const Icon(Icons.navigate_next),
                 ),
                 ListTile(
@@ -168,7 +187,10 @@ class _HelpPageState extends State<HelpPage> {
                     launchUrl(url);
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text('LinkedIn', style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                  title: Text(
+                    'LinkedIn',
+                    style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
                   trailing: const Icon(Icons.navigate_next),
                 ),
                 ListTile(
@@ -178,7 +200,10 @@ class _HelpPageState extends State<HelpPage> {
                     launchUrl(url);
                   },
                   contentPadding: EdgeInsets.zero,
-                  title: Text('YouTube', style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                  title: Text(
+                    'YouTube',
+                    style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                  ),
                   trailing: const Icon(Icons.navigate_next),
                 ),
               ],

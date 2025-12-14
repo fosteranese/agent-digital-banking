@@ -26,27 +26,57 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return [
       PersistentRouterTabConfig(
         item: ItemConfig(
-          icon: SvgPicture.asset('assets/img/home.svg', colorFilter: ColorFilter.mode(ThemeUtil.secondaryColor, BlendMode.srcIn), width: 24),
-          inactiveIcon: SvgPicture.asset('assets/img/home.svg', colorFilter: ColorFilter.mode(ThemeUtil.primaryColorList, BlendMode.srcIn), width: 24),
+          icon: SvgPicture.asset(
+            'assets/img/home.svg',
+            colorFilter: ColorFilter.mode(ThemeUtil.primaryColor1, BlendMode.srcIn),
+            width: 24,
+          ),
+          inactiveIcon: SvgPicture.asset(
+            'assets/img/home.svg',
+            colorFilter: ColorFilter.mode(ThemeUtil.primaryColorList, BlendMode.srcIn),
+            width: 24,
+          ),
           title: "Home",
           iconSize: 24,
-          activeForegroundColor: ThemeUtil.secondaryColor,
+          activeForegroundColor: ThemeUtil.primaryColor1,
           inactiveForegroundColor: ThemeUtil.primaryColorList,
         ),
       ),
       PersistentRouterTabConfig(
-        item: ItemConfig(icon: const Icon(Icons.people), inactiveIcon: const Icon(Icons.people_outlined), title: "Beneficiaries", iconSize: 24, activeForegroundColor: ThemeUtil.secondaryColor, inactiveForegroundColor: ThemeUtil.primaryColorList),
-      ),
-      PersistentRouterTabConfig(
-        item: ItemConfig(icon: const Icon(Icons.sync_alt_outlined), inactiveIcon: const Icon(Icons.sync_alt_outlined), title: "Transactions", iconSize: 24, activeForegroundColor: ThemeUtil.secondaryColor, inactiveForegroundColor: ThemeUtil.primaryColorList),
+        item: ItemConfig(
+          icon: const Icon(Icons.people),
+          inactiveIcon: const Icon(Icons.people_outlined),
+          title: "Collections",
+          iconSize: 24,
+          activeForegroundColor: ThemeUtil.primaryColor1,
+          inactiveForegroundColor: ThemeUtil.primaryColorList,
+        ),
       ),
       PersistentRouterTabConfig(
         item: ItemConfig(
-          icon: SvgPicture.asset('assets/img/more.svg', colorFilter: ColorFilter.mode(ThemeUtil.secondaryColor, BlendMode.srcIn), width: 24),
-          inactiveIcon: SvgPicture.asset('assets/img/more.svg', colorFilter: ColorFilter.mode(ThemeUtil.primaryColorList, BlendMode.srcIn), width: 24),
+          icon: const Icon(Icons.sync_alt_outlined),
+          inactiveIcon: const Icon(Icons.sync_alt_outlined),
+          title: "Transactions",
+          iconSize: 24,
+          activeForegroundColor: ThemeUtil.primaryColor1,
+          inactiveForegroundColor: ThemeUtil.primaryColorList,
+        ),
+      ),
+      PersistentRouterTabConfig(
+        item: ItemConfig(
+          icon: SvgPicture.asset(
+            'assets/img/more.svg',
+            colorFilter: ColorFilter.mode(ThemeUtil.primaryColor1, BlendMode.srcIn),
+            width: 24,
+          ),
+          inactiveIcon: SvgPicture.asset(
+            'assets/img/more.svg',
+            colorFilter: ColorFilter.mode(ThemeUtil.primaryColorList, BlendMode.srcIn),
+            width: 24,
+          ),
           title: "More",
           iconSize: 24,
-          activeForegroundColor: ThemeUtil.secondaryColor,
+          activeForegroundColor: ThemeUtil.primaryColor1,
           inactiveForegroundColor: ThemeUtil.primaryColorList,
         ),
       ),

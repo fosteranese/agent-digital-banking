@@ -6,7 +6,6 @@ import 'package:my_sage_agent/blocs/app/app_bloc.dart';
 import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/help.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -32,7 +31,9 @@ class WelcomePageState extends State<WelcomePage> {
         switch (AppUtil.deviceStatus.status) {
           case StatusConstants.pending:
             return const Scaffold(
-              body: Center(child: SizedBox(height: 100, width: 100, child: CircularProgressIndicator())),
+              body: Center(
+                child: SizedBox(height: 100, width: 100, child: CircularProgressIndicator()),
+              ),
             );
 
           case StatusConstants.error:
@@ -49,7 +50,11 @@ class WelcomePageState extends State<WelcomePage> {
                       //   'assets/img/error.svg',
                       //   width: 150,
                       // ),
-                      Text(AppUtil.deviceStatus.message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineMedium),
+                      Text(
+                        AppUtil.deviceStatus.message,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
                     ],
                   ),
                 ),
@@ -78,11 +83,19 @@ class WelcomePageState extends State<WelcomePage> {
 
                       Text(
                         'Welcome',
-                        style: PrimaryTextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 34),
+                        style: PrimaryTextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 34,
+                        ),
                       ),
                       Text(
                         'Let’s Get you Started',
-                        style: PrimaryTextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16),
+                        style: PrimaryTextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
                       ),
                       const SizedBox(height: 30),
                       FormButton(
@@ -98,7 +111,7 @@ class WelcomePageState extends State<WelcomePage> {
                         backgroundColor: Colors.white,
                         foregroundColor: ThemeUtil.primaryColor,
                         onPressed: () {
-                          context.push(SetupAccountPage.routeName);
+                          context.push(NewDeviceLoginPage.routeName);
                         },
                         text: 'I am New to UMB SpeedApp',
                       ),
@@ -166,7 +179,11 @@ class WelcomePageState extends State<WelcomePage> {
                           SizedBox(width: 5),
                           Text(
                             'Help',
-                            style: PrimaryTextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 14),
+                            style: PrimaryTextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),

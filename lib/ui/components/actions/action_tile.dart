@@ -18,14 +18,20 @@ import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/actions.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
-import 'package:my_sage_agent/ui/pages/schedules/schedules.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 enum Stages { initial, loading, error, done }
 
 class ActionTile extends StatefulWidget {
-  const ActionTile({super.key, required this.id, required this.isExpanded, required this.onExpand, required this.action, required this.amDoing});
+  const ActionTile({
+    super.key,
+    required this.id,
+    required this.isExpanded,
+    required this.onExpand,
+    required this.action,
+    required this.amDoing,
+  });
   final String id;
   final bool isExpanded;
   final void Function(bool status) onExpand;
@@ -132,14 +138,19 @@ class _ActionTileState extends State<ActionTile> {
           imageUrl: '${user.imageBaseUrl}${user.imageDirectory}/${widget.action.activity?.icon}',
           width: 24,
           height: 24,
-          placeholder: (context, url) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
-          errorWidget: (context, url, error) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+          placeholder: (context, url) =>
+              Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+          errorWidget: (context, url, error) =>
+              Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
         ),
         title: Text(
           widget.action.activity?.activityName ?? '',
           style: PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
         ),
-        subtitle: Text(widget.action.activity?.description ?? '', style: PrimaryTextStyle(fontSize: 14, color: Color(0xff919195))),
+        subtitle: Text(
+          widget.action.activity?.description ?? '',
+          style: PrimaryTextStyle(fontSize: 14, color: Color(0xff919195)),
+        ),
         trailing: ValueListenableBuilder(
           valueListenable: _stage,
           builder: (context, stage, child) {
@@ -157,7 +168,13 @@ class _ActionTileState extends State<ActionTile> {
             valueListenable: _stage,
             builder: (context, stage, child) {
               if (_result != null) {
-                return DoneState(result: _result, payment: _payment, paymentCategory: _paymentCategory, action: widget.action, amDoing: widget.amDoing);
+                return DoneState(
+                  result: _result,
+                  payment: _payment,
+                  paymentCategory: _paymentCategory,
+                  action: widget.action,
+                  amDoing: widget.amDoing,
+                );
               }
 
               switch (stage) {
@@ -168,7 +185,13 @@ class _ActionTileState extends State<ActionTile> {
                   return LoadingState();
 
                 case Stages.done:
-                  return DoneState(result: _result, payment: _payment, paymentCategory: _paymentCategory, action: widget.action, amDoing: widget.amDoing);
+                  return DoneState(
+                    result: _result,
+                    payment: _payment,
+                    paymentCategory: _paymentCategory,
+                    action: widget.action,
+                    amDoing: widget.amDoing,
+                  );
 
                 case Stages.error:
                   return ErrorState(message: _message);
@@ -207,19 +230,30 @@ class _ActionTileState extends State<ActionTile> {
         if (widget.action.activity?.activityType == ActivityTypesConst.quickFlowAlt) {
           activityType = ActivityTypesConst.quickFlow;
         }
-        context.read<RetrieveDataBloc>().add(RetrieveCategories(activityId: widget.action.activity?.activityId ?? '', endpoint: widget.action.activity?.endpoint ?? '', id: _id, action: _action, skipSavedData: false, activityType: activityType));
-        break;
-
-      case ActivityTypesConst.schedule:
-        _controller.collapse();
-        context.push(SchedulesPage.routeName, extra: widget.action);
+        context.read<RetrieveDataBloc>().add(
+          RetrieveCategories(
+            activityId: widget.action.activity?.activityId ?? '',
+            endpoint: widget.action.activity?.endpoint ?? '',
+            id: _id,
+            action: _action,
+            skipSavedData: false,
+            activityType: activityType,
+          ),
+        );
         break;
     }
   }
 }
 
 class DoneState extends StatelessWidget {
-  const DoneState({super.key, required this.result, required this.payment, required this.paymentCategory, required this.action, required this.amDoing});
+  const DoneState({
+    super.key,
+    required this.result,
+    required this.payment,
+    required this.paymentCategory,
+    required this.action,
+    required this.amDoing,
+  });
 
   final Response<GeneralFlowCategory>? result;
   final Response<List<Payment>>? payment;
@@ -254,7 +288,10 @@ class DoneState extends StatelessWidget {
         children: payment!.data!.map((item) {
           return listItem(
             onPressed: () {
-              context.push(ActionsPage.routeName, extra: {'activity': action, 'amDoing': amDoing, 'payment': item});
+              context.push(
+                ActionsPage.routeName,
+                extra: {'activity': action, 'amDoing': amDoing, 'payment': item},
+              );
             },
             title: item.catName!,
             image: getImage(item.icon!),
@@ -268,7 +305,10 @@ class DoneState extends StatelessWidget {
         children: paymentCategory!.data!.institution!.map((item) {
           return listItem(
             onPressed: () {
-              context.push(ProcessFormPage.routeName, extra: {'form': item, 'amDoing': amDoing, 'activity': action});
+              context.push(
+                ProcessFormPage.routeName,
+                extra: {'form': item, 'amDoing': amDoing, 'activity': action},
+              );
             },
             title: item.insName!,
             image: getImage(item.icon!),
@@ -295,24 +335,40 @@ class DoneState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/img/empty.svg', colorFilter: ColorFilter.mode(Color(0xff919195), BlendMode.srcIn), width: 64),
+          SvgPicture.asset(
+            'assets/img/empty.svg',
+            colorFilter: ColorFilter.mode(Color(0xff919195), BlendMode.srcIn),
+            width: 64,
+          ),
           SizedBox(height: 10),
           Text(
             'Services unavailable',
             textAlign: TextAlign.center,
-            style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16, fontWeight: FontWeight.w600),
+            style: PrimaryTextStyle(
+              color: Color(0xff4F4F4F),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           Text(
             'Sorry! services currently unavailable.',
             textAlign: TextAlign.center,
-            style: PrimaryTextStyle(color: Color(0xff919195), fontSize: 14, fontWeight: FontWeight.normal),
+            style: PrimaryTextStyle(
+              color: Color(0xff919195),
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ],
       ),
     );
   }
 
-  ListTile listItem({required String title, required String image, required void Function() onPressed}) {
+  ListTile listItem({
+    required String title,
+    required String image,
+    required void Function() onPressed,
+  }) {
     return ListTile(
       onTap: onPressed,
       dense: true,
@@ -321,8 +377,10 @@ class DoneState extends StatelessWidget {
         imageUrl: image,
         width: 24,
         height: 24,
-        placeholder: (context, url) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
-        errorWidget: (context, url, error) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+        placeholder: (context, url) =>
+            Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+        errorWidget: (context, url, error) =>
+            Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
       ),
       title: Text(title, style: PrimaryTextStyle(fontSize: 16)),
       trailing: Icon(Icons.navigate_next, color: Color(0xffD9DADB)),
@@ -336,7 +394,13 @@ class LoadingState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [for (int i = 0; i < 2; i++) Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: SimpleListShimmerItem())],
+      children: [
+        for (int i = 0; i < 2; i++)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SimpleListShimmerItem(),
+          ),
+      ],
     );
   }
 }

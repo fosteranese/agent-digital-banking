@@ -14,6 +14,7 @@ import 'package:freerasp/freerasp.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:package_info_plus/package_info_plus.dart' as pip;
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
 
@@ -52,7 +53,11 @@ class AppUtil {
 
   static late InitializationResponse data;
   static late UserResponse currentUser;
-  static Response deviceStatus = const Response(code: StatusConstants.pending, status: StatusConstants.pending, message: 'Checking Device compatibility status');
+  static Response deviceStatus = const Response(
+    code: StatusConstants.pending,
+    status: StatusConstants.pending,
+    message: 'Checking Device compatibility status',
+  );
 
   static final db = Database();
   static final auth = AuthRepo();
@@ -70,11 +75,17 @@ class AppUtil {
     return Env.appId;
   }
 
-  static Future<void> checkSecurity(void Function(String threat, Response<dynamic> error) callbackAction) async {
+  static Future<void> checkSecurity(
+    void Function(String threat, Response<dynamic> error) callbackAction,
+  ) async {
     final config = TalsecConfig(
       androidConfig: AndroidConfig(
         packageName: Env.appId,
-        signingCertHashes: [Env.androidSigningCertHashes, Env.androidSigningCertHashUpload, Env.androidSigningCertHashDebug],
+        signingCertHashes: [
+          Env.androidSigningCertHashes,
+          Env.androidSigningCertHashUpload,
+          Env.androidSigningCertHashDebug,
+        ],
         // supportedStores: ['some.other.store'],
       ),
       iosConfig: IOSConfig(bundleIds: [Env.appId], teamId: Env.appleTeam),
@@ -94,7 +105,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onAppIntegrity: Looks like your device configuration isn\'t compatible. Please ensure your device settings meet our requirements to access the app.',
-          message: 'Looks like your device configuration isn\'t compatible. Please ensure your device settings meet our requirements to access the app.',
+          message:
+              'Looks like your device configuration isn\'t compatible. Please ensure your device settings meet our requirements to access the app.',
         );
 
         alert('onAppIntegrity', deviceStatus);
@@ -114,7 +126,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onDebug: We\'re unable to proceed due to your device setup. Please review your device settings to ensure they meet our requirements for app usage.',
-          message: 'We\'re unable to proceed due to your device setup. Please review your device settings to ensure they meet our requirements for app usage.',
+          message:
+              'We\'re unable to proceed due to your device setup. Please review your device settings to ensure they meet our requirements for app usage.',
         );
 
         alert('onDebug', deviceStatus);
@@ -124,7 +137,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onDeviceBinding: Uh-oh! Your device doesn\'t meet our compatibility criteria. Please check your device settings and try again.',
-          message: 'Uh-oh! Your device doesn\'t meet our compatibility criteria. Please check your device settings and try again.',
+          message:
+              'Uh-oh! Your device doesn\'t meet our compatibility criteria. Please check your device settings and try again.',
         );
 
         alert('onDeviceBinding', deviceStatus);
@@ -135,7 +149,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onHooks: It seems your device configuration isn\'t supported. Please make sure your device settings align with our requirements to access the app.',
-          message: 'It seems your device configuration isn\'t supported. Please make sure your device settings align with our requirements to access the app.',
+          message:
+              'It seems your device configuration isn\'t supported. Please make sure your device settings align with our requirements to access the app.',
         );
 
         alert('onHooks', deviceStatus);
@@ -146,7 +161,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onPrivilegedAccess: Sorry, your device setup doesn\'t meet our compatibility requirements. Please adjust your device settings accordingly to use the app.',
-          message: 'Sorry, your device setup doesn\'t meet our compatibility requirements. Please adjust your device settings accordingly to use the app.',
+          message:
+              'Sorry, your device setup doesn\'t meet our compatibility requirements. Please adjust your device settings accordingly to use the app.',
         );
 
         alert('onPrivilegedAccess', deviceStatus);
@@ -177,7 +193,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onUnofficialStore: Sorry, This device cannot run this application. Contact us UMB Bank for assistance',
-          message: 'Sorry, This device cannot run this application. Contact us UMB Bank for assistance',
+          message:
+              'Sorry, This device cannot run this application. Contact us UMB Bank for assistance',
         ),
       ),
       // onDevMode: () => alert(
@@ -212,7 +229,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onMalware: Sorry, This device is not qualified to run this application. Contact us UMB Bank for assistance',
-          message: 'Sorry, This device is not qualified to run this application. Contact us UMB Bank for assistance',
+          message:
+              'Sorry, This device is not qualified to run this application. Contact us UMB Bank for assistance',
         ),
       ),
       onMultiInstance: () => alert(
@@ -221,7 +239,8 @@ class AppUtil {
           code: StatusConstants.error,
           status: StatusConstants.error,
           // message: 'onMultiInstance: Sorry, This device platform is not allow to run this application. Contact us UMB Bank for assistance',
-          message: 'Sorry, This device platform is not allow to run this application. Contact us UMB Bank for assistance',
+          message:
+              'Sorry, This device platform is not allow to run this application. Contact us UMB Bank for assistance',
         ),
       ),
     );
@@ -283,7 +302,11 @@ class AppUtil {
     //   return Future.error(deviceStatus);
     // }
 
-    deviceStatus = const Response(code: StatusConstants.success, status: StatusConstants.success, message: 'This device is ready to run this application');
+    deviceStatus = const Response(
+      code: StatusConstants.success,
+      status: StatusConstants.success,
+      message: 'This device is ready to run this application',
+    );
     return deviceStatus;
   }
 
@@ -297,7 +320,14 @@ class AppUtil {
   }
 
   static DeviceInfo get info {
-    details = (_device ?? details).copyWith(latitude: location?.latitude.toString(), longitude: location?.longitude.toString(), build: _package?.buildNumber, version: _package?.version, channel: _package?.packageName, fcmToken: fcmToken);
+    details = (_device ?? details).copyWith(
+      latitude: location?.latitude.toString(),
+      longitude: location?.longitude.toString(),
+      build: _package?.buildNumber,
+      version: _package?.version,
+      channel: _package?.packageName,
+      fcmToken: fcmToken,
+    );
 
     return details;
   }
@@ -310,12 +340,23 @@ class AppUtil {
       if (Platform.isAndroid) {
         final android = await device.androidInfo;
 
-        newInfo = DeviceInfo(channel: android.device, description: '${android.manufacturer}::${android.brand}::${android.model}::${android.display}::${android.version}::${android.device}::$udid::${android.isPhysicalDevice}', deviceId: udid, deviceName: android.product, deviceType: 'android', userAgent: android.device, version: android.version.release, isPhysicalDevice: android.isPhysicalDevice);
+        newInfo = DeviceInfo(
+          channel: android.device,
+          description:
+              '${android.manufacturer}::${android.brand}::${android.model}::${android.display}::${android.version}::${android.device}::$udid::${android.isPhysicalDevice}',
+          deviceId: udid,
+          deviceName: android.product,
+          deviceType: 'android',
+          userAgent: android.device,
+          version: android.version.release,
+          isPhysicalDevice: android.isPhysicalDevice,
+        );
       } else if (Platform.isIOS) {
         final ios = await device.iosInfo;
         newInfo = DeviceInfo(
           channel: ios.utsname.release,
-          description: '${ios.utsname.sysname}::${ios.model}::${ios.utsname.release}::${ios.utsname.version}::${ios.systemVersion}::${ios.isPhysicalDevice}',
+          description:
+              '${ios.utsname.sysname}::${ios.model}::${ios.utsname.release}::${ios.utsname.version}::${ios.systemVersion}::${ios.isPhysicalDevice}',
           deviceId: udid,
           // deviceId: ios.identifierForVendor,
           deviceName: ios.name,
@@ -340,7 +381,14 @@ class AppUtil {
     try {
       _package = await pip.PackageInfo.fromPlatform();
       if (_package != null) {
-        _package = pip.PackageInfo(appName: _package!.appName, buildNumber: Env.buildNumber, packageName: _package!.packageName, version: _package!.version, buildSignature: _package!.buildSignature, installerStore: _package!.installerStore);
+        _package = pip.PackageInfo(
+          appName: _package!.appName,
+          buildNumber: Env.buildNumber,
+          packageName: _package!.packageName,
+          version: _package!.version,
+          buildSignature: _package!.buildSignature,
+          installerStore: _package!.installerStore,
+        );
       }
 
       logger.i(_package);
@@ -375,7 +423,9 @@ class AppUtil {
         listenToLocationStatusChange();
       }
 
-      final currentLocation = await Geolocator.getCurrentPosition(locationSettings: LocationSettings(accuracy: LocationAccuracy.best));
+      final currentLocation = await Geolocator.getCurrentPosition(
+        locationSettings: LocationSettings(accuracy: LocationAccuracy.best),
+      );
       location = currentLocation;
       listenToLocationStatusChange();
 
@@ -421,9 +471,15 @@ class AppUtil {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset('assets/img/location-pin.png', width: 200),
-                const Text('Jack, where are you ?', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                const Text(
+                  'Jack, where are you ?',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                ),
                 const SizedBox(height: 5),
-                const Text('Kindly enable your location to allow. Certain type of services will require your gps location', style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16)),
+                const Text(
+                  'Kindly enable your location to allow. Certain type of services will require your gps location',
+                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+                ),
                 const SizedBox(height: 20),
                 FormButton(
                   onPressed: () {
@@ -453,7 +509,8 @@ class AppUtil {
   }
 
   static List<CountryWithPhoneCode> _getCountries() {
-    countries = CountryManager().countries..sort((a, b) => (a.countryName ?? '').compareTo(b.countryName ?? ''));
+    countries = CountryManager().countries
+      ..sort((a, b) => (a.countryName ?? '').compareTo(b.countryName ?? ''));
     gh = AppUtil.countries.firstWhere((element) => element.countryCode == 'GH');
     currentCountry = gh;
 
@@ -471,7 +528,15 @@ class AppUtil {
     info.setAutomaticDataCollectionEnabled(true);
     info.setAutomaticResourceManagementEnabled(true);
 
-    await FirebaseMessaging.instance.requestPermission(alert: true, badge: true, announcement: true, carPlay: true, criticalAlert: true, provisional: true, sound: true);
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      announcement: true,
+      carPlay: true,
+      criticalAlert: true,
+      provisional: true,
+      sound: true,
+    );
 
     final fcm = FirebaseMessaging.instance;
     try {
@@ -484,11 +549,33 @@ class AppUtil {
     }
 
     FirebaseMessaging.onMessage.listen((message) async {
-      MyApp.navigatorKey.currentContext!.read<PushNotificationBloc>().add(ReceivePushNotification(PushNotification(id: message.messageId, title: message.notification?.title ?? '', content: message.notification?.body ?? '', customData: message.data, image: message.notification?.title, read: false, sentTime: DateTime.now())));
+      MyApp.navigatorKey.currentContext!.read<PushNotificationBloc>().add(
+        ReceivePushNotification(
+          PushNotification(
+            id: message.messageId,
+            title: message.notification?.title ?? '',
+            content: message.notification?.body ?? '',
+            customData: message.data,
+            image: message.notification?.title,
+            read: false,
+            sentTime: DateTime.now(),
+          ),
+        ),
+      );
     });
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      final record = PushNotification(id: event.messageId, title: event.notification?.title ?? '', content: event.notification?.body ?? '', customData: event.data, image: event.notification?.title, read: true, sentTime: DateTime.now());
-      MyApp.navigatorKey.currentContext!.read<PushNotificationBloc>().add(ReceivePushNotification(record));
+      final record = PushNotification(
+        id: event.messageId,
+        title: event.notification?.title ?? '',
+        content: event.notification?.body ?? '',
+        customData: event.data,
+        image: event.notification?.title,
+        read: true,
+        sentTime: DateTime.now(),
+      );
+      MyApp.navigatorKey.currentContext!.read<PushNotificationBloc>().add(
+        ReceivePushNotification(record),
+      );
 
       showDetails(record, MyApp.navigatorKey.currentContext!);
     });
@@ -521,14 +608,15 @@ class AppUtil {
     return BlocBuilder<PushNotificationBloc, PushNotificationState>(
       builder: (context, state) {
         final notice = IconButton(
-          style: IconButton.styleFrom(backgroundColor: Color(0xffF8F8F8)),
           onPressed: () {
             context.push(PushNotificationsPage.routeName);
           },
           icon: SvgPicture.asset('assets/img/notification.svg'),
         );
 
-        final list = state is PushNotificationLoaded ? state.result.where((element) => element.read == false).length : 0;
+        final list = state is PushNotificationLoaded
+            ? state.result.where((element) => element.read == false).length
+            : 0;
         if (list == 0) {
           return notice;
         }
@@ -541,7 +629,12 @@ class AppUtil {
           label: Container(
             alignment: Alignment.center,
             child: FittedBox(
-              child: Text(count, maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center),
+              child: Text(
+                count,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           smallSize: 19,
@@ -566,12 +659,18 @@ class AppUtil {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(record.title ?? '', style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontSize: 18)),
+          Text(
+            record.title ?? '',
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontSize: 18),
+          ),
           Row(
             children: [
               const Icon(Icons.calendar_month_outlined, size: 14, color: Color(0xff919195)),
               const SizedBox(width: 5),
-              Text(formatter.format(record.sentTime ?? DateTime.now()), style: Theme.of(context).textTheme.bodySmall),
+              Text(
+                formatter.format(record.sentTime ?? DateTime.now()),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             ],
           ),
           const SizedBox(height: 30),
@@ -592,55 +691,85 @@ class AppUtil {
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: MyApp.navigatorKey.currentContext!,
-      isScrollControlled: true,
+      useSafeArea: true,
       builder: (context) {
-        return PopOver(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 30, left: 30, right: 30, bottom: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () {
-                      context.pop();
-                    },
-                    icon: Icon(Icons.close),
+        return Container(
+          margin: .only(left: 10, right: 10, bottom: 10 + MediaQuery.of(context).padding.bottom),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                alignment: .center,
+                children: [
+                  const Text(
+                    'Sign Out',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: ThemeUtil.danger,
+                    ),
                   ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      iconSize: 18,
+
+                      style: IconButton.styleFrom(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        maximumSize: const Size(32, 32),
+                        minimumSize: const Size(32, 32),
+                        backgroundColor: ThemeUtil.offWhite,
+                        fixedSize: const Size(32, 32),
+                        padding: .zero,
+                      ),
+                      onPressed: () {
+                        context.pop();
+                      },
+                      icon: Icon(Icons.close),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              const Text(
+                'Are you sure you want to Sign Out?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  color: ThemeUtil.subtitleGrey,
                 ),
-                const SizedBox(height: 20),
-                const Text(
-                  'About to Logout',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                ),
-                const Text(
-                  'Are you sure you are ready to logout from the app?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20, color: Color(0xff54534A)),
-                ),
-                const SizedBox(height: 20),
-                FormButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  text: 'No, Cancel',
-                ),
-                const SizedBox(height: 10),
-                FormOutlineButton(
-                  backgroundColor: Colors.red,
-                  textColor: Colors.red,
-                  onPressed: () {
-                    context.pop();
-                    context.read<AuthBloc>().add(const Logout());
-                  },
-                  icon: SvgPicture.asset('assets/img/logout.svg', colorFilter: const ColorFilter.mode(Colors.red, BlendMode.srcIn), width: 20),
-                  text: 'Yes, Logout',
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 30),
+              Row(
+                children: [
+                  Expanded(
+                    child: FormOutlineButton(
+                      height: 42,
+                      onPressed: () {
+                        context.pop();
+                        context.read<AuthBloc>().add(const Logout());
+                      },
+                      text: 'Sign Out',
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: FormButton(
+                      height: 42,
+                      onPressed: () {
+                        context.pop();
+                      },
+                      text: 'No, Cancel',
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },

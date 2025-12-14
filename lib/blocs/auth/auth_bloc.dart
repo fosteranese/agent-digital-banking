@@ -25,15 +25,9 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
-    on(_onNewCustomerSignUp);
-    on(_onNewCustomerReSignUp);
     on(_onVerifyOtp);
 
-    on(_onCustomerSignUp);
     on(_onVerifyCustomer);
-
-    on(_onCompleteSignUp);
-    on(_onCompleteCustomerSignUp);
 
     // verify ghana card
     on(_onVerifyGhanaCard);
@@ -83,7 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final _authRepo = AuthRepo();
-  VerificationResponse? signUp;
+  VerificationResponse? signIn;
   String phoneNumber = '';
   String password = '';
   String pin = '';
@@ -91,51 +85,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String picture = '';
   String code = '';
 
-  Future<void> _onNewCustomerSignUp(NewCustomerSignUp event, Emitter<AuthState> emit) async {
-    try {
-      emit(SubmittingNewCustomerDetails());
-      final result = await _authRepo.signUpNewCustomer(event.payload);
-
-      signUp = result;
-      emit(NewCustomerDetailsSubmitted(data: result, resendPayload: event.payload));
-    } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(SubmitNewCustomerDetailsError(error)));
-    }
-  }
-
-  Future<void> _onNewCustomerReSignUp(NewCustomerReSignUp event, Emitter<AuthState> emit) async {
-    try {
-      emit(ReSubmittingNewCustomerDetails());
-      final result = await _authRepo.signUpNewCustomer(event.payload);
-
-      signUp = result;
-      emit(NewCustomerDetailsReSubmitted(data: result, resendPayload: event.payload));
-    } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(ReSubmitNewCustomerDetailsError(error)));
-    }
-  }
-
   Future<void> _onVerifyOtp(VerifyOtp event, Emitter<AuthState> emit) async {
     try {
       emit(VerifyingOtp());
-      final result = !event.isNewCustomer ? await _authRepo.verifyNewCustomerOtp(event.payload) : await _authRepo.verifyNoNNewCustomerOtp(event.payload);
+      final result = !event.isNewCustomer
+          ? await _authRepo.verifyNewCustomerOtp(event.payload)
+          : await _authRepo.verifyNoNNewCustomerOtp(event.payload);
 
       requestId = result;
       emit(OtpVerified(result));
     } catch (error) {
       ResponseUtil.handleException(error, (error) => emit(VerifyOtpError(error)));
-    }
-  }
-
-  Future<void> _onCustomerSignUp(CustomerSignUp event, Emitter<AuthState> emit) async {
-    try {
-      emit(SubmittingCustomerDetails());
-      final result = await _authRepo.signUpCustomer(event.payload);
-
-      signUp = result;
-      emit(CustomerDetailsSubmitted(result));
-    } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(SubmitCustomerDetailsError(error)));
     }
   }
 
@@ -151,47 +111,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onCompleteSignUp(CompleteSignUp event, Emitter<AuthState> emit) async {
-    try {
-      emit(CompletingSignUp());
-      final payload = event.payload.copyWith(registrationId: signUp!.registrationId);
-      final result = await _authRepo.completeNewCustomerSignup(payload);
-      await _authRepo.clearDbForNewUser();
-
-      AppUtil.currentUser = result;
-      _authRepo.saveLoggedUser(user: result, password: event.payload.password ?? '');
-
-      emit(SignUpCompleted(result));
-      emit(LoggedIn(result));
-
-      await _onRetrieveProfilePicture(const RetrieveProfilePicture(), emit);
-    } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(CompleteSignUpError(error)));
-    }
-  }
-
-  Future<void> _onCompleteCustomerSignUp(CompleteCustomerSignUp event, Emitter<AuthState> emit) async {
-    try {
-      emit(CompletingSignUp());
-      final payload = event.payload.copyWith(registrationId: signUp!.registrationId);
-      final result = await _authRepo.completeCustomerSignup(payload);
-      await _authRepo.clearDbForNewUser();
-
-      AppUtil.currentUser = result;
-      _authRepo.saveLoggedUser(user: result, password: event.payload.password ?? '');
-
-      await _authRepo.saveCurrentUserPin(event.payload.pin ?? '');
-
-      emit(SignUpCompleted(result));
-      emit(LoggedIn(result));
-
-      await _onRetrieveProfilePicture(const RetrieveProfilePicture(), emit);
-    } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(CompleteSignUpError(error)));
-    }
-  }
-
-  Future<void> _onRetrieveProfilePicture(RetrieveProfilePicture event, Emitter<AuthState> emit) async {
+  Future<void> _onRetrieveProfilePicture(
+    RetrieveProfilePicture event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       final result = await _authRepo.getProfilePicture();
 
@@ -213,7 +136,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(VerifyingGhanaCard());
       picture = event.picture;
       code = event.code;
-      final result = await _authRepo.verifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
+      final result = await _authRepo.verifyGhanaCard(
+        registrationId: event.registrationId,
+        picture: picture,
+        code: code,
+      );
 
       emit(GhanaCardVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
@@ -224,7 +151,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onReVerifyGhanaCard(ReVerifyGhanaCard event, Emitter<AuthState> emit) async {
     try {
       emit(ReVerifyingGhanaCard());
-      final result = await _authRepo.verifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
+      final result = await _authRepo.verifyGhanaCard(
+        registrationId: event.registrationId,
+        picture: picture,
+        code: code,
+      );
 
       emit(GhanaCardReVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
@@ -238,7 +169,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(VerifyingGhanaCard());
       picture = event.picture;
       code = event.code;
-      final result = !event.isNewCustomer ? await _authRepo.verifyPicture(registrationId: event.registrationId, picture: picture, code: code) : await _authRepo.verifyPicture(registrationId: event.registrationId, picture: picture, code: code);
+      final result = !event.isNewCustomer
+          ? await _authRepo.verifyPicture(
+              registrationId: event.registrationId,
+              picture: picture,
+              code: code,
+            )
+          : await _authRepo.verifyPicture(
+              registrationId: event.registrationId,
+              picture: picture,
+              code: code,
+            );
 
       emit(GhanaCardVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
@@ -249,7 +190,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onReVerifyPicture(ReVerifyPicture event, Emitter<AuthState> emit) async {
     try {
       emit(ReVerifyingGhanaCard());
-      final result = await _authRepo.verifyPicture(registrationId: event.registrationId, picture: picture, code: code);
+      final result = await _authRepo.verifyPicture(
+        registrationId: event.registrationId,
+        picture: picture,
+        code: code,
+      );
 
       emit(GhanaCardReVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
@@ -258,12 +203,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   // verify ghana card
-  Future<void> _onSignInVerifyGhanaCard(SignInVerifyGhanaCard event, Emitter<AuthState> emit) async {
+  Future<void> _onSignInVerifyGhanaCard(
+    SignInVerifyGhanaCard event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       emit(VerifyingGhanaCard());
       picture = event.picture;
       code = event.code;
-      final result = await _authRepo.signUpVerifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
+      final result = await _authRepo.signUpVerifyGhanaCard(
+        registrationId: event.registrationId,
+        picture: picture,
+        code: code,
+      );
 
       emit(GhanaCardVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
@@ -271,10 +223,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onSignInReVerifyGhanaCard(SignInReVerifyGhanaCard event, Emitter<AuthState> emit) async {
+  Future<void> _onSignInReVerifyGhanaCard(
+    SignInReVerifyGhanaCard event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       emit(ReVerifyingGhanaCard());
-      final result = await _authRepo.signUpVerifyGhanaCard(registrationId: event.registrationId, picture: picture, code: code);
+      final result = await _authRepo.signUpVerifyGhanaCard(
+        registrationId: event.registrationId,
+        picture: picture,
+        code: code,
+      );
 
       emit(GhanaCardReVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
@@ -282,7 +241,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onInitiateForgetPassword(InitiateForgotPassword event, Emitter<AuthState> emit) async {
+  Future<void> _onInitiateForgetPassword(
+    InitiateForgotPassword event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       emit(InitiatingForgotPassword());
       final result = await _authRepo.forgotPassword(event.payload);
@@ -293,7 +255,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onReInitiateForgetPassword(ReInitiateForgotPassword event, Emitter<AuthState> emit) async {
+  Future<void> _onReInitiateForgetPassword(
+    ReInitiateForgotPassword event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       emit(ReInitiatingForgotPassword());
       final result = await _authRepo.forgotPassword(event.payload);
@@ -346,13 +311,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       phoneNumber = event.payload.phoneNumber ?? '';
       password = event.payload.password ?? '';
 
-      emit(LoginInitiated(result.data['requestId']));
+      signIn = result;
+
+      emit(LoginInitiated(result));
     } catch (error) {
       if (error is Response) {
         if (error.code == '2000') {
           phoneNumber = event.payload.phoneNumber ?? '';
           password = event.payload.password ?? '';
-          emit(VerifyId(Response(code: error.code, status: error.status, message: error.message, data: VerifyIdResponse.fromMap(error.data))));
+          emit(
+            VerifyId(
+              Response(
+                code: error.code,
+                status: error.status,
+                message: error.message,
+                data: VerifyIdResponse.fromMap(error.data),
+              ),
+            ),
+          );
           return;
         }
       }
@@ -365,9 +341,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onReInitiateLogin(ReInitiateLogin event, Emitter<AuthState> emit) async {
     try {
       emit(ReInitiatingLogin());
-      final result = await _authRepo.initiateLogin(InitiateLoginRequest(phoneNumber: phoneNumber, password: password));
+      final result = await _authRepo.initiateLogin(
+        InitiateLoginRequest(phoneNumber: phoneNumber, password: password),
+      );
 
-      emit(ReLoginInitiated(result.data['requestId']));
+      signIn = result;
+      emit(ReLoginInitiated(result));
     } catch (error) {
       ResponseUtil.handleException(error, (error) => emit(ReInitiateLoginError(error)));
     }
@@ -395,23 +374,55 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> _onSetSecurityAnswerLogin(SetSecurityAnswerLogin event, Emitter<AuthState> emit) async {
+  Future<void> _onSetSecurityAnswerLogin(
+    SetSecurityAnswerLogin event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       emit(SettingSecurityAnswerLogin());
-      final result = await _authRepo.resetSecurityAnswer(registrationId: event.registrationId, question: event.question, answer: event.answer);
+      final result = await _authRepo.resetSecurityAnswer(
+        registrationId: event.registrationId,
+        question: event.question,
+        answer: event.answer,
+      );
 
-      emit(SecurityAnswerLoginSet(data: result, resendPayload: {"registrationId": event.registrationId, "question": event.question, "answer": event.answer}));
+      emit(
+        SecurityAnswerLoginSet(
+          data: result,
+          resendPayload: {
+            "registrationId": event.registrationId,
+            "question": event.question,
+            "answer": event.answer,
+          },
+        ),
+      );
     } catch (error) {
       ResponseUtil.handleException(error, (error) => emit(SetSecurityAnswerLoginError(error)));
     }
   }
 
-  Future<void> _onResetSecurityAnswerLogin(ResetSecurityAnswerLogin event, Emitter<AuthState> emit) async {
+  Future<void> _onResetSecurityAnswerLogin(
+    ResetSecurityAnswerLogin event,
+    Emitter<AuthState> emit,
+  ) async {
     try {
       emit(ResettingSecurityAnswerLogin());
-      final result = await _authRepo.resetSecurityAnswer(registrationId: event.registrationId, question: event.question, answer: event.answer);
+      final result = await _authRepo.resetSecurityAnswer(
+        registrationId: event.registrationId,
+        question: event.question,
+        answer: event.answer,
+      );
 
-      emit(SecurityAnswerLoginReset(data: result, resendPayload: {"registrationId": event.registrationId, "question": event.question, "answer": event.answer}));
+      emit(
+        SecurityAnswerLoginReset(
+          data: result,
+          resendPayload: {
+            "registrationId": event.registrationId,
+            "question": event.question,
+            "answer": event.answer,
+          },
+        ),
+      );
     } catch (error) {
       ResponseUtil.handleException(error, (error) => emit(ResetSecurityAnswerLoginError(error)));
     }
@@ -510,7 +521,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
       emit(LoggedIn(AppUtil.currentUser));
     } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(ProfilePictureError(routeName: event.routeName, result: error)));
+      ResponseUtil.handleException(
+        error,
+        (error) => emit(ProfilePictureError(routeName: event.routeName, result: error)),
+      );
     }
   }
 }

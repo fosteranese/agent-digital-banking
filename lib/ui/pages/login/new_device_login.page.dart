@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/data/models/login/initiate_login.request.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/input.dart';
 import 'package:my_sage_agent/ui/components/form/password_input.dart';
-import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
+import 'package:my_sage_agent/ui/layouts/background.layout.dart';
 import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
-import 'package:my_sage_agent/ui/pages/login/secret_answer_login.page.dart';
+import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/verify_id.page.dart';
-import 'package:my_sage_agent/ui/pages/signup/account_holder/setup_account.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -29,33 +29,38 @@ class _NewDeviceLoginPageState extends State<NewDeviceLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PlainWithHeaderLayout(
+    return BackgroundLayout(
       title: 'Sign in to your existing account',
-      subtitleWidget: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(text: 'New to UMB SpeedApp? '),
-            TextSpan(
-              text: 'Sign up',
-              style: PrimaryTextStyle(fontWeight: FontWeight.w700, color: ThemeUtil.secondaryColor),
-            ),
-          ],
-          style: PrimaryTextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
-        ),
-      ),
-      onPressedSubtitle: () {
-        context.replace(SetupAccountPage.routeName);
-      },
-      miniTitle: 'Login',
       children: [
         const SizedBox(height: 30),
-        FormInput(controller: _usernameController, label: 'Phone number', keyboardType: TextInputType.number),
+        Text(
+          'Sign In',
+          style: PrimaryTextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Colors.white),
+        ),
+        const SizedBox(height: 30),
+        FormInput(
+          controller: _usernameController,
+          label: 'Phone number',
+          keyboardType: TextInputType.number,
+          placeholder: 'Eg. 0244123654',
+          color: Colors.white,
+          labelStyle: GoogleFonts.mulish(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
+        ),
         const SizedBox(height: 10),
         FormPasswordInput(
           controller: _passwordController,
           label: 'Password',
+          labelStyle: GoogleFonts.mulish(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
           placeholder: 'Password',
-          labelStyle: Theme.of(context).textTheme.labelMedium,
+          color: Colors.white,
           visibilityColor: Colors.black,
           info: Align(
             alignment: Alignment.topRight,
@@ -65,7 +70,11 @@ class _NewDeviceLoginPageState extends State<NewDeviceLoginPage> {
               },
               child: Text(
                 'Forgot password?',
-                style: PrimaryTextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w400, fontSize: 16),
+                style: PrimaryTextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -75,7 +84,7 @@ class _NewDeviceLoginPageState extends State<NewDeviceLoginPage> {
         BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) async {
             if (state is LoginInitiated) {
-              context.push(SecretAnswerLoginPage.routeName);
+              context.push(OtpLoginPage.routeName);
 
               return;
             }
@@ -106,7 +115,14 @@ class _NewDeviceLoginPageState extends State<NewDeviceLoginPage> {
                   return;
                 }
 
-                context.read<AuthBloc>().add(InitiateLogin(InitiateLoginRequest(phoneNumber: _usernameController.text, password: _passwordController.text)));
+                context.read<AuthBloc>().add(
+                  InitiateLogin(
+                    InitiateLoginRequest(
+                      phoneNumber: _usernameController.text,
+                      password: _passwordController.text,
+                    ),
+                  ),
+                );
               },
             );
           },

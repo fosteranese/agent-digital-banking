@@ -27,7 +27,7 @@ class _SessionTimeoutState extends State<SessionTimeout> with WidgetsBindingObse
   }
 
   void _initializeTimer() {
-    _timer = Timer.periodic(const Duration(minutes: 5), (_) => _logOutUser());
+    _timer = Timer.periodic(const Duration(minutes: 500), (_) => _logOutUser());
   }
 
   void _logOutUser() {
@@ -77,7 +77,11 @@ class _SessionTimeoutState extends State<SessionTimeout> with WidgetsBindingObse
           _handleUserInteraction();
         }
       },
-      child: Listener(onPointerDown: (_) => context.read<ActivityBloc>().add(PerformActivityEvent()), behavior: HitTestBehavior.translucent, child: widget.child),
+      child: Listener(
+        onPointerDown: (_) => context.read<ActivityBloc>().add(PerformActivityEvent()),
+        behavior: HitTestBehavior.translucent,
+        child: widget.child,
+      ),
     );
   }
 

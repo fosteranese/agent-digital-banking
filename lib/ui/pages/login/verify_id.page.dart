@@ -6,7 +6,7 @@ import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
 import 'package:my_sage_agent/data/models/verification.response.dart';
 import 'package:my_sage_agent/ui/components/verification_modes/verification.dart';
-import 'package:my_sage_agent/ui/pages/login/secret_answer_login.page.dart';
+import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/set_secret_answer_login.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 
@@ -49,7 +49,7 @@ class _VerifyIdPageState extends State<VerifyIdPage> {
             context.push(SetSecretAnswerLoginPage.routeName, extra: _data);
           } else {
             context.pop();
-            context.push(SecretAnswerLoginPage.routeName);
+            context.push(OtpLoginPage.routeName);
           }
           return;
         }
@@ -80,9 +80,20 @@ class _VerifyIdPageState extends State<VerifyIdPage> {
       },
       child: Verification(
         action: 'SIGNIN',
-        data: VerificationResponse(ghCardUrl: _data.ghCardUrl, registrationId: _data.registrationId, imageBaseUrl: _data.imageBaseUrl, accessType: _data.accessType),
+        data: VerificationResponse(
+          ghCardUrl: _data.ghCardUrl,
+          registrationId: _data.registrationId,
+          imageBaseUrl: _data.imageBaseUrl,
+          accessType: _data.accessType,
+        ),
         onVerify: (image, code) {
-          context.read<AuthBloc>().add(SignInVerifyGhanaCard(registrationId: _data.registrationId ?? '', picture: image, code: code));
+          context.read<AuthBloc>().add(
+            SignInVerifyGhanaCard(
+              registrationId: _data.registrationId ?? '',
+              picture: image,
+              code: code,
+            ),
+          );
         },
         onBack: () {
           context.pop();

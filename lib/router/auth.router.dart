@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/ui/components/bottom_navbar.cm.dart';
+import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';
-import 'package:my_sage_agent/ui/pages/recipient/recipient.page.dart';
 
 final authRouter = StatefulShellRoute.indexedStack(
   builder: (context, state, navigationShell) {
@@ -12,15 +12,24 @@ final authRouter = StatefulShellRoute.indexedStack(
   },
   branches: [
     StatefulShellBranch(
-      routes: [GoRoute(path: DashboardPage.routeName, builder: (context, state) => const DashboardPage())],
+      routes: [
+        GoRoute(path: DashboardPage.routeName, builder: (context, state) => const DashboardPage()),
+      ],
     ),
 
     StatefulShellBranch(
-      routes: [GoRoute(path: PayeesPage.routeName, builder: (context, state) => const PayeesPage())],
+      routes: [
+        GoRoute(
+          path: CollectionsPage.routeName,
+          builder: (context, state) => const CollectionsPage(),
+        ),
+      ],
     ),
 
     StatefulShellBranch(
-      routes: [GoRoute(path: HistoryPage.routeName, builder: (context, state) => const HistoryPage())],
+      routes: [
+        GoRoute(path: HistoryPage.routeName, builder: (context, state) => const HistoryPage()),
+      ],
     ),
 
     StatefulShellBranch(

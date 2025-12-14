@@ -13,19 +13,13 @@ class AuthInitial extends AuthState {}
 class SubmittingNewCustomerDetails extends AuthState {}
 
 class NewCustomerDetailsSubmitted extends AuthState {
-  const NewCustomerDetailsSubmitted({
-    required this.data,
-    required this.resendPayload,
-  });
+  const NewCustomerDetailsSubmitted({required this.data, required this.resendPayload});
 
   final VerificationResponse data;
   final NonCustomerSignUpRequest resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class SubmitNewCustomerDetailsError extends AuthState {
@@ -34,27 +28,19 @@ class SubmitNewCustomerDetailsError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ReSubmittingNewCustomerDetails extends AuthState {}
 
 class NewCustomerDetailsReSubmitted extends AuthState {
-  const NewCustomerDetailsReSubmitted({
-    required this.data,
-    required this.resendPayload,
-  });
+  const NewCustomerDetailsReSubmitted({required this.data, required this.resendPayload});
 
   final VerificationResponse data;
   final NonCustomerSignUpRequest resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class ReSubmitNewCustomerDetailsError extends AuthState {
@@ -63,9 +49,7 @@ class ReSubmitNewCustomerDetailsError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class VerifyingOtp extends AuthState {}
@@ -76,9 +60,7 @@ class OtpVerified extends AuthState {
   final String requestId;
 
   @override
-  List<Object> get props => [
-        requestId,
-      ];
+  List<Object> get props => [requestId];
 }
 
 class VerifyOtpError extends AuthState {
@@ -87,9 +69,7 @@ class VerifyOtpError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // existing customer signup
@@ -103,9 +83,7 @@ class CustomerDetailsSubmitted extends AuthState {
   // final CustomerVerificationResponse data;
 
   @override
-  List<Object> get props => [
-        data,
-      ];
+  List<Object> get props => [data];
 }
 
 class SubmitCustomerDetailsError extends AuthState {
@@ -114,27 +92,19 @@ class SubmitCustomerDetailsError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class VerifyingCustomerOtp extends AuthState {}
 
 class CustomerOtpVerified extends AuthState {
-  const CustomerOtpVerified({
-    required this.requestId,
-    required this.data,
-  });
+  const CustomerOtpVerified({required this.requestId, required this.data});
 
   final String requestId;
   final VerificationResponse data;
 
   @override
-  List<Object> get props => [
-        requestId,
-        data,
-      ];
+  List<Object> get props => [requestId, data];
 }
 
 class VerifyCustomerOtpError extends AuthState {
@@ -143,9 +113,7 @@ class VerifyCustomerOtpError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class CompletingSignUp extends AuthState {}
@@ -156,9 +124,7 @@ class SignUpCompleted extends AuthState {
   final UserResponse user;
 
   @override
-  List<Object> get props => [
-        user,
-      ];
+  List<Object> get props => [user];
 }
 
 class CompleteSignUpError extends AuthState {
@@ -167,9 +133,7 @@ class CompleteSignUpError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class LoggedIn extends AuthState {
@@ -178,9 +142,7 @@ class LoggedIn extends AuthState {
   final UserResponse user;
 
   @override
-  List<Object> get props => [
-        user,
-      ];
+  List<Object> get props => [user];
 }
 
 class RefreshUserDataFailed extends AuthState {
@@ -202,19 +164,13 @@ class RefreshingUserData extends AuthState {
 class VerifyingGhanaCard extends AuthState {}
 
 class GhanaCardVerified extends AuthState {
-  const GhanaCardVerified({
-    required this.data,
-    required this.resendPayload,
-  });
+  const GhanaCardVerified({required this.data, required this.resendPayload});
 
   final VerifyGhanaCardResponse data;
   final String resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class VerifyGhanaCardError extends AuthState {
@@ -223,27 +179,19 @@ class VerifyGhanaCardError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ReVerifyingGhanaCard extends AuthState {}
 
 class GhanaCardReVerified extends AuthState {
-  const GhanaCardReVerified({
-    required this.data,
-    required this.resendPayload,
-  });
+  const GhanaCardReVerified({required this.data, required this.resendPayload});
 
   final VerifyGhanaCardResponse data;
   final String resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class ReVerifyGhanaCardError extends AuthState {
@@ -252,9 +200,7 @@ class ReVerifyGhanaCardError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // Forgot Password
@@ -262,19 +208,13 @@ class ReVerifyGhanaCardError extends AuthState {
 class InitiatingForgotPassword extends AuthState {}
 
 class ForgotPasswordInitiated extends AuthState {
-  const ForgotPasswordInitiated({
-    required this.data,
-    required this.resendPassword,
-  });
+  const ForgotPasswordInitiated({required this.data, required this.resendPassword});
 
   final ForgotPasswordResponse data;
   final ForgotPasswordRequest resendPassword;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPassword,
-      ];
+  List<Object> get props => [data, resendPassword];
 }
 
 class InitiateForgotPasswordError extends AuthState {
@@ -283,27 +223,19 @@ class InitiateForgotPasswordError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ReInitiatingForgotPassword extends AuthState {}
 
 class ForgotPasswordReInitiated extends AuthState {
-  const ForgotPasswordReInitiated({
-    required this.data,
-    required this.resendPassword,
-  });
+  const ForgotPasswordReInitiated({required this.data, required this.resendPassword});
 
   final ForgotPasswordResponse data;
   final ForgotPasswordRequest resendPassword;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPassword,
-      ];
+  List<Object> get props => [data, resendPassword];
 }
 
 class ReInitiateForgotPasswordError extends AuthState {
@@ -312,9 +244,7 @@ class ReInitiateForgotPasswordError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class VerifyingForgotPassword extends AuthState {}
@@ -325,9 +255,7 @@ class ForgotPasswordVerified extends AuthState {
   final String requestId;
 
   @override
-  List<Object> get props => [
-        requestId,
-      ];
+  List<Object> get props => [requestId];
 }
 
 class VerifyForgotPasswordError extends AuthState {
@@ -336,9 +264,7 @@ class VerifyForgotPasswordError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ResettingPassword extends AuthState {}
@@ -349,9 +275,7 @@ class PasswordResetCompleted extends AuthState {
   final String message;
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class ResetPasswordError extends AuthState {
@@ -360,9 +284,7 @@ class ResetPasswordError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // Forgot secret answer
@@ -375,9 +297,7 @@ class SecretAnswerRetrieved extends AuthState {
   final String message;
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class RetrieveSecretAnswerError extends AuthState {
@@ -386,9 +306,7 @@ class RetrieveSecretAnswerError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // login user
@@ -401,20 +319,16 @@ class VerifyId extends AuthState {
   final Response<VerifyIdResponse> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class LoginInitiated extends AuthState {
-  const LoginInitiated(this.requestId);
+  const LoginInitiated(this.otpData);
 
-  final String requestId;
+  final VerificationResponse otpData;
 
   @override
-  List<Object> get props => [
-        requestId,
-      ];
+  List<Object> get props => [otpData];
 }
 
 class InitiateLoginError extends AuthState {
@@ -423,9 +337,7 @@ class InitiateLoginError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ReInitiatingLogin extends AuthState {}
@@ -433,12 +345,10 @@ class ReInitiatingLogin extends AuthState {}
 class ReLoginInitiated extends AuthState {
   const ReLoginInitiated(this.requestId);
 
-  final String requestId;
+  final VerificationResponse requestId;
 
   @override
-  List<Object> get props => [
-        requestId,
-      ];
+  List<Object> get props => [requestId];
 }
 
 class ReInitiateLoginError extends AuthState {
@@ -447,27 +357,19 @@ class ReInitiateLoginError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class VerifyingLogin extends AuthState {}
 
 class LoginVerified extends AuthState {
-  const LoginVerified({
-    required this.data,
-    required this.resendPayload,
-  });
+  const LoginVerified({required this.data, required this.resendPayload});
 
   final VerificationResponse data;
   final VerifyLoginRequest resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class VerifyLoginError extends AuthState {
@@ -476,27 +378,19 @@ class VerifyLoginError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ReVerifyingLogin extends AuthState {}
 
 class LoginReVerified extends AuthState {
-  const LoginReVerified({
-    required this.data,
-    required this.resendPayload,
-  });
+  const LoginReVerified({required this.data, required this.resendPayload});
 
   final VerificationResponse data;
   final VerifyLoginRequest resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class ReVerifyLoginError extends AuthState {
@@ -505,27 +399,19 @@ class ReVerifyLoginError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class SettingSecurityAnswerLogin extends AuthState {}
 
 class SecurityAnswerLoginSet extends AuthState {
-  const SecurityAnswerLoginSet({
-    required this.data,
-    required this.resendPayload,
-  });
+  const SecurityAnswerLoginSet({required this.data, required this.resendPayload});
 
   final VerificationResponse data;
   final Map<String, String> resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class SetSecurityAnswerLoginError extends AuthState {
@@ -534,27 +420,19 @@ class SetSecurityAnswerLoginError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ResettingSecurityAnswerLogin extends AuthState {}
 
 class SecurityAnswerLoginReset extends AuthState {
-  const SecurityAnswerLoginReset({
-    required this.data,
-    required this.resendPayload,
-  });
+  const SecurityAnswerLoginReset({required this.data, required this.resendPayload});
 
   final VerificationResponse data;
   final Map<String, String> resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class ResetSecurityAnswerLoginError extends AuthState {
@@ -563,9 +441,7 @@ class ResetSecurityAnswerLoginError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class CompletingLogin extends AuthState {}
@@ -576,9 +452,7 @@ class LoginCompleted extends AuthState {
   final UserResponse user;
 
   @override
-  List<Object> get props => [
-        user,
-      ];
+  List<Object> get props => [user];
 }
 
 class CompleteLoginError extends AuthState {
@@ -587,9 +461,7 @@ class CompleteLoginError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // unlock screen user
@@ -602,9 +474,7 @@ class ScreenUnLocked extends AuthState {
   final UserResponse user;
 
   @override
-  List<Object> get props => [
-        user,
-      ];
+  List<Object> get props => [user];
 }
 
 class UnlockScreenError extends AuthState {
@@ -613,9 +483,7 @@ class UnlockScreenError extends AuthState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // logout
@@ -638,9 +506,7 @@ class UpdateForced extends AuthState {
   final Response result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ChangingProfilePicture extends AuthState {
@@ -649,9 +515,7 @@ class ChangingProfilePicture extends AuthState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class ProfilePictureChanged extends AuthState {
@@ -660,23 +524,15 @@ class ProfilePictureChanged extends AuthState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class ProfilePictureError extends AuthState {
-  const ProfilePictureError({
-    required this.routeName,
-    required this.result,
-  });
+  const ProfilePictureError({required this.routeName, required this.result});
 
   final String routeName;
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        routeName,
-        result,
-      ];
+  List<Object> get props => [routeName, result];
 }

@@ -6,24 +6,18 @@ class PreviewDatum extends Equatable {
   final String? key;
   final String? value;
   final int? dataType;
+  final String? icon;
 
-  const PreviewDatum({
-    this.key,
-    this.value,
-    this.dataType,
-  });
+  const PreviewDatum({this.key, this.icon, this.value, this.dataType});
 
   factory PreviewDatum.fromMap(Map<String, dynamic> data) => PreviewDatum(
-        key: data['key'] as String?,
-        value: data['value'] as String?,
-        dataType: data['dataType'] as int?,
-      );
+    key: data['key'] as String?,
+    icon: data['icon'] as String?,
+    value: data['value'] as String?,
+    dataType: data['dataType'] as int?,
+  );
 
-  Map<String, dynamic> toMap() => {
-        'key': key,
-        'value': value,
-        'dataType': dataType,
-      };
+  Map<String, dynamic> toMap() => {'key': key, 'icon': icon, 'value': value, 'dataType': dataType};
 
   /// `dart:convert`
   ///
@@ -37,13 +31,10 @@ class PreviewDatum extends Equatable {
   /// Converts [PreviewDatum] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  PreviewDatum copyWith({
-    String? key,
-    String? value,
-    int? dataType,
-  }) {
+  PreviewDatum copyWith({String? key, String? value, int? dataType, String? icon}) {
     return PreviewDatum(
       key: key ?? this.key,
+      icon: icon ?? this.icon,
       value: value ?? this.value,
       dataType: dataType ?? this.dataType,
     );
@@ -53,5 +44,5 @@ class PreviewDatum extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [key, value, dataType];
+  List<Object?> get props => [key, icon, value, dataType];
 }

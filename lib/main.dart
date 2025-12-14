@@ -9,39 +9,37 @@ import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
-import 'package:my_sage_agent/data/models/response.modal.dart';
-import 'package:my_sage_agent/logger.dart';
 
-import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:my_sage_agent/blocs/account/account_bloc.dart';
+import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
+import 'package:my_sage_agent/blocs/app/app_bloc.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
+import 'package:my_sage_agent/blocs/bottom_nav_bar/bottom_nav_bar_bloc.dart';
+import 'package:my_sage_agent/blocs/bulk_payment/bulk_payment_bloc.dart';
+import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
+import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/history/history_bloc.dart';
+import 'package:my_sage_agent/blocs/infra/infra_bloc.dart';
+import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
+import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
+import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'blocs/account/account_bloc.dart';
-import 'blocs/activity/activity_bloc.dart';
-import 'blocs/app/app_bloc.dart';
-import 'blocs/auth/auth_bloc.dart';
-import 'blocs/biometric/biometric_bloc.dart';
-import 'blocs/bottom_nav_bar/bottom_nav_bar_bloc.dart';
-import 'blocs/bulk_payment/bulk_payment_bloc.dart';
-import 'blocs/collection/collection_bloc.dart';
-import 'blocs/general_flow/general_flow_bloc.dart';
-import 'blocs/infra/infra_bloc.dart';
-import 'blocs/notification/notification_bloc.dart';
-import 'blocs/otp/otp_bloc.dart';
-import 'blocs/payee/payee_bloc.dart';
-import 'blocs/schedule/schedule_bloc.dart';
-import 'blocs/security_settings/security_settings_bloc.dart';
-import 'blocs/setup/setup_bloc.dart';
-import 'data/database/db.dart';
-import 'data/repository/fbl_online.repo.dart';
-import 'data/repository/payment.repo.dart';
-import 'data/repository/quickflow.repo.dart';
-import 'router/app_router.dart';
-import 'ui/pages/app_error.page.dart';
-import 'ui/pages/intro.page.dart';
-import 'ui/pages/login/existing_device_login.page.dart';
-import 'ui/pages/update.page.dart';
-import 'ui/pages/welcome.page.dart';
-import 'utils/app.util.dart';
+import 'package:my_sage_agent/blocs/security_settings/security_settings_bloc.dart';
+import 'package:my_sage_agent/blocs/setup/setup_bloc.dart';
+import 'package:my_sage_agent/data/database/db.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
+import 'package:my_sage_agent/data/repository/payment.repo.dart';
+import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
+import 'package:my_sage_agent/logger.dart';
+import 'package:my_sage_agent/router/app_router.dart';
+import 'package:my_sage_agent/ui/pages/app_error.page.dart';
+import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
+import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
+import 'package:my_sage_agent/ui/pages/update.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 void main() {
   runZonedGuarded(
@@ -110,15 +108,20 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => PaymentsBloc()),
           BlocProvider(create: (context) => GeneralFlowBloc()),
           BlocProvider(
-            create: (context) => RetrieveDataBloc(fblOnlineRepo: context.read<FblOnlineRepo>(), quickflow: context.read<QuickFlowRepo>(), paymentRepo: context.read<PaymentRepo>()),
+            create: (context) => RetrieveDataBloc(
+              fblOnlineRepo: context.read<FblOnlineRepo>(),
+              quickflow: context.read<QuickFlowRepo>(),
+              paymentRepo: context.read<PaymentRepo>(),
+            ),
           ),
           BlocProvider(create: (context) => AccountBloc()),
           BlocProvider(create: (context) => PayeeBloc()),
-          BlocProvider(create: (context) => PushNotificationBloc()..add(const LoadPushNotification())),
+          BlocProvider(
+            create: (context) => PushNotificationBloc()..add(const LoadPushNotification()),
+          ),
           BlocProvider(create: (context) => BiometricBloc()),
           BlocProvider(create: (context) => ActivityBloc()),
           BlocProvider(create: (context) => BulkPaymentBloc()),
-          BlocProvider(create: (context) => ScheduleBloc()),
           BlocProvider(create: (context) => InfraBloc()),
           BlocProvider(create: (context) => SetupBloc()),
           BlocProvider(create: (context) => OtpBloc()),
@@ -158,20 +161,57 @@ class _MyAppState extends State<MyApp> {
             fontFamilyFallback: PrimaryTextStyle().fontFamilyFallback,
             primaryColorDark: const Color(0xff191443),
             primaryColorLight: const Color(0xffF2F8FF),
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.black, primary: Colors.black, secondary: ThemeUtil.secondaryColor, brightness: Brightness.light),
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.black,
+              primary: Colors.black,
+              secondary: ThemeUtil.secondaryColor,
+              brightness: Brightness.light,
+            ),
             useMaterial3: true,
             textTheme: TextTheme(
-              bodySmall: PrimaryTextStyle(color: const Color(0xff919195), fontWeight: FontWeight.w400, fontSize: 13),
-              displaySmall: PrimaryTextStyle(fontWeight: FontWeight.w400, fontSize: 13, color: const Color(0xff54534A)),
-              labelSmall: PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: const Color(0xff242424)),
+              bodySmall: PrimaryTextStyle(
+                color: const Color(0xff919195),
+                fontWeight: FontWeight.w400,
+                fontSize: 13,
+              ),
+              displaySmall: PrimaryTextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 13,
+                color: const Color(0xff54534A),
+              ),
+              labelSmall: PrimaryTextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+                color: const Color(0xff242424),
+              ),
               titleSmall: PrimaryTextStyle(fontWeight: FontWeight.w700, fontSize: 13),
               headlineSmall: PrimaryTextStyle(fontSize: 13, fontWeight: FontWeight.w400),
-              bodyMedium: PrimaryTextStyle(color: const Color(0xff242424), fontSize: 14, fontWeight: FontWeight.w600),
-              displayMedium: PrimaryTextStyle(color: const Color(0xff54534A), fontSize: 14, fontWeight: FontWeight.w400),
+              bodyMedium: PrimaryTextStyle(
+                color: const Color(0xff242424),
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+              displayMedium: PrimaryTextStyle(
+                color: const Color(0xff54534A),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
               labelMedium: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-              headlineMedium: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xff828282)),
-              titleMedium: PrimaryTextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700),
-              headlineLarge: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: const Color(0xff010203)),
+              headlineMedium: PrimaryTextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xff828282),
+              ),
+              titleMedium: PrimaryTextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+              headlineLarge: PrimaryTextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xff010203),
+              ),
             ),
           ),
           routerConfig: router,
@@ -197,7 +237,7 @@ class _MyAppState extends State<MyApp> {
             context.read<BiometricBloc>().add(const RetrieveBiometricSettings());
 
             if (state is NewDevice) {
-              MyApp.navigatorKey.currentContext!.go(IntroPage.routeName);
+              MyApp.navigatorKey.currentContext!.go(NewDeviceLoginPage.routeName);
 
               FlutterNativeSplash.remove();
               return;
@@ -210,7 +250,7 @@ class _MyAppState extends State<MyApp> {
             }
 
             if (state is ExistingDevice) {
-              MyApp.navigatorKey.currentContext!.go(WelcomePage.routeName);
+              MyApp.navigatorKey.currentContext!.go(NewDeviceLoginPage.routeName);
               FlutterNativeSplash.remove();
               return;
             }
@@ -225,7 +265,10 @@ class _MyAppState extends State<MyApp> {
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is LoggedOut) {
-              MyApp.navigatorKey.currentContext!.go(ExistingDeviceLoginPage.routeName, extra: false);
+              MyApp.navigatorKey.currentContext!.go(
+                ExistingDeviceLoginPage.routeName,
+                extra: false,
+              );
               return;
             }
 

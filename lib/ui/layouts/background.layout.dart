@@ -1,4 +1,3 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 
 class BackgroundLayout extends StatelessWidget {
@@ -27,10 +26,7 @@ class BackgroundLayout extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            backgroundImageUrl ?? 'assets/img/intro-4.png',
-            fit: BoxFit.cover,
-          ),
+          Image.asset(backgroundImageUrl ?? 'assets/img/intro-4.png', fit: BoxFit.cover),
           SafeArea(
             child: CustomScrollView(
               slivers: [
@@ -40,15 +36,12 @@ class BackgroundLayout extends StatelessWidget {
                   leadingWidth: 0,
                   titleSpacing: 10,
                   title: Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       IconButton(
                         color: Colors.black,
                         style: IconButton.styleFrom(
-                          backgroundColor: Theme.of(
-                            context,
-                          ).primaryColorLight.withAlpha(64),
+                          backgroundColor: Theme.of(context).primaryColorLight.withAlpha(64),
                         ),
                         onPressed:
                             onBackPressed ??
@@ -57,31 +50,21 @@ class BackgroundLayout extends StatelessWidget {
                             },
                         icon:
                             backIcon ??
-                            (useCloseIcon
-                                ? const Icon(Icons.clear)
-                                : const Icon(
-                                    Icons.arrow_back,
-                                  )),
+                            (useCloseIcon ? const Icon(Icons.clear) : const Icon(Icons.arrow_back)),
                       ),
                       const Spacer(),
-                      TextButton(
-                        onPressed:
-                            onPressHelped ?? () => {},
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColorLight.withAlpha(64),
+                        ),
+                        onPressed: onPressHelped ?? () => {},
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SvgPicture.asset(
-                              'assets/img/info.svg',
-                              width: 24,
-                              height: 24,
-                            ),
-                            const SizedBox(width: 5),
                             Text(
-                              'Get Help',
+                              'Make a report',
                               style: TextStyle(
-                                color: Theme.of(
-                                  context,
-                                ).primaryColorDark,
+                                color: Theme.of(context).primaryColorDark,
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -97,23 +80,8 @@ class BackgroundLayout extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 30),
-                        if (title != null)
-                          Text(
-                            title!,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        if (title != null)
-                          const SizedBox(height: 30),
-                        ...children,
-                      ],
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [SizedBox(height: 30), ...children],
                     ),
                   ),
                 ),

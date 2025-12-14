@@ -2,7 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class Item extends StatelessWidget {
-  const Item({super.key, this.onPressed, required this.title, this.subtitle, this.icon, this.count, this.fullIcon, this.padding, this.trailing});
+  const Item({
+    super.key,
+    this.onPressed,
+    required this.title,
+    this.subtitle,
+    this.icon,
+    this.count,
+    this.fullIcon,
+    this.padding,
+    this.trailing,
+  });
   final String title;
   final String? subtitle;
   final Widget? icon;
@@ -25,13 +35,20 @@ class Item extends StatelessWidget {
           children: [
             TextSpan(
               text: title,
-              style: PrimaryTextStyle(fontWeight: FontWeight.w400, color: Colors.black, fontSize: 16),
+              style: PrimaryTextStyle(
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+                fontSize: 16,
+              ),
             ),
-            if (count != null && count! > 0) TextSpan(text: ' ($count)', style: PrimaryTextStyle(fontSize: 16)),
+            if (count != null && count! > 0)
+              TextSpan(text: ' ($count)', style: PrimaryTextStyle(fontSize: 16)),
           ],
         ),
       ),
-      subtitle: subtitle?.isNotEmpty ?? false ? Text(subtitle ?? '', style: Theme.of(context).textTheme.bodySmall) : null,
+      subtitle: subtitle?.isNotEmpty ?? false
+          ? Text(subtitle ?? '', style: Theme.of(context).textTheme.bodySmall)
+          : null,
       trailing: trailing ?? const Icon(Icons.navigate_next, color: Color(0xff919195)),
     );
   }

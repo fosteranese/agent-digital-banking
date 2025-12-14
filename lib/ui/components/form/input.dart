@@ -7,6 +7,7 @@ class FormInput extends StatelessWidget {
   const FormInput({
     super.key,
     this.label = '',
+    this.labelStyle,
     this.bottomSpace = 10,
     this.prefix,
     this.suffix,
@@ -24,7 +25,7 @@ class FormInput extends StatelessWidget {
     this.onChange,
     this.focus,
     this.zeroLeftPadding = false,
-    this.borderRadius = 10,
+    this.borderRadius = 4,
     this.color = Colors.white,
     this.multiLine = false,
     this.contentPadding,
@@ -45,6 +46,7 @@ class FormInput extends StatelessWidget {
   });
 
   final String label;
+  final TextStyle? labelStyle;
   final double bottomSpace;
   final Widget? prefix;
   final Widget? suffix;
@@ -83,9 +85,7 @@ class FormInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentColor = readOnly
-        ? Colors.blueGrey.shade100
-        : color;
+    final currentColor = readOnly ? Colors.blueGrey.shade100 : color;
     return BaseFormInput(
       bottomSpace: bottomSpace,
       controller: controller,
@@ -94,14 +94,13 @@ class FormInput extends StatelessWidget {
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       label: label,
+      labelStyle: labelStyle,
       onSuccess: onSuccess,
       placeholder: placeholder,
       placeholderStyle: placeholderStyle,
       prefix: prefix,
-      showIconOnFailedValidation:
-          showIconOnFailedValidation,
-      showIconOnSuccessfulValidation:
-          showIconOnFailedValidation,
+      showIconOnFailedValidation: showIconOnFailedValidation,
+      showIconOnSuccessfulValidation: showIconOnFailedValidation,
       suffix: suffix,
       validation: validation,
       info: info,
@@ -125,8 +124,6 @@ class FormInput extends StatelessWidget {
       onUnfocus: onUnfocus,
       showNumberToolbar: showNumberToolbar,
       hideOnTapOutside: hideOnTapOutside,
-      minLines: minLines,
-      maxLines: maxLength,
     );
   }
 }

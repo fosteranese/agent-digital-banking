@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
@@ -8,7 +9,6 @@ import 'package:my_sage_agent/blocs/bulk_payment/bulk_payment_bloc.dart';
 import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
 import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
-import 'package:my_sage_agent/blocs/schedule/schedule_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/constants/field.const.dart';
 import 'package:my_sage_agent/data/models/collection/form_verification_response.dart';
@@ -32,14 +32,21 @@ import 'package:my_sage_agent/ui/pages/more/more.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
-import 'package:my_sage_agent/ui/pages/recipient/recipient.page.dart';
 import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ConfirmationFormPage extends StatefulWidget {
-  const ConfirmationFormPage({super.key, required this.verifyData, required this.formData, required this.payload, required this.activityType, required this.amDoing, required this.activity});
+  const ConfirmationFormPage({
+    super.key,
+    required this.verifyData,
+    required this.formData,
+    required this.payload,
+    required this.activityType,
+    required this.amDoing,
+    required this.activity,
+  });
 
   static const routeName = '/process-flow/confirmation-form';
 
@@ -56,7 +63,8 @@ class ConfirmationFormPage extends StatefulWidget {
 
 class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
   late List<GeneralFlowFieldsDatum> _fieldData;
-  final Map<String, (TextEditingController controller, GeneralFlowFieldsDatum fieldData)> _controllers = {};
+  final Map<String, (TextEditingController controller, GeneralFlowFieldsDatum fieldData)>
+  _controllers = {};
   final ValueNotifier<String> _displayAmount = ValueNotifier('');
   final Loader _loader = Loader();
 
@@ -84,7 +92,14 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
   /// Initialize field data
   void _setupFormData([List<GeneralFlowFieldsDatum>? fieldsDatum]) {
-    _fieldData = (fieldsDatum ?? widget.formData.fieldsDatum ?? []).where((e) => e.field?.fieldVisible == 1 && e.field?.readOnly != 1 && e.field?.requiredForVerification != 1).toList();
+    _fieldData = (fieldsDatum ?? widget.formData.fieldsDatum ?? [])
+        .where(
+          (e) =>
+              e.field?.fieldVisible == 1 &&
+              e.field?.readOnly != 1 &&
+              e.field?.requiredForVerification != 1,
+        )
+        .toList();
     _generateControllers();
   }
 
@@ -97,7 +112,10 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
       }
       final controller = _controllers[item.field!.fieldId!];
       if (controller == null) {
-        _controllers.putIfAbsent(item.field!.fieldId!, () => (TextEditingController(text: item.field!.defaultValue), item));
+        _controllers.putIfAbsent(
+          item.field!.fieldId!,
+          () => (TextEditingController(text: item.field!.defaultValue), item),
+        );
       } else {
         _controllers[item.field!.fieldId!] = (controller.$1, item);
       }
@@ -169,18 +187,18 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
         return BlocConsumer<PayeeBloc, PayeeState>(
           listener: _handlePayeeState,
           builder: (context, payeeState) {
-            return BlocBuilder<ScheduleBloc, ScheduleState>(
-              builder: (context, scheduleState) {
-                final isLoading = generalState is ProcessingRequest || payeeState is AddingPayee || scheduleState is AddingSchedule;
+            final isLoading = generalState is ProcessingRequest || payeeState is AddingPayee;
 
-                final actionText = switch (widget.amDoing) {
-                  AmDoing.createSchedule => 'Schedule',
-                  AmDoing.addPayee => 'Save',
-                  _ => 'Send',
-                };
+            final actionText = switch (widget.amDoing) {
+              AmDoing.createSchedule => 'Schedule',
+              AmDoing.addPayee => 'Save',
+              _ => 'Send',
+            };
 
-                return FormButton(loading: isLoading, onPressed: _confirm, text: 'Confirm & $actionText');
-              },
+            return FormButton(
+              loading: isLoading,
+              onPressed: _confirm,
+              text: 'Confirm & $actionText',
             );
           },
         );
@@ -209,9 +227,14 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
                     continue;
                   }
 
-                  final fieldName = item.field!.fieldName!.replaceRange(0, 1, item.field!.fieldName![0].toLowerCase());
+                  final fieldName = item.field!.fieldName!.replaceRange(
+                    0,
+                    1,
+                    item.field!.fieldName![0].toLowerCase(),
+                  );
                   if (payee.formData?.containsKey(fieldName) ?? false) {
-                    entry.value.$1.text = '${FormMultipleInputPlus.autoFill}${payee.formData![fieldName]}';
+                    entry.value.$1.text =
+                        '${FormMultipleInputPlus.autoFill}${payee.formData![fieldName]}';
                   }
                 }
                 setState(() {});
@@ -232,10 +255,23 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
   /// Build preview summary
   List<Widget> _generatePreviewData() {
-    final list = <Widget>[SummaryTile(label: 'Service', value: widget.formData.form?.formName ?? '', verticalPadding: _controllers.isEmpty ? 8 : 5), const Divider(color: Color(0xffF8F8F8))];
+    final list = <Widget>[
+      SummaryTile(
+        label: 'Service',
+        value: widget.formData.form?.formName ?? '',
+        verticalPadding: _controllers.isEmpty ? 8 : 5,
+      ),
+      const Divider(color: Color(0xffF8F8F8)),
+    ];
 
     for (var element in widget.verifyData.data!.previewData!) {
-      list.add(SummaryTile(label: element.key ?? '', value: element.value ?? '', verticalPadding: _controllers.isEmpty ? 8 : 5));
+      list.add(
+        SummaryTile(
+          label: element.key ?? '',
+          value: element.value ?? '',
+          verticalPadding: _controllers.isEmpty ? 8 : 5,
+        ),
+      );
       list.add(const Divider(color: Color(0xffF8F8F8)));
 
       if (element.key?.toLowerCase() == 'amount') {
@@ -277,7 +313,20 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
   }
 
   Map<String, dynamic>? _buildPayload() {
-    return FormMultipleInputPlus.getFormData(controllers: _controllers, preGeneralFieldDatum: widget.formData.fieldsDatum?.where((e) => e.field?.fieldVisible != 1 || e.field?.readOnly == 1 || e.field?.requiredForVerification == 1).toList() ?? [], formData: widget.verifyData.data?.formData ?? {});
+    return FormMultipleInputPlus.getFormData(
+      controllers: _controllers,
+      preGeneralFieldDatum:
+          widget.formData.fieldsDatum
+              ?.where(
+                (e) =>
+                    e.field?.fieldVisible != 1 ||
+                    e.field?.readOnly == 1 ||
+                    e.field?.requiredForVerification == 1,
+              )
+              .toList() ??
+          [],
+      formData: widget.verifyData.data?.formData ?? {},
+    );
   }
 
   bool _validateScheduleInputs() {
@@ -308,7 +357,12 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
   }
 
   /// Handle completion after authentication
-  void _complete({String? pin, String? secretAnswer, String? otp, required Map<String, dynamic> payload}) {
+  void _complete({
+    String? pin,
+    String? secretAnswer,
+    String? otp,
+    required Map<String, dynamic> payload,
+  }) {
     final request = ProcessRequestModel(
       activityId: widget.activity.activity?.activityId ?? '',
       formId: widget.verifyData.data?.formId ?? '',
@@ -322,11 +376,15 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
       case AmDoing.addPayee:
         context.read<PayeeBloc>().add(AddPayee(routeName: _id, payment: request, payload: payload));
         break;
-      case AmDoing.createSchedule:
-        context.read<ScheduleBloc>().add(AddSchedule(routeName: _id, request: request, payload: payload, schedulePayload: {'ExecutionType': _executionType, 'NextExecutionDate': _nextExecutionDate}));
-        break;
       default:
-        context.read<GeneralFlowBloc>().add(ProcessRequest(routeName: _id, activityType: widget.activityType, request: request, payload: payload));
+        context.read<GeneralFlowBloc>().add(
+          ProcessRequest(
+            routeName: _id,
+            activityType: widget.activityType,
+            request: request,
+            payload: payload,
+          ),
+        );
     }
   }
 
@@ -357,9 +415,7 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
   /// Handle payee state changes
   void _handlePayeeState(BuildContext context, PayeeState state) {
-    if (state is PayeeAdded && state.routeName == _id) {
-      MessageUtil.displaySuccessDialog(context, message: state.result.message, onOk: () => context.go(PayeesPage.routeName));
-    } else if (state is AddPayeeError && state.routeName == _id) {
+    if (state is AddPayeeError && state.routeName == _id) {
       MessageUtil.displayErrorDialog(context, message: state.result.message);
     }
   }
@@ -371,14 +427,22 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
         title: 'Success',
         result: result,
         onClose: () {
-          final destinations = ['/', DashboardPage.routeName, PayeesPage.routeName, HistoryPage.routeName, MorePage.routeName];
+          final destinations = [
+            '/',
+            DashboardPage.routeName,
+            CollectionsPage.routeName,
+            HistoryPage.routeName,
+            MorePage.routeName,
+          ];
 
           while (!destinations.contains(GoRouter.of(context).state.path)) {
             context.pop();
           }
         },
         onSaveBeneficiary: () {
-          context.read<GeneralFlowBloc>().add(SaveBeneficiary(routeName: _id, payload: result.data!));
+          context.read<GeneralFlowBloc>().add(
+            SaveBeneficiary(routeName: _id, payload: result.data!),
+          );
         },
         onScheduleTransaction: () {
           context.push(
@@ -386,13 +450,23 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
             extra: {
               'form': widget.formData.form,
               'amDoing': AmDoing.createScheduleFromPayee,
-              'activity': ActivityDatum(activity: Activity(activityType: widget.formData.form!.activityType)),
+              'activity': ActivityDatum(
+                activity: Activity(activityType: widget.formData.form!.activityType),
+              ),
               'receiptId': result.data!.receiptId,
             },
           );
         },
         onShowReceipt: () async {
-          context.push(ReceiptPage.routeName, extra: {'request': result.data, 'fblLogo': result.data?.fblLogo ?? '', 'imageBaseUrl': result.imageBaseUrl, 'imageDirectory': result.imageDirectory});
+          context.push(
+            ReceiptPage.routeName,
+            extra: {
+              'request': result.data,
+              'fblLogo': result.data?.fblLogo ?? '',
+              'imageBaseUrl': result.imageBaseUrl,
+              'imageDirectory': result.imageDirectory,
+            },
+          );
         },
       );
     } else {
@@ -444,7 +518,11 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
               Text(
                 state.result.message,
                 textAlign: TextAlign.center,
-                style: PrimaryTextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: const Color(0xff4F4F4F)),
+                style: PrimaryTextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                  color: const Color(0xff4F4F4F),
+                ),
               ),
               const SizedBox(height: 30),
               if (widget.formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
@@ -462,17 +540,27 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
                   },
                   text: 'Ok',
                 ),
-              if (widget.formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a') const SizedBox(height: 15),
+              if (widget.formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
+                const SizedBox(height: 15),
               if (widget.formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
                 FormOutlineButton(
                   onPressed: () {
                     context.push(
                       ProcessFormPage.routeName,
                       extra: {
-                        'form': GeneralFlowForm(activityType: ActivityTypesConst.quickFlow, formName: 'Submit a complaint', categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc', formId: '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a'),
+                        'form': GeneralFlowForm(
+                          activityType: ActivityTypesConst.quickFlow,
+                          formName: 'Submit a complaint',
+                          categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
+                          formId: '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a',
+                        ),
                         'amDoing': AmDoing.transaction,
                         'activity': ActivityDatum(
-                          activity: Activity(activityId: '0fdc593e-89f2-4950-a491-75c66749bbcc', activityType: ActivityTypesConst.quickFlow, accessType: 'CUSTOMER'),
+                          activity: Activity(
+                            activityId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
+                            activityType: ActivityTypesConst.quickFlow,
+                            accessType: 'CUSTOMER',
+                          ),
                         ),
                       },
                     );
@@ -488,7 +576,13 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 }
 
 class SummaryTile extends StatelessWidget {
-  const SummaryTile({super.key, required this.label, required this.value, this.allBold = false, this.verticalPadding = 8});
+  const SummaryTile({
+    super.key,
+    required this.label,
+    required this.value,
+    this.allBold = false,
+    this.verticalPadding = 8,
+  });
 
   final String label;
   final String value;
@@ -505,14 +599,21 @@ class SummaryTile extends StatelessWidget {
             child: Text(
               label,
               textAlign: TextAlign.left,
-              style: PrimaryTextStyle(color: allBold ? null : const Color(0xff919195), fontSize: 14, fontWeight: allBold ? FontWeight.bold : FontWeight.normal),
+              style: PrimaryTextStyle(
+                color: allBold ? null : const Color(0xff919195),
+                fontSize: 14,
+                fontWeight: allBold ? FontWeight.bold : FontWeight.normal,
+              ),
             ),
           ),
           Expanded(
             child: Text(
               value,
               textAlign: TextAlign.right,
-              style: PrimaryTextStyle(fontSize: 14, fontWeight: allBold ? FontWeight.bold : FontWeight.w600),
+              style: PrimaryTextStyle(
+                fontSize: 14,
+                fontWeight: allBold ? FontWeight.bold : FontWeight.w600,
+              ),
             ),
           ),
         ],

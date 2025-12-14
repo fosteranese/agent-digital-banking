@@ -27,7 +27,7 @@ class FormPasswordInput extends StatefulWidget {
     this.onChange,
     this.focus,
     this.zeroLeftPadding = false,
-    this.borderRadius = 10,
+    this.borderRadius = 4,
     this.color = Colors.white,
     this.contentPadding,
     this.decoration,
@@ -83,12 +83,10 @@ class FormPasswordInput extends StatefulWidget {
   final bool isPin;
 
   @override
-  State<FormPasswordInput> createState() =>
-      _FormPasswordInputState();
+  State<FormPasswordInput> createState() => _FormPasswordInputState();
 }
 
-class _FormPasswordInputState
-    extends State<FormPasswordInput> {
+class _FormPasswordInputState extends State<FormPasswordInput> {
   bool _hidePassword = true;
   late final FocusNode _focus;
   late Color? _iconColor = widget.visibilityColor;
@@ -113,13 +111,9 @@ class _FormPasswordInputState
     final passwordVisibility = IconButton(
       onPressed: _togglePasswordVisibility,
       icon: SvgPicture.asset(
-        _hidePassword
-            ? 'assets/img/show-outline.svg'
-            : 'assets/img/hide.svg',
+        _hidePassword ? 'assets/img/show-outline.svg' : 'assets/img/hide.svg',
         width: 20,
-        colorFilter: _iconColor != null
-            ? ColorFilter.mode(_iconColor!, BlendMode.srcIn)
-            : null,
+        colorFilter: _iconColor != null ? ColorFilter.mode(_iconColor!, BlendMode.srcIn) : null,
       ),
     );
     return Column(
@@ -131,35 +125,24 @@ class _FormPasswordInputState
           controller: widget.controller,
           key: widget.key,
           keyboardType: widget.isPin
-              ? TextInputType.numberWithOptions(
-                  decimal: false,
-                  signed: false,
-                )
+              ? TextInputType.numberWithOptions(decimal: false, signed: false)
               : widget.keyboardType,
           textInputAction: widget.textInputAction,
           label: widget.label,
-          // labelStyle: widget.labelStyle,
+          labelStyle: widget.labelStyle,
           onSuccess: widget.onSuccess,
           placeholder: widget.placeholder,
           prefix: widget.prefix,
-          showIconOnFailedValidation:
-              widget.showIconOnFailedValidation,
-          showIconOnSuccessfulValidation:
-              widget.showIconOnFailedValidation,
+          showIconOnFailedValidation: widget.showIconOnFailedValidation,
+          showIconOnSuccessfulValidation: widget.showIconOnFailedValidation,
           suffix: widget.suffix != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    passwordVisibility,
-                    widget.suffix!,
-                  ],
+                  children: [passwordVisibility, widget.suffix!],
                 )
               : passwordVisibility,
           validation: widget.validation,
-          // info: widget.info,
-          visibilityBorderColor:
-              widget.visibilityBorderColor,
           inputHeight: widget.inputHeight,
           onChange: widget.onChange,
           focus: _focus,
@@ -172,25 +155,14 @@ class _FormPasswordInputState
           decoration: widget.decoration,
           focusedColor: widget.focusedColor,
           inputFormatters: widget.isPin
-              ? [
-                  ...widget.inputFormatters ?? [],
-                  FilteringTextInputFormatter.digitsOnly,
-                ]
+              ? [...widget.inputFormatters ?? [], FilteringTextInputFormatter.digitsOnly]
               : widget.inputFormatters,
           readOnly: widget.readOnly,
           tooltip: widget.isNew ? null : widget.tooltip,
-          showNumberToolbar: widget.isPin
-              ? true
-              : widget.showNumberToolbar,
+          showNumberToolbar: widget.isPin ? true : widget.showNumberToolbar,
           placeholderStyle: widget.placeholderStyle,
+          info: widget.info,
         ),
-        if (widget.info != null)
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: widget.bottomSpace,
-            ),
-            child: widget.info!,
-          ),
         if (widget.isNew && !widget.isPin)
           PasswordStrengthChecker(
             controller: widget.controller!,
@@ -198,9 +170,7 @@ class _FormPasswordInputState
               // _passwordStatus = status;
             },
           ),
-        if (widget.isNew &&
-            widget.isPin &&
-            (widget.tooltip?.isNotEmpty ?? false))
+        if (widget.isNew && widget.isPin && (widget.tooltip?.isNotEmpty ?? false))
           PinInfo(info: widget.tooltip!),
       ],
     );

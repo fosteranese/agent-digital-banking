@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
-import 'package:my_sage_agent/blocs/schedule/schedule_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
@@ -14,19 +13,29 @@ import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
 import 'package:my_sage_agent/ui/components/process_flow/process_controller.dart';
+import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
-import 'package:my_sage_agent/ui/pages/recipient/recipient.page.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class FormSubmitButton extends StatelessWidget {
-  const FormSubmitButton({super.key, required this.id, required this.formData, required this.amDoing, required this.controllers, required this.loader, required this.scheduleType, required this.scheduleDate, required this.activity});
+  const FormSubmitButton({
+    super.key,
+    required this.id,
+    required this.formData,
+    required this.amDoing,
+    required this.controllers,
+    required this.loader,
+    required this.scheduleType,
+    required this.scheduleDate,
+    required this.activity,
+  });
 
   final String id;
   final GeneralFlowFormData formData;
@@ -63,21 +72,17 @@ class FormSubmitButton extends StatelessWidget {
       builder: (context, state) {
         return BlocConsumer<PayeeBloc, PayeeState>(
           listener: (context, state1) {
-            if (state1 is PayeeAdded && state1.routeName == id) {
-              MessageUtil.displaySuccessDialog(context, message: state1.result.message, onOk: () => context.go(PayeesPage.routeName));
-              return;
-            }
-
             if (state1 is AddPayeeError && state1.routeName == id) {
               MessageUtil.displayErrorDialog(context, message: state1.result.message);
               return;
             }
           },
           builder: (context, state1) {
-            return BlocBuilder<ScheduleBloc, ScheduleState>(
-              builder: (context, state2) {
-                return FormButton(loading: state is ProcessingRequest || state is VerifyingRequest || state1 is AddingPayee || state2 is AddingSchedule, text: _submitText, onPressed: () => _confirm(context));
-              },
+            return FormButton(
+              loading:
+                  state is ProcessingRequest || state is VerifyingRequest || state1 is AddingPayee,
+              text: _submitText,
+              onPressed: () => _confirm(context),
             );
           },
         );
@@ -102,7 +107,15 @@ class FormSubmitButton extends StatelessWidget {
   }
 
   void _confirm(BuildContext context) {
-    final controller = ProcessFormController(context: context, formData: formData, amDoing: amDoing, id: id, controllers: controllers, loader: loader, activity: activity);
+    final controller = ProcessFormController(
+      context: context,
+      formData: formData,
+      amDoing: amDoing,
+      id: id,
+      controllers: controllers,
+      loader: loader,
+      activity: activity,
+    );
 
     controller.submit(scheduleType: scheduleType.text, scheduleDate: scheduleDate.text);
   }
@@ -113,20 +126,41 @@ class FormSubmitButton extends StatelessWidget {
       title: 'Success',
       result: state.result,
       onClose: () {
-        final destinations = ['/', DashboardPage.routeName, PayeesPage.routeName, HistoryPage.routeName, MorePage.routeName];
+        final destinations = [
+          '/',
+          DashboardPage.routeName,
+          CollectionsPage.routeName,
+          HistoryPage.routeName,
+          MorePage.routeName,
+        ];
 
         while (!destinations.contains(GoRouter.of(context).state.path)) {
           context.pop();
         }
       },
       onSaveBeneficiary: () {
-        context.read<GeneralFlowBloc>().add(SaveBeneficiary(routeName: id, payload: state.result.data!));
+        context.read<GeneralFlowBloc>().add(
+          SaveBeneficiary(routeName: id, payload: state.result.data!),
+        );
       },
       onScheduleTransaction: () {
-        context.read<GeneralFlowBloc>().add(PrepareScheduler(routeName: DashboardPage.routeName, receiptId: state.result.data!.receiptId));
+        context.read<GeneralFlowBloc>().add(
+          PrepareScheduler(
+            routeName: DashboardPage.routeName,
+            receiptId: state.result.data!.receiptId,
+          ),
+        );
       },
       onShowReceipt: () async {
-        context.push(ReceiptPage.routeName, extra: {'request': state.result.data, 'fblLogo': state.result.data?.fblLogo ?? '', 'imageBaseUrl': state.result.imageBaseUrl, 'imageDirectory': state.result.imageDirectory});
+        context.push(
+          ReceiptPage.routeName,
+          extra: {
+            'request': state.result.data,
+            'fblLogo': state.result.data?.fblLogo ?? '',
+            'imageBaseUrl': state.result.imageBaseUrl,
+            'imageDirectory': state.result.imageDirectory,
+          },
+        );
       },
     );
   }
@@ -160,7 +194,11 @@ class FormSubmitButton extends StatelessWidget {
               Text(
                 state.result.message,
                 textAlign: TextAlign.center,
-                style: PrimaryTextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: const Color(0xff4F4F4F)),
+                style: PrimaryTextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                  color: const Color(0xff4F4F4F),
+                ),
               ),
               const SizedBox(height: 30),
               if (formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
@@ -178,17 +216,27 @@ class FormSubmitButton extends StatelessWidget {
                   },
                   text: 'Ok',
                 ),
-              if (formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a') const SizedBox(height: 15),
+              if (formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
+                const SizedBox(height: 15),
               if (formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
                 FormOutlineButton(
                   onPressed: () {
                     context.push(
                       ProcessFormPage.routeName,
                       extra: {
-                        'form': GeneralFlowForm(activityType: ActivityTypesConst.quickFlow, formName: 'Submit a complaint', categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc', formId: '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a'),
+                        'form': GeneralFlowForm(
+                          activityType: ActivityTypesConst.quickFlow,
+                          formName: 'Submit a complaint',
+                          categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
+                          formId: '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a',
+                        ),
                         'amDoing': AmDoing.transaction,
                         'activity': ActivityDatum(
-                          activity: Activity(activityId: '0fdc593e-89f2-4950-a491-75c66749bbcc', activityType: ActivityTypesConst.quickFlow, accessType: 'CUSTOMER'),
+                          activity: Activity(
+                            activityId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
+                            activityType: ActivityTypesConst.quickFlow,
+                            accessType: 'CUSTOMER',
+                          ),
                         ),
                       },
                     );

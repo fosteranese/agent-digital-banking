@@ -1,10 +1,7 @@
 import 'package:intl/intl.dart';
 
 class FormatterUtil {
-  static final currencyFormatter = NumberFormat(
-    "#,##0.00",
-    "en_US",
-  );
+  static final currencyFormatter = NumberFormat("#,##0.00", "en_US");
 
   static String currency(dynamic amount) {
     return currencyFormatter.format(amount);
@@ -19,17 +16,11 @@ class FormatterUtil {
 
     s = value - (h * 3600) - (m * 60);
 
-    String hourLeft = h.toString().length < 2
-        ? "0$h"
-        : h.toString();
+    String hourLeft = h.toString().length < 2 ? "0$h" : h.toString();
 
-    String minuteLeft = m.toString().length < 2
-        ? "0$m"
-        : m.toString();
+    String minuteLeft = m.toString().length < 2 ? "0$m" : m.toString();
 
-    String secondsLeft = s.toString().length < 2
-        ? "0$s"
-        : s.toString();
+    String secondsLeft = s.toString().length < 2 ? "0$s" : s.toString();
 
     String result = '';
     if (hourLeft != '00') {
@@ -45,15 +36,16 @@ class FormatterUtil {
     return result;
   }
 
+  static String fullDate(DateTime date) {
+    final DateFormat formatter = DateFormat('MMM dd yyyy HH:mm:A');
+    return formatter.format(date);
+  }
+
   String formattedTime({required int timeInSecond}) {
     int sec = timeInSecond % 60;
     int min = (timeInSecond / 60).floor();
-    String minute = min.toString().length <= 1
-        ? "0$min"
-        : "$min";
-    String second = sec.toString().length <= 1
-        ? "0$sec"
-        : "$sec";
+    String minute = min.toString().length <= 1 ? "0$min" : "$min";
+    String second = sec.toString().length <= 1 ? "0$sec" : "$sec";
     return "$minute:$second";
   }
 

@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class QuickAccessCard extends StatelessWidget {
-  const QuickAccessCard({super.key, required this.title, required this.onTap, this.isPrimary = false, this.icon, this.img});
+  const QuickAccessCard({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.isPrimary = false,
+    this.icon,
+    this.img,
+  });
 
   final String title;
   final IconData? icon;
@@ -28,20 +35,31 @@ class QuickAccessCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon != null) Icon(icon, size: 20, color: isPrimary ? Color(0xffF8F8F8) : Colors.black),
+            if (icon != null)
+              Icon(icon, size: 20, color: isPrimary ? Color(0xffF8F8F8) : Colors.black),
             if (img != null)
               Builder(
                 builder: (context) {
                   if (img?.isEmpty ?? true) {
-                    return Icon(Icons.circle_outlined, color: isPrimary ? Color(0xffF8F8F8) : Colors.black);
+                    return Icon(
+                      Icons.circle_outlined,
+                      color: isPrimary ? Color(0xffF8F8F8) : Colors.black,
+                    );
                   }
 
                   if (img?.startsWith('http') ?? false) {
                     return CachedNetworkImage(
                       imageUrl: img!,
                       width: 20,
-                      placeholder: (context, url) => Icon(Icons.circle_outlined, color: isPrimary ? Color(0xffF8F8F8) : Colors.black),
-                      errorWidget: (context, url, error) => Icon(Icons.circle_outlined, color: isPrimary ? Color(0xffF8F8F8) : Colors.black, size: 20),
+                      placeholder: (context, url) => Icon(
+                        Icons.circle_outlined,
+                        color: isPrimary ? Color(0xffF8F8F8) : Colors.black,
+                      ),
+                      errorWidget: (context, url, error) => Icon(
+                        Icons.circle_outlined,
+                        color: isPrimary ? Color(0xffF8F8F8) : Colors.black,
+                        size: 20,
+                      ),
                     );
                   }
 
@@ -54,7 +72,11 @@ class QuickAccessCard extends StatelessWidget {
                 title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: PrimaryTextStyle(fontSize: 13, color: isPrimary ? Color(0xffF8F8F8) : Colors.black, height: 1.2),
+                style: PrimaryTextStyle(
+                  fontSize: 13,
+                  color: isPrimary ? Color(0xffF8F8F8) : Colors.black,
+                  height: 1.2,
+                ),
               ),
             ),
           ],

@@ -29,15 +29,7 @@ class _OtpLoginPageState extends State<OtpLoginPage> {
 
   @override
   void initState() {
-    final state = context.read<AuthBloc>().state;
-    if (state is LoginVerified) {
-      _data = state.data;
-      _resendPayload = state.resendPayload;
-    } else if (state is SecurityAnswerLoginSet) {
-      _data = state.data;
-      _resendPayload = VerifyLoginRequest(requestId: state.resendPayload['requestId'], securityAnswer: state.resendPayload['answer']);
-      _question = state.resendPayload['question']!;
-    }
+    _data = context.read<AuthBloc>().signIn!;
 
     super.initState();
   }
@@ -53,7 +45,9 @@ class _OtpLoginPageState extends State<OtpLoginPage> {
           length: _data.otpData!.length ?? 6,
           onCompleted: (String otp) {
             _otp = otp;
-            context.read<AuthBloc>().add(CompleteLogin(OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: _otp)));
+            context.read<AuthBloc>().add(
+              CompleteLogin(OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: _otp)),
+            );
           },
           onResendShortCode: () {
             if (_question.isEmpty) {
@@ -81,7 +75,10 @@ class _OtpLoginPageState extends State<OtpLoginPage> {
 
             if (state is SecurityAnswerLoginReset) {
               _data = state.data;
-              _resendPayload = VerifyLoginRequest(requestId: state.resendPayload['requestId'], securityAnswer: state.resendPayload['answer']);
+              _resendPayload = VerifyLoginRequest(
+                requestId: state.resendPayload['requestId'],
+                securityAnswer: state.resendPayload['answer'],
+              );
               _question = state.resendPayload['question']!;
 
               MessageUtil.displaySuccessDialog(context, message: 'Code resent');
@@ -112,10 +109,17 @@ class _OtpLoginPageState extends State<OtpLoginPage> {
           },
           builder: (context, state) {
             return FormButton(
-              loading: state is CompletingLogin || state is ResettingSecurityAnswerLogin || state is ReVerifyingLogin,
+              loading:
+                  state is CompletingLogin ||
+                  state is ResettingSecurityAnswerLogin ||
+                  state is ReVerifyingLogin,
               text: 'Verify',
               onPressed: () {
-                context.read<AuthBloc>().add(CompleteLogin(OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: _otp)));
+                context.read<AuthBloc>().add(
+                  CompleteLogin(
+                    OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: _otp),
+                  ),
+                );
               },
             );
           },
