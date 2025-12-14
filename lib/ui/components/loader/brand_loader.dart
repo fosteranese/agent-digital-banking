@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class BrandLoader extends StatefulWidget {
   const BrandLoader({super.key});
@@ -20,14 +21,8 @@ class _BrandLoaderState extends State<BrandLoader> {
           width: 100,
           alignment: Alignment.center,
           padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: LoadingAnimationWidget.inkDrop(
-            color: Theme.of(context).primaryColor,
-            size: 40,
-          ),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
         ),
       ],
     );

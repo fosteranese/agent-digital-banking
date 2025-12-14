@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../utils/theme.util.dart';
 import 'form/button.dart';
@@ -39,12 +39,10 @@ class MyAlertMessenger extends StatefulWidget {
   final Widget? image;
 
   @override
-  State<MyAlertMessenger> createState() =>
-      _MyAlertMessengerState();
+  State<MyAlertMessenger> createState() => _MyAlertMessengerState();
 }
 
-class _MyAlertMessengerState
-    extends State<MyAlertMessenger> {
+class _MyAlertMessengerState extends State<MyAlertMessenger> {
   EdgeInsetsGeometry? get _setPadding {
     switch (widget.messageType) {
       case MessageType.content:
@@ -61,8 +59,7 @@ class _MyAlertMessengerState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor:
-          widget.messageType == MessageType.tooltip
+      backgroundColor: widget.messageType == MessageType.tooltip
           ? const Color(0xff54534A)
           : Colors.white,
       surfaceTintColor: Colors.transparent,
@@ -79,9 +76,7 @@ class _MyAlertMessengerState
                       SvgPicture.asset(
                         'assets/img/success.svg',
                         width: 80,
-                        theme: const SvgTheme(
-                          currentColor: Colors.red,
-                        ),
+                        theme: const SvgTheme(currentColor: Colors.red),
                       ),
                   const SizedBox(height: 20),
                   Text(
@@ -101,18 +96,13 @@ class _MyAlertMessengerState
                   SvgPicture.asset(
                     'assets/img/warning.svg',
                     width: 100,
-                    theme: const SvgTheme(
-                      currentColor: Colors.red,
-                    ),
+                    theme: const SvgTheme(currentColor: Colors.red),
                   ),
                   const SizedBox(height: 20),
                   Text(
                     'Warning',
                     textAlign: TextAlign.center,
-                    style: PrimaryTextStyle(
-                      color: Colors.amber,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: PrimaryTextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
                   ),
                 ],
               );
@@ -125,13 +115,10 @@ class _MyAlertMessengerState
                   Text(
                     'Oh No!',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall!
-                        .copyWith(
-                          color: Colors.red,
-                          fontWeight: FontWeight.w700,
-                        ),
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               );
@@ -158,10 +145,7 @@ class _MyAlertMessengerState
               return Text(
                 'Info',
                 textAlign: TextAlign.center,
-                style: PrimaryTextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: PrimaryTextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               );
             case MessageType.tooltip:
               return const SizedBox();
@@ -169,13 +153,10 @@ class _MyAlertMessengerState
             case MessageType.actions:
               return Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
-                    onPressed:
-                        widget.close ??
-                        () => Navigator.of(context).pop(),
+                    onPressed: widget.close ?? () => Navigator.of(context).pop(),
                     icon: const Icon(Icons.clear),
                   ),
                 ],
@@ -195,8 +176,7 @@ class _MyAlertMessengerState
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment:
-                    CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 50),
                   Container(
@@ -206,22 +186,15 @@ class _MyAlertMessengerState
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: LoadingAnimationWidget.inkDrop(
-                      color: Theme.of(context).primaryColor,
-                      size: 40,
-                    ),
+                    child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
                   ),
                   const SizedBox(height: 30),
                   Text(
                     textAlign: TextAlign.center,
                     widget.message,
-                    style: PrimaryTextStyle(
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: PrimaryTextStyle(fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 50),
                 ],
@@ -231,36 +204,24 @@ class _MyAlertMessengerState
                 width: double.maxFinite,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment:
-                      MainAxisAlignment.start,
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       widget.message,
                       textAlign: TextAlign.left,
-                      style: PrimaryTextStyle(
-                        color: Colors.white,
-                      ),
+                      style: PrimaryTextStyle(color: Colors.white),
                     ),
                     const SizedBox(height: 10),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: InkWell(
-                        onTap:
-                            widget.close ??
-                            () =>
-                                Navigator.of(context).pop(),
-                        borderRadius: BorderRadius.circular(
-                          20,
-                        ),
+                        onTap: widget.close ?? () => Navigator.of(context).pop(),
+                        borderRadius: BorderRadius.circular(20),
                         child: Text(
                           'Close',
                           textAlign: TextAlign.end,
-                          style: PrimaryTextStyle(
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
+                          style: PrimaryTextStyle(fontWeight: FontWeight.w700, color: Colors.white),
                         ),
                       ),
                     ),
@@ -281,10 +242,7 @@ class _MyAlertMessengerState
               return Text(
                 widget.message,
                 textAlign: TextAlign.center,
-                style: PrimaryTextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                ),
+                style: PrimaryTextStyle(fontWeight: FontWeight.w400, fontSize: 16),
               );
           }
         },
@@ -305,13 +263,9 @@ class _MyAlertMessengerState
   RoundedRectangleBorder get _shape {
     switch (widget.messageType) {
       case MessageType.tooltip:
-        return RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        );
+        return RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
       default:
-        return RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
-        );
+        return RoundedRectangleBorder(borderRadius: BorderRadius.circular(18));
     }
   }
 
@@ -331,9 +285,7 @@ class _MyAlertMessengerState
             width: double.maxFinite,
             child: FormButton(
               text: 'Got it',
-              onPressed:
-                  widget.close ??
-                  () => Navigator.of(context).pop(),
+              onPressed: widget.close ?? () => Navigator.of(context).pop(),
             ),
           ),
         ];
@@ -346,9 +298,7 @@ class _MyAlertMessengerState
                 width: double.maxFinite,
                 child: FormButton(
                   text: 'Try again',
-                  onPressed:
-                      widget.close ??
-                      () => Navigator.of(context).pop(),
+                  onPressed: widget.close ?? () => Navigator.of(context).pop(),
                 ),
               ),
               // const SizedBox(height: 20),

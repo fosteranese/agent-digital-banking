@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class DashboardActions extends StatelessWidget {
@@ -59,7 +61,12 @@ class DashboardActions extends StatelessWidget {
                 ),
                 children: _actions.map((item) {
                   return InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      MessageUtil.displayLoading(context);
+                      Future.delayed(const Duration(seconds: 3), () {
+                        context.pop();
+                      });
+                    },
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
                       height: double.maxFinite,

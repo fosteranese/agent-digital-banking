@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../blocs/app/app_bloc.dart';
 import '../../constants/status.const.dart';
@@ -138,10 +138,7 @@ class IntroPageState extends State<IntroPage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: LoadingAnimationWidget.inkDrop(
-                color: Theme.of(context).primaryColor,
-                size: 40,
-              ),
+              child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
             ),
           );
         }

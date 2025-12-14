@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
@@ -15,6 +15,7 @@ final class MessageUtil {
       useSafeArea: true,
       barrierDismissible: false,
       requestFocus: true,
+      barrierColor: Colors.white70,
       builder: (context) => ZoomIn(
         child: FadeIn(
           child: Dialog(
@@ -26,22 +27,17 @@ final class MessageUtil {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox.square(
-                    dimension: 70,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        LoadingAnimationWidget.threeArchedCircle(color: ThemeUtil.secondaryColor, size: 70),
-                        Padding(padding: EdgeInsets.all(15), child: Image.asset('assets/img/logo.png')),
-                      ],
-                    ),
-                  ),
+                  CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
                   if (message != null) const SizedBox(height: 5),
                   if (message != null)
                     Text(
                       message,
                       textAlign: TextAlign.center,
-                      style: PrimaryTextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                      style: PrimaryTextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                 ],
               ),
@@ -52,7 +48,14 @@ final class MessageUtil {
     );
   }
 
-  static void displayErrorDialog(BuildContext context, {String? title, String? message, String okButtonText = 'Ok', void Function()? onOkPressed, Widget? customButton}) {
+  static void displayErrorDialog(
+    BuildContext context, {
+    String? title,
+    String? message,
+    String okButtonText = 'Ok',
+    void Function()? onOkPressed,
+    Widget? customButton,
+  }) {
     showDialog(
       barrierColor: Colors.black.withAlpha((0.8 * 224).toInt()),
       context: context,
@@ -75,7 +78,11 @@ final class MessageUtil {
                     Text(
                       title,
                       textAlign: TextAlign.center,
-                      style: PrimaryTextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20),
+                      style: PrimaryTextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   if (message != null) const SizedBox(height: 5),
                   if (message != null)
@@ -105,7 +112,12 @@ final class MessageUtil {
     );
   }
 
-  static void displaySuccessDialog(BuildContext context, {String? title, String? message, void Function()? onOk}) {
+  static void displaySuccessDialog(
+    BuildContext context, {
+    String? title,
+    String? message,
+    void Function()? onOk,
+  }) {
     showDialog(
       barrierColor: Colors.black.withAlpha((0.8 * 224).toInt()),
       context: context,
@@ -132,7 +144,11 @@ final class MessageUtil {
                     Text(
                       title,
                       textAlign: TextAlign.center,
-                      style: PrimaryTextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+                      style: PrimaryTextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   if (message != null) const SizedBox(height: 10),
                   if (message != null)
@@ -161,7 +177,16 @@ final class MessageUtil {
     );
   }
 
-  static void displayActionDialog(BuildContext context, {String? title, String? message, required void Function() onConfirm, Color onConfirmButtonColor = ThemeUtil.secondaryColor, Color onConfirmButtonTextColor = ThemeUtil.primaryColor, Widget? icon, String onConfirmText = 'Confirm'}) {
+  static void displayActionDialog(
+    BuildContext context, {
+    String? title,
+    String? message,
+    required void Function() onConfirm,
+    Color onConfirmButtonColor = ThemeUtil.secondaryColor,
+    Color onConfirmButtonTextColor = ThemeUtil.primaryColor,
+    Widget? icon,
+    String onConfirmText = 'Confirm',
+  }) {
     showDialog(
       barrierColor: Colors.black.withAlpha((0.8 * 224).toInt()),
       context: context,
