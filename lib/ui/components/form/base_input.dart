@@ -29,7 +29,7 @@ class BaseFormInput extends StatefulWidget {
     this.info,
     this.readOnly = false,
     this.onTap,
-    this.inputHeight = 50,
+    this.inputHeight = 48,
     this.focus,
     this.onChange,
     this.zeroLeftPadding = false,
@@ -284,7 +284,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
     return null;
   }
 
-  _onValidate() {
+  void _onValidate() {
     if (widget.validation != null) {
       _isValid = widget.validation!();
       if (_isValid == true && widget.onSuccess != null) {
@@ -312,7 +312,11 @@ class _BaseFormInputState extends State<BaseFormInput> {
       readOnly: widget.readOnly,
       style:
           widget.textStyle ??
-          const TextStyle(fontSize: 15, color: Color(0xff242424), fontWeight: FontWeight.w500),
+          const PrimaryTextStyle(
+            fontSize: 15,
+            color: Color(0xff242424),
+            fontWeight: FontWeight.w500,
+          ),
       textAlign: widget.textAlign ?? TextAlign.left,
       decoration: widget.decoration != null
           ? widget.decoration!.copyWith(
@@ -352,6 +356,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
               fillColor: _color,
             )
           : InputDecoration(
+              // counterText: ' ',
               contentPadding: widget.contentPadding,
               prefixIcon: widget.prefix != null
                   ? Padding(

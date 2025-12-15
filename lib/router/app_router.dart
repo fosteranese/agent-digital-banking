@@ -26,6 +26,7 @@ import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
+import 'package:my_sage_agent/ui/pages/register/step_1.dart';
 import 'package:my_sage_agent/ui/pages/update.page.dart';
 import 'package:my_sage_agent/ui/pages/welcome.page.dart';
 
@@ -178,5 +179,11 @@ final router = GoRouter(
       builder: (context, state) => VerifyPasswordResetPage(),
     ),
     GoRoute(path: ResetPasswordPage.routeName, builder: (context, state) => ResetPasswordPage()),
+    GoRoute(
+      path: RegisterStep1Page.routeName,
+      builder: (context, state) {
+        return const RegisterStep1Page();
+      },
+    ),
   ],
 );

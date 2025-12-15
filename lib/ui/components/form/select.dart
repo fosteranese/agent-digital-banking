@@ -28,22 +28,14 @@ class FormSelectOption extends Equatable {
   final dynamic data;
 
   @override
-  List<Object?> get props => [
-    text,
-    value,
-    icon,
-    trailing,
-    selected,
-    showOnSelected,
-    data,
-  ];
+  List<Object?> get props => [text, value, icon, trailing, selected, showOnSelected, data];
 }
 
 class FormSelect extends StatefulWidget {
   const FormSelect({
     super.key,
     this.label = '',
-    this.bottomSpace = 10,
+    this.bottomSpace = 20,
     this.prefix,
     this.controller,
     this.placeholder,
@@ -69,7 +61,7 @@ class FormSelect extends StatefulWidget {
     this.decoration,
     this.maxLength,
     this.prefixIconPadding,
-    this.inputHeight = 64,
+    this.inputHeight = 48,
     this.readOnly = false,
     this.tooltip,
     this.loading = false,
@@ -88,8 +80,7 @@ class FormSelect extends StatefulWidget {
   final String title;
   final List<FormSelectOption> options;
   final FormSelectOption? selectedOption;
-  final void Function(FormSelectOption option)?
-  onSelectedOption;
+  final void Function(FormSelectOption option)? onSelectedOption;
   final void Function()? onUnSelectedOption;
   final bool useLongList;
   final bool useTextAsSelectedDisplayItem;
@@ -113,8 +104,7 @@ class FormSelect extends StatefulWidget {
 }
 
 class _FormSelectState extends State<FormSelect> {
-  late FormSelectOption? _selectedOption =
-      widget.selectedOption;
+  late FormSelectOption? _selectedOption = widget.selectedOption;
   late final _controller = TextEditingController();
 
   @override
@@ -150,10 +140,9 @@ class _FormSelectState extends State<FormSelect> {
   }
 
   void _previouslySelected() {
-    final previousSelection = widget.options
-        .firstWhereOrNull((item) {
-          return item.value == widget.controller?.text;
-        });
+    final previousSelection = widget.options.firstWhereOrNull((item) {
+      return item.value == widget.controller?.text;
+    });
 
     if (previousSelection != null) {
       _onSelected(previousSelection);
@@ -167,19 +156,14 @@ class _FormSelectState extends State<FormSelect> {
       onTap: widget.readOnly
           ? null
           : () {
-              if (widget.onTap != null &&
-                  !widget.onTap!()) {
+              if (widget.onTap != null && !widget.onTap!()) {
                 return;
               }
 
-              if (widget.controller != null &&
-                  widget.controller!.text.isNotEmpty) {
-                _selectedOption = widget.options
-                    .firstWhereOrNull(
-                      (option) =>
-                          option.value ==
-                          widget.controller!.text,
-                    );
+              if (widget.controller != null && widget.controller!.text.isNotEmpty) {
+                _selectedOption = widget.options.firstWhereOrNull(
+                  (option) => option.value == widget.controller!.text,
+                );
               } else {
                 _selectedOption = null;
                 widget.controller?.text = '';
@@ -188,6 +172,7 @@ class _FormSelectState extends State<FormSelect> {
 
               _openMenu();
             },
+
       inputHeight: widget.inputHeight,
       bottomSpace: widget.bottomSpace,
       controller: _controller,
@@ -204,21 +189,12 @@ class _FormSelectState extends State<FormSelect> {
               child: Padding(
                 padding: EdgeInsets.all(10),
                 child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
-                  crossAxisAlignment:
-                      CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    if (!widget.loading)
-                      Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                      ),
+                    if (!widget.loading) Icon(Icons.keyboard_arrow_down_outlined),
                     if (widget.loading)
-                      SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(),
-                      ),
+                      SizedBox(height: 20, width: 20, child: CircularProgressIndicator()),
                   ],
                 ),
               ),
@@ -230,7 +206,7 @@ class _FormSelectState extends State<FormSelect> {
       textAlign: widget.textAlign,
       textStyle: widget.textStyle,
       decoration: widget.decoration,
-      maxLength: 1,
+      // maxLength: 1,
       prefixIconPadding: widget.prefixIconPadding,
       tooltip: widget.tooltip,
     );

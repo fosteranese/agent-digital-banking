@@ -1,32 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/ui/pages/register/step_1.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class DashboardActions extends StatelessWidget {
   const DashboardActions({super.key});
 
-  static const List<Map<String, dynamic>> _actions = [
+  List<Map<String, dynamic>> _actions(BuildContext context) => [
     {
+      'onPressed': () {
+        MessageUtil.displayLoading(context);
+        Future.delayed(const Duration(seconds: 3), () {
+          context.pop();
+        });
+      },
       'color': Color(0x295801B6),
       'icon': 'assets/img/client-deposit.svg',
       'title': 'Deposit for Client',
       'caption': 'Deposit for client',
     },
     {
+      'onPressed': () {
+        context.push(RegisterStep1Page.routeName);
+      },
       'color': Color(0x29034D89),
       'icon': 'assets/img/group.svg',
       'title': 'Onboard Client',
       'caption': 'Register new client',
     },
     {
+      'onPressed': () {
+        MessageUtil.displayLoading(context);
+        Future.delayed(const Duration(seconds: 3), () {
+          context.pop();
+        });
+      },
       'color': Color(0x292719CA),
       'icon': 'assets/img/invest.svg',
       'title': 'Investment',
       'caption': 'Invest for client',
     },
     {
+      'onPressed': () {
+        MessageUtil.displayLoading(context);
+        Future.delayed(const Duration(seconds: 3), () {
+          context.pop();
+        });
+      },
       'color': Color(0x2919CA74),
       'icon': 'assets/img/loan.svg',
       'title': 'Loan Request',
@@ -36,6 +58,7 @@ class DashboardActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final actions = _actions(context);
     return SliverPadding(
       padding: const .only(top: 20, left: 20, right: 20),
       sliver: SliverToBoxAdapter(
@@ -59,14 +82,9 @@ class DashboardActions extends StatelessWidget {
                   crossAxisSpacing: 16,
                   childAspectRatio: 1.2,
                 ),
-                children: _actions.map((item) {
+                children: actions.map((item) {
                   return InkWell(
-                    onTap: () {
-                      MessageUtil.displayLoading(context);
-                      Future.delayed(const Duration(seconds: 3), () {
-                        context.pop();
-                      });
-                    },
+                    onTap: item['onPressed'],
                     borderRadius: BorderRadius.circular(12),
                     child: Container(
                       height: double.maxFinite,

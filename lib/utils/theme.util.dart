@@ -23,6 +23,7 @@ class ThemeUtil {
   static const Color danger = Color(0xffE10303);
   static const Color offWhite = Color(0xffF1F1F1);
   static const Color grey = Color(0xff7D7D7D);
+  static const Color success = Color(0xff007E13);
 }
 
 class PrimaryTextStyle extends TextStyle {
