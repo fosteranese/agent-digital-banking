@@ -7,10 +7,10 @@ class ThemeUtil {
 
   static TextStyle textStyle = TextStyle(fontFamily: myriadPro);
 
-  static const primaryColor = Color(0xff57B16B);
-  static const primaryColor1 = Color(0xff0000B2);
+  // static const primaryColor = Color(0xffF9C500);
+  static const primaryColor = Color(0xff007469);
   static const primaryColorList = Color(0xff919195);
-  static const secondaryColor = Color(0xff57B16B);
+  static const secondaryColor = Color(0xffF9C500);
 
   static const Color flat = Color(0xff54534A);
   static const Color black = Color(0xff010203);

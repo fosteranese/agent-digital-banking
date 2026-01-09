@@ -28,7 +28,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         item: ItemConfig(
           icon: SvgPicture.asset(
             'assets/img/home.svg',
-            colorFilter: ColorFilter.mode(ThemeUtil.primaryColor1, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(ThemeUtil.primaryColor, BlendMode.srcIn),
             width: 24,
           ),
           inactiveIcon: SvgPicture.asset(
@@ -38,7 +38,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           title: "Home",
           iconSize: 24,
-          activeForegroundColor: ThemeUtil.primaryColor1,
+          activeForegroundColor: ThemeUtil.primaryColor,
           inactiveForegroundColor: ThemeUtil.primaryColorList,
         ),
       ),
@@ -48,7 +48,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           inactiveIcon: const Icon(Icons.people_outlined),
           title: "Collections",
           iconSize: 24,
-          activeForegroundColor: ThemeUtil.primaryColor1,
+          activeForegroundColor: ThemeUtil.primaryColor,
           inactiveForegroundColor: ThemeUtil.primaryColorList,
         ),
       ),
@@ -58,7 +58,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           inactiveIcon: const Icon(Icons.sync_alt_outlined),
           title: "Transactions",
           iconSize: 24,
-          activeForegroundColor: ThemeUtil.primaryColor1,
+          activeForegroundColor: ThemeUtil.primaryColor,
           inactiveForegroundColor: ThemeUtil.primaryColorList,
         ),
       ),
@@ -66,7 +66,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         item: ItemConfig(
           icon: SvgPicture.asset(
             'assets/img/more.svg',
-            colorFilter: ColorFilter.mode(ThemeUtil.primaryColor1, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(ThemeUtil.primaryColor, BlendMode.srcIn),
             width: 24,
           ),
           inactiveIcon: SvgPicture.asset(
@@ -76,7 +76,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           title: "More",
           iconSize: 24,
-          activeForegroundColor: ThemeUtil.primaryColor1,
+          activeForegroundColor: ThemeUtil.primaryColor,
           inactiveForegroundColor: ThemeUtil.primaryColorList,
         ),
       ),

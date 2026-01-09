@@ -168,7 +168,7 @@ class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
                             ),
                             inactiveThumbColor: Colors.white,
                             inactiveTrackColor: Color(0xffD9DADB),
-                            activeTrackColor: ThemeUtil.primaryColor1,
+                            activeTrackColor: ThemeUtil.primaryColor,
                             value: bloc.isLoginEnabled,
                             onChanged: (status) {
                               context.read<BiometricBloc>().add(BiometricLoginStatusChange(''));

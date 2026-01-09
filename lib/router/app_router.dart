@@ -26,7 +26,7 @@ import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
-import 'package:my_sage_agent/ui/pages/register/step_1.dart';
+import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 import 'package:my_sage_agent/ui/pages/update.page.dart';
 import 'package:my_sage_agent/ui/pages/welcome.page.dart';
 
@@ -77,14 +77,8 @@ final router = GoRouter(
         GoRoute(
           path: ProcessFormPage.routeName,
           builder: (context, state) {
-            final extra = state.extra as Map<String, dynamic>;
-            return ProcessFormPage(
-              form: extra['form'],
-              amDoing: extra['amDoing'],
-              activity: extra['activity'],
-              payee: extra['payee'],
-              receiptId: extra['receiptId'],
-            );
+            final page = state.extra as ProcessFormPage;
+            return page;
           },
         ),
         GoRoute(
@@ -180,9 +174,9 @@ final router = GoRouter(
     ),
     GoRoute(path: ResetPasswordPage.routeName, builder: (context, state) => ResetPasswordPage()),
     GoRoute(
-      path: RegisterStep1Page.routeName,
+      path: RegisterClientPage.routeName,
       builder: (context, state) {
-        return const RegisterStep1Page();
+        return const RegisterClientPage();
       },
     ),
   ],

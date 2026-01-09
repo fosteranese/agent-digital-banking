@@ -47,7 +47,9 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
   void _unlockWithBiometric() {
     BiometricUtil.authenticateWithBiometrics(() {
       isBioLogin = true;
-      context.read<AuthBloc>().add(const UnLockScreen(UnLockScreenRequest(isPassword: false, password: '')));
+      context.read<AuthBloc>().add(
+        const UnLockScreen(UnLockScreenRequest(isPassword: false, password: '')),
+      );
     });
   }
 
@@ -58,7 +60,9 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
     }
 
     isBioLogin = false;
-    context.read<AuthBloc>().add(UnLockScreen(UnLockScreenRequest(isPassword: true, password: _passwordController.text)));
+    context.read<AuthBloc>().add(
+      UnLockScreen(UnLockScreenRequest(isPassword: true, password: _passwordController.text)),
+    );
     _passwordController.clear();
   }
 
@@ -86,7 +90,11 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.black.withAlpha(163), Colors.transparent]),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.black.withAlpha(163), Colors.transparent],
+                  ),
                 ),
               ),
               SafeArea(
@@ -133,7 +141,11 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
                           SizedBox(width: 5),
                           Text(
                             'Help',
-                            style: PrimaryTextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 14),
+                            style: PrimaryTextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),
@@ -158,7 +170,10 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
           'Welcome $name',
           style: PrimaryTextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22),
         ),
-        Text('Kindly enter your password', style: PrimaryTextStyle(color: Colors.white, fontSize: 16)),
+        Text(
+          'Kindly enter your password',
+          style: PrimaryTextStyle(color: Colors.white, fontSize: 16),
+        ),
       ],
     );
   }
@@ -169,7 +184,11 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
       placeholder: 'Password',
       color: const Color(0x8FB7B7B7),
       focusedColor: Colors.white,
-      placeholderStyle: PrimaryTextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.normal),
+      placeholderStyle: PrimaryTextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+      ),
       visibilityColor: Colors.white,
       visibilityFocusedColor: Colors.black,
       visibilityBorderColor: Colors.transparent,
@@ -197,7 +216,11 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
               onTap: () => context.push(RequestPasswordResetPage.routeName),
               child: Text(
                 "Forgot password?",
-                style: PrimaryTextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13),
+                style: PrimaryTextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                ),
               ),
             ),
           ],
@@ -231,7 +254,13 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
       }
     },
     builder: (context, state) {
-      return FormButton(loading: state is UnLockingScreen && !isBioLogin, backgroundColor: ThemeUtil.secondaryColor, foregroundColor: ThemeUtil.primaryColor, text: 'Sign in', onPressed: _unlockWithPassword);
+      return FormButton(
+        loading: state is UnLockingScreen && !isBioLogin,
+        backgroundColor: ThemeUtil.secondaryColor,
+        foregroundColor: ThemeUtil.black,
+        text: 'Sign in',
+        onPressed: _unlockWithPassword,
+      );
     },
   );
 

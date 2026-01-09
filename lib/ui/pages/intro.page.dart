@@ -138,7 +138,7 @@ class IntroPageState extends State<IntroPage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
+              child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor),
             ),
           );
         }
@@ -184,7 +184,7 @@ class IntroPageState extends State<IntroPage> {
                       return FormButton(
                         key: buttonKey,
                         backgroundColor: ThemeUtil.secondaryColor,
-                        foregroundColor: ThemeUtil.primaryColor,
+                        foregroundColor: ThemeUtil.black,
                         icon: Icons.east_outlined,
                         onPressed: () {
                           context.go(WelcomePage.routeName);
@@ -206,7 +206,7 @@ class IntroPageState extends State<IntroPage> {
                           child: FormButton(
                             key: buttonKey,
                             backgroundColor: ThemeUtil.secondaryColor,
-                            foregroundColor: ThemeUtil.primaryColor,
+                            foregroundColor: ThemeUtil.black,
                             icon: Icons.east_outlined,
                             onPressed: () {
                               _nextPage(_currentPage + 1);

@@ -7,7 +7,7 @@ class MyIcon extends StatelessWidget {
   const MyIcon({
     super.key,
     required this.icon,
-    this.iconColor = ThemeUtil.primaryColor1,
+    this.iconColor = ThemeUtil.primaryColor,
     this.iconBackgroundColor = ThemeUtil.highlight,
   });
   final String icon;
@@ -39,7 +39,7 @@ class MyIcon extends StatelessWidget {
             child: SvgPicture.asset(
               icon,
               width: 18,
-              colorFilter: ColorFilter.mode(iconColor ?? ThemeUtil.primaryColor1, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(iconColor ?? ThemeUtil.primaryColor, BlendMode.srcIn),
             ),
           );
         }
@@ -47,7 +47,7 @@ class MyIcon extends StatelessWidget {
         return CircleAvatar(
           radius: 16.5,
           backgroundColor: iconBackgroundColor ?? ThemeUtil.highlight,
-          child: Icon(Icons.circle_outlined, color: iconColor ?? ThemeUtil.primaryColor1, size: 18),
+          child: Icon(Icons.circle_outlined, color: iconColor ?? ThemeUtil.primaryColor, size: 18),
         );
       },
     );

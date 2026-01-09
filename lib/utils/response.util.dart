@@ -46,9 +46,7 @@ class ResponseUtil {
 
     if (exception is Response) {
       if (exception.code == '1000') {
-        BlocProvider.of<AuthBloc>(
-          MyApp.navigatorKey.currentContext!,
-        ).add(const Logout());
+        BlocProvider.of<AuthBloc>(MyApp.navigatorKey.currentContext!).add(const Logout());
         return;
       } else if (exception.code == '9000') {
         AppUtil.forceUpdate(exception);
@@ -59,9 +57,7 @@ class ResponseUtil {
       return;
     } else if (exception is Response<dynamic>) {
       if (exception.code == '1000') {
-        BlocProvider.of<AuthBloc>(
-          MyApp.navigatorKey.currentContext!,
-        ).add(const Logout());
+        BlocProvider.of<AuthBloc>(MyApp.navigatorKey.currentContext!).add(const Logout());
         return;
       }
 
@@ -70,5 +66,9 @@ class ResponseUtil {
     }
 
     emit(GeneralResponse.unknown);
+  }
+
+  static String buildImageUrl(Response response) {
+    return '${response.imageBaseUrl}${response.imageDirectory}';
   }
 }

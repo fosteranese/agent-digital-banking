@@ -5,44 +5,28 @@ sealed class RetrieveDataState extends Equatable {
   final String action;
   final RetrieveDataEvent? event;
 
-  const RetrieveDataState({
-    required this.id,
-    required this.action,
-    this.event,
-  });
+  const RetrieveDataState({required this.id, required this.action, this.event});
 
   @override
   List<Object?> get props => [id, action, event];
 }
 
 final class RetrieveDataInitial extends RetrieveDataState {
-  const RetrieveDataInitial({
-    required super.id,
-    required super.action,
-  });
+  const RetrieveDataInitial({required super.id, required super.action});
 
   @override
   List<Object?> get props => [id, action];
 }
 
 final class RetrievingData extends RetrieveDataState {
-  const RetrievingData({
-    required super.id,
-    required super.action,
-    required super.event,
-  });
+  const RetrievingData({required super.id, required super.action, required super.event});
 
   @override
   List<Object?> get props => [id, action, event];
 }
 
-final class RetrievingDataSilently
-    extends RetrieveDataState {
-  const RetrievingDataSilently({
-    required super.id,
-    required super.action,
-    required super.event,
-  });
+final class RetrievingDataSilently extends RetrieveDataState {
+  const RetrievingDataSilently({required super.id, required super.action, required super.event});
 
   @override
   List<Object?> get props => [id, action, event];
@@ -75,11 +59,5 @@ final class DataRetrieved<T> extends RetrieveDataState {
   });
 
   @override
-  List<Object?> get props => [
-    id,
-    action,
-    data,
-    event,
-    stillLoading,
-  ];
+  List<Object?> get props => [id, action, data, event, stillLoading];
 }

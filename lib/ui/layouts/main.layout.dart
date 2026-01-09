@@ -38,6 +38,7 @@ class MainLayout extends StatelessWidget {
     this.refreshColor,
     this.bottomNavigationBar,
     this.flexibleSpace,
+    this.useSafeArea = true,
   });
 
   final NavigatorState? nav;
@@ -68,6 +69,7 @@ class MainLayout extends StatelessWidget {
   final Color? refreshColor;
   final ScrollController? scrollController;
   final Widget? flexibleSpace;
+  final bool useSafeArea;
 
   bool get _hasAppBar => title != null || showBackBtn || bottom != null;
 
@@ -88,6 +90,7 @@ class MainLayout extends StatelessWidget {
   Widget _safeSliver(Widget sliver, double spaceAllowed) {
     return SliverSafeArea(
       top: isTopPadded,
+      bottom: useCustomScroll,
       sliver: SliverPadding(
         padding: EdgeInsets.only(bottom: spaceAllowed),
         sliver: sliver,
@@ -107,7 +110,8 @@ class MainLayout extends StatelessWidget {
         slivers.expand(
           (e) => [
             e,
-            if (e == slivers.last) SliverToBoxAdapter(child: SizedBox(height: spaceAllowed)),
+            if (e == slivers.last && useSafeArea)
+              SliverToBoxAdapter(child: SizedBox(height: spaceAllowed)),
           ],
         ),
       );
@@ -136,7 +140,7 @@ class MainLayout extends StatelessWidget {
     }
 
     return CustomScrollView(
-      primary: false,
+      primary: true,
       controller: scrollController,
       physics: physics ?? AlwaysScrollableScrollPhysics(),
       slivers: sliverList,
@@ -145,7 +149,7 @@ class MainLayout extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: ThemeUtil.primaryColor1,
+      backgroundColor: ThemeUtil.primaryColor,
       automaticallyImplyLeading: false,
       leading: showBackBtn
           ? IconButton(
@@ -225,7 +229,7 @@ class MainLayout extends StatelessWidget {
       floatingActionButtonLocation:
           floatingActionButtonLocation ?? FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: bottomNavigationBar != null
-          ? SafeArea(child: bottomNavigationBar!)
+          ? SafeArea(bottom: useSafeArea, child: bottomNavigationBar!)
           : null,
     );
   }

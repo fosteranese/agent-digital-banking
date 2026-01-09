@@ -7,10 +7,12 @@ class StepIndicator extends StatelessWidget {
     required this.index,
     required this.currentIndex,
     required this.title,
+    required this.onPressed,
   });
   final int index;
   final int currentIndex;
   final String title;
+  final void Function() onPressed;
 
   bool get showDot {
     return index == currentIndex;
@@ -22,7 +24,7 @@ class StepIndicator extends StatelessWidget {
     }
 
     if (index == currentIndex) {
-      return ThemeUtil.primaryColor1;
+      return ThemeUtil.primaryColor;
     }
 
     return ThemeUtil.flora;
@@ -34,25 +36,28 @@ class StepIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: .min,
-      mainAxisAlignment: .start,
-      crossAxisAlignment: .center,
-      children: [
-        if (showDot)
-          Container(
-            width: 6,
-            height: 6,
-            margin: const .only(right: 5),
+    return InkWell(
+      onTap: onPressed,
+      child: Row(
+        mainAxisSize: .min,
+        mainAxisAlignment: .start,
+        crossAxisAlignment: .center,
+        children: [
+          if (showDot)
+            Container(
+              width: 6,
+              height: 6,
+              margin: const .only(right: 5),
 
-            decoration: BoxDecoration(color: _colorIsActive, shape: BoxShape.circle),
+              decoration: BoxDecoration(color: _colorIsActive, shape: BoxShape.circle),
+            ),
+          Text(
+            title,
+            style: PrimaryTextStyle(fontWeight: _fontWeight, color: _colorIsActive, fontSize: 14),
           ),
-        Text(
-          title,
-          style: PrimaryTextStyle(fontWeight: _fontWeight, color: _colorIsActive, fontSize: 14),
-        ),
-        const SizedBox(width: 16),
-      ],
+          const SizedBox(width: 16),
+        ],
+      ),
     );
   }
 }

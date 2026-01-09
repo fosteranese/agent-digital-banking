@@ -8,7 +8,7 @@ class DashboardStats extends StatelessWidget {
 
   static const List<Map<String, dynamic>> _cards = [
     {
-      'color': ThemeUtil.primaryColor1,
+      'color': ThemeUtil.primaryColor,
       'iconColor': Color(0xff00569C),
       'icon': 'assets/img/cash-collected.svg',
       'title': '',

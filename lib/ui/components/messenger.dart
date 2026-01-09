@@ -188,7 +188,7 @@ class _MyAlertMessengerState extends State<MyAlertMessenger> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
+                    child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor),
                   ),
                   const SizedBox(height: 30),
                   Text(

@@ -8,7 +8,7 @@ class FormInput extends StatelessWidget {
     super.key,
     this.label = '',
     this.labelStyle,
-    this.bottomSpace = 20,
+    this.bottomSpace = 15,
     this.prefix,
     this.suffix,
     this.controller,

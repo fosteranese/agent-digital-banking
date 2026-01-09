@@ -35,7 +35,7 @@ class FormSelect extends StatefulWidget {
   const FormSelect({
     super.key,
     this.label = '',
-    this.bottomSpace = 20,
+    this.bottomSpace = 15,
     this.prefix,
     this.controller,
     this.placeholder,

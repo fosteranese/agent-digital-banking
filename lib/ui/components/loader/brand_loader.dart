@@ -22,7 +22,7 @@ class _BrandLoaderState extends State<BrandLoader> {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
+          child: CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor),
         ),
       ],
     );

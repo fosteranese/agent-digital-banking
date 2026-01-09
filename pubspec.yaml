@@ -59,7 +59,7 @@ dependencies:
   google_mlkit_face_detection: ^0.13.1
   app_settings: ^7.0.0
   flutter_slidable: ^4.0.3
-  google_fonts: ^6.3.3
+  google_fonts: ^7.0.0
   collection: ^1.19.1
 
 dev_dependencies:

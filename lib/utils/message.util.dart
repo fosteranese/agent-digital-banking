@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
@@ -27,7 +28,7 @@ final class MessageUtil {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor1),
+                  CupertinoActivityIndicator(radius: 20, color: ThemeUtil.primaryColor),
                   if (message != null) const SizedBox(height: 5),
                   if (message != null)
                     Text(
@@ -46,6 +47,10 @@ final class MessageUtil {
         ),
       ),
     );
+  }
+
+  static void stopLoading(BuildContext context) {
+    context.pop();
   }
 
   static void displayErrorDialog(
@@ -183,7 +188,7 @@ final class MessageUtil {
     String? message,
     required void Function() onConfirm,
     Color onConfirmButtonColor = ThemeUtil.secondaryColor,
-    Color onConfirmButtonTextColor = ThemeUtil.primaryColor,
+    Color onConfirmButtonTextColor = ThemeUtil.secondaryColor,
     Widget? icon,
     String onConfirmText = 'Confirm',
   }) {

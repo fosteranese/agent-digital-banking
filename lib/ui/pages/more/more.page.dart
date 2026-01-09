@@ -294,7 +294,7 @@ class MoreTitle extends StatelessWidget {
     this.onTap,
     required this.title,
     required this.icon,
-    this.iconColor = ThemeUtil.primaryColor1,
+    this.iconColor = ThemeUtil.primaryColor,
     this.iconBackgroundColor = ThemeUtil.highlight,
   });
   final void Function()? onTap;

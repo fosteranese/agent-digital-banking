@@ -100,7 +100,7 @@ class WelcomePageState extends State<WelcomePage> {
                       const SizedBox(height: 30),
                       FormButton(
                         backgroundColor: ThemeUtil.secondaryColor,
-                        foregroundColor: ThemeUtil.primaryColor,
+                        foregroundColor: ThemeUtil.black,
                         onPressed: () {
                           context.push(NewDeviceLoginPage.routeName);
                         },
