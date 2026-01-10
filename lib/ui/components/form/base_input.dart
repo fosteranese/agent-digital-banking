@@ -1,8 +1,7 @@
-import 'package:el_tooltip/el_tooltip.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -101,7 +100,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
   bool? _isValid;
   late final FocusNode _focus;
   late Color _color = widget.color;
-  final _tooltipController = ElTooltipController();
+  final _tooltipController = JustTheController();
 
   @override
   void initState() {
@@ -138,16 +137,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  widget.label,
-                  style:
-                      widget.labelStyle ??
-                      GoogleFonts.mulish(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
-                ),
+                Text(widget.label, style: _labelStyle),
                 widget.tooltip != null ? _info! : widget.info!,
               ],
             ),
@@ -155,16 +145,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
         if (widget.label.isNotEmpty && widget.tooltip == null && widget.info == null)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              widget.label,
-              style:
-                  widget.labelStyle ??
-                  GoogleFonts.mulish(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-            ),
+            child: Text(widget.label, style: _labelStyle),
           ),
         SizedBox(
           height: widget.multiLine ? 150 : widget.inputHeight ?? 50,
@@ -187,42 +168,48 @@ class _BaseFormInputState extends State<BaseFormInput> {
     );
   }
 
+  TextStyle get _labelStyle {
+    return widget.labelStyle ??
+        PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black);
+  }
+
   Widget? get _info {
-    return ElTooltip(
+    return JustTheTooltip(
       controller: _tooltipController,
-      distance: 10.0,
-      position: ElTooltipPosition.bottomEnd,
-      showModal: true,
-      padding: const EdgeInsets.all(20.0),
-      color: const Color(0xff54534A),
+      backgroundColor: Colors.transparent,
+      borderRadius: .circular(8),
+      barrierDismissible: true,
+      curve: Curves.easeIn,
+      preferredDirection: .up,
+      tailBaseWidth: 0,
+      tailLength: 0,
+      elevation: 0,
+      margin: .only(left: 40),
       content: Container(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.tooltip ?? '', style: const TextStyle(color: Colors.white)),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(20),
-                onTap: () {
-                  _tooltipController.hide();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: Text(
-                    'Done',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
+        padding: .all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x26000000),
+              blurRadius: 50,
+              offset: const Offset(0, 4),
+              spreadRadius: 0,
             ),
           ],
         ),
+        child: Text(
+          widget.tooltip ?? '',
+          style: const PrimaryTextStyle(color: ThemeUtil.black, fontSize: 14, fontWeight: .w400),
+        ),
       ),
-      child: const Icon(Icons.info_outline, color: Colors.blueGrey),
+      child: InkWell(
+        onTap: () {
+          _tooltipController.showTooltip();
+        },
+        child: const Icon(Icons.info, color: ThemeUtil.flat, size: 16),
+      ),
     );
   }
 
@@ -356,7 +343,7 @@ class _BaseFormInputState extends State<BaseFormInput> {
               fillColor: _color,
             )
           : InputDecoration(
-              // counterText: ' ',
+              counterText: '',
               contentPadding: widget.contentPadding,
               prefixIcon: widget.prefix != null
                   ? Padding(

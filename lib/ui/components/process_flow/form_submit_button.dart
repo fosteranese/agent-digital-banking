@@ -54,6 +54,13 @@ class FormSubmitButton extends StatelessWidget {
           return;
         }
 
+        if (state is ProcessingRequest || state is VerifyingRequest) {
+          MessageUtil.displayLoading(context);
+          return;
+        } else {
+          MessageUtil.stopLoading(context);
+        }
+
         if (state is RequestProcessed) {
           _showRequestProcessed(context, state);
           return;
@@ -72,6 +79,13 @@ class FormSubmitButton extends StatelessWidget {
       builder: (context, state) {
         return BlocConsumer<PayeeBloc, PayeeState>(
           listener: (context, state1) {
+            if (state1 is AddingPayee) {
+              MessageUtil.displayLoading(context);
+              return;
+            } else {
+              MessageUtil.stopLoading(context);
+            }
+
             if (state1 is AddPayeeError && state1.routeName == id) {
               MessageUtil.displayErrorDialog(context, message: state1.result.message);
               return;
@@ -79,8 +93,7 @@ class FormSubmitButton extends StatelessWidget {
           },
           builder: (context, state1) {
             return FormButton(
-              loading:
-                  state is ProcessingRequest || state is VerifyingRequest || state1 is AddingPayee,
+              loading: state1 is AddingPayee,
               text: _submitText,
               onPressed: () => _confirm(context),
             );

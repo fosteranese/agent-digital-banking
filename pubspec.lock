@@ -345,14 +345,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.4.0"
-  el_tooltip:
-    dependency: "direct main"
-    description:
-      name: el_tooltip
-      sha256: "0860b00e9390a31dd98369dc16d3b6fa2668fc52df712bd00e86d8931787fc17"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.1"
   encrypt:
     dependency: "direct main"
     description:
@@ -936,6 +928,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.0"
+  just_the_tooltip:
+    dependency: "direct main"
+    description:
+      name: just_the_tooltip
+      sha256: "7a081133d57285bfb41b331f411006d57b433d7b35772e6155745f6a7a09cb82"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.12"
   keyboard_actions:
     dependency: "direct main"
     description:

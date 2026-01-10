@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class BackgroundLayout extends StatelessWidget {
   const BackgroundLayout({
@@ -38,20 +39,23 @@ class BackgroundLayout extends StatelessWidget {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        color: Colors.black,
-                        style: IconButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColorLight.withAlpha(64),
+                      if (context.canPop())
+                        IconButton(
+                          color: Colors.black,
+                          style: IconButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColorLight.withAlpha(64),
+                          ),
+                          onPressed:
+                              onBackPressed ??
+                              () {
+                                Navigator.pop(context);
+                              },
+                          icon:
+                              backIcon ??
+                              (useCloseIcon
+                                  ? const Icon(Icons.clear)
+                                  : const Icon(Icons.arrow_back)),
                         ),
-                        onPressed:
-                            onBackPressed ??
-                            () {
-                              Navigator.pop(context);
-                            },
-                        icon:
-                            backIcon ??
-                            (useCloseIcon ? const Icon(Icons.clear) : const Icon(Icons.arrow_back)),
-                      ),
                       const Spacer(),
                       FilledButton(
                         style: FilledButton.styleFrom(

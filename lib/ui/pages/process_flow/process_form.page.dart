@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
@@ -57,30 +58,15 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
   }
 
   void _generateField(bool updateScreen) {
-    var visibleFields =
-        _formData.fieldsDatum?.where((f) {
-          final status = f.field?.fieldVisible == 1;
+    final visibleFields = _formData.fieldsDatum!.where((f) {
+      final status = f.field?.fieldVisible == 1;
 
-          if (_formData.form!.requireVerification != 1) {
-            return status;
-          }
+      if (_formData.form!.requireVerification != 1) {
+        return status;
+      }
 
-          return status && f.field!.requiredForVerification == 1;
-        }).toList() ??
-        [];
-
-    final amountField = visibleFields.firstWhereOrNull((item) {
-      return item.field!.isAmount == 1;
-    });
-
-    if (amountField != null) {
-      visibleFields = [
-        amountField,
-        ...visibleFields.where((item) {
-          return item.field!.fieldId != amountField.field!.fieldId;
-        }),
-      ];
-    }
+      return status && f.field!.requiredForVerification == 1;
+    }).toList();
 
     for (final item in visibleFields) {
       final controller = _controllers[item.field!.fieldId!];
@@ -165,30 +151,46 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
         sliver: SliverFillRemaining(
           hasScrollBody: false,
           fillOverscroll: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FormFieldsList(
-                formData: _formData,
-                controllers: Map.fromEntries(
-                  _controllers.entries.where((item) {
-                    return item.value.$2.field!.readOnly != 1;
-                  }),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: .start,
+              crossAxisAlignment: .start,
+              children: [
+                const SizedBox(height: 20),
+                Text(
+                  widget.formData.form?.formName ?? '',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
                 ),
-              ),
+                Text(
+                  widget.formData.form?.description ?? '',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: ThemeUtil.flat,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                FormFieldsList(
+                  formData: _formData,
+                  controllers: Map.fromEntries(
+                    _controllers.entries.where((item) {
+                      return item.value.$2.field!.readOnly != 1;
+                    }),
+                  ),
+                ),
 
-              if (_formData.form!.requireVerification != 1 &&
-                  widget.amDoing == AmDoing.createSchedule)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: FormSchedule(
+                if (_formData.form!.requireVerification != 1 &&
+                    widget.amDoing == AmDoing.createSchedule)
+                  FormSchedule(
                     onInput: (type, date) {
                       _scheduleType.text = type;
                       _scheduleDate.text = date;
                     },
                   ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
 

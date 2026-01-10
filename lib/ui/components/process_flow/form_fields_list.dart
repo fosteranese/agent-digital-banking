@@ -18,58 +18,34 @@ class FormFieldsList extends StatefulWidget {
 class _FormFieldsListState extends State<FormFieldsList> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: widget.controllers.entries.map((e) {
-        final isFirst = e.key == widget.controllers.entries.first.key;
-        if (isFirst && e.value.$2.field!.isAmount == 1 && e.value.$2.field!.fieldDataType == FieldDataTypesConst.decimal) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: FormMultipleInputPlus(
-              isFirst: isFirst,
-              controllers: widget.controllers,
-              controller: e.value,
-              onPayeeSelectedOption: (payee) {
-                for (final item in widget.controllers.entries) {
-                  if (item.value.$2.field?.fieldDataType == FieldDataTypesConst.sourceAccount) {
-                    continue;
-                  }
-
-                  final fieldName = _toLowerCamel(item.value.$2.field?.fieldName ?? '');
-                  if (payee.formData?.containsKey(fieldName) ?? false) {
-                    item.value.$1.text = '${FormMultipleInputPlus.autoFill}${payee.formData![fieldName]}';
-                  }
-                }
-              },
-            ),
-          );
-        }
-
-        return _buildControl(isFirst, e);
-      }).toList(),
+    return Padding(
+      padding: .only(top: 20),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: widget.controllers.entries.map((e) {
+          return _buildControl(e);
+        }).toList(),
+      ),
     );
   }
 
-  Padding _buildControl(bool isFirst, MapEntry<String, (TextEditingController, GeneralFlowFieldsDatum)> e) {
-    return Padding(
-      padding: EdgeInsets.only(left: 20, right: 20, top: isFirst ? 20 : 0),
-      child: FormMultipleInputPlus(
-        controllers: widget.controllers,
-        controller: e.value,
-        onPayeeSelectedOption: (payee) {
-          for (final item in widget.controllers.entries) {
-            if (item.value.$2.field?.fieldDataType == FieldDataTypesConst.sourceAccount) {
-              continue;
-            }
-
-            final fieldName = _toLowerCamel(item.value.$2.field?.fieldName ?? '');
-            if (payee.formData?.containsKey(fieldName) ?? false) {
-              item.value.$1.text = '${FormMultipleInputPlus.autoFill}${payee.formData![fieldName]}';
-            }
+  Widget _buildControl(MapEntry<String, (TextEditingController, GeneralFlowFieldsDatum)> e) {
+    return FormMultipleInputPlus(
+      controllers: widget.controllers,
+      controller: e.value,
+      onPayeeSelectedOption: (payee) {
+        for (final item in widget.controllers.entries) {
+          if (item.value.$2.field?.fieldDataType == FieldDataTypesConst.sourceAccount) {
+            continue;
           }
-          setState(() {});
-        },
-      ),
+
+          final fieldName = _toLowerCamel(item.value.$2.field?.fieldName ?? '');
+          if (payee.formData?.containsKey(fieldName) ?? false) {
+            item.value.$1.text = '${FormMultipleInputPlus.autoFill}${payee.formData![fieldName]}';
+          }
+        }
+        setState(() {});
+      },
     );
   }
 

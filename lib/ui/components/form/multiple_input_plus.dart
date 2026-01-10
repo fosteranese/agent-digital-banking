@@ -22,7 +22,14 @@ import 'package:my_sage_agent/ui/formatters/decimal.formatter.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 
 class FormMultipleInputPlus extends StatefulWidget {
-  const FormMultipleInputPlus({super.key, required this.controllers, required this.controller, this.fieldData, this.onPayeeSelectedOption, this.isFirst = false});
+  const FormMultipleInputPlus({
+    super.key,
+    required this.controllers,
+    required this.controller,
+    this.fieldData,
+    this.onPayeeSelectedOption,
+    this.isFirst = false,
+  });
 
   static const autoFill = '[++auto-fill++]';
   final bool isFirst;
@@ -31,7 +38,10 @@ class FormMultipleInputPlus extends StatefulWidget {
   final dynamic fieldData;
   final void Function(Payees)? onPayeeSelectedOption;
 
-  static String? validate({required GeneralFlowFieldsDatum generalFieldDatum, required String value}) {
+  static String? validate({
+    required GeneralFlowFieldsDatum generalFieldDatum,
+    required String value,
+  }) {
     final label = (generalFieldDatum.field?.fieldCaption);
 
     if (generalFieldDatum.field!.readOnly == 1) {
@@ -67,11 +77,17 @@ class FormMultipleInputPlus extends StatefulWidget {
     return d.format(date);
   }
 
-  static Map<String, dynamic>? getFormData({required Map<String, (TextEditingController, GeneralFlowFieldsDatum)> controllers, List<FieldsDatum>? fieldDatum, List<GeneralFlowFieldsDatum>? preGeneralFieldDatum, Map<String, dynamic>? formData}) {
+  static Map<String, dynamic>? getFormData({
+    required Map<String, (TextEditingController, GeneralFlowFieldsDatum)> controllers,
+    List<FieldsDatum>? fieldDatum,
+    List<GeneralFlowFieldsDatum>? preGeneralFieldDatum,
+    Map<String, dynamic>? formData,
+  }) {
     Map<String, dynamic> payload = {};
 
     preGeneralFieldDatum?.forEach((e) {
-      payload[e.field?.fieldName ?? ''] = formData?[e.field?.fieldName ?? ''] ?? e.field?.defaultValue;
+      payload[e.field?.fieldName ?? ''] =
+          formData?[e.field?.fieldName ?? ''] ?? e.field?.defaultValue;
     });
 
     int index = 0;
@@ -79,7 +95,8 @@ class FormMultipleInputPlus extends StatefulWidget {
       var value = controller.value.$1.text;
       logger.i('index: ${controllers.length}');
       final formData = fieldDatum?[index];
-      if ((formData?.field?.fieldDateFormat?.isNotEmpty ?? false) && formData?.field?.fieldDataType == FieldDataTypesConst.date) {
+      if ((formData?.field?.fieldDateFormat?.isNotEmpty ?? false) &&
+          formData?.field?.fieldDataType == FieldDataTypesConst.date) {
         value = sanitize((formData?.field?.fieldDateFormat ?? ''), value);
       }
 
@@ -94,11 +111,19 @@ class FormMultipleInputPlus extends StatefulWidget {
       switch (dataType) {
         case FieldDataTypesConst.decimal:
         case FieldDataTypesConst.number:
-          value = value.replaceAll('GHS', '').replaceAll(',', '').replaceAll(' ', '').replaceAll('\u00A0', '').trim();
+          value = value
+              .replaceAll('GHS', '')
+              .replaceAll(',', '')
+              .replaceAll(' ', '')
+              .replaceAll('\u00A0', '')
+              .trim();
           break;
       }
 
-      final error = FormMultipleInputPlus.validate(generalFieldDatum: generalFormData, value: value);
+      final error = FormMultipleInputPlus.validate(
+        generalFieldDatum: generalFormData,
+        value: value,
+      );
       if (error?.isNotEmpty ?? false) {
         MessageUtil.displayErrorDialog(MyApp.navigatorKey.currentContext!, message: error ?? '');
         return null;
@@ -151,7 +176,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
             );
           case FieldDataTypesConst.date:
@@ -160,7 +185,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
             );
           case FieldDataTypesConst.dateAfterCurrent:
             return FormDatePicker(
@@ -168,7 +193,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               minDate: DateTime.now().add(Duration(days: 1)),
             );
           case FieldDataTypesConst.dateToCurrent:
@@ -177,7 +202,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxDate: DateTime.now(),
             );
           case FieldDataTypesConst.decimal:
@@ -192,7 +217,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               keyboardType: const TextInputType.numberWithOptions(decimal: true, signed: false),
               inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
             );
           case FieldDataTypesConst.link:
@@ -201,7 +226,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
             );
           case FieldDataTypesConst.number:
@@ -219,7 +244,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               ),
               inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
             );
           case FieldDataTypesConst.password:
@@ -228,7 +253,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
               isNew: false,
             );
@@ -238,7 +263,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
               isNew: true,
             );
@@ -250,7 +275,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
                 controller: widget.controller.$1,
                 placeholder: _placeholder,
                 readOnly: _readOnly,
-                // tooltip: _tooltip,
+                tooltip: _tooltip,
                 formId: widget.controller.$2.field?.formId ?? '',
                 title: _label,
               ),
@@ -264,7 +289,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
                 placeholder: _placeholder,
                 keyboardType: TextInputType.number,
                 readOnly: _readOnly,
-                // tooltip: _tooltip,
+                tooltip: _tooltip,
                 formId: widget.controller.$2.field?.formId ?? '',
                 title: _label,
                 onSelectedOption: (option) {
@@ -281,7 +306,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
               onSelected: (_) {
                 setState(() {});
@@ -293,20 +318,29 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
               isPin: true,
               isNew: false,
             );
           case FieldDataTypesConst.newPin:
-            return FormPasswordInput(label: _label, controller: widget.controller.$1, placeholder: _placeholder, readOnly: _readOnly, tooltip: _tooltip, maxLength: widget.controller.$2.field?.fieldLength, isPin: true, isNew: true);
+            return FormPasswordInput(
+              label: _label,
+              controller: widget.controller.$1,
+              placeholder: _placeholder,
+              readOnly: _readOnly,
+              tooltip: _tooltip,
+              maxLength: widget.controller.$2.field?.fieldLength,
+              isPin: true,
+              isNew: true,
+            );
           case FieldDataTypesConst.sourceAccount:
             return FormInput(
               label: _label,
               controller: widget.controller.$1,
               placeholder: _placeholder,
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
             );
         }
@@ -317,7 +351,7 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
           controller: widget.controller.$1,
           placeholder: _placeholder,
           readOnly: _readOnly,
-          // tooltip: _tooltip,
+          tooltip: _tooltip,
           multiLine: true,
           maxLength: widget.controller.$2.field?.fieldLength,
         );
@@ -332,20 +366,61 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
 
         // widget.controller.$1.text = '';
         if (defaultValue.isNotEmpty && lov.isNotEmpty) {
-          selectedOption = lov.where((element) => element.lovValue == defaultValue).map((element) => FormSelectOption(value: element.lovValue ?? '', text: element.lovTitle ?? '')).firstOrNull;
+          selectedOption = lov
+              .where((element) => element.lovValue == defaultValue)
+              .map(
+                (element) =>
+                    FormSelectOption(value: element.lovValue ?? '', text: element.lovTitle ?? ''),
+              )
+              .firstOrNull;
         }
 
         switch (widget.controller.$2.field?.fieldDataType) {
           case FieldDataTypesConst.sourceAccount:
             if (_label.toLowerCase().contains('cr')) {
-              final sourceAccount = widget.controllers.entries.firstWhere((item) => item.value.$2.field!.fieldDataType == FieldDataTypesConst.sourceAccount).value;
-              return BankAccountInputPlus(sourceAccount: sourceAccount, formMultipleInput: widget, label: _label, placeholder: _placeholder, selectedOption: selectedOption, lov: lov, readOnly: _readOnly, flowType: 'general');
+              final sourceAccount = widget.controllers.entries
+                  .firstWhere(
+                    (item) =>
+                        item.value.$2.field!.fieldDataType == FieldDataTypesConst.sourceAccount,
+                  )
+                  .value;
+              return BankAccountInputPlus(
+                sourceAccount: sourceAccount,
+                formMultipleInput: widget,
+                label: _label,
+                placeholder: _placeholder,
+                selectedOption: selectedOption,
+                lov: lov,
+                readOnly: _readOnly,
+                flowType: 'general',
+              );
             }
 
-            return BankAccountInputPlus(formMultipleInput: widget, label: _label, placeholder: _placeholder, selectedOption: selectedOption, lov: lov, readOnly: _readOnly, flowType: 'general');
+            return BankAccountInputPlus(
+              formMultipleInput: widget,
+              label: _label,
+              placeholder: _placeholder,
+              selectedOption: selectedOption,
+              lov: lov,
+              readOnly: _readOnly,
+              flowType: 'general',
+            );
           case FieldDataTypesConst.destinationAccount:
-            final sourceAccount = widget.controllers.entries.firstWhere((item) => item.value.$2.field!.fieldDataType == FieldDataTypesConst.sourceAccount).value;
-            return BankAccountInputPlus(sourceAccount: sourceAccount, formMultipleInput: widget, label: _label, placeholder: _placeholder, selectedOption: selectedOption, lov: lov, readOnly: _readOnly, flowType: 'general');
+            final sourceAccount = widget.controllers.entries
+                .firstWhere(
+                  (item) => item.value.$2.field!.fieldDataType == FieldDataTypesConst.sourceAccount,
+                )
+                .value;
+            return BankAccountInputPlus(
+              sourceAccount: sourceAccount,
+              formMultipleInput: widget,
+              label: _label,
+              placeholder: _placeholder,
+              selectedOption: selectedOption,
+              lov: lov,
+              readOnly: _readOnly,
+              flowType: 'general',
+            );
           default:
             return FormSelect(
               title: widget.controller.$2.field?.fieldCaption ?? '',
@@ -356,9 +431,11 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               onSelectedOption: (option) {
                 selectedOption = option;
               },
-              options: lov.map((e) => FormSelectOption(value: e.lovValue ?? '', text: e.lovTitle)).toList(),
+              options: lov
+                  .map((e) => FormSelectOption(value: e.lovValue ?? '', text: e.lovTitle))
+                  .toList(),
               readOnly: _readOnly,
-              // tooltip: _tooltip,
+              tooltip: _tooltip,
             );
         }
 
