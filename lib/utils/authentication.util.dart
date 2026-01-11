@@ -10,6 +10,7 @@ import 'app.util.dart';
 
 class AuthenticationUtil {
   static void start({
+    String? title,
     required List<Map<String, dynamic>> authModes,
     required Map<String, dynamic> payload,
     required void Function({
@@ -27,12 +28,7 @@ class AuthenticationUtil {
 
     Future<void> getLocationAndComplete() async {
       // await AppUtil.locationInfo;
-      complete(
-        payload: payload,
-        otp: otp,
-        pin: pin,
-        secretAnswer: secretAnswer,
-      );
+      complete(payload: payload, otp: otp, pin: pin, secretAnswer: secretAnswer);
     }
 
     if (authModes.isEmpty) {
@@ -48,6 +44,7 @@ class AuthenticationUtil {
       switch (authMode['type']) {
         case 'PIN':
           AuthenticationUtil.pin(
+            title: title,
             onSuccess: (value) {
               ++index;
               pin = value;
@@ -100,6 +97,7 @@ class AuthenticationUtil {
   }
 
   static Future pin({
+    String? title,
     required void Function(String pin) onSuccess,
     bool allowBiometric = false,
   }) {
@@ -110,6 +108,7 @@ class AuthenticationUtil {
       useSafeArea: false,
       builder: (BuildContext context) {
         return PinAuthenticator(
+          title: title,
           onSuccess: onSuccess,
           allowBiometric: allowBiometric,
           end: () => end(context),
@@ -128,10 +127,7 @@ class AuthenticationUtil {
       barrierColor: Colors.white.withAlpha(153),
       useSafeArea: false,
       builder: (BuildContext context) {
-        return SecretAnswerAuthenticator(
-          onSuccess: onSuccess,
-          end: () => end(context),
-        );
+        return SecretAnswerAuthenticator(onSuccess: onSuccess, end: () => end(context));
       },
     );
   }
@@ -167,9 +163,7 @@ class AuthenticationUtil {
   }
 
   static Future<String> get getPin async {
-    var pin = MyApp.navigatorKey.currentContext!
-        .read<AuthBloc>()
-        .pin;
+    var pin = MyApp.navigatorKey.currentContext!.read<AuthBloc>().pin;
 
     if (pin.isNotEmpty) {
       return pin;

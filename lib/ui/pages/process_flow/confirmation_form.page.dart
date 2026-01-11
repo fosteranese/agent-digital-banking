@@ -1,35 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
-import 'package:my_sage_agent/blocs/bulk_payment/bulk_payment_bloc.dart';
 import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
 import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
-import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/constants/field.const.dart';
 import 'package:my_sage_agent/data/models/collection/form_verification_response.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/process_request.model.dart';
 import 'package:my_sage_agent/data/models/request_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/transaction_auth.dart';
-import 'package:my_sage_agent/data/models/user_response/activity.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/multiple_input_plus.dart';
-import 'package:my_sage_agent/ui/components/form/outline_button.dart';
 import 'package:my_sage_agent/ui/components/form/schedule.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
+import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';
-import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/utils/authentication.util.dart';
@@ -133,19 +127,18 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
     return MultiBlocListener(
       listeners: [
         BlocListener<GeneralFlowBloc, GeneralFlowState>(listener: _handleGeneralFlowState),
-        BlocListener<OtpBloc, OtpState>(listener: _handleOtpState),
       ],
       child: MainLayout(
         backgroundColor: Colors.white,
         showBackBtn: true,
         showNavBarOnPop: false,
-        title: 'Transaction Summary',
+        title: widget.formData.form?.formName ?? 'Confirm Transaction',
         sliver: _buildSlivers(),
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.only(
             left: 20,
             right: 20,
-            bottom: 20,
+            // bottom: 20,
             // vertical: 10,
           ),
           child: _buildBottomAction(),
@@ -160,8 +153,21 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
       hasScrollBody: false,
       child: Container(
         color: Colors.white,
+        padding: .symmetric(horizontal: 20),
         child: Column(
+          mainAxisAlignment: .start,
+          crossAxisAlignment: .start,
           children: [
+            const SizedBox(height: 20),
+            Text(
+              'Transaction Summary',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
+            ),
+            Text(
+              'Kindly check and confirm the transaction details before you proceed',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: ThemeUtil.flat),
+            ),
+            const SizedBox(height: 20),
             _buildFormSection(),
             if (widget.amDoing == AmDoing.createSchedule)
               Padding(
@@ -182,35 +188,13 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
   /// Build bottom button
   Widget _buildBottomAction() {
-    return BlocBuilder<GeneralFlowBloc, GeneralFlowState>(
-      builder: (context, generalState) {
-        return BlocConsumer<PayeeBloc, PayeeState>(
-          listener: _handlePayeeState,
-          builder: (context, payeeState) {
-            final isLoading = generalState is ProcessingRequest || payeeState is AddingPayee;
-
-            final actionText = switch (widget.amDoing) {
-              AmDoing.createSchedule => 'Schedule',
-              AmDoing.addPayee => 'Save',
-              _ => 'Send',
-            };
-
-            return FormButton(
-              loading: isLoading,
-              onPressed: _confirm,
-              text: 'Confirm & $actionText',
-            );
-          },
-        );
-      },
-    );
+    return FormButton(onPressed: _confirm, text: 'Confirm & Continue');
   }
 
   /// Build form section dynamically
   Widget _buildFormSection() {
     return Container(
       width: double.maxFinite,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
       color: Colors.white,
       child: Column(
         children: [
@@ -248,7 +232,7 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
   Widget _buildPreviewContainer() {
     return Container(
-      margin: const EdgeInsets.only(top: 25),
+      margin: const EdgeInsets.only(top: 10),
       child: Column(children: _previewData),
     );
   }
@@ -261,7 +245,6 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
         value: widget.formData.form?.formName ?? '',
         verticalPadding: _controllers.isEmpty ? 8 : 5,
       ),
-      const Divider(color: Color(0xffF8F8F8)),
     ];
 
     for (var element in widget.verifyData.data!.previewData!) {
@@ -272,33 +255,14 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
           verticalPadding: _controllers.isEmpty ? 8 : 5,
         ),
       );
-      list.add(const Divider(color: Color(0xffF8F8F8)));
 
       if (element.key?.toLowerCase() == 'amount') {
         _displayAmount.value = element.value ?? '';
       }
     }
 
-    // list.add(
-    //   ValueListenableBuilder<String>(
-    //     valueListenable: _displayAmount,
-    //     builder: (context, value, _) => value.isEmpty
-    //         ? const SizedBox()
-    //         : _buildTotalAmount(value),
-    //   ),
-    // );
-
     return list;
   }
-
-  // Widget _buildTotalAmount(String value) {
-  //   return SummaryTile(
-  //     label: 'Total Amount',
-  //     value: value,
-  //     allBold: true,
-  //     verticalPadding: _controllers.isEmpty ? 8 : 5,
-  //   );
-  // }
 
   /// Trigger confirmation
   void _confirm() {
@@ -343,6 +307,7 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
   void _startAuthentication(Map<String, dynamic> payload) {
     AuthenticationUtil.start(
+      title: widget.formData.form?.formName ?? '',
       authModes: widget.verifyData.data?.authMode ?? [],
       payload: payload,
       complete: _complete,
@@ -393,185 +358,58 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
     if ((state as dynamic).routeName != _id) return;
 
     switch (state) {
+      case ProcessingRequest _:
+        MessageUtil.displayLoading(context);
+        break;
+
       case RequestProcessed processed:
+        MessageUtil.stopLoading(context);
         context.read<AuthBloc>().add(const RefreshUserData());
         _handleRequestProcessed(context, processed.result);
         break;
+
       case ProcessRequestError error:
+        MessageUtil.stopLoading(context);
         _showProcessRequestError(context, error);
         break;
-      case SavingBeneficiary _:
-        MessageUtil.displayLoading(context, message: 'Saving Beneficiary');
-        break;
-      case BeneficiarySaved saved:
-        context.pop();
-        MessageUtil.displaySuccessDialog(context, message: saved.result.message);
-        break;
-      case SaveBeneficiaryError saveError:
-        MessageUtil.displayErrorDialog(context, message: saveError.result.message);
-        break;
-    }
-  }
-
-  /// Handle payee state changes
-  void _handlePayeeState(BuildContext context, PayeeState state) {
-    if (state is AddPayeeError && state.routeName == _id) {
-      MessageUtil.displayErrorDialog(context, message: state.result.message);
     }
   }
 
   /// Handle request processed event
   void _handleRequestProcessed(BuildContext context, Response<RequestResponse> result) async {
-    if (widget.amDoing != AmDoing.createBulkPaymentGroup) {
-      _loader.successTransaction(
-        title: 'Success',
-        result: result,
-        onClose: () {
-          final destinations = [
-            '/',
-            DashboardPage.routeName,
-            CollectionsPage.routeName,
-            HistoryPage.routeName,
-            MorePage.routeName,
-          ];
+    _loader.successTransaction(
+      title: 'Success',
+      result: result,
+      onClose: () {
+        final destinations = [
+          '/',
+          DashboardPage.routeName,
+          CollectionsPage.routeName,
+          HistoryPage.routeName,
+          MorePage.routeName,
+        ];
 
-          while (!destinations.contains(GoRouter.of(context).state.path)) {
-            context.pop();
-          }
-        },
-        onSaveBeneficiary: () {
-          context.read<GeneralFlowBloc>().add(
-            SaveBeneficiary(routeName: _id, payload: result.data!),
-          );
-        },
-        onScheduleTransaction: () {
-          context.push(
-            ProcessFormPage.routeName,
-            extra: {
-              'form': widget.formData.form,
-              'amDoing': AmDoing.createScheduleFromPayee,
-              'activity': ActivityDatum(
-                activity: Activity(activityType: widget.formData.form!.activityType),
-              ),
-              'receiptId': result.data!.receiptId,
-            },
-          );
-        },
-        onShowReceipt: () async {
-          context.push(
-            ReceiptPage.routeName,
-            extra: {
-              'request': result.data,
-              'fblLogo': result.data?.fblLogo ?? '',
-              'imageBaseUrl': result.imageBaseUrl,
-              'imageDirectory': result.imageDirectory,
-            },
-          );
-        },
-      );
-    } else {
-      context.read<BulkPaymentBloc>().add(const GotoNewGroup());
-    }
-  }
-
-  /// Handle OTP Bloc state updates
-  void _handleOtpState(BuildContext context, OtpState state) {
-    if ((state as dynamic).uid != _id) return;
-
-    switch (state.runtimeType) {
-      case OtpResent _:
-        MessageUtil.displaySuccessDialog(context, message: (state as OtpResent).result.message);
-        break;
-      case ResendOtpError _:
-        MessageUtil.displayErrorDialog(context, message: (state as ResendOtpError).result.message);
-        break;
-    }
+        while (!destinations.contains(GoRouter.of(context).state.path)) {
+          context.pop();
+        }
+      },
+      onShowReceipt: () async {
+        context.push(
+          ReceiptPage.routeName,
+          extra: {
+            'request': result.data,
+            'fblLogo': result.data?.fblLogo ?? '',
+            'imageBaseUrl': result.imageBaseUrl,
+            'imageDirectory': result.imageDirectory,
+          },
+        );
+      },
+    );
   }
 
   /// Show error bottom sheet
   void _showProcessRequestError(BuildContext context, ProcessRequestError state) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(25),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.close)),
-              ),
-              const SizedBox(height: 20),
-              const CircleAvatar(
-                radius: 30,
-                backgroundColor: Color(0xffFFE0DF),
-                child: Icon(Icons.error_outline_outlined, color: Color(0xffF10404)),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                'Processing Failed',
-                textAlign: TextAlign.center,
-                style: PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 20),
-              ),
-              Text(
-                state.result.message,
-                textAlign: TextAlign.center,
-                style: PrimaryTextStyle(
-                  fontWeight: FontWeight.normal,
-                  fontSize: 16,
-                  color: const Color(0xff4F4F4F),
-                ),
-              ),
-              const SizedBox(height: 30),
-              if (widget.formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
-                FormButton(
-                  onPressed: () {
-                    context.pop();
-                    _confirm();
-                  },
-                  text: 'Try Again',
-                )
-              else
-                FormButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  text: 'Ok',
-                ),
-              if (widget.formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
-                const SizedBox(height: 15),
-              if (widget.formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
-                FormOutlineButton(
-                  onPressed: () {
-                    context.push(
-                      ProcessFormPage.routeName,
-                      extra: {
-                        'form': GeneralFlowForm(
-                          activityType: ActivityTypesConst.quickFlow,
-                          formName: 'Submit a complaint',
-                          categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
-                          formId: '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a',
-                        ),
-                        'amDoing': AmDoing.transaction,
-                        'activity': ActivityDatum(
-                          activity: Activity(
-                            activityId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
-                            activityType: ActivityTypesConst.quickFlow,
-                            accessType: 'CUSTOMER',
-                          ),
-                        ),
-                      },
-                    );
-                  },
-                  text: 'Submit a Complaint',
-                ),
-            ],
-          ),
-        );
-      },
-    );
+    _loader.failed(state.result.message);
   }
 }
 
@@ -581,39 +419,56 @@ class SummaryTile extends StatelessWidget {
     required this.label,
     required this.value,
     this.allBold = false,
-    this.verticalPadding = 8,
+    this.verticalPadding = 10,
+    this.margin = 10,
   });
 
   final String label;
   final String value;
   final bool allBold;
   final double verticalPadding;
+  final double margin;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: verticalPadding),
-      child: Row(
+    return Container(
+      margin: .only(bottom: margin),
+      padding: .all(verticalPadding),
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: .all(color: ThemeUtil.border),
+        boxShadow: [
+          // BoxShadow(
+          //   color: Color(0x0F000000),
+          //   spreadRadius: 0,
+          //   blurRadius: 10,
+          //   offset: Offset(0, 4),
+          // ),
+        ],
+      ),
+      child: Column(
+        mainAxisSize: .min,
+        mainAxisAlignment: .start,
+        crossAxisAlignment: .start,
         children: [
-          Expanded(
-            child: Text(
-              label,
-              textAlign: TextAlign.left,
-              style: PrimaryTextStyle(
-                color: allBold ? null : const Color(0xff919195),
-                fontSize: 14,
-                fontWeight: allBold ? FontWeight.bold : FontWeight.normal,
-              ),
+          Text(
+            label,
+            textAlign: TextAlign.left,
+            style: PrimaryTextStyle(
+              color: allBold ? null : ThemeUtil.flat,
+              fontSize: 14,
+              fontWeight: allBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
-          Expanded(
-            child: Text(
-              value,
-              textAlign: TextAlign.right,
-              style: PrimaryTextStyle(
-                fontSize: 14,
-                fontWeight: allBold ? FontWeight.bold : FontWeight.w600,
-              ),
+          const SizedBox(height: 10),
+          Text(
+            value,
+            textAlign: TextAlign.right,
+            style: PrimaryTextStyle(
+              fontSize: 16,
+              fontWeight: allBold ? FontWeight.bold : FontWeight.w500,
             ),
           ),
         ],

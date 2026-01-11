@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
-import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
-import 'package:my_sage_agent/data/models/user_response/activity.dart';
-import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
-import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
-import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/form/input.dart';
+import 'package:my_sage_agent/ui/components/form/password_input.dart';
+import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:my_sage_agent/utils/biometric.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
@@ -17,8 +16,15 @@ import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:my_sage_agent/env/env.dart';
 
 class PinAuthenticator extends StatefulWidget {
-  const PinAuthenticator({super.key, required this.onSuccess, this.allowBiometric = false, required this.end});
+  const PinAuthenticator({
+    super.key,
+    this.title,
+    required this.onSuccess,
+    this.allowBiometric = false,
+    required this.end,
+  });
 
+  final String? title;
   final bool allowBiometric;
   final void Function(String pin) onSuccess;
   final void Function() end;
@@ -31,15 +37,6 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
   final int _pinLength = Env.pingLength;
   final ValueNotifier<String> _pin = ValueNotifier('');
 
-  static const double _pinBoxHeight = 70;
-  static const double _buttonSize = 63;
-  static const double _spacing = 10.0;
-
-  static const Color _bgColor = Colors.white;
-  static const Color _pinBoxBg = Color(0xffFAFAFA);
-  static const Color _pinBoxBorder = Color(0xffE7E7E7);
-  static const Color _pinBoxActiveBorder = Color(0xffF79A31);
-  static const Color _buttonBg = Color(0xffF6F6F6);
   static const Color _accentColor = Color(0xffF79A31);
 
   bool get _enableBiometric {
@@ -50,109 +47,16 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
     return context.read<BiometricBloc>().isTransactionEnabled;
   }
 
-  void _updatePin(int digit) {
-    if (_pin.value.length < _pinLength) {
-      _pin.value += digit.toString();
-      if (_pin.value.length == _pinLength) {
-        Navigator.pop(context);
-        widget.onSuccess(_pin.value);
-      }
-    }
-  }
-
-  void _deletePin() {
-    if (_pin.value.isNotEmpty) {
-      _pin.value = _pin.value.substring(0, _pin.value.length - 1);
-    }
-  }
-
-  Widget _buildPinBoxes() {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: ValueListenableBuilder<String>(
-        valueListenable: _pin,
-        builder: (context, pin, _) {
-          return LayoutBuilder(
-            builder: (context, constraints) {
-              final double itemWidth = (constraints.maxWidth - (_spacing * (_pinLength - 1))) / _pinLength;
-              return Row(
-                children: List.generate(
-                  _pinLength,
-                  (i) => Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(left: i == 0 ? 0 : _spacing),
-                    width: itemWidth,
-                    height: _pinBoxHeight,
-                    decoration: BoxDecoration(
-                      color: pin.length > i ? Colors.white : _pinBoxBg,
-                      border: Border.all(color: pin.length == i ? _pinBoxActiveBorder : _pinBoxBorder),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: pin.length > i ? const Icon(Icons.emergency, size: 25, color: Colors.black) : null,
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildKeypadButton({required Widget child, required VoidCallback onPressed, bool filled = true}) {
-    return IconButton(
-      style: IconButton.styleFrom(backgroundColor: filled ? _buttonBg : null, fixedSize: const Size(_buttonSize, _buttonSize)),
-      onPressed: onPressed,
-      icon: child,
-    );
-  }
-
-  Widget _buildKeypad() {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, crossAxisSpacing: 30, mainAxisSpacing: 15.0, childAspectRatio: 1.0),
-        itemCount: 12,
-        itemBuilder: (context, index) {
-          if (index < 9) {
-            return _buildKeypadButton(
-              child: Text('${index + 1}', style: PrimaryTextStyle(fontSize: 20)),
-              onPressed: () => _updatePin(index + 1),
-            );
-          } else if (index == 9) {
-            return _enableBiometric
-                ? _buildKeypadButton(
-                    filled: false,
-                    child: Icon(Icons.fingerprint, color: _accentColor),
-                    onPressed: _biometricAuthentication,
-                  )
-                : const SizedBox.shrink();
-          } else if (index == 10) {
-            return _buildKeypadButton(
-              child: Text('0', style: PrimaryTextStyle(fontSize: 20)),
-              onPressed: () => _updatePin(0),
-            );
-          } else {
-            return _buildKeypadButton(
-              filled: false,
-              child: const Icon(Icons.backspace_outlined, color: Colors.black),
-              onPressed: _deletePin,
-            );
-          }
-        },
-      ),
-    );
-  }
-
   void _biometricAuthentication() {
     final nav = GoRouter.of(context);
     BiometricUtil.authenticateWithBiometrics(() async {
       final pin = await AuthenticationUtil.getPin;
 
       if (pin.isEmpty) {
-        MessageUtil.displayErrorDialog(MyApp.navigatorKey.currentContext!, message: 'Please use your PIN at least once to use the bio feature');
+        MessageUtil.displayErrorDialog(
+          MyApp.navigatorKey.currentContext!,
+          message: 'Please use your PIN at least once to use the bio feature',
+        );
         return;
       }
 
@@ -177,45 +81,76 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: _bgColor),
-      backgroundColor: _bgColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Spacer(),
-          Text(
-            'Transaction PIN',
-            textAlign: TextAlign.center,
-            style: PrimaryTextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-          ),
-          Text('Enter your PIN to authorize the transaction', textAlign: TextAlign.center, style: PrimaryTextStyle(fontSize: 14)),
-          const Spacer(),
-          _buildPinBoxes(),
-          const Spacer(flex: 2),
-          TextButton(
-            onPressed: () {
-              context.push(
-                ProcessFormPage.routeName,
-                extra: {
-                  'form': GeneralFlowForm(formId: "602694fa-a957-4f58-8312-3ef135368d65", categoryId: "b534d7fc-5365-4cbe-9cb2-d2ae36c2c173", accessType: 'CUSTOMER', formName: "Reset Authorisation Pin", description: '', caption: 'Reset Authorisation Pin', tooltip: 'Reset Authorisation Pin', icon: 'resetPin.png', iconType: 'png', requireVerification: 0, verifyEndpoint: "internalResource/userSettings/verifyForgotPIN", processEndpoint: "FBLOnline/Initiate", rank: 3, status: 1, statusLabel: 'Success'),
-                  'amDoing': AmDoing.transaction,
-                  'activity': ActivityDatum(
-                    activity: Activity(activityId: "4b964e1b-5670-4fc5-8cb9-80e97e6498db", activityType: ActivityTypesConst.fblOnline),
-                    imageDirectory: "Internal",
-                  ),
-                },
-              );
-            },
-            child: Text(
-              'Forgot PIN ?',
-              style: PrimaryTextStyle(color: Color(0xff211F1F), fontSize: 14, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+    return MainLayout(
+      title: widget.title ?? 'Authorize Transaction',
+      showBackBtn: true,
+      bottomNavigationBar: Padding(
+        padding: const .only(top: 20, left: 20, right: 20),
+        child: Column(
+          mainAxisSize: .min,
+          children: [
+            if (_enableBiometric)
+              Padding(
+                padding: const .only(bottom: 10),
+                child: IconButton(
+                  icon: Icon(Icons.fingerprint, color: _accentColor),
+                  onPressed: _biometricAuthentication,
+                ),
+              ),
+            FormButton(
+              onPressed: () {
+                if (_pin.value.length == _pinLength) {
+                  context.pop();
+                  widget.onSuccess(_pin.value);
+                } else if (_pin.value.isEmpty) {
+                  MessageUtil.displayErrorDialog(
+                    context,
+                    title: 'Authorization Failed',
+                    message: 'You did not enter your PIN. Kindly provide a valid PIN to proceed',
+                  );
+                } else {
+                  MessageUtil.displayErrorDialog(
+                    context,
+                    title: 'Authorization Failed',
+                    message: 'Your PIN is incomplete. Kindly provide a valid PIN to proceed',
+                  );
+                }
+              },
+              text: 'Continue',
             ),
-          ),
-          const Spacer(flex: 1),
-          Center(child: _buildKeypad()),
-          const Spacer(),
-        ],
+          ],
+        ),
+      ),
+      child: Padding(
+        padding: const .symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: .start,
+          crossAxisAlignment: .start,
+          children: [
+            const SizedBox(height: 20),
+            Text(
+              'Authorize Collection',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
+            ),
+            Text(
+              'Enter your Agent ID to complete the collection',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: ThemeUtil.flat),
+            ),
+            const SizedBox(height: 20),
+            FormPasswordInput(
+              maxLength: 4,
+              label: 'Authorization PIN',
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChange: (value) {
+                _pin.value = value;
+                if (value.length == _pinLength) {
+                  context.pop();
+                  widget.onSuccess(value);
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

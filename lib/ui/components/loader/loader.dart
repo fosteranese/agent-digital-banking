@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 import '../../../blocs/loader/loader_bloc.dart';
 import '../../../constants/status.const.dart';
 import '../form/button.dart';
-import '../form/outline_button.dart';
 import 'brand_loader.dart';
 
 class MyLoader extends StatefulWidget {
@@ -54,13 +54,6 @@ class _MyLoaderState extends State<MyLoader> {
   Widget _container(LoaderState state) => Stack(
     children: [
       Container(color: Colors.white),
-      Container(
-        height: MediaQuery.of(context).size.height * 0.5,
-        decoration: BoxDecoration(
-          color: Color(0xffFAEFD5),
-          gradient: LinearGradient(stops: [0, 1], colors: [Color(0xffFAEFD5), Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-        ),
-      ),
       Container(
         width: double.maxFinite,
         padding: const EdgeInsets.all(40),
@@ -135,92 +128,42 @@ class _MyLoaderState extends State<MyLoader> {
                 }
 
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: .center,
+                  crossAxisAlignment: .center,
                   children: [
-                    const Spacer(),
-                    CircleAvatar(
-                      radius: 42.5,
-                      backgroundColor: Color(0xffCEFFCE),
-                      child: Icon(Icons.task_alt_outlined, color: Color(0xff067335), size: 45),
-                    ),
+                    const Spacer(flex: 2),
+                    SvgPicture.asset('assets/img/done.svg'),
                     const SizedBox(height: 30),
                     Text(
                       textAlign: TextAlign.center,
                       title,
-                      style: PrimaryTextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: state.result.status == StatusConstants.success ? Theme.of(context).primaryColor : Colors.amber),
+                      style: PrimaryTextStyle(
+                        fontWeight: .w600,
+                        fontSize: 20,
+                        color: state.result.status == StatusConstants.success
+                            ? Theme.of(context).primaryColor
+                            : Colors.amber,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.center,
                       state.result.message,
-                      style: PrimaryTextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+                      style: PrimaryTextStyle(
+                        fontWeight: .w400,
+                        fontSize: 16,
+                        color: ThemeUtil.grey,
+                      ),
                     ),
                     const Spacer(flex: 3),
-                    if (state.result.data?.showReceipt == 1)
-                      FormOutlineButton(
-                        side: BorderSide(color: Theme.of(context).primaryColor),
-                        icon: const Icon(Icons.receipt_long_outlined, size: 23),
-                        text: 'View Receipt',
-                        onPressed: () async {
-                          Navigator.pop(context);
-                          await Future.delayed(const Duration(seconds: 0));
-                          state.onClose();
-                          await Future.delayed(const Duration(seconds: 0));
-                          if (state.onShowReceipt != null) {
-                            state.onShowReceipt!();
-                          }
-                        },
-                      ),
-                    if (state.result.data?.saveBenficiary == 1) const SizedBox(height: 10),
-                    if (state.result.data?.saveBenficiary == 1)
-                      FormOutlineButton(
-                        onPressed: () {
-                          if (state.onSaveBeneficiary != null) {
-                            state.onSaveBeneficiary!();
-                          }
-                        },
-                        side: BorderSide(color: Theme.of(context).primaryColor),
-                        icon: const Icon(Icons.archive_outlined, size: 23),
-                        text: 'Save Beneficiary',
-                        textColor: Theme.of(context).primaryColor,
-                      ),
-                    if (state.result.data?.allowSchedule == 1) const SizedBox(height: 10),
-                    if (state.result.data?.allowSchedule == 1)
-                      FormOutlineButton(
-                        onPressed: () async {
-                          Navigator.pop(context);
-                          await Future.delayed(const Duration(seconds: 0));
-                          state.onClose();
-                          await Future.delayed(const Duration(seconds: 0));
-                          if (state.onScheduleTransaction != null) {
-                            state.onScheduleTransaction!();
-                          }
-                        },
-                        side: BorderSide(color: Theme.of(context).primaryColor),
-                        icon: const Icon(Icons.insert_invitation_outlined, size: 23),
-                        text: 'Schedule Transaction',
-                        textColor: Theme.of(context).primaryColor,
-                      ),
-                    if (state.result.data?.showReceipt == 1) const SizedBox(height: 10),
-                    if (state.result.data?.showReceipt == 1)
-                      FormButton(
-                        text: 'Done',
-                        onPressed: () async {
-                          Navigator.pop(context);
-                          await Future.delayed(const Duration(seconds: 0));
-                          state.onClose();
-                        },
-                      ),
-                    if (state.result.data?.showReceipt != 1)
-                      FormButton(
-                        text: 'Done',
-                        onPressed: () async {
-                          Navigator.pop(context);
-                          await Future.delayed(const Duration(seconds: 0));
-                          state.onClose();
-                        },
-                      ),
+                    FormButton(
+                      text: 'Done',
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await Future.delayed(const Duration(seconds: 0));
+                        state.onClose();
+                      },
+                    ),
                   ],
                 );
               } else if (state is SuccessfulPayeeAddedOptionsLoader) {
@@ -245,7 +188,13 @@ class _MyLoaderState extends State<MyLoader> {
                     Text(
                       textAlign: TextAlign.center,
                       title,
-                      style: PrimaryTextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: state.result.status == StatusConstants.success ? Theme.of(context).primaryColor : Colors.amber),
+                      style: PrimaryTextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: state.result.status == StatusConstants.success
+                            ? Theme.of(context).primaryColor
+                            : Colors.amber,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
@@ -301,7 +250,13 @@ class _MyLoaderState extends State<MyLoader> {
                     Text(
                       textAlign: TextAlign.center,
                       title,
-                      style: PrimaryTextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: state.result.status == StatusConstants.success ? Theme.of(context).primaryColor : Colors.amber),
+                      style: PrimaryTextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 28,
+                        color: state.result.status == StatusConstants.success
+                            ? Theme.of(context).primaryColor
+                            : Colors.amber,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
