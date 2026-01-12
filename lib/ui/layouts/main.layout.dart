@@ -141,7 +141,7 @@ class MainLayout extends StatelessWidget {
 
     return CustomScrollView(
       primary: true,
-      controller: scrollController,
+      // controller: scrollController,
       physics: physics ?? AlwaysScrollableScrollPhysics(),
       slivers: sliverList,
     );

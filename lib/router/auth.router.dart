@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/ui/components/bottom_navbar.cm.dart';
-import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
+import 'package:my_sage_agent/ui/pages/collections.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';

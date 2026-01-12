@@ -11,6 +11,7 @@ class RequestResponse extends Equatable {
   final int? status;
   final String? statusLabel;
   final String? formName;
+  final String? customerName;
   final String? activityName;
   final String? dateCreated;
   final String? receiptDate;
@@ -32,6 +33,7 @@ class RequestResponse extends Equatable {
     this.status,
     this.statusLabel,
     this.formName,
+    this.customerName,
     this.activityName,
     this.dateCreated,
     this.receiptDate,
@@ -48,48 +50,52 @@ class RequestResponse extends Equatable {
   });
 
   factory RequestResponse.fromMap(Map<String, dynamic> data) => RequestResponse(
-        receiptId: data['receiptId'] as String?,
-        reference: data['reference'] as String?,
-        amount: data['amount'] as String?,
-        status: data['status'] as int?,
-        statusLabel: data['statusLabel'] as String?,
-        formName: data['formName'] as String?,
-        activityName: data['activityName'] as String?,
-        dateCreated: data['dateCreated'] as String?,
-        receiptDate: data['receiptDate'] as String?,
-        showReceipt: data['showReceipt'] as int?,
-        saveBenficiary: data['saveBenficiary'] as int?,
-        allowSchedule: data['allowSchedule'] as int?,
-        previewData: (data['previewData'] as List<dynamic>?)?.map((e) => PreviewDatum.fromMap(e as Map<String, dynamic>)).toList(),
-        scheduleForm: data['scheduleForm'] as dynamic,
-        benficiaryEndpoint: data['benficiaryEndpoint'] as String?,
-        comment: data['comment'] as String?,
-        icon: data['icon'] as String?,
-        fblLogo: data['fblLogo'] as String?,
-        receiptDateTime: data['receiptDateTime'] as String?,
-      );
+    receiptId: data['receiptId'] as String?,
+    reference: data['reference'] as String?,
+    amount: data['amount'] as String?,
+    status: data['status'] as int?,
+    statusLabel: data['statusLabel'] as String?,
+    formName: data['formName'] as String?,
+    customerName: data['customerName'] as String?,
+    activityName: data['activityName'] as String?,
+    dateCreated: data['dateCreated'] as String?,
+    receiptDate: data['receiptDate'] as String?,
+    showReceipt: data['showReceipt'] as int?,
+    saveBenficiary: data['saveBenficiary'] as int?,
+    allowSchedule: data['allowSchedule'] as int?,
+    previewData: (data['previewData'] as List<dynamic>?)
+        ?.map((e) => PreviewDatum.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    scheduleForm: data['scheduleForm'] as dynamic,
+    benficiaryEndpoint: data['benficiaryEndpoint'] as String?,
+    comment: data['comment'] as String?,
+    icon: data['icon'] as String?,
+    fblLogo: data['fblLogo'] as String?,
+    receiptDateTime: data['receiptDateTime'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'receiptId': receiptId,
-        'reference': reference,
-        'amount': amount,
-        'status': status,
-        'statusLabel': statusLabel,
-        'formName': formName,
-        'activityName': activityName,
-        'dateCreated': dateCreated,
-        'receiptDate': receiptDate,
-        'showReceipt': showReceipt,
-        'saveBenficiary': saveBenficiary,
-        'allowSchedule': allowSchedule,
-        'previewData': previewData?.map((e) => e.toMap()).toList(),
-        'scheduleForm': scheduleForm,
-        'benficiaryEndpoint': benficiaryEndpoint,
-        'comment': comment,
-        'icon': icon,
-        'fblLogo': fblLogo,
-        'receiptDateTime': receiptDateTime,
-      };
+    'receiptId': receiptId,
+    'reference': reference,
+    'amount': amount,
+    'status': status,
+    'statusLabel': statusLabel,
+    'formName': formName,
+    'customerName': customerName,
+    'activityName': activityName,
+    'dateCreated': dateCreated,
+    'receiptDate': receiptDate,
+    'showReceipt': showReceipt,
+    'saveBenficiary': saveBenficiary,
+    'allowSchedule': allowSchedule,
+    'previewData': previewData?.map((e) => e.toMap()).toList(),
+    'scheduleForm': scheduleForm,
+    'benficiaryEndpoint': benficiaryEndpoint,
+    'comment': comment,
+    'icon': icon,
+    'fblLogo': fblLogo,
+    'receiptDateTime': receiptDateTime,
+  };
 
   /// `dart:convert`
   ///
@@ -110,6 +116,7 @@ class RequestResponse extends Equatable {
     int? status,
     String? statusLabel,
     String? formName,
+    String? customerName,
     String? activityName,
     String? dateCreated,
     String? receiptDate,
@@ -131,6 +138,7 @@ class RequestResponse extends Equatable {
       status: status ?? this.status,
       statusLabel: statusLabel ?? this.statusLabel,
       formName: formName ?? this.formName,
+      customerName: customerName ?? this.customerName,
       activityName: activityName ?? this.activityName,
       dateCreated: dateCreated ?? this.dateCreated,
       receiptDate: receiptDate ?? this.receiptDate,

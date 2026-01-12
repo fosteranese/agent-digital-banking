@@ -13,7 +13,7 @@ import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
 import 'package:my_sage_agent/ui/components/process_flow/process_controller.dart';
-import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
+import 'package:my_sage_agent/ui/pages/collections.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';

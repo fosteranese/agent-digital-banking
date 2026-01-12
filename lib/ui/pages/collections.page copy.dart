@@ -23,7 +23,7 @@ import 'package:my_sage_agent/utils/theme.util.dart';
 
 class CollectionsPage extends StatefulWidget {
   const CollectionsPage({super.key, this.showBackBtn = false});
-  static const routeName = '/history';
+  static const routeName = '/collections';
   final bool showBackBtn;
 
   @override

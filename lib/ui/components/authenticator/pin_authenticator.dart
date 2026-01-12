@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
-import 'package:my_sage_agent/ui/components/form/input.dart';
 import 'package:my_sage_agent/ui/components/form/password_input.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/utils/authentication.util.dart';

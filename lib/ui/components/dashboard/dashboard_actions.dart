@@ -6,13 +6,11 @@ import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
-import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/dashboard/dashboard_button.dart';
 import 'package:my_sage_agent/ui/components/dashboard/process_category.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
-import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/process_flow.util.dart';
@@ -28,42 +26,6 @@ class DashboardActions extends StatefulWidget {
 class _DashboardActionsState extends State<DashboardActions> {
   late Response _response;
   GeneralFlowFormData? _formData;
-
-  List<Map<String, dynamic>> _actions(BuildContext context) => [
-    {
-      'activity': AppUtil.currentUser.activities![0],
-      'onPressed': (ActivityDatum activity) {},
-      'color': Color(0x295801B6),
-      'icon': 'assets/img/client-deposit.svg',
-      'title': 'Deposit for Client',
-      'caption': 'Deposit for client',
-    },
-    {
-      'onPressed': () {
-        context.push(RegisterClientPage.routeName);
-      },
-      'color': Color(0x29034D89),
-      'icon': 'assets/img/group.svg',
-      'title': 'Onboard Client',
-      'caption': 'Register new client',
-    },
-    {
-      'activity': AppUtil.currentUser.activities![1],
-      'onPressed': (ActivityDatum activity) {},
-      'color': Color(0x292719CA),
-      'icon': 'assets/img/invest.svg',
-      'title': 'Investment',
-      'caption': 'Invest for client',
-    },
-    {
-      'activity': AppUtil.currentUser.activities![2],
-      'onPressed': (ActivityDatum activity) {},
-      'color': Color(0x2919CA74),
-      'icon': 'assets/img/loan.svg',
-      'title': 'Loan Request',
-      'caption': 'Loan request for client',
-    },
-  ];
 
   final _category = ValueNotifier<GeneralFlowCategory?>(null);
   bool _loading = false;
@@ -191,7 +153,7 @@ class _DashboardActionsState extends State<DashboardActions> {
 
   @override
   Widget build(BuildContext context) {
-    final actions = _actions(context);
+    // final actions = _actions(context);
     return BlocListener<RetrieveDataBloc, RetrieveDataState>(
       listener: _handleRetrieveDataState,
       child: SliverPadding(
@@ -217,7 +179,7 @@ class _DashboardActionsState extends State<DashboardActions> {
                     crossAxisSpacing: 16,
                     childAspectRatio: 1.2,
                   ),
-                  children: actions.map((item) {
+                  children: AppUtil.currentUser.activities!.map((item) {
                     return DashboardButton(category: _category, item: item);
                   }).toList(),
                 ),

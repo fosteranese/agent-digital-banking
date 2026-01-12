@@ -20,7 +20,7 @@ import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/multiple_input_plus.dart';
 import 'package:my_sage_agent/ui/components/form/schedule.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
-import 'package:my_sage_agent/ui/pages/collectionsPage.page.dart';
+import 'package:my_sage_agent/ui/pages/collections.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';

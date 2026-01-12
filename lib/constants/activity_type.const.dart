@@ -13,3 +13,8 @@ class ActivityTypesConst {
   static const bulkPayment = 'BULKPAYMENT';
   static const schedule = 'SCHEDULE';
 }
+
+class FormsConst {
+  static const cashDeposit = 'Cash Deposit';
+  static const mobileMoney = 'Mobile Money';
+}
