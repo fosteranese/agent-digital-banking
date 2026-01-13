@@ -18,9 +18,7 @@ class Loader {
   Future _display() {
     return showDialog(
       context: MyApp.navigatorKey.currentContext!,
-      barrierColor: Colors.black.withAlpha(
-        179,
-      ), // const Color(0xE0ffffff).withOpacity(0.2),
+      barrierColor: Colors.black.withAlpha(179), // const Color(0xE0ffffff).withOpacity(0.2),
       useSafeArea: false,
       builder: (BuildContext context) {
         return MyLoader(bloc: loaderBloc);
@@ -49,18 +47,10 @@ class Loader {
     if (!_displayed) {
       _display();
       loaderBloc.add(LoadingEvent(message ?? ''));
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
+      await Future.delayed(const Duration(milliseconds: 100));
     }
     this.message = title;
-    loaderBloc.add(
-      SucceededWithOptionsEvent(
-        title: title,
-        message: message,
-        onClose: onClose,
-      ),
-    );
+    loaderBloc.add(SucceededWithOptionsEvent(title: title, message: message, onClose: onClose));
     _displayed = false;
   }
 
@@ -75,9 +65,7 @@ class Loader {
     if (!_displayed) {
       _display();
       loaderBloc.add(LoadingEvent(message));
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
+      await Future.delayed(const Duration(milliseconds: 100));
     }
 
     message = title;
@@ -103,9 +91,7 @@ class Loader {
     if (!_displayed) {
       _display();
       loaderBloc.add(LoadingEvent(message));
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
+      await Future.delayed(const Duration(milliseconds: 100));
     }
 
     message = title;
@@ -129,9 +115,7 @@ class Loader {
     if (!_displayed) {
       _display();
       loaderBloc.add(LoadingEvent(message));
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
+      await Future.delayed(const Duration(milliseconds: 100));
     }
     message = title;
     loaderBloc.add(
@@ -165,18 +149,10 @@ class Loader {
     if (!_displayed) {
       _display();
       loaderBloc.add(LoadingEvent(message ?? ''));
-      await Future.delayed(
-        const Duration(milliseconds: 100),
-      );
+      await Future.delayed(const Duration(milliseconds: 100));
     }
     this.message = title;
-    loaderBloc.add(
-      FailedWithOptionsEvent(
-        title: title,
-        message: message,
-        onClose: onClose,
-      ),
-    );
+    loaderBloc.add(FailedWithOptionsEvent(title: title, message: message, onClose: onClose));
     _displayed = false;
   }
 

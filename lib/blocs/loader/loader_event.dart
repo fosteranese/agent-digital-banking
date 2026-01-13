@@ -27,9 +27,7 @@ class LoadingEvent extends LoaderEvent {
   const LoadingEvent(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class SucceededEvent extends LoaderEvent {
@@ -38,9 +36,7 @@ class SucceededEvent extends LoaderEvent {
   const SucceededEvent(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class SucceededWithOptionsEvent extends LoaderEvent {
@@ -48,18 +44,10 @@ class SucceededWithOptionsEvent extends LoaderEvent {
   final String? message;
   final void Function() onClose;
 
-  const SucceededWithOptionsEvent({
-    required this.title,
-    this.message,
-    required this.onClose,
-  });
+  const SucceededWithOptionsEvent({required this.title, this.message, required this.onClose});
 
   @override
-  List<Object?> get props => [
-        title,
-        message,
-        onClose,
-      ];
+  List<Object?> get props => [title, message, onClose];
 }
 
 class SuccessGeneralFlowOptionsEvent extends LoaderEvent {
@@ -81,13 +69,13 @@ class SuccessGeneralFlowOptionsEvent extends LoaderEvent {
 
   @override
   List<Object?> get props => [
-        title,
-        result,
-        onClose,
-        onSaveBeneficiary,
-        onScheduleTransaction,
-        onShowReceipt,
-      ];
+    title,
+    result,
+    onClose,
+    onSaveBeneficiary,
+    onScheduleTransaction,
+    onShowReceipt,
+  ];
 }
 
 class SuccessPayeeAddedOptionsEvent extends LoaderEvent {
@@ -104,12 +92,7 @@ class SuccessPayeeAddedOptionsEvent extends LoaderEvent {
   });
 
   @override
-  List<Object?> get props => [
-        title,
-        result,
-        onClose,
-        onShowDetails,
-      ];
+  List<Object?> get props => [title, result, onClose, onShowDetails];
 }
 
 class SuccessBulkPaymentEvent extends LoaderEvent {
@@ -126,12 +109,7 @@ class SuccessBulkPaymentEvent extends LoaderEvent {
   });
 
   @override
-  List<Object?> get props => [
-        title,
-        result,
-        onClose,
-        onGotoHistory,
-      ];
+  List<Object?> get props => [title, result, onClose, onGotoHistory];
 }
 
 class FailedEvent extends LoaderEvent {
@@ -140,9 +118,7 @@ class FailedEvent extends LoaderEvent {
   const FailedEvent(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class FailedWithOptionsEvent extends LoaderEvent {
@@ -150,18 +126,10 @@ class FailedWithOptionsEvent extends LoaderEvent {
   final String? message;
   final void Function() onClose;
 
-  const FailedWithOptionsEvent({
-    required this.title,
-    this.message,
-    required this.onClose,
-  });
+  const FailedWithOptionsEvent({required this.title, this.message, required this.onClose});
 
   @override
-  List<Object?> get props => [
-        title,
-        message,
-        onClose,
-      ];
+  List<Object?> get props => [title, message, onClose];
 }
 
 class InfoEvent extends LoaderEvent {
@@ -170,9 +138,7 @@ class InfoEvent extends LoaderEvent {
   const InfoEvent(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class StopEvent extends LoaderEvent {

@@ -15,7 +15,6 @@ import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/set_secret_answer_login.page.dart';
-import 'package:my_sage_agent/ui/pages/login/verify_id.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
 import 'package:my_sage_agent/ui/pages/notifications.page.dart';
@@ -145,7 +144,6 @@ final router = GoRouter(
       path: RequestPasswordResetPage.routeName,
       builder: (context, state) => const RequestPasswordResetPage(),
     ),
-    GoRoute(path: VerifyIdPage.routeName, builder: (context, state) => VerifyIdPage()),
     GoRoute(
       path: RequestSecretAnswerPage.routeName,
       builder: (context, state) => RequestSecretAnswerPage(),

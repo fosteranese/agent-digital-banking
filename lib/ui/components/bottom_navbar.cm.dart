@@ -191,7 +191,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         onTabChanged: (index) {
           _currentIndex.value = index;
 
-          if (_currentIndex.value == 2) {
+          if (_currentIndex.value == 1 || _currentIndex.value == 2) {
             context.read<HistoryBloc>().add(const LoadHistory(true));
           }
         },

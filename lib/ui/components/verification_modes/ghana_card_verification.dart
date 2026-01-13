@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
-import 'package:my_sage_agent/data/models/verification.response.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/ui/components/face_detection_overlay.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
@@ -14,9 +13,8 @@ import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class GhanaCardVerification extends StatefulWidget {
-  const GhanaCardVerification({super.key, required this.data, required this.onVerify, this.onSkip, this.onBack});
+  const GhanaCardVerification({super.key, required this.onVerify, this.onSkip, this.onBack});
 
-  final VerificationResponse data;
   final void Function(String picture, String code) onVerify;
   final void Function()? onSkip;
   final void Function()? onBack;
@@ -53,14 +51,20 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
             fit: StackFit.expand,
             children: [
               Container(
-                decoration: const BoxDecoration(color: Colors.black, backgroundBlendMode: BlendMode.dstOut),
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  backgroundBlendMode: BlendMode.dstOut,
+                ),
               ),
               Align(
                 alignment: Alignment.center,
                 child: Container(
                   width: _width,
                   height: _height,
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(_width / 2)),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ],
@@ -75,8 +79,11 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                 width: _width,
                 height: _height,
                 decoration: BoxDecoration(
-                  border: Border.all(color: value ? Colors.green.shade700 : Colors.white, width: value ? 4 : 1),
-                  borderRadius: BorderRadius.circular(_width / 2.0),
+                  border: Border.all(
+                    color: value ? Colors.green.shade700 : Colors.white,
+                    width: value ? 4 : 1,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
             );
@@ -159,7 +166,11 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                   Text(
                     'Permission Request',
                     textAlign: TextAlign.center,
-                    style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+                    style: PrimaryTextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -199,7 +210,11 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                   Text(
                     'Permission Denied',
                     textAlign: TextAlign.center,
-                    style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+                    style: PrimaryTextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -224,29 +239,41 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
 
           return Stack(
             children: [
-              FaceDetectionOverlay(onInit: _onInit, whichSide: whichSideController, cameras: _cameras, camera: _currentCamera, frontCamera: _frontCamera, backCamera: _backCamera, faceDetectorOptions: FaceDetectorOptions(enableClassification: false, enableContours: false), overlay: _overlay(), resultCallback: _resultCallback),
+              FaceDetectionOverlay(
+                onInit: _onInit,
+                whichSide: whichSideController,
+                cameras: _cameras,
+                camera: _currentCamera,
+                frontCamera: _frontCamera,
+                backCamera: _backCamera,
+                faceDetectorOptions: FaceDetectorOptions(
+                  enableClassification: false,
+                  enableContours: false,
+                ),
+                overlay: _overlay(),
+                resultCallback: _resultCallback,
+              ),
               Center(
                 child: Padding(
                   padding: EdgeInsets.only(top: _height + 60),
-                  child: const Text('Position your head in the frame', style: TextStyle(color: Colors.white)),
+                  child: const Text(
+                    'Position your head in the frame',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
               Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: AppBar(
                   backgroundColor: Colors.transparent,
-                  leading: IconButton(
+                  leading: IconButton.filled(
+                    style: IconButton.styleFrom(backgroundColor: ThemeUtil.offWhite),
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    color: Colors.white,
-                    icon: const Icon(Icons.close),
+                    color: ThemeUtil.flat,
+                    icon: const Icon(Icons.arrow_back),
                   ),
-                  title: Text(
-                    'Camera',
-                    style: PrimaryTextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w600),
-                  ),
-                  centerTitle: true,
                 ),
                 bottomNavigationBar: SizedBox(
                   height: 140,
@@ -258,7 +285,11 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                         padding: const EdgeInsets.only(bottom: 60),
                         child: IconButton(
                           onPressed: _toggleTorch,
-                          icon: SizedBox(width: 48, height: 48, child: SvgPicture.asset('assets/img/flash.svg')),
+                          icon: SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: SvgPicture.asset('assets/img/flash.svg'),
+                          ),
                         ),
                       ),
                       Column(
@@ -269,14 +300,23 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                           InkWell(
                             onTap: () {
                               if (!_faceFound.value) {
-                                MessageUtil.displayErrorDialog(context, message: "Please position your head in the frame");
+                                MessageUtil.displayErrorDialog(
+                                  context,
+                                  message: "Please position your head in the frame",
+                                );
                                 return;
                               }
 
                               controller.takePicture().then((image) {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => PicturePreviewPage(title: '', image: image, height: _height, width: _width, onSuccess: widget.onVerify),
+                                    builder: (context) => PicturePreviewPage(
+                                      title: '',
+                                      image: image,
+                                      height: _height,
+                                      width: _width,
+                                      onSuccess: widget.onVerify,
+                                    ),
                                   ),
                                 );
                               });
@@ -292,7 +332,10 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                               ),
                               child: Container(
                                 margin: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(50)),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
                               ),
                             ),
                           ),
@@ -309,7 +352,11 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                             whichSideController.text = isFront ? 'front' : 'back';
                             // setState(() {});
                           },
-                          icon: SizedBox(width: 48, height: 48, child: SvgPicture.asset('assets/img/turn.svg')),
+                          icon: SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: SvgPicture.asset('assets/img/turn.svg'),
+                          ),
                         ),
                       ),
                     ],
@@ -340,7 +387,9 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
     } on CameraException catch (e) {
       logger.e('Failed to change flash mode: ${e.code} ${e.description}');
       // optionally show SnackBar to user
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Flash not supported on this device')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Flash not supported on this device')));
     }
   }
 
@@ -359,7 +408,8 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
         final yPositionStart = (MediaQuery.of(context).size.height - height) / 2;
         final yPositionEnd = yPositionStart + height;
 
-        if ((face.boundingBox.left > xPositionStart && face.boundingBox.left < xPositionEnd) && (face.boundingBox.top > yPositionStart && face.boundingBox.top < yPositionEnd)) {
+        if ((face.boundingBox.left > xPositionStart && face.boundingBox.left < xPositionEnd) &&
+            (face.boundingBox.top > yPositionStart && face.boundingBox.top < yPositionEnd)) {
           _faceFound.value = true;
         } else {
           _faceFound.value = false;

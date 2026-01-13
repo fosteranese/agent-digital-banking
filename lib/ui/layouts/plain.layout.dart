@@ -5,7 +5,21 @@ import 'package:my_sage_agent/utils/help.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class PlainLayout extends StatelessWidget {
-  const PlainLayout({super.key, this.backIcon, this.onPressHelped, this.title, this.subtitle, this.miniTitle, required this.children, this.useCloseIcon = false, this.onBackPressed, this.centerTitle = false, this.centerSubtitle = false, this.titleTextColor = Colors.black, this.noHelp = false});
+  const PlainLayout({
+    super.key,
+    this.backIcon,
+    this.onPressHelped,
+    this.title,
+    this.subtitle,
+    this.miniTitle,
+    required this.children,
+    this.useCloseIcon = false,
+    this.onBackPressed,
+    this.centerTitle = false,
+    this.centerSubtitle = false,
+    this.titleTextColor = Colors.black,
+    this.noHelp = false,
+  });
 
   final Widget? backIcon;
   final void Function()? onPressHelped;
@@ -30,33 +44,39 @@ class PlainLayout extends StatelessWidget {
           slivers: [
             SliverAppBar(
               backgroundColor: Colors.white,
-              leading: IconButton(
-                style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
+              leading: IconButton.filled(
+                style: IconButton.styleFrom(
+                  fixedSize: const Size(35, 35),
+                  backgroundColor: ThemeUtil.offWhite,
+                ),
                 onPressed:
                     onBackPressed ??
                     () {
                       context.pop();
                     },
-                icon: const Icon(Icons.arrow_back, color: Colors.black),
+                icon: const Icon(Icons.arrow_back, color: ThemeUtil.black),
               ),
               title: Text(
                 miniTitle ?? '',
-                style: const PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Color(0xff010101)),
+                style: const PrimaryTextStyle(
+                  fontWeight: .w600,
+                  fontSize: 16,
+                  color: ThemeUtil.black,
+                ),
               ),
               centerTitle: true,
               automaticallyImplyLeading: false,
               actions: [
-                TextButton(
+                FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: ThemeUtil.offWhite,
+                    foregroundColor: ThemeUtil.black,
+                    padding: .symmetric(horizontal: 15),
+                  ),
                   onPressed: () {
                     HelpUtil.show(onCancelled: () {});
                   },
-                  child: Row(
-                    children: [
-                      Icon(Icons.help_outline, size: 24),
-                      const SizedBox(width: 5),
-                      Text('Help', style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
+                  child: Text('Help', style: PrimaryTextStyle(fontSize: 13, fontWeight: .w400)),
                 ),
                 const SizedBox(width: 5),
               ],
@@ -76,7 +96,12 @@ class PlainLayout extends StatelessWidget {
                         child: Text(
                           title!,
                           textAlign: centerTitle ? TextAlign.center : TextAlign.start,
-                          style: TextStyle(fontFamily: ThemeUtil.fontHelveticaNeue, color: titleTextColor, fontSize: 22, fontWeight: FontWeight.w800),
+                          style: TextStyle(
+                            fontFamily: ThemeUtil.fontHelveticaNeue,
+                            color: titleTextColor,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ),
                     if (subtitle != null)
@@ -87,7 +112,11 @@ class PlainLayout extends StatelessWidget {
                           child: Text(
                             subtitle!,
                             textAlign: centerTitle ? TextAlign.center : TextAlign.start,
-                            style: const TextStyle(color: Color(0xff4F4F4F), fontWeight: FontWeight.w400, fontSize: 14),
+                            style: const TextStyle(
+                              color: Color(0xff4F4F4F),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),

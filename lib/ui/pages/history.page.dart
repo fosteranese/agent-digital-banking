@@ -32,7 +32,12 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   final _controller = TextEditingController();
   String _filterBy = '';
-  Response<HistoryResponse> _sourceList = const Response(code: '', message: '', status: '', data: HistoryResponse());
+  Response<HistoryResponse> _sourceList = const Response(
+    code: '',
+    message: '',
+    status: '',
+    data: HistoryResponse(),
+  );
   List<RequestResponse> _list = [];
   final _fToast = FToast();
   bool _showUpdating = true;
@@ -40,7 +45,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   void initState() {
-    context.read<HistoryBloc>().add(const LoadHistory(true));
+    // context.read<HistoryBloc>().add(const LoadHistory(true));
     _sourceList = context.read<HistoryBloc>().history;
     _list = _sourceList.data?.request ?? [];
     _fToast.init(context);
@@ -61,7 +66,10 @@ class _HistoryPageState extends State<HistoryPage> {
       },
       title: 'Transactions',
       backIcon: IconButton(
-        style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
+        style: IconButton.styleFrom(
+          fixedSize: const Size(35, 35),
+          backgroundColor: const Color(0x91F7C15A),
+        ),
         onPressed: () {
           if (widget.showBackBtn) {
             context.pop();
@@ -72,11 +80,19 @@ class _HistoryPageState extends State<HistoryPage> {
         icon: const Icon(Icons.arrow_back, color: Colors.black),
       ),
       showBackBtn: true,
-      bottom: SearchBox(controller: _controller, onSearch: (value) => _search(value, _sourceList.data?.request ?? []), filterBy: _filterBy, onFilter: () => _onShowFilterDialog(context)),
+      bottom: SearchBox(
+        controller: _controller,
+        onSearch: (value) => _search(value, _sourceList.data?.request ?? []),
+        filterBy: _filterBy,
+        onFilter: () => _onShowFilterDialog(context),
+      ),
 
       sliver: BlocConsumer<HistoryBloc, HistoryState>(
         listener: (context, state) => _handleBlocListener(state),
-        buildWhen: (previous, current) => current is LoadingHistory || current is HistoryLoaded || current is HistoryLoadedSilently,
+        buildWhen: (previous, current) =>
+            current is LoadingHistory ||
+            current is HistoryLoaded ||
+            current is HistoryLoadedSilently,
         builder: (context, state) {
           if (state is LoadingHistory) {
             return const HistoryShimmerList();
@@ -96,7 +112,11 @@ class _HistoryPageState extends State<HistoryPage> {
               itemCount: _list.length,
               itemBuilder: (_, index) {
                 final record = _list[index];
-                return HistoryListItem(record: record, sourceList: _sourceList, onTap: record.showReceipt == 1 ? () => _openReceipt(record) : null);
+                return HistoryListItem(
+                  record: record,
+                  sourceList: _sourceList,
+                  onTap: record.showReceipt == 1 ? () => _openReceipt(record) : null,
+                );
               },
               separatorBuilder: (_, _) => const SizedBox(height: 10),
             ),
@@ -145,12 +165,20 @@ class _HistoryPageState extends State<HistoryPage> {
           SvgPicture.asset('assets/img/empty.svg', width: 64),
           Text(
             'No $_filterBy Transactions found',
-            style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16, fontWeight: FontWeight.w600),
+            style: PrimaryTextStyle(
+              color: Color(0xff4F4F4F),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const Text(
             'Complete said transaction(s) to see it appear here',
             textAlign: TextAlign.center,
-            style: PrimaryTextStyle(color: Color(0xff919195), fontSize: 14, fontWeight: FontWeight.normal),
+            style: PrimaryTextStyle(
+              color: Color(0xff919195),
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
           ),
           const SizedBox(height: 100),
         ],
@@ -172,7 +200,9 @@ class _HistoryPageState extends State<HistoryPage> {
           if (filter.isEmpty) {
             mainContext.read<HistoryBloc>().add(const LoadAllHistory());
           } else {
-            final activity = _sourceList.data?.activity?.firstWhere((e) => e.activityName == filter);
+            final activity = _sourceList.data?.activity?.firstWhere(
+              (e) => e.activityName == filter,
+            );
             if (activity != null) {
               mainContext.read<HistoryBloc>().add(FilterHistory(activity));
             }
@@ -183,7 +213,15 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   void _openReceipt(RequestResponse record) {
-    context.push(ReceiptPage.routeName, extra: {'request': record, 'imageBaseUrl': _sourceList.imageBaseUrl, 'imageDirectory': _sourceList.imageDirectory, 'fblLogo': _sourceList.data?.fblLogo ?? ''});
+    context.push(
+      ReceiptPage.routeName,
+      extra: {
+        'request': record,
+        'imageBaseUrl': _sourceList.imageBaseUrl,
+        'imageDirectory': _sourceList.imageDirectory,
+        'fblLogo': _sourceList.data?.fblLogo ?? '',
+      },
+    );
   }
 
   @override

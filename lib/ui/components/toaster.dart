@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class Toaster extends StatelessWidget {
   const Toaster(this.title, {super.key});
@@ -7,17 +8,12 @@ class Toaster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 5,
-        horizontal: 10,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: BoxDecoration(
-        color: Theme.of(
-          context,
-        ).colorScheme.secondary.withAlpha(242),
-        borderRadius: BorderRadius.circular(30),
+        color: ThemeUtil.black.withAlpha(242),
+        borderRadius: BorderRadius.circular(8),
       ),
-      margin: const EdgeInsets.only(bottom: 80),
+      // margin: const EdgeInsets.only(bottom: 80),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -26,16 +22,10 @@ class Toaster extends StatelessWidget {
           const SizedBox(
             width: 13,
             height: 13,
-            child: CircularProgressIndicator(
-              color: Colors.white,
-              strokeWidth: 2,
-            ),
+            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
           ),
           const SizedBox(width: 10),
-          Text(
-            title,
-            style: const TextStyle(color: Colors.white),
-          ),
+          Text(title, style: const TextStyle(color: Colors.white)),
         ],
       ),
     );

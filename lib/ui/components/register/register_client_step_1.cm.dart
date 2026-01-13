@@ -4,7 +4,19 @@ import 'package:my_sage_agent/ui/components/form/select.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class RegisterClientStep1 extends StatelessWidget {
-  const RegisterClientStep1({super.key});
+  const RegisterClientStep1({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.phoneNumber,
+    required this.emailAddress,
+  });
+  final TextEditingController firstName;
+  final TextEditingController lastName;
+  final TextEditingController gender;
+  final TextEditingController phoneNumber;
+  final TextEditingController emailAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +32,9 @@ class RegisterClientStep1 extends StatelessWidget {
           ),
           const SizedBox(height: 30),
 
-          FormInput(label: 'Full Name *', placeholder: 'Enter full name'),
+          FormInput(label: 'Full Name *', placeholder: 'Enter full name', controller: firstName),
           FormSelect(
+            controller: gender,
             label: 'Gender *',
             title: 'Enter gender',
             options: [
@@ -29,8 +42,16 @@ class RegisterClientStep1 extends StatelessWidget {
               FormSelectOption(value: 'female', text: 'Female'),
             ],
           ),
-          FormInput(label: 'Phone Number *', placeholder: 'Eg. 0244123654'),
-          FormInput(label: 'Email Address *', placeholder: 'Enter email address'),
+          FormInput(
+            label: 'Phone Number *',
+            placeholder: 'Eg. 0244123654',
+            controller: phoneNumber,
+          ),
+          FormInput(
+            label: 'Email Address *',
+            placeholder: 'Enter email address',
+            controller: emailAddress,
+          ),
         ],
       ),
     );

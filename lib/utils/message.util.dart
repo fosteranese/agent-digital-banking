@@ -182,6 +182,67 @@ final class MessageUtil {
     );
   }
 
+  static void displaySuccessFullDialog(
+    BuildContext context, {
+    String? title,
+    String? message,
+    void Function()? onOk,
+  }) {
+    showDialog(
+      barrierColor: Colors.white,
+      context: context,
+      useRootNavigator: true,
+      useSafeArea: false,
+      fullscreenDialog: true,
+      builder: (context) => ZoomIn(
+        child: Dialog(
+          constraints: BoxConstraints(
+            minWidth: MediaQuery.of(context).size.width,
+            maxWidth: MediaQuery.of(context).size.width,
+            minHeight: MediaQuery.of(context).size.height,
+            maxHeight: MediaQuery.of(context).size.height,
+          ),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: .zero),
+          insetPadding: .zero,
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              mainAxisAlignment: .center,
+              crossAxisAlignment: .center,
+              children: [
+                const Spacer(flex: 2),
+                SvgPicture.asset('assets/img/done.svg'),
+                const SizedBox(height: 30),
+                Text(
+                  textAlign: TextAlign.center,
+                  title ?? 'Successful',
+                  style: PrimaryTextStyle(fontWeight: .w600, fontSize: 20, color: ThemeUtil.black),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  textAlign: TextAlign.center,
+                  message ?? 'Your action was completed successfully.',
+                  style: PrimaryTextStyle(fontWeight: .w400, fontSize: 16, color: ThemeUtil.grey),
+                ),
+                const Spacer(flex: 3),
+                FormButton(
+                  text: 'Done',
+                  onPressed: () {
+                    Navigator.pop(context);
+                    if (onOk != null) {
+                      onOk();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   static void displayActionDialog(
     BuildContext context, {
     String? title,

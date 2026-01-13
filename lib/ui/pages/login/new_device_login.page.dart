@@ -11,7 +11,6 @@ import 'package:my_sage_agent/ui/components/form/password_input.dart';
 import 'package:my_sage_agent/ui/layouts/background.layout.dart';
 import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
 import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
-import 'package:my_sage_agent/ui/pages/login/verify_id.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -85,12 +84,6 @@ class _NewDeviceLoginPageState extends State<NewDeviceLoginPage> {
           listener: (context, state) async {
             if (state is LoginInitiated) {
               context.push(OtpLoginPage.routeName);
-
-              return;
-            }
-
-            if (state is VerifyId) {
-              context.push(VerifyIdPage.routeName, extra: state.result.data);
 
               return;
             }

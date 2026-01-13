@@ -17,7 +17,6 @@ import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
-import 'package:string_validator/string_validator.dart';
 
 class CollectionsPage extends StatefulWidget {
   const CollectionsPage({super.key, this.showBackBtn = false});
@@ -44,7 +43,6 @@ class _CollectionsPageState extends State<CollectionsPage> {
 
   @override
   void initState() {
-    context.read<HistoryBloc>().add(const LoadHistory(true));
     _sourceList = context.read<HistoryBloc>().history;
     _list = _sourceList.data?.request ?? [];
     _fToast.init(context);

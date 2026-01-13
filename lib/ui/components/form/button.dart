@@ -13,7 +13,7 @@ class FormButton extends StatelessWidget {
     this.icon,
     this.buttonIconAlignment = ButtonIconAlignment.right,
     this.backgroundColor = ThemeUtil.secondaryColor,
-    this.foregroundColor = Colors.white,
+    this.foregroundColor = const Color(0xff003F37),
     this.iconColor,
     this.height = 48,
     this.loading = false,
@@ -48,7 +48,7 @@ class FormButton extends StatelessWidget {
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: !loading ? backgroundColor : Color(0xffF8F8F8),
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          padding: .symmetric(horizontal: 8, vertical: 8),
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius ?? BorderRadius.circular(height),
           ),
@@ -85,7 +85,7 @@ class FormButton extends StatelessWidget {
       maxLines: 1,
       style: PrimaryTextStyle(
         fontSize: labelSize ?? 16,
-        fontWeight: fontWeight ?? FontWeight.bold,
+        fontWeight: fontWeight ?? .w500,
         color: foregroundColor,
       ),
     );

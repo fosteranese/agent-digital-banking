@@ -12,10 +12,8 @@ import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/data/models/user_response/recent_activity.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
-import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
-import 'package:my_sage_agent/utils/qrcode.util.dart';
 
 class ServiceUtil {
   static final _loader = Loader();
@@ -263,12 +261,6 @@ class ServiceUtil {
             routeName: routeName,
             activityType: ActivityTypesConst.quickFlow,
           ),
-        );
-        break;
-      case ActivityTypesConst.scanToPay:
-        QrCodeUtil.openScanToPay(
-          scanToPay: AppUtil.currentUser.scanToPay!,
-          iconBaseUrl: '${AppUtil.currentUser.imageBaseUrl}${AppUtil.currentUser.imageDirectory}',
         );
         break;
       default:
