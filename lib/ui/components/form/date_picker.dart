@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:my_sage_agent/utils/theme.util.dart';
 
-import 'base_input.dart';
+import 'package:my_sage_agent/ui/components/form/base_input.dart';
 
 class FormDatePicker extends StatefulWidget {
   const FormDatePicker({
@@ -126,7 +126,7 @@ class _FormDatePickerState extends State<FormDatePicker> {
       maxLength: widget.maxLength,
       prefixIconPadding: widget.prefixIconPadding,
       suffix: IconButton(
-        icon: Icon(Icons.calendar_today, color: ThemeUtil.secondaryColor),
+        icon: SvgPicture.asset('assets/img/calendar.svg'),
         onPressed: () {
           _openDatePicker();
         },
