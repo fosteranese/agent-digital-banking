@@ -12,14 +12,20 @@ class GeneralFlowFieldsDatum extends Equatable {
   const GeneralFlowFieldsDatum({this.lov, this.field});
 
   factory GeneralFlowFieldsDatum.fromMap(Map<String, dynamic> data) => GeneralFlowFieldsDatum(
-        lov: data['lov'] != null ? (data['lov'] as List<dynamic>?)?.map((e) => Lov.fromMap(e as Map<String, dynamic>)).toList() : [],
-        field: data['field'] == null ? null : GeneralFlowField.fromMap(data['field'] as Map<String, dynamic>),
-      );
+    lov: data['lov'] != null
+        ? (data['lov'] as List<dynamic>?)
+              ?.map((e) => Lov.fromMap(e as Map<String, dynamic>))
+              .toList()
+        : [],
+    field: data['field'] == null
+        ? null
+        : GeneralFlowField.fromMap(data['field'] as Map<String, dynamic>),
+  );
 
   Map<String, dynamic> toMap() => {
-        'lov': lov?.map((e) => e.toMap()).toList() ?? [],
-        'field': field?.toMap(),
-      };
+    'lov': lov?.map((e) => e.toMap()).toList() ?? [],
+    'field': field?.toMap(),
+  };
 
   /// `dart:convert`
   ///
@@ -33,22 +39,13 @@ class GeneralFlowFieldsDatum extends Equatable {
   /// Converts [GeneralFlowFieldsDatum] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  GeneralFlowFieldsDatum copyWith({
-    List<Lov>? lov,
-    GeneralFlowField? field,
-  }) {
-    return GeneralFlowFieldsDatum(
-      lov: lov ?? this.lov,
-      field: field ?? this.field,
-    );
+  GeneralFlowFieldsDatum copyWith({List<Lov>? lov, GeneralFlowField? field}) {
+    return GeneralFlowFieldsDatum(lov: lov ?? this.lov, field: field ?? this.field);
   }
 
   @override
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        lov,
-        field,
-      ];
+  List<Object?> get props => [lov, field];
 }

@@ -22,24 +22,18 @@ class SmallImageButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
         foregroundColor: textColor,
-        textStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              letterSpacing: -0.5,
-              color: Colors.black,
-            ),
+        textStyle: Theme.of(
+          context,
+        ).textTheme.headlineMedium?.copyWith(letterSpacing: -0.5, color: Colors.black),
         padding: const EdgeInsets.all(10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
       onPressed: onPressed,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(
-            "assets/img/$image",
-            height: 24,
-          ),
+          Image.asset("assets/img/$image", height: 24),
           const SizedBox(width: 5),
           Text(text),
         ],

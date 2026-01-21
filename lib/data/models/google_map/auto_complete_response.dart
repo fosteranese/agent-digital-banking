@@ -2,14 +2,13 @@ class GoogleMapAutoCompleteResponse {
   List<Predictions>? predictions;
   String? status;
 
-  GoogleMapAutoCompleteResponse({
-    this.predictions,
-    this.status,
-  });
+  GoogleMapAutoCompleteResponse({this.predictions, this.status});
 
   GoogleMapAutoCompleteResponse.fromMap(Map<String, dynamic> json) {
     if (json["predictions"] is List) {
-      predictions = json["predictions"] == null ? null : (json["predictions"] as List).map((e) => Predictions.fromMap(e)).toList();
+      predictions = json["predictions"] == null
+          ? null
+          : (json["predictions"] as List).map((e) => Predictions.fromMap(e)).toList();
     }
     if (json["status"] is String) {
       status = json["status"];
@@ -35,14 +34,24 @@ class Predictions {
   List<Terms>? terms;
   List<String>? types;
 
-  Predictions({this.description, this.matchedSubstrings, this.placeId, this.reference, this.structuredFormatting, this.terms, this.types});
+  Predictions({
+    this.description,
+    this.matchedSubstrings,
+    this.placeId,
+    this.reference,
+    this.structuredFormatting,
+    this.terms,
+    this.types,
+  });
 
   Predictions.fromMap(Map<String, dynamic> json) {
     if (json["description"] is String) {
       description = json["description"];
     }
     if (json["matched_substrings"] is List) {
-      matchedSubstrings = json["matched_substrings"] == null ? null : (json["matched_substrings"] as List).map((e) => MatchedSubstrings.fromMap(e)).toList();
+      matchedSubstrings = json["matched_substrings"] == null
+          ? null
+          : (json["matched_substrings"] as List).map((e) => MatchedSubstrings.fromMap(e)).toList();
     }
     if (json["place_id"] is String) {
       placeId = json["place_id"];
@@ -51,10 +60,14 @@ class Predictions {
       reference = json["reference"];
     }
     if (json["structured_formatting"] is Map) {
-      structuredFormatting = json["structured_formatting"] == null ? null : StructuredFormatting.fromMap(json["structured_formatting"]);
+      structuredFormatting = json["structured_formatting"] == null
+          ? null
+          : StructuredFormatting.fromMap(json["structured_formatting"]);
     }
     if (json["terms"] is List) {
-      terms = json["terms"] == null ? null : (json["terms"] as List).map((e) => Terms.fromMap(e)).toList();
+      terms = json["terms"] == null
+          ? null
+          : (json["terms"] as List).map((e) => Terms.fromMap(e)).toList();
     }
     if (json["types"] is List) {
       types = json["types"] == null ? null : List<String>.from(json["types"]);
@@ -117,7 +130,11 @@ class StructuredFormatting {
       mainText = json["main_text"];
     }
     if (json["main_text_matched_substrings"] is List) {
-      mainTextMatchedSubstrings = json["main_text_matched_substrings"] == null ? null : (json["main_text_matched_substrings"] as List).map((e) => MainTextMatchedSubstrings.fromMap(e)).toList();
+      mainTextMatchedSubstrings = json["main_text_matched_substrings"] == null
+          ? null
+          : (json["main_text_matched_substrings"] as List)
+                .map((e) => MainTextMatchedSubstrings.fromMap(e))
+                .toList();
     }
     if (json["secondary_text"] is String) {
       secondaryText = json["secondary_text"];
@@ -128,7 +145,9 @@ class StructuredFormatting {
     final Map<String, dynamic> data = <String, dynamic>{};
     data["main_text"] = mainText;
     if (mainTextMatchedSubstrings != null) {
-      data["main_text_matched_substrings"] = mainTextMatchedSubstrings?.map((e) => e.toMap()).toList();
+      data["main_text_matched_substrings"] = mainTextMatchedSubstrings
+          ?.map((e) => e.toMap())
+          .toList();
     }
     data["secondary_text"] = secondaryText;
     return data;

@@ -36,22 +36,20 @@ class _FavoritePageState extends State<FavoritePage> {
     return MultiBlocListener(
       listeners: [
         BlocListener<PaymentsBloc, PaymentsState>(
-          listener: (context, state) =>
-              ServiceUtil.paymentsListener(
-                context: context,
-                state: state,
-                routeName: FavoritePage.routeName,
-                amDoing: AmDoing.transaction,
-              ),
+          listener: (context, state) => ServiceUtil.paymentsListener(
+            context: context,
+            state: state,
+            routeName: FavoritePage.routeName,
+            amDoing: AmDoing.transaction,
+          ),
         ),
         BlocListener<GeneralFlowBloc, GeneralFlowState>(
-          listener: (context, state) =>
-              ServiceUtil.generalFlowListener(
-                context: context,
-                state: state,
-                routeName: FavoritePage.routeName,
-                amDoing: AmDoing.transaction,
-              ),
+          listener: (context, state) => ServiceUtil.generalFlowListener(
+            context: context,
+            state: state,
+            routeName: FavoritePage.routeName,
+            amDoing: AmDoing.transaction,
+          ),
         ),
       ],
       child: BlocBuilder<AuthBloc, AuthState>(
@@ -61,10 +59,7 @@ class _FavoritePageState extends State<FavoritePage> {
             title: 'Pay again',
             bottom: SearchBox(
               controller: _controller,
-              onSearch: (value) => _search(
-                value,
-                AppUtil.currentUser.recentActivity!,
-              ),
+              onSearch: (value) => _search(value, AppUtil.currentUser.recentActivity!),
             ),
             sliver: (state is LoggedIn)
                 ? SliverFillRemaining(
@@ -72,84 +67,53 @@ class _FavoritePageState extends State<FavoritePage> {
                       padding: const EdgeInsets.all(8.0),
                       color: Colors.white,
                       child: MultiBlocListener(
-                        listeners:
-                            ServiceUtil.onShortcutListeners(
-                              routeName:
-                                  FavoritePage.routeName,
-                              amDoing: AmDoing.transaction,
-                            ),
+                        listeners: ServiceUtil.onShortcutListeners(
+                          routeName: FavoritePage.routeName,
+                          amDoing: AmDoing.transaction,
+                        ),
                         child: ListView.separated(
                           itemCount: _activities.length,
                           itemBuilder: (context, index) {
-                            final activity =
-                                _activities[index];
+                            final activity = _activities[index];
                             return Item(
                               onPressed: () {
                                 ServiceUtil.onFavoritePressed(
                                   activity: activity,
                                   context: context,
-                                  routeName: FavoritePage
-                                      .routeName,
+                                  routeName: FavoritePage.routeName,
                                 );
                               },
-                              title:
-                                  activity.formName ?? '',
-                              subtitle:
-                                  activity.activityName,
+                              title: activity.formName ?? '',
+                              subtitle: activity.activityName,
                               icon: CachedNetworkImage(
                                 imageUrl:
                                     activity.iconPath ??
                                     '${state.user.imageBaseUrl}${state.user.imageDirectory}/${activity.icon}',
-                                imageBuilder:
-                                    (
-                                      context,
-                                      imageProvider,
-                                    ) => CircleAvatar(
-                                      backgroundImage:
-                                          imageProvider,
-                                    ),
+                                imageBuilder: (context, imageProvider) =>
+                                    CircleAvatar(backgroundImage: imageProvider),
                                 width: 32,
-                                placeholder:
-                                    (context, url) => Icon(
-                                      Icons.circle_outlined,
-                                      color: Theme.of(
-                                        context,
-                                      ).primaryColor,
-                                      size: 16,
-                                    ),
-                                errorWidget:
-                                    (
-                                      context,
-                                      url,
-                                      error,
-                                    ) => Icon(
-                                      Icons.circle_outlined,
-                                      color: Theme.of(
-                                        context,
-                                      ).primaryColor,
-                                      size: 16,
-                                    ),
+                                placeholder: (context, url) => Icon(
+                                  Icons.circle_outlined,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 16,
+                                ),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.circle_outlined,
+                                  color: Theme.of(context).primaryColor,
+                                  size: 16,
+                                ),
                               ),
                             );
                           },
-                          separatorBuilder:
-                              (context, index) =>
-                                  const Divider(
-                                    color: Color(
-                                      0xffF1F1F1,
-                                    ),
-                                    indent: 60,
-                                  ),
+                          separatorBuilder: (context, index) =>
+                              const Divider(color: Color(0xffF1F1F1), indent: 60),
                         ),
                       ),
                     ),
                   )
                 : null,
             child: (state is! LoggedIn)
-                ? const Center(
-                    child:
-                        CircularProgressIndicator.adaptive(),
-                  )
+                ? const Center(child: CircularProgressIndicator.adaptive())
                 : null,
           );
         },
@@ -157,21 +121,12 @@ class _FavoritePageState extends State<FavoritePage> {
     );
   }
 
-  void _search(
-    String value,
-    List<RecentActivity> activities,
-  ) {
+  void _search(String value, List<RecentActivity> activities) {
     setState(() {
       _activities = activities.where((element) {
         String search = value.trim().toLowerCase();
-        return (element.formName?.toLowerCase().contains(
-                  search,
-                ) ??
-                false) ||
-            (element.activityName?.toLowerCase().contains(
-                  search,
-                ) ??
-                false);
+        return (element.formName?.toLowerCase().contains(search) ?? false) ||
+            (element.activityName?.toLowerCase().contains(search) ?? false);
       }).toList();
     });
   }

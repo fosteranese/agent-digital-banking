@@ -53,16 +53,24 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     await Permission.camera
         .onDeniedCallback(_onManual)
         .onGrantedCallback(() {
-          Navigator.push(
-            MyApp.navigatorKey.currentContext!,
-            MaterialPageRoute(
-              builder: (_) => GhanaCardVerification(
-                onVerify: (picture, code) {
-                  context.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
-                },
-              ),
+          context.push(
+            GhanaCardVerification.routeName,
+            extra: GhanaCardVerification(
+              onVerify: (picture, code) {
+                context.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
+              },
             ),
           );
+          // Navigator.push(
+          //   MyApp.navigatorKey.currentContext!,
+          //   MaterialPageRoute(
+          //     builder: (_) => GhanaCardVerification(
+          //       onVerify: (picture, code) {
+          //         context.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
+          //       },
+          //     ),
+          //   ),
+          // );
         })
         .onPermanentlyDeniedCallback(_onManual)
         .onRestrictedCallback(_onManual)
@@ -155,6 +163,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
 
                     case PictureVerified state:
                       context.go(DashboardPage.routeName);
+
                       Future.delayed(Duration(milliseconds: 100), () {
                         MessageUtil.displaySuccessFullDialog(
                           MyApp.navigatorKey.currentContext!,

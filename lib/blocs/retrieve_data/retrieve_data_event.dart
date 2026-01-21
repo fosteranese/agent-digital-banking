@@ -5,11 +5,7 @@ sealed class RetrieveDataEvent extends Equatable {
   final String? action;
   final bool skipSavedData;
 
-  const RetrieveDataEvent({
-    required this.id,
-    this.action,
-    this.skipSavedData = false,
-  });
+  const RetrieveDataEvent({required this.id, this.action, this.skipSavedData = false});
 
   @override
   List<Object?> get props => [id, action, skipSavedData];
@@ -30,14 +26,7 @@ class RetrieveCategories extends RetrieveDataEvent {
   final String activityType;
 
   @override
-  List<Object?> get props => [
-    id,
-    action,
-    skipSavedData,
-    activityId,
-    endpoint,
-    activityType,
-  ];
+  List<Object?> get props => [id, action, skipSavedData, activityId, endpoint, activityType];
 }
 
 class RetrievePaymentCategories extends RetrieveDataEvent {
@@ -51,12 +40,7 @@ class RetrievePaymentCategories extends RetrieveDataEvent {
   final String categoryId;
 
   @override
-  List<Object?> get props => [
-    id,
-    action,
-    skipSavedData,
-    categoryId,
-  ];
+  List<Object?> get props => [id, action, skipSavedData, categoryId];
 }
 
 class RetrieveForm extends RetrieveDataEvent {
@@ -76,15 +60,7 @@ class RetrieveForm extends RetrieveDataEvent {
   final ActivityDatum activity;
 
   @override
-  List<Object?> get props => [
-    id,
-    action,
-    skipSavedData,
-    form,
-    activity,
-    payeeId,
-    qrCode,
-  ];
+  List<Object?> get props => [id, action, skipSavedData, form, activity, payeeId, qrCode];
 }
 
 class RetrieveScheduleForm extends RetrieveDataEvent {
@@ -100,13 +76,7 @@ class RetrieveScheduleForm extends RetrieveDataEvent {
   final String? receiptId;
 
   @override
-  List<Object?> get props => [
-    id,
-    action,
-    skipSavedData,
-    payeeId,
-    receiptId,
-  ];
+  List<Object?> get props => [id, action, skipSavedData, payeeId, receiptId];
 }
 
 class RetrieveEnquiry extends RetrieveDataEvent {
@@ -122,11 +92,34 @@ class RetrieveEnquiry extends RetrieveDataEvent {
   final GeneralFlowForm form;
 
   @override
-  List<Object?> get props => [
-    id,
-    action,
-    skipSavedData,
-    form,
-    enquiry,
-  ];
+  List<Object?> get props => [id, action, skipSavedData, form, enquiry];
+}
+
+class RetrieveActivitiesEvent extends RetrieveDataEvent {
+  const RetrieveActivitiesEvent({
+    required super.id,
+    required super.action,
+    required super.skipSavedData,
+    this.activity,
+    this.dateFrom,
+    this.dateTo,
+  });
+
+  final Activity? activity;
+  final String? dateFrom;
+  final String? dateTo;
+
+  @override
+  List<Object?> get props => [id, action, skipSavedData, activity, dateFrom, dateTo];
+}
+
+class RetrieveCollectionEvent extends RetrieveDataEvent {
+  const RetrieveCollectionEvent({
+    required super.id,
+    required super.action,
+    required super.skipSavedData,
+  });
+
+  @override
+  List<Object?> get props => [id, action, skipSavedData];
 }

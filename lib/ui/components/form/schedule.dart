@@ -63,38 +63,18 @@ class _FormScheduleState extends State<FormSchedule> {
               _onChange();
             },
             options: [
-              FormSelectOption(
-                value: 'Daily',
-                text: 'Daily',
-              ),
-              FormSelectOption(
-                value: 'Weekly',
-                text: 'Weekly',
-              ),
-              FormSelectOption(
-                value: 'Monthly',
-                text: 'Monthly',
-              ),
-              FormSelectOption(
-                value: 'Quarterly',
-                text: 'Quarterly',
-              ),
-              FormSelectOption(
-                value: 'SemiAnnually',
-                text: 'Semi-Annually',
-              ),
-              FormSelectOption(
-                value: 'Annually',
-                text: 'Annually',
-              ),
+              FormSelectOption(value: 'Daily', text: 'Daily'),
+              FormSelectOption(value: 'Weekly', text: 'Weekly'),
+              FormSelectOption(value: 'Monthly', text: 'Monthly'),
+              FormSelectOption(value: 'Quarterly', text: 'Quarterly'),
+              FormSelectOption(value: 'SemiAnnually', text: 'Semi-Annually'),
+              FormSelectOption(value: 'Annually', text: 'Annually'),
             ],
           ),
           FormDatePicker(
             label: 'Start Date *',
             controller: _date,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
             minDate: DateTime.now().add(Duration(days: 1)),
             onSuccess: (date) {
               _date.text = date;

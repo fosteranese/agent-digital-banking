@@ -7,7 +7,18 @@ import 'input.dart';
 import 'select.dart';
 
 class FormSelectOptionScreen extends StatefulWidget {
-  const FormSelectOptionScreen({super.key, required this.title, this.options = const [], required this.onSelectedOption, this.selectedOption, this.fixed, this.onSearch, this.listBuilder, this.search = '', this.fullScreen = true});
+  const FormSelectOptionScreen({
+    super.key,
+    required this.title,
+    this.options = const [],
+    required this.onSelectedOption,
+    this.selectedOption,
+    this.fixed,
+    this.onSearch,
+    this.listBuilder,
+    this.search = '',
+    this.fullScreen = true,
+  });
 
   final String title;
   final List<FormSelectOption> options;
@@ -32,7 +43,8 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
 
   void _filterOptions(String search) {
     _options.value = widget.options.where((element) {
-      return element.text!.toLowerCase().contains(search.toLowerCase()) || element.value.toLowerCase().contains(search.toLowerCase());
+      return element.text!.toLowerCase().contains(search.toLowerCase()) ||
+          element.value.toLowerCase().contains(search.toLowerCase());
     }).toList();
   }
 
@@ -63,7 +75,11 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                   FittedBox(
                     child: Text(
                       widget.title,
-                      style: PrimaryTextStyle(color: Color(0xff202020), fontSize: 20, fontWeight: FontWeight.w600),
+                      style: PrimaryTextStyle(
+                        color: Color(0xff202020),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   _getList,
@@ -82,13 +98,19 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
         body: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
+            ),
           ),
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(18),
+                    topRight: Radius.circular(18),
+                  ),
                 ),
                 backgroundColor: Colors.white,
                 surfaceTintColor: Colors.white,
@@ -102,7 +124,11 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                   child: FittedBox(
                     child: Text(
                       widget.title,
-                      style: PrimaryTextStyle(color: const Color(0xff202020), fontSize: 20, fontWeight: FontWeight.w700),
+                      style: PrimaryTextStyle(
+                        color: const Color(0xff202020),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
@@ -153,7 +179,10 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                                     Container(
                                       margin: const EdgeInsets.only(bottom: 10),
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: const Color(0xffF1F1F1), width: 1),
+                                        border: Border.all(
+                                          color: const Color(0xffF1F1F1),
+                                          width: 1,
+                                        ),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: ListTile(
@@ -163,9 +192,15 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                                             option.label ??
                                             Text(
                                               option.text!,
-                                              style: PrimaryTextStyle(color: const Color(0xff202020), fontSize: 14, fontWeight: FontWeight.w400),
+                                              style: PrimaryTextStyle(
+                                                color: const Color(0xff202020),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
-                                        selected: _selectedOption != null && _selectedOption!.value == option.value,
+                                        selected:
+                                            _selectedOption != null &&
+                                            _selectedOption!.value == option.value,
                                         onTap: () {
                                           _selectedOption = option;
 
@@ -221,7 +256,11 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                                   const SizedBox(height: 20),
                                   const Text(
                                     'Nothing found',
-                                    style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16, fontWeight: FontWeight.w600),
+                                    style: PrimaryTextStyle(
+                                      color: Color(0xff4F4F4F),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                   if (widget.fullScreen) const SizedBox(height: 50),
                                 ],
@@ -268,14 +307,19 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                   onPressed: () {
                     _search.value = '';
                     _controller.text = _search.value;
-                    _controller.selection = TextSelection.fromPosition(TextPosition(offset: _controller.text.length));
+                    _controller.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _controller.text.length),
+                    );
                     _filterOptions(_search.value);
                   },
                   icon: const Icon(Icons.backspace, size: 25),
                 );
               }
 
-              return Padding(padding: const EdgeInsets.all(10), child: SvgPicture.asset('assets/img/search.svg', width: 25));
+              return Padding(
+                padding: const EdgeInsets.all(10),
+                child: SvgPicture.asset('assets/img/search.svg', width: 25),
+              );
             },
             valueListenable: _search,
           ),

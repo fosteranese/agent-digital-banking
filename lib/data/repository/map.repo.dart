@@ -65,11 +65,13 @@ class MapRepo {
     }
 
     if (data.status != 'OK' && data.status != 'ZERO_RESULTS') {
-      return Future.error(const Response(
-        code: StatusConstants.failed,
-        status: StatusConstants.failed,
-        message: 'Could not find place',
-      ));
+      return Future.error(
+        const Response(
+          code: StatusConstants.failed,
+          status: StatusConstants.failed,
+          message: 'Could not find place',
+        ),
+      );
     }
 
     return Response(
@@ -84,12 +86,7 @@ class MapRepo {
     required double latitude,
     required double longitude,
   }) async {
-    final response = await _map.get(
-      path: 'geocode',
-      params: {
-        'latlng': '$latitude,$longitude',
-      },
-    );
+    final response = await _map.get(path: 'geocode', params: {'latlng': '$latitude,$longitude'});
 
     if (response is Response<dynamic>) {
       return Future.error(response);
@@ -98,11 +95,13 @@ class MapRepo {
     final data = GeocodeResponse.fromMap(response);
 
     if (data.status != 'OK' && data.status != 'ZERO_RESULTS') {
-      return Future.error(const Response(
-        code: StatusConstants.failed,
-        status: StatusConstants.failed,
-        message: 'Could not find place',
-      ));
+      return Future.error(
+        const Response(
+          code: StatusConstants.failed,
+          status: StatusConstants.failed,
+          message: 'Could not find place',
+        ),
+      );
     }
 
     return Response(
@@ -114,12 +113,7 @@ class MapRepo {
   }
 
   Future<Response<PlaceResponse>> getPlace(String placeId) async {
-    final response = await _map.get(
-      path: 'place/details',
-      params: {
-        'place_id': placeId,
-      },
-    );
+    final response = await _map.get(path: 'place/details', params: {'place_id': placeId});
 
     if (response is Response<dynamic>) {
       return Future.error(response);
@@ -128,11 +122,13 @@ class MapRepo {
     final data = PlaceResponse.fromMap(response);
 
     if (data.status != 'OK' && data.status != 'ZERO_RESULTS') {
-      return Future.error(const Response(
-        code: StatusConstants.failed,
-        status: StatusConstants.failed,
-        message: 'Could not find place',
-      ));
+      return Future.error(
+        const Response(
+          code: StatusConstants.failed,
+          status: StatusConstants.failed,
+          message: 'Could not find place',
+        ),
+      );
     }
 
     return Response(

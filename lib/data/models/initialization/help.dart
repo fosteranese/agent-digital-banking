@@ -30,32 +30,32 @@ class Help extends Equatable {
   });
 
   factory Help.fromMap(Map<String, dynamic> data) => Help(
-        privacyUrl: data['privacyUrl'] as String?,
-        termsUrl: data['termsUrl'] as String?,
-        websiteUrl: data['websiteUrl'] as String?,
-        faqUrl: data['faqUrl'] as String?,
-        email: data['email'] as String?,
-        phoneNumber: data['phoneNumber'] as String?,
-        formId: data['formId'] as String?,
-        form: data['form'] as dynamic,
-        descrption: data['descrption'] as String?,
-        whatsApp: data['whatsApp'] as String?,
-        linkGHCard: data['linkGHCard'] as String?,
-      );
+    privacyUrl: data['privacyUrl'] as String?,
+    termsUrl: data['termsUrl'] as String?,
+    websiteUrl: data['websiteUrl'] as String?,
+    faqUrl: data['faqUrl'] as String?,
+    email: data['email'] as String?,
+    phoneNumber: data['phoneNumber'] as String?,
+    formId: data['formId'] as String?,
+    form: data['form'] as dynamic,
+    descrption: data['descrption'] as String?,
+    whatsApp: data['whatsApp'] as String?,
+    linkGHCard: data['linkGHCard'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'privacyUrl': privacyUrl,
-        'termsUrl': termsUrl,
-        'websiteUrl': websiteUrl,
-        'faqUrl': faqUrl,
-        'email': email,
-        'phoneNumber': phoneNumber,
-        'formId': formId,
-        'form': form,
-        'descrption': descrption,
-        'whatsApp': whatsApp,
-        'linkGHCard': linkGHCard,
-      };
+    'privacyUrl': privacyUrl,
+    'termsUrl': termsUrl,
+    'websiteUrl': websiteUrl,
+    'faqUrl': faqUrl,
+    'email': email,
+    'phoneNumber': phoneNumber,
+    'formId': formId,
+    'form': form,
+    'descrption': descrption,
+    'whatsApp': whatsApp,
+    'linkGHCard': linkGHCard,
+  };
 
   /// `dart:convert`
   ///

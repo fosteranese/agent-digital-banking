@@ -8,7 +8,12 @@ import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/popover.dart';
 
 class FormUploadFileControl extends StatefulWidget {
-  const FormUploadFileControl({super.key, this.label, required this.caption, required this.controller});
+  const FormUploadFileControl({
+    super.key,
+    this.label,
+    required this.caption,
+    required this.controller,
+  });
 
   final String? label;
   final String caption;
@@ -37,7 +42,10 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Select File to upload', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                    const Text(
+                      'Select File to upload',
+                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                    ),
                     const SizedBox(height: 20),
                     SignatureOption(
                       icon: Icons.collections_outlined,
@@ -45,7 +53,10 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
                       onPressed: () async {
                         Navigator.pop(context);
 
-                        final result = await FilePicker.platform.pickFiles(dialogTitle: widget.caption, type: FileType.image);
+                        final result = await FilePicker.platform.pickFiles(
+                          dialogTitle: widget.caption,
+                          type: FileType.image,
+                        );
                         if (result == null) {
                           return;
                         }
@@ -65,19 +76,25 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
                       onPressed: () async {
                         Navigator.pop(context);
 
-                        FilePicker.platform.pickFiles(dialogTitle: widget.caption, type: FileType.any).then((result) async {
-                          if (result == null) {
-                            // _messenger.errorAlert('File not selected');
-                            return;
-                          }
+                        FilePicker.platform
+                            .pickFiles(dialogTitle: widget.caption, type: FileType.any)
+                            .then((result) async {
+                              if (result == null) {
+                                // _messenger.errorAlert('File not selected');
+                                return;
+                              }
 
-                          _widget = Icon(Icons.description_outlined, color: Theme.of(context).primaryColor, size: 30);
-                          setState(() {});
+                              _widget = Icon(
+                                Icons.description_outlined,
+                                color: Theme.of(MyApp.navigatorKey.currentContext!).primaryColor,
+                                size: 30,
+                              );
+                              setState(() {});
 
-                          final file = File(result.files.single.path ?? '');
-                          final bytes = await file.readAsBytes();
-                          widget.controller.text = base64Encode(bytes);
-                        });
+                              final file = File(result.files.single.path ?? '');
+                              final bytes = await file.readAsBytes();
+                              widget.controller.text = base64Encode(bytes);
+                            });
                       },
                     ),
                     const SizedBox(height: 10),
@@ -93,7 +110,8 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (widget.label?.isNotEmpty ?? false) Text(widget.label!, style: Theme.of(context).textTheme.titleSmall),
+          if (widget.label?.isNotEmpty ?? false)
+            Text(widget.label!, style: Theme.of(context).textTheme.titleSmall),
           if (widget.label?.isNotEmpty ?? false) const SizedBox(height: 10),
           Container(
             alignment: Alignment.center,
@@ -107,7 +125,16 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: _widget != null ? [_widget!] : const [Icon(Icons.draw_outlined, color: Color(0xff79747E), size: 40), SizedBox(height: 5), Text('Tap to provide your signature', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))],
+              children: _widget != null
+                  ? [_widget!]
+                  : const [
+                      Icon(Icons.draw_outlined, color: Color(0xff79747E), size: 40),
+                      SizedBox(height: 5),
+                      Text(
+                        'Tap to provide your signature',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
             ),
           ),
         ],
@@ -117,7 +144,12 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
 }
 
 class SignatureOption extends StatelessWidget {
-  const SignatureOption({super.key, required this.text, required this.onPressed, required this.icon});
+  const SignatureOption({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+  });
 
   final String text;
   final void Function() onPressed;
@@ -145,7 +177,11 @@ class SignatureOption extends StatelessWidget {
             Text(
               text,
               textAlign: TextAlign.start,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
           ],
         ),

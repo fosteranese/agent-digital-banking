@@ -20,9 +20,7 @@ class ReceivePushNotification extends NotificationEvent {
   final PushNotification notification;
 
   @override
-  List<Object?> get props => [
-        notification,
-      ];
+  List<Object?> get props => [notification];
 }
 
 class DeletePushNotification extends NotificationEvent {
@@ -31,9 +29,7 @@ class DeletePushNotification extends NotificationEvent {
   final PushNotification notification;
 
   @override
-  List<Object?> get props => [
-        notification,
-      ];
+  List<Object?> get props => [notification];
 }
 
 class ReadPushNotification extends NotificationEvent {
@@ -42,9 +38,7 @@ class ReadPushNotification extends NotificationEvent {
   final PushNotification notification;
 
   @override
-  List<Object?> get props => [
-        notification,
-      ];
+  List<Object?> get props => [notification];
 }
 
 class UnreadPushNotification extends NotificationEvent {
@@ -53,7 +47,5 @@ class UnreadPushNotification extends NotificationEvent {
   final PushNotification notification;
 
   @override
-  List<Object?> get props => [
-        notification,
-      ];
+  List<Object?> get props => [notification];
 }

@@ -2,7 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ItemLevel3 extends StatelessWidget {
-  const ItemLevel3({super.key, this.onPressed, required this.title, this.subtitle, this.subtitle2, this.icon, this.count, this.fullIcon, this.padding, this.trailing});
+  const ItemLevel3({
+    super.key,
+    this.onPressed,
+    required this.title,
+    this.subtitle,
+    this.subtitle2,
+    this.icon,
+    this.count,
+    this.fullIcon,
+    this.padding,
+    this.trailing,
+  });
   final String title;
   final String? subtitle;
   final String? subtitle2;
@@ -40,12 +51,18 @@ class ItemLevel3 extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: title,
-                          style: PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
+                          style: PrimaryTextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
                         ),
                         if (count != null && count! > 0)
                           TextSpan(
                             text: ' ($count)',
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Theme.of(context).primaryColor),
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: Theme.of(context).primaryColor,
+                            ),
                           ),
                       ],
                     ),
@@ -69,7 +86,11 @@ class ItemLevel3 extends StatelessWidget {
     if (subtitle2 == null) {
       return Text(
         subtitle ?? '',
-        style: PrimaryTextStyle(fontWeight: FontWeight.w400, fontSize: 14, color: const Color(0xff919195)),
+        style: PrimaryTextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          color: const Color(0xff919195),
+        ),
       );
     }
 
@@ -81,7 +102,11 @@ class ItemLevel3 extends StatelessWidget {
         const SizedBox(height: 5),
         Text(
           '$subtitle - $subtitle2',
-          style: PrimaryTextStyle(fontWeight: FontWeight.w400, fontSize: 14, color: const Color(0xff919195)),
+          style: PrimaryTextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+            color: const Color(0xff919195),
+          ),
         ),
         // const SizedBox(height: 2),
         // Text(

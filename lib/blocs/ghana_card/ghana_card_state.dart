@@ -14,19 +14,13 @@ class CompleteGhanaCardInitial extends GhanaCardState {}
 class VerifyingCompleteGhanaCard extends GhanaCardState {}
 
 class CompleteGhanaCardVerified extends GhanaCardState {
-  const CompleteGhanaCardVerified({
-    required this.data,
-    required this.resendPayload,
-  });
+  const CompleteGhanaCardVerified({required this.data, required this.resendPayload});
 
   final VerifyGhanaCardResponse data;
   final String resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class VerifyCompleteGhanaCardError extends GhanaCardState {
@@ -35,27 +29,19 @@ class VerifyCompleteGhanaCardError extends GhanaCardState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class ReVerifyingCompleteGhanaCard extends GhanaCardState {}
 
 class CompleteGhanaCardReVerified extends GhanaCardState {
-  const CompleteGhanaCardReVerified({
-    required this.data,
-    required this.resendPayload,
-  });
+  const CompleteGhanaCardReVerified({required this.data, required this.resendPayload});
 
   final VerifyGhanaCardResponse data;
   final String resendPayload;
 
   @override
-  List<Object> get props => [
-        data,
-        resendPayload,
-      ];
+  List<Object> get props => [data, resendPayload];
 }
 
 class ReVerifyCompleteGhanaCardError extends GhanaCardState {
@@ -64,7 +50,5 @@ class ReVerifyCompleteGhanaCardError extends GhanaCardState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }

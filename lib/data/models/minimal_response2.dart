@@ -8,7 +8,16 @@ class MinimalResponse {
   int? fieldDataType;
   dynamic authMode;
 
-  MinimalResponse({this.requestType, this.minifiedSessionId, this.header, this.menu, this.footer, this.fieldType, this.fieldDataType, this.authMode});
+  MinimalResponse({
+    this.requestType,
+    this.minifiedSessionId,
+    this.header,
+    this.menu,
+    this.footer,
+    this.fieldType,
+    this.fieldDataType,
+    this.authMode,
+  });
 
   MinimalResponse.fromMap(Map<String, dynamic> json) {
     if (json["requestType"] is String) {
@@ -21,7 +30,9 @@ class MinimalResponse {
       header = json["header"];
     }
     if (json["menu"] is List) {
-      menu = json["menu"] == null ? null : (json["menu"] as List).map((e) => Menu.fromMap(e)).toList();
+      menu = json["menu"] == null
+          ? null
+          : (json["menu"] as List).map((e) => Menu.fromMap(e)).toList();
     }
     if (json["footer"] is String) {
       footer = json["footer"];
@@ -59,7 +70,14 @@ class Menu {
   bool? payeeValue;
   String? minifiedContent;
 
-  Menu({this.key, this.value, this.dataType, this.payeeTitle, this.payeeValue, this.minifiedContent});
+  Menu({
+    this.key,
+    this.value,
+    this.dataType,
+    this.payeeTitle,
+    this.payeeValue,
+    this.minifiedContent,
+  });
 
   Menu.fromMap(Map<String, dynamic> json) {
     if (json["key"] is String) {

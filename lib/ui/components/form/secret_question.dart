@@ -6,11 +6,7 @@ import '../../../data/models/initialization_response.dart';
 import 'select.dart';
 
 class SelectSecretQuestion extends StatefulWidget {
-  const SelectSecretQuestion({
-    super.key,
-    this.questionController,
-    this.onSelectedOption,
-  });
+  const SelectSecretQuestion({super.key, this.questionController, this.onSelectedOption});
 
   final TextEditingController? questionController;
   final void Function(FormSelectOption)? onSelectedOption;
@@ -36,16 +32,15 @@ class _SelectSecretQuestionState extends State<SelectSecretQuestion> {
       title: 'Choose a Question',
       placeholder: 'Choose a question',
       options: _app!.secretQuestions!
-          .map((e) => FormSelectOption(
-                icon: const Icon(Icons.help_outline),
-                value: e.questionId!,
-                label: Text(e.title!),
-                showOnSelected: Text(
-                  e.title!,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                text: e.title!,
-              ))
+          .map(
+            (e) => FormSelectOption(
+              icon: const Icon(Icons.help_outline),
+              value: e.questionId!,
+              label: Text(e.title!),
+              showOnSelected: Text(e.title!, overflow: TextOverflow.ellipsis),
+              text: e.title!,
+            ),
+          )
           .toList(),
       onSelectedOption: widget.onSelectedOption,
     );

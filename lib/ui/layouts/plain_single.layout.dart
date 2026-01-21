@@ -35,9 +35,7 @@ class PlainSingleLayout extends StatelessWidget {
             IconButton(
               color: Colors.black,
               style: IconButton.styleFrom(
-                backgroundColor: Theme.of(
-                  context,
-                ).primaryColorLight.withAlpha(64),
+                backgroundColor: Theme.of(context).primaryColorLight.withAlpha(64),
               ),
               onPressed:
                   onBackPressed ??
@@ -46,18 +44,14 @@ class PlainSingleLayout extends StatelessWidget {
                   },
               icon:
                   backIcon ??
-                  (useCloseIcon
-                      ? const Icon(Icons.clear)
-                      : const Icon(Icons.arrow_back)),
+                  (useCloseIcon ? const Icon(Icons.clear) : const Icon(Icons.arrow_back)),
             ),
             if (showHelp) const Spacer(),
             if (showHelp)
               SizedBox(
                 width: 90,
                 child: FormButton(
-                  backgroundColor: Theme.of(
-                    context,
-                  ).primaryColorLight.withAlpha(64),
+                  backgroundColor: Theme.of(context).primaryColorLight.withAlpha(64),
                   onPressed: onPressHelped ?? () => {},
                   text: 'Help',
                 ),

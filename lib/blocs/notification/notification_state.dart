@@ -28,21 +28,15 @@ class PushNotificationLoaded extends PushNotificationState {
   final List<PushNotification> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class PushNotificationLoadedSilently extends PushNotificationState {
-  const PushNotificationLoadedSilently({
-    required this.result,
-  });
+  const PushNotificationLoadedSilently({required this.result});
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class LoadPushNotificationError extends PushNotificationState {
@@ -51,9 +45,7 @@ class LoadPushNotificationError extends PushNotificationState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class SilentLoadPushNotificationError extends PushNotificationState {
@@ -62,7 +54,5 @@ class SilentLoadPushNotificationError extends PushNotificationState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }

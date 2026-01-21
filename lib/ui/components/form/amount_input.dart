@@ -53,7 +53,11 @@ class _AmountInputState extends State<AmountInput> {
         children: [
           Text(
             'Enter amount',
-            style: PrimaryTextStyle(fontSize: 14, color: Color(0xff4F4F4F), fontWeight: FontWeight.normal),
+            style: PrimaryTextStyle(
+              fontSize: 14,
+              color: Color(0xff4F4F4F),
+              fontWeight: FontWeight.normal,
+            ),
           ),
 
           // Spacer(),
@@ -78,11 +82,19 @@ class _AmountInputState extends State<AmountInput> {
                             children: [
                               TextSpan(
                                 text: 'GHS ',
-                                style: PrimaryTextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xff919195)),
+                                style: PrimaryTextStyle(
+                                  fontSize: 34,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff919195),
+                                ),
                               ),
                               TextSpan(text: value),
                             ],
-                            style: PrimaryTextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xff010101)),
+                            style: PrimaryTextStyle(
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff010101),
+                            ),
                           ),
                         );
                       }
@@ -92,11 +104,19 @@ class _AmountInputState extends State<AmountInput> {
                           children: [
                             TextSpan(
                               text: 'GHS ',
-                              style: PrimaryTextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xff919195)),
+                              style: PrimaryTextStyle(
+                                fontSize: 34,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff919195),
+                              ),
                             ),
                             TextSpan(text: '0.00'),
                           ],
-                          style: PrimaryTextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Color(0xff010101)),
+                          style: PrimaryTextStyle(
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff010101),
+                          ),
                         ),
                       );
                     },
@@ -119,10 +139,18 @@ class _AmountInputState extends State<AmountInput> {
                       _focus.unfocus(disposition: UnfocusDisposition.scope);
                     },
                     keyboardType: TextInputType.numberWithOptions(decimal: true, signed: false),
-                    style: PrimaryTextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Colors.transparent),
+                    style: PrimaryTextStyle(
+                      fontSize: 34,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.transparent,
+                    ),
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
-                      hintStyle: PrimaryTextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: Colors.transparent),
+                      hintStyle: PrimaryTextStyle(
+                        fontSize: 34,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.transparent,
+                      ),
                       errorBorder: InputBorder.none,
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,
@@ -136,7 +164,11 @@ class _AmountInputState extends State<AmountInput> {
           if (_hasMax)
             Text(
               'Maximum Amount: GHS ${widget.controller.$2.field?.trasactionLimitAmount}',
-              style: PrimaryTextStyle(fontSize: 14, color: Color(0xff919195), fontWeight: FontWeight.normal),
+              style: PrimaryTextStyle(
+                fontSize: 14,
+                color: Color(0xff919195),
+                fontWeight: FontWeight.normal,
+              ),
             ),
         ],
       ),

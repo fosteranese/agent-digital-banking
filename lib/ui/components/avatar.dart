@@ -3,13 +3,7 @@ import 'package:flutter/material.dart';
 import '../../utils/string.util.dart';
 
 class Avatar extends StatefulWidget {
-  const Avatar({
-    super.key,
-    required this.text,
-    this.size = 21,
-    this.textSize,
-    this.border,
-  });
+  const Avatar({super.key, required this.text, this.size = 21, this.textSize, this.border});
   final String text;
   final double size;
   final double? textSize;
@@ -20,10 +14,7 @@ class Avatar extends StatefulWidget {
 }
 
 class _AvatarState extends State<Avatar> {
-  List<Color> _colors = [
-    Colors.black,
-    Colors.white,
-  ];
+  List<Color> _colors = [Colors.black, Colors.white];
 
   @override
   void initState() {
@@ -45,10 +36,7 @@ class _AvatarState extends State<Avatar> {
       // constraints: const BoxConstraints.expand(),
       child: Text(
         StringUtil.getInitials(widget.text),
-        style: TextStyle(
-          color: _colors.last,
-          fontSize: widget.textSize,
-        ),
+        style: TextStyle(color: _colors.last, fontSize: widget.textSize),
       ),
     );
   }

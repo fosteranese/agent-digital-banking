@@ -11,7 +11,9 @@ class BulkPaymentGroupPayees {
       group = json["group"] == null ? null : Groups.fromMap(json["group"]);
     }
     if (json["payees"] is List) {
-      payees = json["payees"] == null ? null : (json["payees"] as List).map((e) => Payees.fromMap(e)).toList();
+      payees = json["payees"] == null
+          ? null
+          : (json["payees"] as List).map((e) => Payees.fromMap(e)).toList();
     }
   }
 
@@ -26,14 +28,8 @@ class BulkPaymentGroupPayees {
     return data;
   }
 
-  BulkPaymentGroupPayees copyWith({
-    Groups? group,
-    List<Payees>? payees,
-  }) {
-    return BulkPaymentGroupPayees(
-      group: group ?? this.group,
-      payees: payees ?? this.payees,
-    );
+  BulkPaymentGroupPayees copyWith({Groups? group, List<Payees>? payees}) {
+    return BulkPaymentGroupPayees(group: group ?? this.group, payees: payees ?? this.payees);
   }
 }
 
@@ -105,7 +101,9 @@ class Payees {
       formData = json["formData"] == null ? null : FormData.fromMap(json["formData"]);
     }
     if (json["previewData"] is List) {
-      previewData = json["previewData"] == null ? null : (json["previewData"] as List).map((e) => PreviewData.fromMap(e)).toList();
+      previewData = json["previewData"] == null
+          ? null
+          : (json["previewData"] as List).map((e) => PreviewData.fromMap(e)).toList();
     }
     if (json["amount"] is double || json["amount"] is int) {
       amount = json["amount"];
@@ -147,7 +145,14 @@ class PreviewData {
   bool? payeeValue;
   dynamic minifiedContent;
 
-  PreviewData({this.key, this.value, this.dataType, this.payeeTitle, this.payeeValue, this.minifiedContent});
+  PreviewData({
+    this.key,
+    this.value,
+    this.dataType,
+    this.payeeTitle,
+    this.payeeValue,
+    this.minifiedContent,
+  });
 
   PreviewData.fromMap(Map<String, dynamic> json) {
     if (json["key"] is String) {

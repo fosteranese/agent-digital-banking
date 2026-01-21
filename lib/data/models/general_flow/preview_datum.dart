@@ -9,29 +9,23 @@ class PreviewDatum extends Equatable {
   final bool? payeeTitle;
   final bool? payeeValue;
 
-  const PreviewDatum({
-    this.key,
-    this.value,
-    this.dataType,
-    this.payeeTitle,
-    this.payeeValue,
-  });
+  const PreviewDatum({this.key, this.value, this.dataType, this.payeeTitle, this.payeeValue});
 
   factory PreviewDatum.fromMap(Map<String, dynamic> data) => PreviewDatum(
-        key: data['key'] as String?,
-        value: data['value'] as String?,
-        dataType: data['dataType'] as int?,
-        payeeTitle: data['payeeTitle'] as bool?,
-        payeeValue: data['payeeValue'] as bool?,
-      );
+    key: data['key'] as String?,
+    value: data['value'] as String?,
+    dataType: data['dataType'] as int?,
+    payeeTitle: data['payeeTitle'] as bool?,
+    payeeValue: data['payeeValue'] as bool?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'key': key,
-        'value': value,
-        'dataType': dataType,
-        'payeeTitle': payeeTitle,
-        'payeeValue': payeeValue,
-      };
+    'key': key,
+    'value': value,
+    'dataType': dataType,
+    'payeeTitle': payeeTitle,
+    'payeeValue': payeeValue,
+  };
 
   /// `dart:convert`
   ///
@@ -66,12 +60,6 @@ class PreviewDatum extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      key,
-      value,
-      dataType,
-      payeeTitle,
-      payeeValue,
-    ];
+    return [key, value, dataType, payeeTitle, payeeValue];
   }
 }

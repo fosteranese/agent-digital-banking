@@ -6,7 +6,13 @@ import 'package:my_sage_agent/ui/layouts/plain_with_header.layout.dart';
 import '../form/button.dart';
 
 class OtpAuthenticator extends StatefulWidget {
-  const OtpAuthenticator({super.key, required this.onSuccess, required this.end, required this.authMode, this.onResendShortCode});
+  const OtpAuthenticator({
+    super.key,
+    required this.onSuccess,
+    required this.end,
+    required this.authMode,
+    this.onResendShortCode,
+  });
 
   final void Function(String secretAnswer) onSuccess;
   final VoidCallback end;
@@ -32,7 +38,9 @@ class _OtpAuthenticatorState extends State<OtpAuthenticator> {
       widget.onSuccess(_otp);
       widget.end();
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter the OTP before verifying')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please enter the OTP before verifying')));
     }
   }
 
@@ -44,7 +52,10 @@ class _OtpAuthenticatorState extends State<OtpAuthenticator> {
 
     return PlainWithHeaderLayout(
       title: title,
-      subtitleWidget: Text(subtitle, style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16)),
+      subtitleWidget: Text(
+        subtitle,
+        style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16),
+      ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
         child: Column(
@@ -52,7 +63,12 @@ class _OtpAuthenticatorState extends State<OtpAuthenticator> {
           children: [
             FormButton(text: 'Verify', onPressed: _handleVerification),
             const SizedBox(height: 15),
-            FormButton(backgroundColor: Color(0xffF8F8F8), foregroundColor: Colors.black, text: 'Cancel', onPressed: widget.end),
+            FormButton(
+              backgroundColor: Color(0xffF8F8F8),
+              foregroundColor: Colors.black,
+              text: 'Cancel',
+              onPressed: widget.end,
+            ),
           ],
         ),
       ),

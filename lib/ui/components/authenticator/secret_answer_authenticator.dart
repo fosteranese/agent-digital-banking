@@ -38,16 +38,27 @@ class _SecretAnswerAuthenticatorState extends State<SecretAnswerAuthenticator> {
                   padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: const [BoxShadow(color: Colors.black12, spreadRadius: 0.5, blurRadius: 5)],
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black12, spreadRadius: 0.5, blurRadius: 5),
+                    ],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Enter Your Secret Answer', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900)),
+                      const Text(
+                        'Enter Your Secret Answer',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                      ),
                       const SizedBox(height: 50),
-                      FormPasswordInput(label: 'Secret Answer', controller: _controller, focus: _searchFocus, placeholder: 'Enter your secret answer', bottomSpace: 0),
+                      FormPasswordInput(
+                        label: 'Secret Answer',
+                        controller: _controller,
+                        focus: _searchFocus,
+                        placeholder: 'Enter your secret answer',
+                        bottomSpace: 0,
+                      ),
                       const SizedBox(height: 30),
                       FormButton(
                         text: 'Submit',
@@ -57,7 +68,11 @@ class _SecretAnswerAuthenticatorState extends State<SecretAnswerAuthenticator> {
                         },
                       ),
                       const SizedBox(height: 10),
-                      FormOutlineButton(padding: const EdgeInsets.all(15), text: 'Cancel', onPressed: widget.end),
+                      FormOutlineButton(
+                        padding: const EdgeInsets.all(15),
+                        text: 'Cancel',
+                        onPressed: widget.end,
+                      ),
                     ],
                   ),
                 ),

@@ -30,7 +30,10 @@ class _AdvertisementState extends State<Advertisement> {
       margin: const EdgeInsets.symmetric(horizontal: 1.5),
       height: isActive ? 5 : 5,
       width: isActive ? 15 : 5,
-      decoration: BoxDecoration(color: isActive ? Colors.white : Colors.white60, borderRadius: const BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(
+        color: isActive ? Colors.white : Colors.white60,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
     );
   }
 
@@ -81,7 +84,11 @@ class _AdvertisementState extends State<Advertisement> {
                   AppUtil.data.adverts?.map((advert) {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(4),
-                      child: CachedNetworkImage(imageUrl: '${AppUtil.data.imageBaseUrl}${AppUtil.data.imageDirectory}/${advert.picture}', fit: BoxFit.cover),
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            '${AppUtil.data.imageBaseUrl}${AppUtil.data.imageDirectory}/${advert.picture}',
+                        fit: BoxFit.cover,
+                      ),
                     );
                   }).toList() ??
                   [],
@@ -90,7 +97,12 @@ class _AdvertisementState extends State<Advertisement> {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Row(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: _buildPageIndicator(AppUtil.data.adverts?.length ?? 0)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: _buildPageIndicator(AppUtil.data.adverts?.length ?? 0),
+                ),
               ),
             ),
           ],

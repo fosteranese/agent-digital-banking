@@ -34,14 +34,14 @@ class NonCustomerSignUpRequest extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'phoneNumber': phoneNumber,
-        'email': email,
-        'cardNumber': cardNumber,
-        'accountType': accountType,
-        'branch': branch,
-        'residentialAddress': residentialAddress,
-        'city': city,
-      };
+    'phoneNumber': phoneNumber,
+    'email': email,
+    'cardNumber': cardNumber,
+    'accountType': accountType,
+    'branch': branch,
+    'residentialAddress': residentialAddress,
+    'city': city,
+  };
 
   /// `dart:convert`
   ///
@@ -82,14 +82,6 @@ class NonCustomerSignUpRequest extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      phoneNumber,
-      email,
-      cardNumber,
-      accountType,
-      branch,
-      residentialAddress,
-      city,
-    ];
+    return [phoneNumber, email, cardNumber, accountType, branch, residentialAddress, city];
   }
 }

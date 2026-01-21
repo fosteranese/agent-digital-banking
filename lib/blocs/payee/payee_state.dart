@@ -16,9 +16,7 @@ class RetrievingPayeeCategories extends PayeeState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrievingPayeeCategories extends PayeeState {
@@ -29,19 +27,13 @@ class SilentRetrievingPayeeCategories extends PayeeState {
 }
 
 class RetrievePayeeCategoriesError extends PayeeState {
-  const RetrievePayeeCategoriesError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrievePayeeCategoriesError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class SilentRetrievePayeeCategoriesError extends PayeeState {
@@ -50,9 +42,7 @@ class SilentRetrievePayeeCategoriesError extends PayeeState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // retrieve payee general flow
@@ -62,9 +52,7 @@ class RetrievingPayeeGeneralFlowActivity extends PayeeState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrievingPayeeGeneralFlowActivity extends PayeeState {
@@ -75,19 +63,13 @@ class SilentRetrievingPayeeGeneralFlowActivity extends PayeeState {
 }
 
 class RetrievePayeeGeneralFlowActivityError extends PayeeState {
-  const RetrievePayeeGeneralFlowActivityError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrievePayeeGeneralFlowActivityError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class SilentRetrievePayeeGeneralFlowActivityError extends PayeeState {
@@ -96,9 +78,7 @@ class SilentRetrievePayeeGeneralFlowActivityError extends PayeeState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // retrieve payee fbl collect
@@ -108,9 +88,7 @@ class RetrievingPayeeFblCollectActivity extends PayeeState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrievingPayeeFblCollectActivity extends PayeeState {
@@ -121,19 +99,13 @@ class SilentRetrievingPayeeFblCollectActivity extends PayeeState {
 }
 
 class RetrievePayeeFblCollectActivityError extends PayeeState {
-  const RetrievePayeeFblCollectActivityError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrievePayeeFblCollectActivityError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class SilentRetrievePayeeFblCollectActivityError extends PayeeState {
@@ -142,9 +114,7 @@ class SilentRetrievePayeeFblCollectActivityError extends PayeeState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // Payees
@@ -164,27 +134,19 @@ class SilentLoadingPayees extends PayeeState {
 }
 
 class PayeesLoaded extends PayeeState {
-  const PayeesLoaded({
-    required this.result,
-  });
+  const PayeesLoaded({required this.result});
   final Response<PayeesResponse> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class PayeesLoadedSilently extends PayeeState {
-  const PayeesLoadedSilently({
-    required this.result,
-  });
+  const PayeesLoadedSilently({required this.result});
   final Response<PayeesResponse> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class LoadPayeesError extends PayeeState {
@@ -193,9 +155,7 @@ class LoadPayeesError extends PayeeState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class SilentLoadPayeesError extends PayeeState {
@@ -204,9 +164,7 @@ class SilentLoadPayeesError extends PayeeState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // add payee
@@ -216,40 +174,26 @@ class AddingPayee extends PayeeState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class PayeeAdded extends PayeeState {
-  const PayeeAdded({
-    required this.result,
-    required this.routeName,
-  });
+  const PayeeAdded({required this.result, required this.routeName});
   final Response result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class AddPayeeError extends PayeeState {
-  const AddPayeeError({
-    required this.result,
-    required this.routeName,
-  });
+  const AddPayeeError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 // delete payee
@@ -259,40 +203,26 @@ class DeletingPayee extends PayeeState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class PayeeDeleted extends PayeeState {
-  const PayeeDeleted({
-    required this.result,
-    required this.routeName,
-  });
+  const PayeeDeleted({required this.result, required this.routeName});
   final Response result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class DeletePayeeError extends PayeeState {
-  const DeletePayeeError({
-    required this.result,
-    required this.routeName,
-  });
+  const DeletePayeeError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 // payee sending now
@@ -302,40 +232,26 @@ class SendingPayeeNow extends PayeeState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class PayeeSentNow extends PayeeState {
-  const PayeeSentNow({
-    required this.result,
-    required this.routeName,
-  });
+  const PayeeSentNow({required this.result, required this.routeName});
   final Response result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class SendPayeeNowError extends PayeeState {
-  const SendPayeeNowError({
-    required this.result,
-    required this.routeName,
-  });
+  const SendPayeeNowError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 // retrieve form payees
@@ -345,38 +261,24 @@ class RetrievingFormPayees extends PayeeState {
   final String formId;
 
   @override
-  List<Object> get props => [
-        formId,
-      ];
+  List<Object> get props => [formId];
 }
 
 class FormPayeesRetrieved extends PayeeState {
-  const FormPayeesRetrieved({
-    required this.result,
-    required this.formId,
-  });
+  const FormPayeesRetrieved({required this.result, required this.formId});
   final Response<List<Payees>> result;
   final String formId;
 
   @override
-  List<Object> get props => [
-        result,
-        formId,
-      ];
+  List<Object> get props => [result, formId];
 }
 
 class RetrieveFormPayeesError extends PayeeState {
-  const RetrieveFormPayeesError({
-    required this.result,
-    required this.formId,
-  });
+  const RetrieveFormPayeesError({required this.result, required this.formId});
 
   final Response<dynamic> result;
   final String formId;
 
   @override
-  List<Object> get props => [
-        result,
-        formId,
-      ];
+  List<Object> get props => [result, formId];
 }

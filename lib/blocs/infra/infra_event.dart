@@ -8,19 +8,13 @@ abstract class InfraEvent extends Equatable {
 }
 
 class LoadBankInfra extends InfraEvent {
-  const LoadBankInfra({
-    this.showSilentLoading = true,
-    required this.id,
-  });
+  const LoadBankInfra({this.showSilentLoading = true, required this.id});
 
   final bool showSilentLoading;
   final String id;
 
   @override
-  List<Object> get props => [
-        showSilentLoading,
-        id,
-      ];
+  List<Object> get props => [showSilentLoading, id];
 }
 
 class SilentLoadBankInfra extends InfraEvent {

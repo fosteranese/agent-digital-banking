@@ -15,20 +15,12 @@ class StartNewSession extends MinimalEvent {
 }
 
 class SendReplySession extends MinimalEvent {
-  const SendReplySession({
-    required this.id,
-    required this.reply,
-    required this.session,
-  });
+  const SendReplySession({required this.id, required this.reply, required this.session});
 
   final String id;
   final String reply;
   final MinimalResponse session;
 
   @override
-  List<Object> get props => [
-        id,
-        reply,
-        session,
-      ];
+  List<Object> get props => [id, reply, session];
 }

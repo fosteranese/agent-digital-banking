@@ -34,35 +34,22 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
     try {
       emit(RetrievingAccountOpeningLOVs(event.routeName));
 
-      stored = await _repo
-          .getStoredRetrieveAccountOpeningLOVs();
+      stored = await _repo.getStoredRetrieveAccountOpeningLOVs();
 
       if (stored != null &&
-          (stored.data?.accountTypes?.isNotEmpty ??
-              false) &&
+          (stored.data?.accountTypes?.isNotEmpty ?? false) &&
           (stored.data?.branches?.isNotEmpty ?? false)) {
         accounts = stored;
-        emit(
-          AccountOpeningLOVsRetrieved(
-            result: accounts,
-            routeName: event.routeName,
-          ),
-        );
+        emit(AccountOpeningLOVsRetrieved(result: accounts, routeName: event.routeName));
       }
 
-      final result = await _repo
-          .retrieveAccountOpeningLOVs();
+      final result = await _repo.retrieveAccountOpeningLOVs();
       accounts = result;
 
       if (stored == null ||
           (stored.data?.accountTypes?.isEmpty ?? false) ||
           (stored.data?.branches?.isEmpty ?? false)) {
-        emit(
-          AccountOpeningLOVsRetrieved(
-            result: accounts,
-            routeName: event.routeName,
-          ),
-        );
+        emit(AccountOpeningLOVsRetrieved(result: accounts, routeName: event.routeName));
       } else {
         emit(AccountOpeningLOVsRetrievedSilently(accounts));
       }
@@ -72,28 +59,19 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
           (stored.data?.branches?.isEmpty ?? false)) {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            RetrieveAccountOpeningLOVsError(
-              result: error,
-              routeName: event.routeName,
-            ),
-          ),
+          (error) =>
+              emit(RetrieveAccountOpeningLOVsError(result: error, routeName: event.routeName)),
         );
       } else {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            SilentRetrieveAccountOpeningLOVsError(error),
-          ),
+          (error) => emit(SilentRetrieveAccountOpeningLOVsError(error)),
         );
       }
     }
   }
 
-  Future<void> _onRetrieveAccessCode(
-    RetrieveAccessCode event,
-    Emitter<SetupState> emit,
-  ) async {
+  Future<void> _onRetrieveAccessCode(RetrieveAccessCode event, Emitter<SetupState> emit) async {
     try {
       emit(RetrievingAccessCode(event.routeName));
 
@@ -104,21 +82,11 @@ class SetupBloc extends Bloc<SetupEvent, SetupState> {
         action: event.action,
       );
 
-      emit(
-        AccessCodeRetrieved(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(AccessCodeRetrieved(result: result, routeName: event.routeName));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          RetrieveAccessCodeError(
-            result: error,
-            routeName: event.routeName,
-          ),
-        ),
+        (error) => emit(RetrieveAccessCodeError(result: error, routeName: event.routeName)),
       );
     }
   }

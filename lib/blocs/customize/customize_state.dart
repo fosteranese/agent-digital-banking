@@ -15,25 +15,17 @@ class TogglingShowOnDashboard extends CustomizeState {
   final String activityId;
 
   @override
-  List<Object> get props => [
-        activityId,
-      ];
+  List<Object> get props => [activityId];
 }
 
 class ShowOnDashboardToggled extends CustomizeState {
-  const ShowOnDashboardToggled({
-    required this.status,
-    required this.activityId,
-  });
+  const ShowOnDashboardToggled({required this.status, required this.activityId});
 
   final bool status;
   final String activityId;
 
   @override
-  List<Object> get props => [
-        status,
-        activityId,
-      ];
+  List<Object> get props => [status, activityId];
 }
 
 class ToggleShowOnDashboardError extends CustomizeState {

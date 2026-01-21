@@ -2,17 +2,16 @@ class BankInfra {
   InfraType? type;
   List<Locators>? locators;
 
-  BankInfra({
-    this.type,
-    this.locators,
-  });
+  BankInfra({this.type, this.locators});
 
   BankInfra.fromMap(Map<String, dynamic> json) {
     if (json["type"] is Map) {
       type = json["type"] == null ? null : InfraType.fromMap(json["type"]);
     }
     if (json["locators"] is List) {
-      locators = json["locators"] == null ? null : (json["locators"] as List).map((e) => Locators.fromMap(e)).toList();
+      locators = json["locators"] == null
+          ? null
+          : (json["locators"] as List).map((e) => Locators.fromMap(e)).toList();
     }
   }
 

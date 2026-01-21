@@ -32,12 +32,10 @@ class FaceDetectionOverlay extends StatefulWidget {
   final void Function(CameraController controller) onInit;
 
   @override
-  State<FaceDetectionOverlay> createState() =>
-      _FaceDetectionOverlayState();
+  State<FaceDetectionOverlay> createState() => _FaceDetectionOverlayState();
 }
 
-class _FaceDetectionOverlayState
-    extends State<FaceDetectionOverlay> {
+class _FaceDetectionOverlayState extends State<FaceDetectionOverlay> {
   CameraController? _camController;
   FaceDetector? _faceDetector;
   bool _canProcess = true;
@@ -61,34 +59,24 @@ class _FaceDetectionOverlayState
     widget.whichSide.addListener(() {
       if (widget.whichSide.text != whichSide) {
         whichSide = widget.whichSide.text;
-        _faceDetector = FaceDetector(
-          options: widget.faceDetectorOptions,
-        );
+        _faceDetector = FaceDetector(options: widget.faceDetectorOptions);
         _startRecording();
       }
     });
 
     super.initState();
-    _faceDetector = FaceDetector(
-      options: widget.faceDetectorOptions,
-    );
+    _faceDetector = FaceDetector(options: widget.faceDetectorOptions);
     _startRecording();
   }
 
   Future _startRecording() async {
-    _camera = whichSide == 'front'
-        ? widget.frontCamera
-        : widget.backCamera;
+    _camera = whichSide == 'front' ? widget.frontCamera : widget.backCamera;
 
     if (_camController != null) {
       // _stopRecording();
     }
 
-    _camController = CameraController(
-      _camera,
-      ResolutionPreset.high,
-      enableAudio: false,
-    );
+    _camController = CameraController(_camera, ResolutionPreset.high, enableAudio: false);
     _camController?.initialize().then((_) {
       if (!mounted) return;
 
@@ -105,22 +93,13 @@ class _FaceDetectionOverlayState
     }
     final bytes = allBytes.done().buffer.asUint8List();
 
-    final Size imageSize = Size(
-      image.width.toDouble(),
-      image.height.toDouble(),
-    );
+    final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
 
-    final imageRotation =
-        InputImageRotationValue.fromRawValue(
-          _camera.sensorOrientation,
-        );
+    final imageRotation = InputImageRotationValue.fromRawValue(_camera.sensorOrientation);
 
     if (imageRotation == null) return;
 
-    final inputImageFormat =
-        InputImageFormatValue.fromRawValue(
-          image.format.raw,
-        );
+    final inputImageFormat = InputImageFormatValue.fromRawValue(image.format.raw);
     if (inputImageFormat == null) return;
 
     final inputImage = InputImage.fromBytes(
@@ -142,12 +121,9 @@ class _FaceDetectionOverlayState
       if (_isBusy) return;
       _isBusy = true;
 
-      final faces = await _faceDetector!.processImage(
-        inputImage,
-      );
+      final faces = await _faceDetector!.processImage(inputImage);
 
-      if (inputImage.metadata?.size != null &&
-          inputImage.metadata?.rotation != null) {
+      if (inputImage.metadata?.size != null && inputImage.metadata?.rotation != null) {
         widget.resultCallback(faces);
       }
       _isBusy = false;
@@ -166,9 +142,7 @@ class _FaceDetectionOverlayState
     }
 
     final size = MediaQuery.of(context).size;
-    var scale =
-        size.aspectRatio *
-        _camController!.value.aspectRatio;
+    var scale = size.aspectRatio * _camController!.value.aspectRatio;
 
     if (scale < 1) scale = 1 / scale;
 
@@ -179,13 +153,9 @@ class _FaceDetectionOverlayState
         children: [
           Transform.scale(
             scale: scale,
-            child: Center(
-              child: CameraPreview(_camController!),
-            ),
+            child: Center(child: CameraPreview(_camController!)),
           ),
-          widget.overlay != null
-              ? widget.overlay!
-              : const Text(''),
+          widget.overlay != null ? widget.overlay! : const Text(''),
         ],
       ),
     );

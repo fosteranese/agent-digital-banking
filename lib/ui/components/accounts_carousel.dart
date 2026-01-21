@@ -5,7 +5,14 @@ import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:my_sage_agent/data/models/account/source.dart';
 
 class AccountsCarousel extends StatefulWidget {
-  const AccountsCarousel({super.key, required this.accounts, required ValueNotifier<bool> displayBalance, required ValueNotifier<bool> viewAccounts, required ScrollController controller}) : _displayBalance = displayBalance, _viewAccounts = viewAccounts;
+  const AccountsCarousel({
+    super.key,
+    required this.accounts,
+    required ValueNotifier<bool> displayBalance,
+    required ValueNotifier<bool> viewAccounts,
+    required ScrollController controller,
+  }) : _displayBalance = displayBalance,
+       _viewAccounts = viewAccounts;
 
   final List<Source> accounts;
   final ValueNotifier<bool> _displayBalance;
@@ -34,7 +41,10 @@ class _AccountsCarouselState extends State<AccountsCarousel> {
       margin: const EdgeInsets.symmetric(horizontal: 1.5),
       height: isActive ? 7.0 : 7.0,
       width: isActive ? 7.0 : 7.0,
-      decoration: BoxDecoration(color: isActive ? Theme.of(context).primaryColorDark : Color(0x80B7861A), borderRadius: const BorderRadius.all(Radius.circular(10))),
+      decoration: BoxDecoration(
+        color: isActive ? Theme.of(context).primaryColorDark : Color(0x80B7861A),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
     );
   }
 
@@ -83,18 +93,30 @@ class _AccountsCarouselState extends State<AccountsCarousel> {
                                       e.tile ?? '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: PrimaryTextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
+                                      style: PrimaryTextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                     Text(
                                       e.accountNumber ?? '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: PrimaryTextStyle(color: Colors.black, fontSize: 13, fontWeight: FontWeight.w400),
+                                      style: PrimaryTextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                     const SizedBox(height: 10),
                                     Text(
                                       (value || display) ? (e.balance ?? '') : 'GHS***********',
-                                      style: PrimaryTextStyle(color: Colors.black, fontSize: 22, fontWeight: FontWeight.w700),
+                                      style: PrimaryTextStyle(
+                                        color: Colors.black,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -104,7 +126,12 @@ class _AccountsCarouselState extends State<AccountsCarousel> {
                                 onTap: () {
                                   widget._displayBalance.value = !widget._displayBalance.value;
                                 },
-                                child: Padding(padding: const EdgeInsets.all(5), child: SvgPicture.asset(value ? 'assets/img/hide.svg' : 'assets/img/show.svg')),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: SvgPicture.asset(
+                                    value ? 'assets/img/hide.svg' : 'assets/img/show.svg',
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -127,7 +154,11 @@ class _AccountsCarouselState extends State<AccountsCarousel> {
                     children: [
                       Text(
                         'All Accounts',
-                        style: PrimaryTextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
+                        style: PrimaryTextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                       const SizedBox(width: 10),
                       CircleAvatar(

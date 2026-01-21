@@ -22,10 +22,7 @@ class RetrievingPayments extends PaymentsState {
 class SilentRetrievingPayments extends PaymentsState {}
 
 class PaymentsRetrieved extends PaymentsState {
-  const PaymentsRetrieved({
-    required this.payments,
-    required this.routeName,
-  });
+  const PaymentsRetrieved({required this.payments, required this.routeName});
   final Response<List<Payment>> payments;
   final String routeName;
 
@@ -42,10 +39,7 @@ class PaymentsRetrievedSilently extends PaymentsState {
 }
 
 class RetrievePaymentsError extends PaymentsState {
-  const RetrievePaymentsError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrievePaymentsError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
@@ -73,14 +67,10 @@ class RetrievingPaymentCategories extends PaymentsState {
   List<Object> get props => [routeName];
 }
 
-class SilentRetrievingPaymentCategories
-    extends PaymentsState {}
+class SilentRetrievingPaymentCategories extends PaymentsState {}
 
 class PaymentCategoriesRetrieved extends PaymentsState {
-  const PaymentCategoriesRetrieved({
-    required this.paymentCategories,
-    required this.routeName,
-  });
+  const PaymentCategoriesRetrieved({required this.paymentCategories, required this.routeName});
   final Response<PaymentCategories> paymentCategories;
   final String routeName;
 
@@ -88,11 +78,8 @@ class PaymentCategoriesRetrieved extends PaymentsState {
   List<Object> get props => [paymentCategories, routeName];
 }
 
-class PaymentCategoriesRetrievedSilently
-    extends PaymentsState {
-  const PaymentCategoriesRetrievedSilently(
-    this.paymentCategories,
-  );
+class PaymentCategoriesRetrievedSilently extends PaymentsState {
+  const PaymentCategoriesRetrievedSilently(this.paymentCategories);
   final Response<PaymentCategories> paymentCategories;
 
   @override
@@ -100,10 +87,7 @@ class PaymentCategoriesRetrievedSilently
 }
 
 class RetrievePaymentCategoriesError extends PaymentsState {
-  const RetrievePaymentCategoriesError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrievePaymentCategoriesError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
@@ -112,8 +96,7 @@ class RetrievePaymentCategoriesError extends PaymentsState {
   List<Object> get props => [result, routeName];
 }
 
-class SilentRetrievePaymentCategoriesError
-    extends PaymentsState {
+class SilentRetrievePaymentCategoriesError extends PaymentsState {
   const SilentRetrievePaymentCategoriesError(this.result);
 
   final Response<dynamic> result;
@@ -132,14 +115,10 @@ class RetrievingInstitutionForms extends PaymentsState {
   List<Object> get props => [routeName];
 }
 
-class SilentRetrievingInstitutionForms
-    extends PaymentsState {}
+class SilentRetrievingInstitutionForms extends PaymentsState {}
 
 class InstitutionFormsRetrieved extends PaymentsState {
-  const InstitutionFormsRetrieved({
-    required this.result,
-    required this.routeName,
-  });
+  const InstitutionFormsRetrieved({required this.result, required this.routeName});
   final Response<InstitutionFormData> result;
   final String routeName;
 
@@ -147,8 +126,7 @@ class InstitutionFormsRetrieved extends PaymentsState {
   List<Object> get props => [result, routeName];
 }
 
-class InstitutionFormsRetrievedSilently
-    extends PaymentsState {
+class InstitutionFormsRetrievedSilently extends PaymentsState {
   const InstitutionFormsRetrievedSilently(this.result);
   final Response<InstitutionFormData> result;
 
@@ -157,10 +135,7 @@ class InstitutionFormsRetrievedSilently
 }
 
 class RetrieveInstitutionFormsError extends PaymentsState {
-  const RetrieveInstitutionFormsError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrieveInstitutionFormsError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
@@ -169,8 +144,7 @@ class RetrieveInstitutionFormsError extends PaymentsState {
   List<Object> get props => [result, routeName];
 }
 
-class SilentRetrieveInstitutionFormsError
-    extends PaymentsState {
+class SilentRetrieveInstitutionFormsError extends PaymentsState {
   const SilentRetrieveInstitutionFormsError(this.result);
 
   final Response<dynamic> result;
@@ -190,11 +164,7 @@ class VerifyingForm extends PaymentsState {
 }
 
 class FormVerified extends PaymentsState {
-  const FormVerified({
-    required this.result,
-    required this.routeName,
-    required this.formData,
-  });
+  const FormVerified({required this.result, required this.routeName, required this.formData});
   final Response<FormVerificationResponse> result;
   final String routeName;
   final Map<String, dynamic> formData;
@@ -204,10 +174,7 @@ class FormVerified extends PaymentsState {
 }
 
 class VerifyFormError extends PaymentsState {
-  const VerifyFormError({
-    required this.result,
-    required this.routeName,
-  });
+  const VerifyFormError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
@@ -227,10 +194,7 @@ class MakingPayment extends PaymentsState {
 }
 
 class PaymentMade extends PaymentsState {
-  const PaymentMade({
-    required this.result,
-    required this.routeName,
-  });
+  const PaymentMade({required this.result, required this.routeName});
   final Response<RequestResponse> result;
   final String routeName;
 
@@ -239,10 +203,7 @@ class PaymentMade extends PaymentsState {
 }
 
 class MakePaymentError extends PaymentsState {
-  const MakePaymentError({
-    required this.result,
-    required this.routeName,
-  });
+  const MakePaymentError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
@@ -272,14 +233,10 @@ class RetrievingCollectionForm extends PaymentsState {
   List<Object> get props => [routeName];
 }
 
-class SilentRetrievingCollectionForm
-    extends PaymentsState {}
+class SilentRetrievingCollectionForm extends PaymentsState {}
 
 class CollectionFormRetrieved extends PaymentsState {
-  const CollectionFormRetrieved({
-    required this.result,
-    required this.routeName,
-  });
+  const CollectionFormRetrieved({required this.result, required this.routeName});
   final FormsDatum result;
   final String routeName;
 
@@ -287,8 +244,7 @@ class CollectionFormRetrieved extends PaymentsState {
   List<Object> get props => [result, routeName];
 }
 
-class CollectionFormRetrievedSilently
-    extends PaymentsState {
+class CollectionFormRetrievedSilently extends PaymentsState {
   const CollectionFormRetrievedSilently(this.result);
   final FormsDatum result;
 
@@ -297,10 +253,7 @@ class CollectionFormRetrievedSilently
 }
 
 class RetrieveCollectionFormError extends PaymentsState {
-  const RetrieveCollectionFormError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrieveCollectionFormError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
@@ -309,8 +262,7 @@ class RetrieveCollectionFormError extends PaymentsState {
   List<Object> get props => [result, routeName];
 }
 
-class SilentRetrieveCollectionFormError
-    extends PaymentsState {
+class SilentRetrieveCollectionFormError extends PaymentsState {
   const SilentRetrieveCollectionFormError(this.result);
 
   final Response<dynamic> result;
@@ -330,10 +282,7 @@ class SavingBeneficiary extends PaymentsState {
 }
 
 class BeneficiarySaved extends PaymentsState {
-  const BeneficiarySaved({
-    required this.result,
-    required this.routeName,
-  });
+  const BeneficiarySaved({required this.result, required this.routeName});
   final Response result;
   final String routeName;
 
@@ -342,10 +291,7 @@ class BeneficiarySaved extends PaymentsState {
 }
 
 class SaveBeneficiaryError extends PaymentsState {
-  const SaveBeneficiaryError({
-    required this.routeName,
-    required this.result,
-  });
+  const SaveBeneficiaryError({required this.routeName, required this.result});
 
   final String routeName;
   final Response<dynamic> result;

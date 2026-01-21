@@ -6,7 +6,21 @@ import 'package:my_sage_agent/utils/help.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class PlainWithHeaderLayout extends StatefulWidget {
-  const PlainWithHeaderLayout({super.key, this.backIcon, this.onPressHelped, this.title, this.subtitle, this.miniTitle, required this.children, this.useCloseIcon = false, this.onBackPressed, this.onPressedSubtitle, this.sidesPadding = 10, this.subtitleWidget, this.bottomNavigationBar});
+  const PlainWithHeaderLayout({
+    super.key,
+    this.backIcon,
+    this.onPressHelped,
+    this.title,
+    this.subtitle,
+    this.miniTitle,
+    required this.children,
+    this.useCloseIcon = false,
+    this.onBackPressed,
+    this.onPressedSubtitle,
+    this.sidesPadding = 10,
+    this.subtitleWidget,
+    this.bottomNavigationBar,
+  });
 
   final Widget? backIcon;
   final void Function()? onPressHelped;
@@ -36,7 +50,8 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final remainingHeight = MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top;
+    final remainingHeight =
+        MediaQuery.of(context).size.height - kToolbarHeight - MediaQuery.of(context).padding.top;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,7 +61,12 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
             height: MediaQuery.of(context).size.height * 0.39,
             decoration: BoxDecoration(
               color: Color(0xffFAEFD5),
-              gradient: LinearGradient(stops: [0, 1], colors: [Color(0xffFAEFD5), Colors.white], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+              gradient: LinearGradient(
+                stops: [0, 1],
+                colors: [Color(0xffFAEFD5), Colors.white],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
             ),
           ),
           CustomScrollView(
@@ -56,7 +76,10 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
                 backgroundColor: Colors.transparent,
                 leadingWidth: 0,
                 title: IconButton(
-                  style: IconButton.styleFrom(backgroundColor: Color(0x91F7C15A), fixedSize: Size(35, 35)),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Color(0x91F7C15A),
+                    fixedSize: Size(35, 35),
+                  ),
                   onPressed:
                       widget.onBackPressed ??
                       () {
@@ -71,7 +94,10 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
                 ),
                 centerTitle: false,
                 automaticallyImplyLeading: false,
-                systemOverlayStyle: const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent, statusBarColor: Colors.transparent),
+                systemOverlayStyle: const SystemUiOverlayStyle(
+                  systemNavigationBarColor: Colors.transparent,
+                  statusBarColor: Colors.transparent,
+                ),
                 pinned: true,
                 floating: true,
                 actions: [
@@ -83,7 +109,10 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
                       children: [
                         Icon(Icons.help_outline, size: 24),
                         const SizedBox(width: 5),
-                        Text('Help', style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                        Text(
+                          'Help',
+                          style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
                       ],
                     ),
                   ),
@@ -113,10 +142,15 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
                                   padding: const EdgeInsets.only(left: 16),
                                   child: Text(
                                     widget.title!,
-                                    style: PrimaryTextStyle(color: Colors.black, fontSize: 28, fontWeight: FontWeight.w800),
+                                    style: PrimaryTextStyle(
+                                      color: Colors.black,
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w800,
+                                    ),
                                   ),
                                 ),
-                                if ((widget.subtitle?.isNotEmpty ?? false) || (widget.subtitleWidget != null))
+                                if ((widget.subtitle?.isNotEmpty ?? false) ||
+                                    (widget.subtitleWidget != null))
                                   Padding(
                                     padding: const EdgeInsets.only(left: 16, right: 20, top: 5),
                                     child: InkWell(
@@ -125,19 +159,33 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
                                           widget.subtitleWidget ??
                                           Text(
                                             widget.subtitle!,
-                                            style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500),
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                     ),
                                   ),
-                                if ((widget.subtitle?.isNotEmpty ?? false) || (widget.subtitleWidget != null)) const SizedBox(height: 25),
+                                if ((widget.subtitle?.isNotEmpty ?? false) ||
+                                    (widget.subtitleWidget != null))
+                                  const SizedBox(height: 25),
                                 Expanded(
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 20,
+                                      horizontal: 16,
+                                    ),
                                     decoration: const BoxDecoration(
                                       // color: Colors.white,
                                       borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
                                     ),
-                                    child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: widget.children),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: widget.children,
+                                    ),
                                   ),
                                 ),
                               ],

@@ -273,9 +273,7 @@ final class _Env {
       _envieddatamockMainBaseUrl.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddatamockMainBaseUrl[i] ^ _enviedkeymockMainBaseUrl[i],
-    ),
+    ).map((int i) => _envieddatamockMainBaseUrl[i] ^ _enviedkeymockMainBaseUrl[i]),
   );
 
   static const List<int> _enviedkeymockMainRootPath = <int>[];
@@ -287,9 +285,7 @@ final class _Env {
       _envieddatamockMainRootPath.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddatamockMainRootPath[i] ^ _enviedkeymockMainRootPath[i],
-    ),
+    ).map((int i) => _envieddatamockMainRootPath[i] ^ _enviedkeymockMainRootPath[i]),
   );
 
   static final int _enviedkeypingLength = 1549955976;
@@ -298,8 +294,7 @@ final class _Env {
 
   static final int _enviedkeyresendOtpAfterInSeconds = 2701372334;
 
-  static final int resendOtpAfterInSeconds =
-      _enviedkeyresendOtpAfterInSeconds ^ 2701372306;
+  static final int resendOtpAfterInSeconds = _enviedkeyresendOtpAfterInSeconds ^ 2701372306;
 
   static const List<int> _enviedkeycountryFlagBaseUrl = <int>[
     1847861963,
@@ -402,10 +397,7 @@ final class _Env {
       _envieddatacountryFlagBaseUrl.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) =>
-          _envieddatacountryFlagBaseUrl[i] ^ _enviedkeycountryFlagBaseUrl[i],
-    ),
+    ).map((int i) => _envieddatacountryFlagBaseUrl[i] ^ _enviedkeycountryFlagBaseUrl[i]),
   );
 
   static const List<int> _enviedkeygoogleMapApiKey = <int>[
@@ -497,9 +489,7 @@ final class _Env {
       _envieddatagoogleMapApiKey.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddatagoogleMapApiKey[i] ^ _enviedkeygoogleMapApiKey[i],
-    ),
+    ).map((int i) => _envieddatagoogleMapApiKey[i] ^ _enviedkeygoogleMapApiKey[i]),
   );
 
   static const List<int> _enviedkeygoogleMapBaseUrl = <int>[
@@ -551,9 +541,7 @@ final class _Env {
       _envieddatagoogleMapBaseUrl.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddatagoogleMapBaseUrl[i] ^ _enviedkeygoogleMapBaseUrl[i],
-    ),
+    ).map((int i) => _envieddatagoogleMapBaseUrl[i] ^ _enviedkeygoogleMapBaseUrl[i]),
   );
 
   static const List<int> _enviedkeygoogleMapPlaceBasePathUrl = <int>[
@@ -584,9 +572,7 @@ final class _Env {
       (int i) => i,
       growable: false,
     ).map(
-      (int i) =>
-          _envieddatagoogleMapPlaceBasePathUrl[i] ^
-          _enviedkeygoogleMapPlaceBasePathUrl[i],
+      (int i) => _envieddatagoogleMapPlaceBasePathUrl[i] ^ _enviedkeygoogleMapPlaceBasePathUrl[i],
     ),
   );
 
@@ -697,11 +683,7 @@ final class _Env {
       _envieddatagoogleShareLocationUrl.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) =>
-          _envieddatagoogleShareLocationUrl[i] ^
-          _enviedkeygoogleShareLocationUrl[i],
-    ),
+    ).map((int i) => _envieddatagoogleShareLocationUrl[i] ^ _enviedkeygoogleShareLocationUrl[i]),
   );
 
   static const List<int> _enviedkeyrsaPublicKey = <int>[
@@ -1726,9 +1708,7 @@ final class _Env {
       (int i) => i,
       growable: false,
     ).map(
-      (int i) =>
-          _envieddataandroidSigningCertHashes[i] ^
-          _enviedkeyandroidSigningCertHashes[i],
+      (int i) => _envieddataandroidSigningCertHashes[i] ^ _enviedkeyandroidSigningCertHashes[i],
     ),
   );
 
@@ -1833,8 +1813,7 @@ final class _Env {
       growable: false,
     ).map(
       (int i) =>
-          _envieddataandroidSigningCertHashUpload[i] ^
-          _enviedkeyandroidSigningCertHashUpload[i],
+          _envieddataandroidSigningCertHashUpload[i] ^ _enviedkeyandroidSigningCertHashUpload[i],
     ),
   );
 
@@ -1939,8 +1918,7 @@ final class _Env {
       growable: false,
     ).map(
       (int i) =>
-          _envieddataandroidSigningCertHashDebug[i] ^
-          _enviedkeyandroidSigningCertHashDebug[i],
+          _envieddataandroidSigningCertHashDebug[i] ^ _enviedkeyandroidSigningCertHashDebug[i],
     ),
   );
 
@@ -2234,9 +2212,7 @@ final class _Env {
       (int i) => i,
       growable: false,
     ).map(
-      (int i) =>
-          _envieddataandroidMessagingSenderId[i] ^
-          _enviedkeyandroidMessagingSenderId[i],
+      (int i) => _envieddataandroidMessagingSenderId[i] ^ _enviedkeyandroidMessagingSenderId[i],
     ),
   );
 
@@ -2275,9 +2251,7 @@ final class _Env {
       _envieddataandroidProjectId.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddataandroidProjectId[i] ^ _enviedkeyandroidProjectId[i],
-    ),
+    ).map((int i) => _envieddataandroidProjectId[i] ^ _enviedkeyandroidProjectId[i]),
   );
 
   static const List<int> _enviedkeyandroidDatabaseUrl = <int>[
@@ -2361,10 +2335,7 @@ final class _Env {
       _envieddataandroidDatabaseUrl.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) =>
-          _envieddataandroidDatabaseUrl[i] ^ _enviedkeyandroidDatabaseUrl[i],
-    ),
+    ).map((int i) => _envieddataandroidDatabaseUrl[i] ^ _enviedkeyandroidDatabaseUrl[i]),
   );
 
   static const List<int> _enviedkeyandroidStorageBucket = <int>[
@@ -2442,11 +2413,7 @@ final class _Env {
       _envieddataandroidStorageBucket.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) =>
-          _envieddataandroidStorageBucket[i] ^
-          _enviedkeyandroidStorageBucket[i],
-    ),
+    ).map((int i) => _envieddataandroidStorageBucket[i] ^ _enviedkeyandroidStorageBucket[i]),
   );
 
   static const List<int> _enviedkeyandroidBundleId = <int>[
@@ -2492,9 +2459,7 @@ final class _Env {
       _envieddataandroidBundleId.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddataandroidBundleId[i] ^ _enviedkeyandroidBundleId[i],
-    ),
+    ).map((int i) => _envieddataandroidBundleId[i] ^ _enviedkeyandroidBundleId[i]),
   );
 
   static const List<int> _enviedkeyiosApiKey = <int>[
@@ -2724,11 +2689,7 @@ final class _Env {
       _envieddataiosMessagingSenderId.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) =>
-          _envieddataiosMessagingSenderId[i] ^
-          _enviedkeyiosMessagingSenderId[i],
-    ),
+    ).map((int i) => _envieddataiosMessagingSenderId[i] ^ _enviedkeyiosMessagingSenderId[i]),
   );
 
   static const List<int> _enviedkeyiosProjectId = <int>[
@@ -2850,9 +2811,7 @@ final class _Env {
       _envieddataiosDatabaseUrl.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddataiosDatabaseUrl[i] ^ _enviedkeyiosDatabaseUrl[i],
-    ),
+    ).map((int i) => _envieddataiosDatabaseUrl[i] ^ _enviedkeyiosDatabaseUrl[i]),
   );
 
   static const List<int> _enviedkeyiosStorageBucket = <int>[
@@ -2930,9 +2889,7 @@ final class _Env {
       _envieddataiosStorageBucket.length,
       (int i) => i,
       growable: false,
-    ).map(
-      (int i) => _envieddataiosStorageBucket[i] ^ _enviedkeyiosStorageBucket[i],
-    ),
+    ).map((int i) => _envieddataiosStorageBucket[i] ^ _enviedkeyiosStorageBucket[i]),
   );
 
   static const List<int> _enviedkeyiosBundleId = <int>[
@@ -3083,17 +3040,9 @@ final class _Env {
     ).map((int i) => _envieddataloki[i] ^ _enviedkeyloki[i]),
   );
 
-  static const List<int> _enviedkeybuildNumber = <int>[
-    1100465089,
-    978822358,
-    1079635386,
-  ];
+  static const List<int> _enviedkeybuildNumber = <int>[1100465089, 978822358, 1079635386];
 
-  static const List<int> _envieddatabuildNumber = <int>[
-    1100465136,
-    978822382,
-    1079635330,
-  ];
+  static const List<int> _envieddatabuildNumber = <int>[1100465136, 978822382, 1079635330];
 
   static final String buildNumber = String.fromCharCodes(
     List<int>.generate(

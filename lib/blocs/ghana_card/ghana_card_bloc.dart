@@ -9,8 +9,7 @@ import '../../utils/response.util.dart';
 part 'ghana_card_event.dart';
 part 'ghana_card_state.dart';
 
-class GhanaCardBloc
-    extends Bloc<GhanaCardEvent, GhanaCardState> {
+class GhanaCardBloc extends Bloc<GhanaCardEvent, GhanaCardState> {
   GhanaCardBloc() : super(CompleteGhanaCardInitial()) {
     on(_onVerifyCompleteGhanaCard);
     on(_onReVerifyCompleteGhanaCard);
@@ -35,18 +34,9 @@ class GhanaCardBloc
         code: code,
       );
 
-      emit(
-        CompleteGhanaCardVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(CompleteGhanaCardVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) =>
-            emit(VerifyCompleteGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(VerifyCompleteGhanaCardError(error)));
     }
   }
 
@@ -63,18 +53,9 @@ class GhanaCardBloc
         code: code,
       );
 
-      emit(
-        CompleteGhanaCardReVerified(
-          data: result,
-          resendPayload: event.registrationId,
-        ),
-      );
+      emit(CompleteGhanaCardReVerified(data: result, resendPayload: event.registrationId));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) =>
-            emit(ReVerifyCompleteGhanaCardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ReVerifyCompleteGhanaCardError(error)));
     }
   }
 }

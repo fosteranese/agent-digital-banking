@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class DashboardStats extends StatelessWidget {
   const DashboardStats({super.key});
 
-  static const List<Map<String, dynamic>> _cards = [
+  static final List<Map<String, dynamic>> _cards = [
     {
       'color': ThemeUtil.primaryColor,
       'iconColor': Color(0xff00569C),
       'icon': 'assets/img/cash-collected.svg',
       'title': '',
       'caption': 'Cash Collected',
+      'value': () {
+        return AppUtil.currentUser.agentData?.cashCollected?.formatedValue ?? 'GHS 0.00';
+      },
     },
     {
       'color': Color(0xff5A7CBC),
@@ -20,6 +24,9 @@ class DashboardStats extends StatelessWidget {
       'icon': 'assets/img/money.svg',
       'title': '',
       'caption': 'Cash Deposited',
+      'value': () {
+        return AppUtil.currentUser.agentData?.cashDeposited?.formatedValue ?? 'GHS 0.00';
+      },
     },
     {
       'color': Color(0xff57B16B),
@@ -27,6 +34,9 @@ class DashboardStats extends StatelessWidget {
       'icon': 'assets/img/cash-collected.svg',
       'title': '',
       'caption': 'Cash at Hand',
+      'value': () {
+        return AppUtil.currentUser.agentData?.cashAtHand?.formatedValue ?? 'GHS 0.00';
+      },
     },
     {
       'color': Color(0xffE53793),
@@ -34,6 +44,9 @@ class DashboardStats extends StatelessWidget {
       'icon': 'assets/img/wallet.svg',
       'title': '',
       'caption': 'MoMo Collected',
+      'value': () {
+        return AppUtil.currentUser.agentData?.moMoCollected?.formatedValue ?? 'GHS 0.00';
+      },
     },
   ];
 
@@ -48,7 +61,7 @@ class DashboardStats extends StatelessWidget {
           padEnds: false,
           controller: PageController(viewportFraction: 0.8),
           children: _cards.map((item) {
-            final title = 'GHS 0.00';
+            final String title = item['value']();
             return Container(
               margin: EdgeInsets.only(
                 left: (item['caption'] == _cards.first['caption'] ? 20 : 10),

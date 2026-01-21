@@ -17,9 +17,7 @@ class AppModeRepo {
   }
 
   Future<Response<bool>> changeAppMode(bool status) async {
-    await _db.add(key: 'app-mode', payload: {
-      'isMinimal': status,
-    });
+    await _db.add(key: 'app-mode', payload: {'isMinimal': status});
 
     return Response(
       code: StatusConstants.success,

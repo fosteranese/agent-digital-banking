@@ -24,54 +24,34 @@ class SilentLoadingBankInfra extends InfraState {
 }
 
 class BankInfraLoaded extends InfraState {
-  const BankInfraLoaded({
-    required this.id,
-    required this.locators,
-    required this.infraTypes,
-  });
+  const BankInfraLoaded({required this.id, required this.locators, required this.infraTypes});
 
   final String id;
   final List<Locators> locators;
   final List<InfraType> infraTypes;
 
   @override
-  List<Object> get props => [
-        id,
-        locators,
-        infraTypes,
-      ];
+  List<Object> get props => [id, locators, infraTypes];
 }
 
 class BankInfraLoadedSilently extends InfraState {
-  const BankInfraLoadedSilently({
-    required this.locators,
-    required this.infraTypes,
-  });
+  const BankInfraLoadedSilently({required this.locators, required this.infraTypes});
 
   final List<Locators> locators;
   final List<InfraType> infraTypes;
 
   @override
-  List<Object> get props => [
-        locators,
-        infraTypes,
-      ];
+  List<Object> get props => [locators, infraTypes];
 }
 
 class LoadBankInfraError extends InfraState {
-  const LoadBankInfraError({
-    required this.routeName,
-    required this.result,
-  });
+  const LoadBankInfraError({required this.routeName, required this.result});
 
   final String routeName;
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        routeName,
-        result,
-      ];
+  List<Object> get props => [routeName, result];
 }
 
 class SilentLoadBankInfraError extends InfraState {
@@ -80,7 +60,5 @@ class SilentLoadBankInfraError extends InfraState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }

@@ -31,22 +31,14 @@ class FormIconButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? Theme.of(context).primaryColorLight,
           foregroundColor: textColor ?? Colors.white,
-          textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-                letterSpacing: 1,
-              ),
+          textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(letterSpacing: 1),
           padding: padding ?? const EdgeInsets.all(10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
           elevation: 0,
           shadowColor: Colors.transparent,
         ),
         onPressed: onPressed,
-        child: Icon(
-          icon ?? Icons.filter_list,
-          size: iconSize ?? (size / 2),
-          color: textColor,
-        ),
+        child: Icon(icon ?? Icons.filter_list, size: iconSize ?? (size / 2), color: textColor),
       ),
     );
   }

@@ -35,9 +35,7 @@ class BiometricRepo {
   }
 
   Future<Response<bool>> changeBiometricLoginStatus(bool status) async {
-    await _db.add(key: 'biometric-login', payload: {
-      'status': status,
-    });
+    await _db.add(key: 'biometric-login', payload: {'status': status});
 
     return Response(
       code: StatusConstants.success,
@@ -48,9 +46,7 @@ class BiometricRepo {
   }
 
   Future<Response<bool>> changeAutoBiometricLoginStatus(bool status) async {
-    await _db.add(key: 'biometric-auto-login', payload: {
-      'status': status,
-    });
+    await _db.add(key: 'biometric-auto-login', payload: {'status': status});
 
     return Response(
       code: StatusConstants.success,
@@ -61,9 +57,7 @@ class BiometricRepo {
   }
 
   Future<Response<bool>> changeBiometricTransactionStatus(bool status) async {
-    await _db.add(key: 'biometric-transaction', payload: {
-      'status': status,
-    });
+    await _db.add(key: 'biometric-transaction', payload: {'status': status});
 
     return Response(
       code: StatusConstants.success,
@@ -74,9 +68,7 @@ class BiometricRepo {
   }
 
   Future<Response<bool>> changeAutoBiometricTransactionStatus(bool status) async {
-    await _db.add(key: 'biometric-auto-transaction', payload: {
-      'status': status,
-    });
+    await _db.add(key: 'biometric-auto-transaction', payload: {'status': status});
 
     return Response(
       code: StatusConstants.success,

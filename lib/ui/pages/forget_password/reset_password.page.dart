@@ -39,13 +39,22 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) {
     return PlainWithHeaderLayout(
       title: 'Create a Password',
-      subtitle: 'Password must be at least 8 characters and include letters, numbers, and special characters (e.g. !\$@%).',
+      subtitle:
+          'Password must be at least 8 characters and include letters, numbers, and special characters (e.g. !\$@%).',
       onBackPressed: () {
         Navigator.popUntil(context, ModalRoute.withName(RequestPasswordResetPage.routeName));
       },
       children: [
-        FormPasswordInput(label: 'Password', placeholder: 'Enter your new password', controller: _passwordController),
-        FormPasswordInput(label: 'Confirm Password', placeholder: 'Confirm password', controller: _confirmPasswordController),
+        FormPasswordInput(
+          label: 'Password',
+          placeholder: 'Enter your new password',
+          controller: _passwordController,
+        ),
+        FormPasswordInput(
+          label: 'Confirm Password',
+          placeholder: 'Confirm password',
+          controller: _confirmPasswordController,
+        ),
         const Spacer(),
         const SizedBox(height: 20),
         BlocConsumer<AuthBloc, AuthState>(
@@ -83,7 +92,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 }
 
                 if (!password.isPasswordComplex()) {
-                  MessageUtil.displayErrorDialog(context, message: "Password is not strong enough. It does not meet the password requirement");
+                  MessageUtil.displayErrorDialog(
+                    context,
+                    message:
+                        "Password is not strong enough. It does not meet the password requirement",
+                  );
                   return;
                 }
 
@@ -92,7 +105,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   return;
                 }
 
-                context.read<AuthBloc>().add(ResetPassword(ResetPasswordRequest(requestId: _requestId, password: _passwordController.text)));
+                context.read<AuthBloc>().add(
+                  ResetPassword(
+                    ResetPasswordRequest(requestId: _requestId, password: _passwordController.text),
+                  ),
+                );
               },
             );
           },

@@ -9,10 +9,7 @@ class InstitutionData extends Equatable {
   final Institution? institution;
   final List<FormsDatum>? formsData;
 
-  const InstitutionData({
-    this.institution,
-    this.formsData,
-  });
+  const InstitutionData({this.institution, this.formsData});
 
   factory InstitutionData.fromMap(Map<String, dynamic> data) {
     return InstitutionData(
@@ -21,16 +18,16 @@ class InstitutionData extends Equatable {
           : Institution.fromMap(data['institution'] as Map<String, dynamic>),
       formsData: data['forms'] != null
           ? (data['forms'] as List<dynamic>?)
-              ?.map((e) => FormsDatum.fromMap(e as Map<String, dynamic>))
-              .toList()
+                ?.map((e) => FormsDatum.fromMap(e as Map<String, dynamic>))
+                .toList()
           : [],
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'institution': institution?.toMap(),
-        'forms': formsData?.map((e) => e.toMap()).toList() ?? [],
-      };
+    'institution': institution?.toMap(),
+    'forms': formsData?.map((e) => e.toMap()).toList() ?? [],
+  };
 
   /// `dart:convert`
   ///
@@ -44,10 +41,7 @@ class InstitutionData extends Equatable {
   /// Converts [InstitutionData] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  InstitutionData copyWith({
-    Institution? institution,
-    List<FormsDatum>? formsData,
-  }) {
+  InstitutionData copyWith({Institution? institution, List<FormsDatum>? formsData}) {
     return InstitutionData(
       institution: institution ?? this.institution,
       formsData: formsData ?? this.formsData,
@@ -58,8 +52,5 @@ class InstitutionData extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        institution,
-        formsData,
-      ];
+  List<Object?> get props => [institution, formsData];
 }

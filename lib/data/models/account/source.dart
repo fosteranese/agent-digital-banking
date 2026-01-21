@@ -22,24 +22,24 @@ class Source extends Equatable {
   });
 
   factory Source.fromMap(Map<String, dynamic> data) => Source(
-        value: data['value'] as String?,
-        tile: data['tile'] as String?,
-        picture: data['picture'] as String?,
-        mode: data['mode'] as String?,
-        status: data['status'] as String?,
-        accountNumber: data['accountNumber'] as String?,
-        balance: data['balance'] as String?,
-      );
+    value: data['value'] as String?,
+    tile: data['tile'] as String?,
+    picture: data['picture'] as String?,
+    mode: data['mode'] as String?,
+    status: data['status'] as String?,
+    accountNumber: data['accountNumber'] as String?,
+    balance: data['balance'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'value': value,
-        'tile': tile,
-        'picture': picture,
-        'mode': mode,
-        'status': status,
-        'accountNumber': accountNumber,
-        'balance': balance,
-      };
+    'value': value,
+    'tile': tile,
+    'picture': picture,
+    'mode': mode,
+    'status': status,
+    'accountNumber': accountNumber,
+    'balance': balance,
+  };
 
   /// `dart:convert`
   ///
@@ -78,14 +78,6 @@ class Source extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      value,
-      tile,
-      picture,
-      mode,
-      status,
-      accountNumber,
-      balance,
-    ];
+    return [value, tile, picture, mode, status, accountNumber, balance];
   }
 }

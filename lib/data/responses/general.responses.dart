@@ -4,7 +4,8 @@ class GeneralResponse {
   static const Response offline = Response(
     code: 'unavailable_network',
     status: 'error',
-    message: 'It looks like you\'re offline. Please check your internet connection and try again. If the issue persists, please close and relaunch the app.',
+    message:
+        'It looks like you\'re offline. Please check your internet connection and try again. If the issue persists, please close and relaunch the app.',
   );
   static const Response unknown = Response(
     code: 'UNKNOWN',
@@ -14,6 +15,7 @@ class GeneralResponse {
   static const Response forceUpdate = Response(
     code: '9000',
     status: 'error',
-    message: 'A new version is available. Please update to the latest version to continue using the app',
+    message:
+        'A new version is available. Please update to the latest version to continue using the app',
   );
 }

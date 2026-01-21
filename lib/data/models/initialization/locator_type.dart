@@ -22,26 +22,24 @@ class LocatorType extends Equatable {
   });
 
   factory LocatorType.fromMap(Map<String, dynamic> data) => LocatorType(
-        typeId: data['typeId'] as String?,
-        picture: data['picture'] as dynamic,
-        title: data['title'] as String?,
-        description: data['description'] as dynamic,
-        status: data['status'] as int?,
-        dateCreated: data['dateCreated'] == null
-            ? null
-            : DateTime.parse(data['dateCreated'] as String),
-        rank: data['rank'] as int?,
-      );
+    typeId: data['typeId'] as String?,
+    picture: data['picture'] as dynamic,
+    title: data['title'] as String?,
+    description: data['description'] as dynamic,
+    status: data['status'] as int?,
+    dateCreated: data['dateCreated'] == null ? null : DateTime.parse(data['dateCreated'] as String),
+    rank: data['rank'] as int?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'typeId': typeId,
-        'picture': picture,
-        'title': title,
-        'description': description,
-        'status': status,
-        'dateCreated': dateCreated?.toIso8601String(),
-        'rank': rank,
-      };
+    'typeId': typeId,
+    'picture': picture,
+    'title': title,
+    'description': description,
+    'status': status,
+    'dateCreated': dateCreated?.toIso8601String(),
+    'rank': rank,
+  };
 
   /// `dart:convert`
   ///
@@ -80,14 +78,6 @@ class LocatorType extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      typeId,
-      picture,
-      title,
-      description,
-      status,
-      dateCreated,
-      rank,
-    ];
+    return [typeId, picture, title, description, status, dateCreated, rank];
   }
 }

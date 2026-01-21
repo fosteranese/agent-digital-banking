@@ -15,10 +15,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
 
   final _repo = AuthRepo();
 
-  Future<void> _onRResendOtp(
-    ResendOtp event,
-    Emitter<OtpState> emit,
-  ) async {
+  Future<void> _onRResendOtp(ResendOtp event, Emitter<OtpState> emit) async {
     try {
       emit(ResendingOtp(event.uid));
 
@@ -28,9 +25,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          ResendOtpError(result: error, uid: event.uid),
-        ),
+        (error) => emit(ResendOtpError(result: error, uid: event.uid)),
       );
     }
   }

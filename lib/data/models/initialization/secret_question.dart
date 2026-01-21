@@ -31,13 +31,13 @@ class SecretQuestion extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'questionId': questionId,
-        'title': title,
-        'status': status,
-        'statusLabel': statusLabel,
-        'dateCreated': dateCreated,
-        'createdBy': createdBy,
-      };
+    'questionId': questionId,
+    'title': title,
+    'status': status,
+    'statusLabel': statusLabel,
+    'dateCreated': dateCreated,
+    'createdBy': createdBy,
+  };
 
   /// `dart:convert`
   ///
@@ -74,13 +74,6 @@ class SecretQuestion extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      questionId,
-      title,
-      status,
-      statusLabel,
-      dateCreated,
-      createdBy,
-    ];
+    return [questionId, title, status, statusLabel, dateCreated, createdBy];
   }
 }

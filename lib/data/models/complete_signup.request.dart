@@ -21,9 +21,7 @@ class CompleteSignUpRequest extends Equatable {
     this.isTransactBioEnabled,
   });
 
-  factory CompleteSignUpRequest.fromMap(
-    Map<String, dynamic> data,
-  ) {
+  factory CompleteSignUpRequest.fromMap(Map<String, dynamic> data) {
     return CompleteSignUpRequest(
       registrationId: data['registrationId'] as String?,
       password: data['password'] as String?,
@@ -49,9 +47,7 @@ class CompleteSignUpRequest extends Equatable {
   ///
   /// Parses the string and returns the resulting Json object as [CompleteSignUpRequest].
   factory CompleteSignUpRequest.fromJson(String data) {
-    return CompleteSignUpRequest.fromMap(
-      json.decode(data) as Map<String, dynamic>,
-    );
+    return CompleteSignUpRequest.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -74,10 +70,8 @@ class CompleteSignUpRequest extends Equatable {
       question: question ?? this.question,
       answer: answer ?? this.answer,
       pin: pin ?? this.pin,
-      isLoginBioEnabled:
-          isLoginBioEnabled ?? this.isLoginBioEnabled,
-      isTransactBioEnabled:
-          isTransactBioEnabled ?? this.isTransactBioEnabled,
+      isLoginBioEnabled: isLoginBioEnabled ?? this.isLoginBioEnabled,
+      isTransactBioEnabled: isTransactBioEnabled ?? this.isTransactBioEnabled,
     );
   }
 

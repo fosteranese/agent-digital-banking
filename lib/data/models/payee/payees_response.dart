@@ -6,10 +6,14 @@ class PayeesResponse {
 
   PayeesResponse.fromMap(Map<String, dynamic> json) {
     if (json["forms"] is List) {
-      forms = json["forms"] == null ? null : (json["forms"] as List).map((e) => PayeeForm.fromMap(e)).toList();
+      forms = json["forms"] == null
+          ? null
+          : (json["forms"] as List).map((e) => PayeeForm.fromMap(e)).toList();
     }
     if (json["payees"] is List) {
-      payees = json["payees"] == null ? null : (json["payees"] as List).map((e) => Payees.fromMap(e)).toList();
+      payees = json["payees"] == null
+          ? null
+          : (json["payees"] as List).map((e) => Payees.fromMap(e)).toList();
     }
   }
 
@@ -89,7 +93,9 @@ class Payees {
       formData = json["formData"] == null ? null : json["formData"] as Map<String, dynamic>;
     }
     if (json["previewData"] is List) {
-      previewData = json["previewData"] == null ? null : (json["previewData"] as List).map((e) => PreviewData.fromMap(e)).toList();
+      previewData = json["previewData"] == null
+          ? null
+          : (json["previewData"] as List).map((e) => PreviewData.fromMap(e)).toList();
     }
   }
 

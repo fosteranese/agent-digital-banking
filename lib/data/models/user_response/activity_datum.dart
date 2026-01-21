@@ -9,25 +9,21 @@ class ActivityDatum extends Equatable {
   final String? activityItems;
   final dynamic imageDirectory;
 
-  const ActivityDatum({
-    this.activity,
-    this.activityItems,
-    this.imageDirectory,
-  });
+  const ActivityDatum({this.activity, this.activityItems, this.imageDirectory});
 
   factory ActivityDatum.fromMap(Map<String, dynamic> data) => ActivityDatum(
-        activity: data['activity'] == null
-            ? null
-            : Activity.fromMap(data['activity'] as Map<String, dynamic>),
-        activityItems: data['activityItems'] as String?,
-        imageDirectory: data['imageDirectory'] as dynamic,
-      );
+    activity: data['activity'] == null
+        ? null
+        : Activity.fromMap(data['activity'] as Map<String, dynamic>),
+    activityItems: data['activityItems'] as String?,
+    imageDirectory: data['imageDirectory'] as dynamic,
+  );
 
   Map<String, dynamic> toMap() => {
-        'activity': activity?.toMap(),
-        'activityItems': activityItems,
-        'imageDirectory': imageDirectory,
-      };
+    'activity': activity?.toMap(),
+    'activityItems': activityItems,
+    'imageDirectory': imageDirectory,
+  };
 
   /// `dart:convert`
   ///
@@ -41,11 +37,7 @@ class ActivityDatum extends Equatable {
   /// Converts [ActivityDatum] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  ActivityDatum copyWith({
-    Activity? activity,
-    String? activityItems,
-    dynamic imageDirectory,
-  }) {
+  ActivityDatum copyWith({Activity? activity, String? activityItems, dynamic imageDirectory}) {
     return ActivityDatum(
       activity: activity ?? this.activity,
       activityItems: activityItems ?? this.activityItems,

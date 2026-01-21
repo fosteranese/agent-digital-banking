@@ -25,9 +25,7 @@ class NewSessionStarted extends MinimalState {
   final Response<MinimalResponse> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class StartSessionError extends MinimalState {
@@ -36,58 +34,38 @@ class StartSessionError extends MinimalState {
   final Response result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 //
 // rely session
 
 class ReplyingSession extends MinimalState {
-  const ReplyingSession({
-    required this.id,
-    required this.reply,
-  });
+  const ReplyingSession({required this.id, required this.reply});
 
   final String id;
   final String reply;
 
   @override
-  List<Object> get props => [
-        id,
-        reply,
-      ];
+  List<Object> get props => [id, reply];
 }
 
 class SessionReplied extends MinimalState {
-  const SessionReplied({
-    required this.id,
-    required this.result,
-  });
+  const SessionReplied({required this.id, required this.result});
 
   final String id;
   final Response<MinimalResponse> result;
 
   @override
-  List<Object> get props => [
-        id,
-        result,
-      ];
+  List<Object> get props => [id, result];
 }
 
 class ReplySessionError extends MinimalState {
-  const ReplySessionError({
-    required this.id,
-    required this.result,
-  });
+  const ReplySessionError({required this.id, required this.result});
 
   final String id;
   final Response result;
 
   @override
-  List<Object> get props => [
-        id,
-        result,
-      ];
+  List<Object> get props => [id, result];
 }

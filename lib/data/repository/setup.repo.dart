@@ -39,15 +39,18 @@ class SetupRepo {
     }
 
     final data = AccountOpeningLovs.fromMap(response.data as Map<String, dynamic>);
-    _db.add(key: 'account-opening-lovs', payload: {
-      'data': response.data,
-      'imageBaseUrl': response.imageBaseUrl,
-      'imageDirectory': response.imageDirectory,
-      'timeStamp': response.timeStamp,
-      'code': response.code,
-      'status': response.status,
-      'message': response.message,
-    });
+    _db.add(
+      key: 'account-opening-lovs',
+      payload: {
+        'data': response.data,
+        'imageBaseUrl': response.imageBaseUrl,
+        'imageDirectory': response.imageDirectory,
+        'timeStamp': response.timeStamp,
+        'code': response.code,
+        'status': response.status,
+        'message': response.message,
+      },
+    );
 
     return Response(
       code: response.code,

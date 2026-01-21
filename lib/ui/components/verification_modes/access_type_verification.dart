@@ -17,7 +17,14 @@ import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class AccessTypeVerification extends StatefulWidget {
-  const AccessTypeVerification({super.key, required this.data, required this.onVerify, this.onSkip, this.onBack, required this.action});
+  const AccessTypeVerification({
+    super.key,
+    required this.data,
+    required this.onVerify,
+    this.onSkip,
+    this.onBack,
+    required this.action,
+  });
 
   final VerificationResponse data;
   final void Function(String picture, String code) onVerify;
@@ -88,7 +95,11 @@ class _AccessTypeVerificationState extends State<AccessTypeVerification> {
                 },
                 child: Text(
                   'Resend access code',
-                  style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w600, fontSize: 13),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
                 ),
               ),
             ),
@@ -130,16 +141,31 @@ class _AccessTypeVerificationState extends State<AccessTypeVerification> {
                 Text(
                   'Request for Access Code',
                   textAlign: TextAlign.center,
-                  style: PrimaryTextStyle(fontWeight: FontWeight.bold, fontSize: 22, color: const Color(0xff010203)),
+                  style: PrimaryTextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    color: const Color(0xff010203),
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Text(
                   'Please enter your email address and phone number linked to your account',
                   textAlign: TextAlign.center,
-                  style: PrimaryTextStyle(fontWeight: FontWeight.w400, fontSize: 16, color: const Color(0xff919195)),
+                  style: PrimaryTextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    color: const Color(0xff919195),
+                  ),
                 ),
                 const SizedBox(height: 30),
-                FormInput(label: 'Phone Number *', controller: _phoneNumberController, keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false)),
+                FormInput(
+                  label: 'Phone Number *',
+                  controller: _phoneNumberController,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: false,
+                    signed: false,
+                  ),
+                ),
                 FormInput(label: 'Email Address', controller: _emailAddressController),
                 const SizedBox(height: 20),
                 FormButton(
@@ -148,20 +174,40 @@ class _AccessTypeVerificationState extends State<AccessTypeVerification> {
                     if (_phoneNumberController.text.trim().isEmpty) {
                       MessageUtil.displayErrorDialog(context, message: 'Phone number is required');
                       return;
-                    } else if (_emailAddressController.text.trim().isNotEmpty && !isEmail(_emailAddressController.text.trim())) {
-                      MessageUtil.displayErrorDialog(context, message: 'Email address is not valid');
+                    } else if (_emailAddressController.text.trim().isNotEmpty &&
+                        !isEmail(_emailAddressController.text.trim())) {
+                      MessageUtil.displayErrorDialog(
+                        context,
+                        message: 'Email address is not valid',
+                      );
                       return;
                     }
 
-                    context.read<SetupBloc>().add(RetrieveAccessCode(routeName: _uid, registrationId: widget.data.registrationId ?? '', phoneNumber: _phoneNumberController.text.trim(), emailAddress: _emailAddressController.text.trim(), action: widget.action));
+                    context.read<SetupBloc>().add(
+                      RetrieveAccessCode(
+                        routeName: _uid,
+                        registrationId: widget.data.registrationId ?? '',
+                        phoneNumber: _phoneNumberController.text.trim(),
+                        emailAddress: _emailAddressController.text.trim(),
+                        action: widget.action,
+                      ),
+                    );
                     Navigator.pop(MyApp.navigatorKey.currentContext!);
                   },
                 ),
                 const SizedBox(height: 20),
                 FormOutlineButton(
-                  side: const BorderSide(color: Colors.transparent, width: 0, style: BorderStyle.none),
+                  side: const BorderSide(
+                    color: Colors.transparent,
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
                   text: 'Cancel',
-                  textStyle: const TextStyle(fontSize: 16, color: Color(0xff919195), fontWeight: FontWeight.bold),
+                  textStyle: const TextStyle(
+                    fontSize: 16,
+                    color: Color(0xff919195),
+                    fontWeight: FontWeight.bold,
+                  ),
                   onPressed: () {
                     _emailAddressController.text = '';
                     _phoneNumberController.text = '';

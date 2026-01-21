@@ -11,7 +11,10 @@ class Database {
   static Future<void> init() async {
     try {
       final encryptionKeyUint8List = base64Url.decode(Env.loki);
-      Database.box = await Hive.openBox('umb-db.box', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
+      Database.box = await Hive.openBox(
+        'umb-db.box',
+        encryptionCipher: HiveAesCipher(encryptionKeyUint8List),
+      );
       // Database.box.clear();
     } catch (ex) {
       logger.e(ex);

@@ -23,16 +23,15 @@ class GeneralFlowCategory extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'category': category?.toMap(),
-        'forms': forms?.map((e) => e.toMap()).toList(),
-      };
+    'category': category?.toMap(),
+    'forms': forms?.map((e) => e.toMap()).toList(),
+  };
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [GeneralFlowCategory].
   factory GeneralFlowCategory.fromJson(String data) {
-    return GeneralFlowCategory.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return GeneralFlowCategory.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -40,14 +39,8 @@ class GeneralFlowCategory extends Equatable {
   /// Converts [GeneralFlowCategory] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  GeneralFlowCategory copyWith({
-    Category? category,
-    List<GeneralFlowForm>? forms,
-  }) {
-    return GeneralFlowCategory(
-      category: category ?? this.category,
-      forms: forms ?? this.forms,
-    );
+  GeneralFlowCategory copyWith({Category? category, List<GeneralFlowForm>? forms}) {
+    return GeneralFlowCategory(category: category ?? this.category, forms: forms ?? this.forms);
   }
 
   @override

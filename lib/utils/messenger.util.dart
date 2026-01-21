@@ -41,12 +41,7 @@ class Messenger {
     );
   }
 
-  void successAlert(
-    String message, {
-    void Function()? onClose,
-    String? title,
-    Widget? icon,
-  }) {
+  void successAlert(String message, {void Function()? onClose, String? title, Widget? icon}) {
     title ??= 'Successful';
     image = icon;
     this.message = message;
@@ -55,10 +50,7 @@ class Messenger {
     _display(onClose: onClose);
   }
 
-  void errorAlert(
-    String message, {
-    void Function()? onClose,
-  }) {
+  void errorAlert(String message, {void Function()? onClose}) {
     title = 'Error';
     this.message = message;
     messageType = MessageType.error;
@@ -66,10 +58,7 @@ class Messenger {
     _display(onClose: onClose);
   }
 
-  void infoAlert(
-    String message, {
-    void Function()? onClose,
-  }) {
+  void infoAlert(String message, {void Function()? onClose}) {
     title = 'Info';
     this.message = message;
     messageType = MessageType.info;
@@ -85,10 +74,7 @@ class Messenger {
     _display(onClose: onClose);
   }
 
-  void warningAlert(
-    String message, {
-    void Function()? onClose,
-  }) {
+  void warningAlert(String message, {void Function()? onClose}) {
     title = 'Warning';
     this.message = message;
     messageType = MessageType.warning;
@@ -96,10 +82,7 @@ class Messenger {
     _display(onClose: onClose);
   }
 
-  void failedAlert(
-    String message, {
-    void Function()? onClose,
-  }) {
+  void failedAlert(String message, {void Function()? onClose}) {
     title = 'Failed';
     this.message = message;
     messageType = MessageType.failed;
@@ -107,10 +90,7 @@ class Messenger {
     _display(onClose: onClose);
   }
 
-  void contentAlert(
-    Widget content, {
-    void Function()? onClose,
-  }) {
+  void contentAlert(Widget content, {void Function()? onClose}) {
     this.content = content;
 
     messageType = MessageType.content;
@@ -118,20 +98,14 @@ class Messenger {
     _display(onClose: onClose);
   }
 
-  void actionAlert(
-    List<Widget> actions, {
-    void Function()? onClose,
-  }) {
+  void actionAlert(List<Widget> actions, {void Function()? onClose}) {
     this.actions = actions;
     messageType = MessageType.actions;
 
     _display(onClose: onClose);
   }
 
-  void customAlert(
-    Widget content, {
-    void Function()? onClose,
-  }) {
+  void customAlert(Widget content, {void Function()? onClose}) {
     this.content = content;
 
     messageType = MessageType.custom;

@@ -40,15 +40,18 @@ class BulkPaymentRepo {
     }
 
     final data = BulkPaymentGroups.fromMap(response.data as Map<String, dynamic>);
-    _db.add(key: 'bulk-payment-groups', payload: {
-      'data': response.data,
-      'imageBaseUrl': response.imageBaseUrl,
-      'imageDirectory': response.imageDirectory,
-      'timeStamp': response.timeStamp,
-      'code': response.code,
-      'status': response.status,
-      'message': response.message,
-    });
+    _db.add(
+      key: 'bulk-payment-groups',
+      payload: {
+        'data': response.data,
+        'imageBaseUrl': response.imageBaseUrl,
+        'imageDirectory': response.imageDirectory,
+        'timeStamp': response.timeStamp,
+        'code': response.code,
+        'status': response.status,
+        'message': response.message,
+      },
+    );
 
     return Response(
       code: response.code,
@@ -83,9 +86,7 @@ class BulkPaymentRepo {
   Future<Response<BulkPaymentGroupPayees>> retrieveGroupMembers(String groupId) async {
     final response = await _fbl.post(
       path: 'BulkPayment/getGroupPayees',
-      body: {
-        "groupId": groupId,
-      },
+      body: {"groupId": groupId},
       isAuthenticated: true,
     );
 
@@ -94,15 +95,18 @@ class BulkPaymentRepo {
     }
 
     final data = BulkPaymentGroupPayees.fromMap(response.data as Map<String, dynamic>);
-    _db.add(key: 'bulk-payment-group-members/$groupId', payload: {
-      'data': response.data,
-      'imageBaseUrl': response.imageBaseUrl,
-      'imageDirectory': response.imageDirectory,
-      'timeStamp': response.timeStamp,
-      'code': response.code,
-      'status': response.status,
-      'message': response.message,
-    });
+    _db.add(
+      key: 'bulk-payment-group-members/$groupId',
+      payload: {
+        'data': response.data,
+        'imageBaseUrl': response.imageBaseUrl,
+        'imageDirectory': response.imageDirectory,
+        'timeStamp': response.timeStamp,
+        'code': response.code,
+        'status': response.status,
+        'message': response.message,
+      },
+    );
 
     return Response(
       code: response.code,
@@ -121,10 +125,7 @@ class BulkPaymentRepo {
   }) async {
     final response = await _fbl.post(
       path: 'BulkPayment/addGroupPayee',
-      body: {
-        "groupId": groupId,
-        "payees": payees,
-      },
+      body: {"groupId": groupId, "payees": payees},
       isAuthenticated: true,
     );
 
@@ -133,15 +134,18 @@ class BulkPaymentRepo {
     }
 
     final data = BulkPaymentGroupPayees.fromMap(response.data as Map<String, dynamic>);
-    _db.add(key: 'bulk-payment-group-members/$groupId', payload: {
-      'data': response.data,
-      'imageBaseUrl': response.imageBaseUrl,
-      'imageDirectory': response.imageDirectory,
-      'timeStamp': response.timeStamp,
-      'code': response.code,
-      'status': response.status,
-      'message': response.message,
-    });
+    _db.add(
+      key: 'bulk-payment-group-members/$groupId',
+      payload: {
+        'data': response.data,
+        'imageBaseUrl': response.imageBaseUrl,
+        'imageDirectory': response.imageDirectory,
+        'timeStamp': response.timeStamp,
+        'code': response.code,
+        'status': response.status,
+        'message': response.message,
+      },
+    );
 
     return Response(
       code: response.code,
@@ -157,9 +161,7 @@ class BulkPaymentRepo {
   Future<Response<List<Groups>>> deleteGroup(String groupId) async {
     final response = await _fbl.post(
       path: 'BulkPayment/deleteGroup',
-      body: {
-        "groupId": groupId,
-      },
+      body: {"groupId": groupId},
       isAuthenticated: true,
     );
 
@@ -187,10 +189,7 @@ class BulkPaymentRepo {
   }) async {
     final response = await _fbl.post(
       path: 'BulkPayment/deleteGroupPayee',
-      body: {
-        "groupId": groupId,
-        "payeeId": payeeId,
-      },
+      body: {"groupId": groupId, "payeeId": payeeId},
       isAuthenticated: true,
     );
 
@@ -221,17 +220,12 @@ class BulkPaymentRepo {
     );
   }
 
-  Future<Response<dynamic>> makeGroupPayment({
-    required String groupId,
-    required String pin,
-  }) async {
+  Future<Response<dynamic>> makeGroupPayment({required String groupId, required String pin}) async {
     final response = await _fbl.post(
       path: 'BulkPayment/payGroup',
       body: {
         "groupId": groupId,
-        "auth": {
-          'pin': pin,
-        },
+        "auth": {'pin': pin},
       },
       isAuthenticated: true,
     );

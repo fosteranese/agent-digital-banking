@@ -24,26 +24,26 @@ class Transaction extends Equatable {
   });
 
   factory Transaction.fromMap(Map<String, dynamic> data) => Transaction(
-        postDate: data['postDate'] as String?,
-        valueDate: data['valueDate'] as String?,
-        transactionType: data['transactionType'] as String?,
-        amount: data['amount'] as String?,
-        balance: data['balance'] as String?,
-        debitCreditFlag: data['debitCreditFlag'] as String?,
-        narration: data['narration'] as String?,
-        reference: data['reference'] as String?,
-      );
+    postDate: data['postDate'] as String?,
+    valueDate: data['valueDate'] as String?,
+    transactionType: data['transactionType'] as String?,
+    amount: data['amount'] as String?,
+    balance: data['balance'] as String?,
+    debitCreditFlag: data['debitCreditFlag'] as String?,
+    narration: data['narration'] as String?,
+    reference: data['reference'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'postDate': postDate,
-        'valueDate': valueDate,
-        'transactionType': transactionType,
-        'amount': amount,
-        'balance': balance,
-        'debitCreditFlag': debitCreditFlag,
-        'narration': narration,
-        'reference': reference,
-      };
+    'postDate': postDate,
+    'valueDate': valueDate,
+    'transactionType': transactionType,
+    'amount': amount,
+    'balance': balance,
+    'debitCreditFlag': debitCreditFlag,
+    'narration': narration,
+    'reference': reference,
+  };
 
   /// `dart:convert`
   ///

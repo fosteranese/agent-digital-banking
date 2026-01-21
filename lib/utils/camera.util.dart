@@ -6,7 +6,11 @@ import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 
 class CameraUtil {
-  static void showCamera({void Function()? begin, void Function()? after, required void Function(XFile imageFile) onSuccess}) async {
+  static void showCamera({
+    void Function()? begin,
+    void Function()? after,
+    required void Function(XFile imageFile) onSuccess,
+  }) async {
     try {
       if (begin != null) {
         begin();
@@ -15,7 +19,10 @@ class CameraUtil {
       final cameras = await availableCameras();
 
       if (cameras.isEmpty) {
-        MessageUtil.displayErrorDialog(MyApp.navigatorKey.currentContext!, message: 'No camera found. Please allow permission to your camera');
+        MessageUtil.displayErrorDialog(
+          MyApp.navigatorKey.currentContext!,
+          message: 'No camera found. Please allow permission to your camera',
+        );
         return;
       }
 

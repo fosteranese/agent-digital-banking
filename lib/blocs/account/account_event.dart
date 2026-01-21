@@ -10,19 +10,13 @@ abstract class AccountEvent extends Equatable {
 // retrieve payments
 
 class RetrieveAccounts extends AccountEvent {
-  const RetrieveAccounts({
-    required this.routeName,
-    required this.showSilentLoading,
-  });
+  const RetrieveAccounts({required this.routeName, required this.showSilentLoading});
 
   final String routeName;
   final bool showSilentLoading;
 
   @override
-  List<Object> get props => [
-        routeName,
-        showSilentLoading,
-      ];
+  List<Object> get props => [routeName, showSilentLoading];
 }
 
 class RefreshRetrieveAccounts extends AccountEvent {
@@ -31,9 +25,7 @@ class RefreshRetrieveAccounts extends AccountEvent {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrieveAccounts extends AccountEvent {
@@ -61,30 +53,16 @@ class RetrieveMiniStatement extends AccountEvent {
   final DateTime? endDate;
 
   @override
-  List<Object?> get props => [
-        routeName,
-        source,
-        sourceValue,
-        startDate,
-        endDate,
-      ];
+  List<Object?> get props => [routeName, source, sourceValue, startDate, endDate];
 }
 
 class SilentRetrieveMiniStatement extends AccountEvent {
-  const SilentRetrieveMiniStatement({
-    required this.source,
-    this.startDate,
-    this.endDate,
-  });
+  const SilentRetrieveMiniStatement({required this.source, this.startDate, this.endDate});
 
   final Source source;
   final DateTime? startDate;
   final DateTime? endDate;
 
   @override
-  List<Object?> get props => [
-        source,
-        startDate,
-        endDate,
-      ];
+  List<Object?> get props => [source, startDate, endDate];
 }

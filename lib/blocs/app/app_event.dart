@@ -28,9 +28,7 @@ class RaiseSecurityThreadEvent extends AppEvent {
   final Response<dynamic> error;
 
   @override
-  List<Object> get props => [
-        error,
-      ];
+  List<Object> get props => [error];
 }
 
 class SetScheduleStatusEvent extends AppEvent {
@@ -39,7 +37,5 @@ class SetScheduleStatusEvent extends AppEvent {
   final bool status;
 
   @override
-  List<Object> get props => [
-        status,
-      ];
+  List<Object> get props => [status];
 }

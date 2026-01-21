@@ -29,7 +29,10 @@ class _TestPageState extends State<TestPage> {
                     children: [
                       Align(
                         alignment: Alignment.bottomLeft,
-                        child: Padding(padding: const EdgeInsets.only(bottom: 24), child: Image.asset('assets/img/logo.png', width: 116)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 24),
+                          child: Image.asset('assets/img/logo.png', width: 116),
+                        ),
                       ),
                       Spacer(),
                       Padding(
@@ -41,33 +44,57 @@ class _TestPageState extends State<TestPage> {
                             Text(
                               'SSNIT Emporium Building,',
                               textAlign: TextAlign.right,
-                              style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+                              style: PrimaryTextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                              ),
                             ),
                             Text(
                               'Liberation Road, Airport City,',
                               textAlign: TextAlign.right,
-                              style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+                              style: PrimaryTextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                              ),
                             ),
                             Text(
                               'Accra, Ghana',
                               textAlign: TextAlign.right,
-                              style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+                              style: PrimaryTextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                              ),
                             ),
                             const SizedBox(height: 10),
                             Text(
                               'Telephone: 0302 666 331',
                               textAlign: TextAlign.right,
-                              style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+                              style: PrimaryTextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                              ),
                             ),
                             Text(
                               'Email Address:',
                               textAlign: TextAlign.right,
-                              style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+                              style: PrimaryTextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                              ),
                             ),
                             Text(
                               'info@myumbbank.com',
                               textAlign: TextAlign.right,
-                              style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white),
+                              style: PrimaryTextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
@@ -82,12 +109,19 @@ class _TestPageState extends State<TestPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
-                  Text('TRANSACTION DETAILS', style: PrimaryTextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+                  Text(
+                    'TRANSACTION DETAILS',
+                    style: PrimaryTextStyle(fontSize: 24, fontWeight: FontWeight.w900),
+                  ),
                   Spacer(),
                   Expanded(
                     child: Text(
                       'Date: 31-Jul-2025',
-                      style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Color(0xff4F4F4F)),
+                      style: PrimaryTextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff4F4F4F),
+                      ),
                     ),
                   ),
                 ],
@@ -100,7 +134,10 @@ class _TestPageState extends State<TestPage> {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text('Sender Details', style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(
+                'Sender Details',
+                style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 10),
             Padding(
@@ -111,12 +148,19 @@ class _TestPageState extends State<TestPage> {
                     width: 150,
                     child: Text(
                       'Reference ID',
-                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Color(0xff9ea0a3)),
+                      style: PrimaryTextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff9ea0a3),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Text('0123456789', style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      '0123456789',
+                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -129,12 +173,19 @@ class _TestPageState extends State<TestPage> {
                     width: 150,
                     child: Text(
                       'Transaction Type',
-                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Color(0xff9ea0a3)),
+                      style: PrimaryTextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff9ea0a3),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Text('0123456789', style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      '0123456789',
+                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -147,12 +198,19 @@ class _TestPageState extends State<TestPage> {
                     width: 150,
                     child: Text(
                       'Total Sent',
-                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Color(0xff9ea0a3)),
+                      style: PrimaryTextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff9ea0a3),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Text('0123456789', style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      '0123456789',
+                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -165,7 +223,10 @@ class _TestPageState extends State<TestPage> {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Text('Beneficiary Details', style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(
+                'Beneficiary Details',
+                style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 10),
             Padding(
@@ -176,12 +237,19 @@ class _TestPageState extends State<TestPage> {
                     width: 150,
                     child: Text(
                       'Reference ID',
-                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Color(0xff9ea0a3)),
+                      style: PrimaryTextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff9ea0a3),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Text('0123456789', style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      '0123456789',
+                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -194,12 +262,19 @@ class _TestPageState extends State<TestPage> {
                     width: 150,
                     child: Text(
                       'Reference ID',
-                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Color(0xff9ea0a3)),
+                      style: PrimaryTextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff9ea0a3),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Text('0123456789', style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      '0123456789',
+                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -212,12 +287,19 @@ class _TestPageState extends State<TestPage> {
                     width: 150,
                     child: Text(
                       'Reference ID',
-                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: Color(0xff9ea0a3)),
+                      style: PrimaryTextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xff9ea0a3),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 20),
                   Expanded(
-                    child: Text('0123456789', style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    child: Text(
+                      '0123456789',
+                      style: PrimaryTextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
@@ -264,7 +346,11 @@ class _TestPageState extends State<TestPage> {
                     style: PrimaryTextStyle(fontWeight: FontWeight.bold, color: Color(0xff3d3a3a)),
                   ),
                 ],
-                style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Color(0xff929396)),
+                style: PrimaryTextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xff929396),
+                ),
               ),
             ),
           ],

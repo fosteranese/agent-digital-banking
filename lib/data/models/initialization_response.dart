@@ -25,15 +25,11 @@ class InitializationResponse {
     this.imageDirectory,
   });
 
-  InitializationResponse.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  InitializationResponse.fromJson(Map<String, dynamic> json) {
     if (json["walkThrough"] is List) {
       walkThrough = json["walkThrough"] == null
           ? null
-          : (json["walkThrough"] as List)
-                .map((e) => WalkThrough.fromJson(e))
-                .toList();
+          : (json["walkThrough"] as List).map((e) => WalkThrough.fromJson(e)).toList();
     }
     if (json["termsAndConditions"] is String) {
       termsAndConditions = json["termsAndConditions"];
@@ -44,34 +40,24 @@ class InitializationResponse {
     if (json["secretQuestions"] is List) {
       secretQuestions = json["secretQuestions"] == null
           ? null
-          : (json["secretQuestions"] as List)
-                .map((e) => SecretQuestions.fromJson(e))
-                .toList();
+          : (json["secretQuestions"] as List).map((e) => SecretQuestions.fromJson(e)).toList();
     }
     if (json["help"] is Map) {
-      help = json["help"] == null
-          ? null
-          : Help.fromJson(json["help"]);
+      help = json["help"] == null ? null : Help.fromJson(json["help"]);
     }
     locatorsList = json["locatorsList"];
     if (json["locatorTypes"] is List) {
       locatorTypes = json["locatorTypes"] == null
           ? null
-          : (json["locatorTypes"] as List)
-                .map((e) => LocatorTypes.fromJson(e))
-                .toList();
+          : (json["locatorTypes"] as List).map((e) => LocatorTypes.fromJson(e)).toList();
     }
     if (json["social"] is Map) {
-      social = json["social"] == null
-          ? null
-          : Social1.fromJson(json["social"]);
+      social = json["social"] == null ? null : Social1.fromJson(json["social"]);
     }
     if (json["advert"] is List) {
       adverts = json["advert"] == null
           ? null
-          : (json["advert"] as List)
-                .map((e) => Advert.fromJson(e))
-                .toList();
+          : (json["advert"] as List).map((e) => Advert.fromJson(e)).toList();
     }
     if (json["imageBaseUrl"] is String) {
       imageBaseUrl = json["imageBaseUrl"];
@@ -84,33 +70,25 @@ class InitializationResponse {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (walkThrough != null) {
-      data["walkThrough"] = walkThrough
-          ?.map((e) => e.toJson())
-          .toList();
+      data["walkThrough"] = walkThrough?.map((e) => e.toJson()).toList();
     }
     data["termsAndConditions"] = termsAndConditions;
     data["privacyPolicy"] = privacyPolicy;
     if (secretQuestions != null) {
-      data["secretQuestions"] = secretQuestions
-          ?.map((e) => e.toJson())
-          .toList();
+      data["secretQuestions"] = secretQuestions?.map((e) => e.toJson()).toList();
     }
     if (help != null) {
       data["help"] = help?.toJson();
     }
     data["locatorsList"] = locatorsList;
     if (locatorTypes != null) {
-      data["locatorTypes"] = locatorTypes
-          ?.map((e) => e.toJson())
-          .toList();
+      data["locatorTypes"] = locatorTypes?.map((e) => e.toJson()).toList();
     }
     if (social != null) {
       data["social"] = social?.toJson();
     }
     if (adverts != null) {
-      data["advert"] = adverts
-          ?.map((e) => e.toJson())
-          .toList();
+      data["advert"] = adverts?.map((e) => e.toJson()).toList();
     }
     data["imageBaseUrl"] = imageBaseUrl;
     data["imageDirectory"] = imageDirectory;
@@ -132,11 +110,9 @@ class InitializationResponse {
   }) {
     return InitializationResponse(
       walkThrough: walkThrough ?? this.walkThrough,
-      termsAndConditions:
-          termsAndConditions ?? this.termsAndConditions,
+      termsAndConditions: termsAndConditions ?? this.termsAndConditions,
       privacyPolicy: privacyPolicy ?? this.privacyPolicy,
-      secretQuestions:
-          secretQuestions ?? this.secretQuestions,
+      secretQuestions: secretQuestions ?? this.secretQuestions,
       help: help ?? this.help,
       locatorsList: locatorsList ?? this.locatorsList,
       locatorTypes: locatorTypes ?? this.locatorTypes,
@@ -156,14 +132,7 @@ class Social1 {
   String? linkedIn;
   String? youTube;
 
-  Social1({
-    this.twitter,
-    this.instagram,
-    this.tikTok,
-    this.facebook,
-    this.linkedIn,
-    this.youTube,
-  });
+  Social1({this.twitter, this.instagram, this.tikTok, this.facebook, this.linkedIn, this.youTube});
 
   Social1.fromJson(Map<String, dynamic> json) {
     if (json["twitter"] is String) {
@@ -311,9 +280,7 @@ class Help {
       descrption = json["descrption"];
     }
     if (json["social"] is Map) {
-      social = json["social"] == null
-          ? null
-          : Social.fromJson(json["social"]);
+      social = json["social"] == null ? null : Social.fromJson(json["social"]);
     }
     if (json["activityType"] is String) {
       activityType = json["activityType"];
@@ -348,14 +315,7 @@ class Social {
   String? linkedIn;
   String? youTube;
 
-  Social({
-    this.twitter,
-    this.instagram,
-    this.tikTok,
-    this.facebook,
-    this.linkedIn,
-    this.youTube,
-  });
+  Social({this.twitter, this.instagram, this.tikTok, this.facebook, this.linkedIn, this.youTube});
 
   Social.fromJson(Map<String, dynamic> json) {
     if (json["twitter"] is String) {

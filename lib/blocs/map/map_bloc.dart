@@ -20,34 +20,22 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   final _repo = MapRepo();
-  Response<GoogleMapAutoCompleteResponse> records =
-      const Response(
-        code: '',
-        status: '',
-        message: '',
-        data: null,
-      );
-  Map<String, Response<GoogleMapAutoCompleteResponse>>
-  recordsMap = {};
+  Response<GoogleMapAutoCompleteResponse> records = const Response(
+    code: '',
+    status: '',
+    message: '',
+    data: null,
+  );
+  Map<String, Response<GoogleMapAutoCompleteResponse>> recordsMap = {};
 
-  Future<void> _onGoogleAutoComplete(
-    GoogleMapAutoComplete event,
-    Emitter<MapState> emit,
-  ) async {
+  Future<void> _onGoogleAutoComplete(GoogleMapAutoComplete event, Emitter<MapState> emit) async {
     Response<GoogleMapAutoCompleteResponse>? stored;
-    final key =
-        'google-map/autocomplete/$event.input/${event.latitude}/${event.longitude}';
+    final key = 'google-map/autocomplete/$event.input/${event.latitude}/${event.longitude}';
     try {
-      if (recordsMap[key]?.data?.predictions?.isNotEmpty ??
-          false) {
+      if (recordsMap[key]?.data?.predictions?.isNotEmpty ?? false) {
         records = recordsMap[key]!;
         stored = recordsMap[key];
-        emit(
-          GoogleMapAutoCompleted(
-            routeName: event.id,
-            result: records,
-          ),
-        );
+        emit(GoogleMapAutoCompleted(routeName: event.id, result: records));
 
         if (event.showSilentLoading) {
           emit(const SilentGoogleMapAutoCompleting());
@@ -61,15 +49,9 @@ class MapBloc extends Bloc<MapEvent, MapState> {
           longitude: event.longitude,
         );
 
-        if (stored?.data?.predictions?.isNotEmpty ??
-            false) {
+        if (stored?.data?.predictions?.isNotEmpty ?? false) {
           records = stored!;
-          emit(
-            GoogleMapAutoCompleted(
-              routeName: event.id,
-              result: stored,
-            ),
-          );
+          emit(GoogleMapAutoCompleted(routeName: event.id, result: stored));
         }
 
         if (event.showSilentLoading) {
@@ -87,35 +69,18 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       recordsMap[key] = result;
 
       if (stored.data?.predictions?.isEmpty ?? false) {
-        emit(
-          GoogleMapAutoCompleted(
-            routeName: event.id,
-            result: records,
-          ),
-        );
+        emit(GoogleMapAutoCompleted(routeName: event.id, result: records));
       } else {
-        emit(
-          GoogleMapAutoCompletedSilently(result: records),
-        );
+        emit(GoogleMapAutoCompletedSilently(result: records));
       }
     } catch (ex) {
-      if (stored == null ||
-          (stored.data?.predictions?.isEmpty ?? false)) {
+      if (stored == null || (stored.data?.predictions?.isEmpty ?? false)) {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            GoogleMapAutoCompleteError(
-              result: error,
-              routeName: event.id,
-            ),
-          ),
+          (error) => emit(GoogleMapAutoCompleteError(result: error, routeName: event.id)),
         );
       } else {
-        ResponseUtil.handleException(
-          ex,
-          (error) =>
-              emit(SilentGoogleMapAutoCompleteError(error)),
-        );
+        ResponseUtil.handleException(ex, (error) => emit(SilentGoogleMapAutoCompleteError(error)));
       }
     }
   }
@@ -133,25 +98,15 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       );
       emit(GoogleMapAutoCompletedSilently(result: result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) =>
-            emit(SilentGoogleMapAutoCompleteError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(SilentGoogleMapAutoCompleteError(error)));
     }
   }
 
-  Future<void> _onGetAddressFromLatLng(
-    GetAddressFromLatLng event,
-    Emitter<MapState> emit,
-  ) async {
+  Future<void> _onGetAddressFromLatLng(GetAddressFromLatLng event, Emitter<MapState> emit) async {
     try {
       emit(GettingAddressFromLatLng(event.id));
 
-      final result = await _repo.getAddress(
-        latitude: event.latitude,
-        longitude: event.longitude,
-      );
+      final result = await _repo.getAddress(latitude: event.latitude, longitude: event.longitude);
 
       if (result.data?.results?.isEmpty ?? true) {
         emit(
@@ -159,8 +114,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             result: const Response(
               code: StatusConstants.error,
               status: StatusConstants.error,
-              message:
-                  'Could not get your current location',
+              message: 'Could not get your current location',
             ),
             id: event.id,
           ),
@@ -168,32 +122,17 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         return;
       }
 
-      final result1 = await _repo.getPlace(
-        result.data!.results!.first.placeId ?? '',
-      );
-      emit(
-        AddressFromLatLngGotten(
-          id: event.id,
-          result: result1,
-        ),
-      );
+      final result1 = await _repo.getPlace(result.data!.results!.first.placeId ?? '');
+      emit(AddressFromLatLngGotten(id: event.id, result: result1));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          GetAddressFromLatLngError(
-            result: error,
-            id: event.id,
-          ),
-        ),
+        (error) => emit(GetAddressFromLatLngError(result: error, id: event.id)),
       );
     }
   }
 
-  Future<void> _onGetPlace(
-    GetPlace event,
-    Emitter<MapState> emit,
-  ) async {
+  Future<void> _onGetPlace(GetPlace event, Emitter<MapState> emit) async {
     try {
       emit(GettingPlace(event.id));
 
@@ -201,12 +140,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
       emit(PlaceGotten(id: event.id, result: result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(
-          GetPlaceError(result: error, id: event.id),
-        ),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(GetPlaceError(result: error, id: event.id)));
     }
   }
 }

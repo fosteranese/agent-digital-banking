@@ -16,7 +16,12 @@ import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class GeneralCategoryTile extends StatefulWidget {
-  const GeneralCategoryTile({super.key, required this.form, required this.activity, this.amDoing = AmDoing.transaction});
+  const GeneralCategoryTile({
+    super.key,
+    required this.form,
+    required this.activity,
+    this.amDoing = AmDoing.transaction,
+  });
 
   final GeneralFlowForm form;
   final AmDoing amDoing;
@@ -62,11 +67,17 @@ class _GeneralCategoryTileState extends State<GeneralCategoryTile> {
       child: ListTile(
         onTap: () {
           if (widget.form.activityType == ActivityTypesConst.enquiry) {
-            context.push(EnquiryFlowPage.routeName, extra: {'form': widget.form, 'amDoing': widget.amDoing, 'activity': widget.activity});
+            context.push(
+              EnquiryFlowPage.routeName,
+              extra: {'form': widget.form, 'amDoing': widget.amDoing, 'activity': widget.activity},
+            );
             return;
           }
 
-          context.push(ProcessFormPage.routeName, extra: {'form': widget.form, 'amDoing': widget.amDoing, 'activity': widget.activity});
+          context.push(
+            ProcessFormPage.routeName,
+            extra: {'form': widget.form, 'amDoing': widget.amDoing, 'activity': widget.activity},
+          );
         },
         dense: true,
         contentPadding: EdgeInsets.zero,
@@ -74,8 +85,10 @@ class _GeneralCategoryTileState extends State<GeneralCategoryTile> {
           imageUrl: getImage(widget.form.icon!),
           width: 24,
           height: 24,
-          placeholder: (context, url) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
-          errorWidget: (context, url, error) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+          placeholder: (context, url) =>
+              Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+          errorWidget: (context, url, error) =>
+              Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
         ),
         title: ValueListenableBuilder(
           valueListenable: _stage,

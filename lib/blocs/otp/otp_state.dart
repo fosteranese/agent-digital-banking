@@ -16,37 +16,23 @@ class ResendingOtp extends OtpState {
   final String uid;
 
   @override
-  List<Object> get props => [
-        uid,
-      ];
+  List<Object> get props => [uid];
 }
 
 class OtpResent extends OtpState {
-  const OtpResent({
-    required this.result,
-    required this.uid,
-  });
+  const OtpResent({required this.result, required this.uid});
   final Response<dynamic> result;
   final String uid;
   @override
-  List<Object> get props => [
-        result,
-        uid,
-      ];
+  List<Object> get props => [result, uid];
 }
 
 class ResendOtpError extends OtpState {
-  const ResendOtpError({
-    required this.result,
-    required this.uid,
-  });
+  const ResendOtpError({required this.result, required this.uid});
 
   final Response<dynamic> result;
   final String uid;
 
   @override
-  List<Object> get props => [
-        result,
-        uid,
-      ];
+  List<Object> get props => [result, uid];
 }

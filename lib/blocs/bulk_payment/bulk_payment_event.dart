@@ -14,9 +14,7 @@ class RetrieveBulkPaymentGroups extends BulkPaymentEvent {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrieveBulkPaymentGroups extends BulkPaymentEvent {
@@ -25,41 +23,27 @@ class SilentRetrieveBulkPaymentGroups extends BulkPaymentEvent {
   final String? routeName;
 
   @override
-  List<Object?> get props => [
-        routeName,
-      ];
+  List<Object?> get props => [routeName];
 }
 
 // retrieve groups
 
 class RetrieveBulkPaymentGroupMembers extends BulkPaymentEvent {
-  const RetrieveBulkPaymentGroupMembers({
-    required this.group,
-    required this.routeName,
-  });
+  const RetrieveBulkPaymentGroupMembers({required this.group, required this.routeName});
   final Groups group;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        group,
-        routeName,
-      ];
+  List<Object> get props => [group, routeName];
 }
 
 class SilentRetrieveBulkPaymentGroupMembers extends BulkPaymentEvent {
-  const SilentRetrieveBulkPaymentGroupMembers({
-    required this.group,
-    required this.routeName,
-  });
+  const SilentRetrieveBulkPaymentGroupMembers({required this.group, required this.routeName});
   final Groups group;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        group,
-        routeName,
-      ];
+  List<Object> get props => [group, routeName];
 }
 
 // create groups
@@ -75,11 +59,7 @@ class AddPayeesToBulkPaymentGroup extends BulkPaymentEvent {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        group,
-        payees,
-        routeName,
-      ];
+  List<Object> get props => [group, payees, routeName];
 }
 
 // Go to new group
@@ -94,18 +74,12 @@ class GotoNewGroup extends BulkPaymentEvent {
 // Delete Bulk Payment Group
 
 class DeleteBulkPaymentGroup extends BulkPaymentEvent {
-  const DeleteBulkPaymentGroup({
-    required this.group,
-    required this.routeName,
-  });
+  const DeleteBulkPaymentGroup({required this.group, required this.routeName});
   final Groups group;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        group,
-        routeName,
-      ];
+  List<Object> get props => [group, routeName];
 }
 
 // Delete Bulk Payment Group
@@ -121,29 +95,17 @@ class RemovePayeeFromBulkPaymentGroup extends BulkPaymentEvent {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        group,
-        payee,
-        routeName,
-      ];
+  List<Object> get props => [group, payee, routeName];
 }
 
 // make group Payment
 
 class MakeBulkPayment extends BulkPaymentEvent {
-  const MakeBulkPayment({
-    required this.group,
-    required this.pin,
-    required this.routeName,
-  });
+  const MakeBulkPayment({required this.group, required this.pin, required this.routeName});
   final Groups group;
   final String pin;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        group,
-        pin,
-        routeName,
-      ];
+  List<Object> get props => [group, pin, routeName];
 }

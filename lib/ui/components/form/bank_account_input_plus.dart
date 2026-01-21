@@ -9,7 +9,19 @@ import 'package:my_sage_agent/ui/components/form/multiple_input_plus.dart';
 import 'package:my_sage_agent/ui/components/form/select.dart';
 
 class BankAccountInputPlus extends StatefulWidget {
-  const BankAccountInputPlus({super.key, required this.formMultipleInput, required String label, required String placeholder, required this.selectedOption, required this.lov, required bool readOnly, required this.flowType, this.sourceAccount}) : _label = label, _placeholder = placeholder, _readOnly = readOnly;
+  const BankAccountInputPlus({
+    super.key,
+    required this.formMultipleInput,
+    required String label,
+    required String placeholder,
+    required this.selectedOption,
+    required this.lov,
+    required bool readOnly,
+    required this.flowType,
+    this.sourceAccount,
+  }) : _label = label,
+       _placeholder = placeholder,
+       _readOnly = readOnly;
 
   final FormMultipleInputPlus formMultipleInput;
   final String _label;
@@ -102,7 +114,9 @@ class BankAccountInputPlusState extends State<BankAccountInputPlus> {
                   _selectedOption = option;
                 },
                 contentPadding: const EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 0),
-                options: value.map((e) => FormSelectOption(value: e.lovValue ?? '', text: e.lovTitle)).toList(),
+                options: value
+                    .map((e) => FormSelectOption(value: e.lovValue ?? '', text: e.lovTitle))
+                    .toList(),
                 readOnly: widget._readOnly,
                 // tooltip: _tooltip,
               ),

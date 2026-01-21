@@ -8,14 +8,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
-import 'package:my_sage_agent/blocs/history/history_bloc.dart';
 import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/ui/components/dashboard/dashboard_actions.dart';
 import 'package:my_sage_agent/ui/components/dashboard/dashboard_recent_transactions.dart';
 import 'package:my_sage_agent/ui/components/dashboard/dashboard_stats.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 class FullAppMode extends StatefulWidget {
   const FullAppMode({super.key});
@@ -39,6 +40,14 @@ class _FullAppModeState extends State<FullAppMode> {
     isRefreshing = true;
     context.read<AuthBloc>().add(const RefreshUserData());
 
+    context.read<RetrieveDataBloc>().add(
+      RetrieveCollectionEvent(
+        id: Uuid().v4(),
+        action: 'RetrieveCollectionEvent',
+        skipSavedData: true,
+      ),
+    );
+
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       if (!isRefreshing) {
         timer.cancel();
@@ -52,7 +61,6 @@ class _FullAppModeState extends State<FullAppMode> {
   @override
   void initState() {
     context.read<PushNotificationBloc>().add(const LoadPushNotification());
-    context.read<HistoryBloc>().add(const LoadHistory(true));
 
     super.initState();
   }

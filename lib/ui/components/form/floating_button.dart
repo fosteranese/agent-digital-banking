@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FloatingButton extends StatelessWidget {
-  const FloatingButton({
-    super.key,
-    required this.label,
-    required this.onPressed,
-  });
+  const FloatingButton({super.key, required this.label, required this.onPressed});
 
   final String label;
   final void Function() onPressed;

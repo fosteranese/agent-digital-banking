@@ -4,8 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'activity_event.dart';
 part 'activity_state.dart';
 
-class ActivityBloc
-    extends Bloc<ActivityEvent, ActivityState> {
+class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
   ActivityBloc() : super(OnActivityToNotify()) {
     on(_onPerformActivityEvent);
   }

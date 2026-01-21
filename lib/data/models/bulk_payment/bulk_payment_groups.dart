@@ -17,7 +17,9 @@ class BulkPaymentGroups {
       activityId = json["activityId"];
     }
     if (json["groups"] is List) {
-      groups = json["groups"] == null ? null : (json["groups"] as List).map((e) => Groups.fromMap(e)).toList();
+      groups = json["groups"] == null
+          ? null
+          : (json["groups"] as List).map((e) => Groups.fromMap(e)).toList();
     }
   }
 

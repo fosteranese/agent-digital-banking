@@ -13,9 +13,7 @@ class NewCustomerSignUp extends AuthEvent {
   final NonCustomerSignUpRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class NewCustomerReSignUp extends AuthEvent {
@@ -24,25 +22,17 @@ class NewCustomerReSignUp extends AuthEvent {
   final NonCustomerSignUpRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class VerifyOtp extends AuthEvent {
-  const VerifyOtp({
-    required this.payload,
-    required this.isNewCustomer,
-  });
+  const VerifyOtp({required this.payload, required this.isNewCustomer});
 
   final OtpVerificationRequest payload;
   final bool isNewCustomer;
 
   @override
-  List<Object> get props => [
-        payload,
-        isNewCustomer,
-      ];
+  List<Object> get props => [payload, isNewCustomer];
 }
 
 class CustomerSignUp extends AuthEvent {
@@ -51,85 +41,57 @@ class CustomerSignUp extends AuthEvent {
   final CustomerSignUpRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class VerifyCustomer extends AuthEvent {
-  const VerifyCustomer({
-    required this.payload,
-    required this.data,
-  });
+  const VerifyCustomer({required this.payload, required this.data});
 
   final OtpVerificationRequest payload;
   final VerificationResponse data;
 
   @override
-  List<Object> get props => [
-        payload,
-        data,
-      ];
+  List<Object> get props => [payload, data];
 }
 
 class CompleteSignUp extends AuthEvent {
-  const CompleteSignUp(
-    this.payload,
-  );
+  const CompleteSignUp(this.payload);
 
   final CompleteSignUpRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class CompleteCustomerSignUp extends AuthEvent {
-  const CompleteCustomerSignUp(
-    this.payload,
-  );
+  const CompleteCustomerSignUp(this.payload);
 
   final CompleteSignUpRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class RetrieveProfilePicture extends AuthEvent {
-  const RetrieveProfilePicture({
-    this.tryCount = 0,
-  });
+  const RetrieveProfilePicture({this.tryCount = 0});
 
   final int tryCount;
 
   @override
-  List<Object> get props => [
-        tryCount,
-      ];
+  List<Object> get props => [tryCount];
 }
 
 // verify ghana card
 
 class VerifyGhanaCard extends AuthEvent {
-  const VerifyGhanaCard({
-    required this.registrationId,
-    required this.picture,
-    required this.code,
-  });
+  const VerifyGhanaCard({required this.registrationId, required this.picture, required this.code});
 
   final String registrationId;
   final String picture;
   final String code;
 
   @override
-  List<Object> get props => [
-        registrationId,
-        picture,
-        code,
-      ];
+  List<Object> get props => [registrationId, picture, code];
 }
 
 class ReVerifyGhanaCard extends AuthEvent {
@@ -138,9 +100,7 @@ class ReVerifyGhanaCard extends AuthEvent {
   final String registrationId;
 
   @override
-  List<Object> get props => [
-        registrationId,
-      ];
+  List<Object> get props => [registrationId];
 }
 // verify ghana card
 
@@ -158,60 +118,37 @@ class VerifyPicture extends AuthEvent {
   final bool isNewCustomer;
 
   @override
-  List<Object> get props => [
-        registrationId,
-        picture,
-        code,
-        isNewCustomer,
-      ];
+  List<Object> get props => [registrationId, picture, code, isNewCustomer];
 }
 
 class ReVerifyPicture extends AuthEvent {
-  const ReVerifyPicture({
-    required this.registrationId,
-    this.isNewCustomer = false,
-  });
+  const ReVerifyPicture({required this.registrationId, this.isNewCustomer = false});
 
   final String registrationId;
   final bool isNewCustomer;
 
   @override
-  List<Object> get props => [
-        registrationId,
-        isNewCustomer,
-      ];
+  List<Object> get props => [registrationId, isNewCustomer];
 }
 
 class SignInVerifyGhanaCard extends AuthEvent {
-  const SignInVerifyGhanaCard({
-    required this.registrationId,
-    this.picture = '',
-    this.code = '',
-  });
+  const SignInVerifyGhanaCard({required this.registrationId, this.picture = '', this.code = ''});
 
   final String registrationId;
   final String picture;
   final String code;
 
   @override
-  List<Object> get props => [
-        registrationId,
-        picture,
-        code,
-      ];
+  List<Object> get props => [registrationId, picture, code];
 }
 
 class SignInReVerifyGhanaCard extends AuthEvent {
-  const SignInReVerifyGhanaCard({
-    required this.registrationId,
-  });
+  const SignInReVerifyGhanaCard({required this.registrationId});
 
   final String registrationId;
 
   @override
-  List<Object> get props => [
-        registrationId,
-      ];
+  List<Object> get props => [registrationId];
 }
 
 // forgot password
@@ -222,9 +159,7 @@ class InitiateForgotPassword extends AuthEvent {
   final ForgotPasswordRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class ReInitiateForgotPassword extends AuthEvent {
@@ -233,9 +168,7 @@ class ReInitiateForgotPassword extends AuthEvent {
   final ForgotPasswordRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class VerifyForgotPassword extends AuthEvent {
@@ -244,9 +177,7 @@ class VerifyForgotPassword extends AuthEvent {
   final OtpVerificationRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class ResetPassword extends AuthEvent {
@@ -255,9 +186,7 @@ class ResetPassword extends AuthEvent {
   final ResetPasswordRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 // forgot secret answer
@@ -268,9 +197,7 @@ class RetrieveSecretAnswer extends AuthEvent {
   final String phoneNumber;
 
   @override
-  List<Object> get props => [
-        phoneNumber,
-      ];
+  List<Object> get props => [phoneNumber];
 }
 
 // login
@@ -281,9 +208,7 @@ class InitiateLogin extends AuthEvent {
   final InitiateLoginRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class ReInitiateLogin extends AuthEvent {
@@ -299,9 +224,7 @@ class VerifyLogin extends AuthEvent {
   final VerifyLoginRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class ResetSecurityAnswerLogin extends AuthEvent {
@@ -316,11 +239,7 @@ class ResetSecurityAnswerLogin extends AuthEvent {
   final String question;
 
   @override
-  List<Object> get props => [
-        registrationId,
-        question,
-        answer,
-      ];
+  List<Object> get props => [registrationId, question, answer];
 }
 
 class SetSecurityAnswerLogin extends AuthEvent {
@@ -335,11 +254,7 @@ class SetSecurityAnswerLogin extends AuthEvent {
   final String question;
 
   @override
-  List<Object> get props => [
-        registrationId,
-        question,
-        answer,
-      ];
+  List<Object> get props => [registrationId, question, answer];
 }
 
 class ReVerifyLogin extends AuthEvent {
@@ -348,9 +263,7 @@ class ReVerifyLogin extends AuthEvent {
   final VerifyLoginRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 class CompleteLogin extends AuthEvent {
@@ -359,9 +272,7 @@ class CompleteLogin extends AuthEvent {
   final OtpVerificationRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 // unlock screen
@@ -371,9 +282,7 @@ class UnLockScreen extends AuthEvent {
   final UnLockScreenRequest payload;
 
   @override
-  List<Object> get props => [
-        payload,
-      ];
+  List<Object> get props => [payload];
 }
 
 // refresh user data
@@ -398,9 +307,7 @@ class ForceUpdate extends AuthEvent {
   final Response result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // save pin
@@ -410,9 +317,7 @@ class SavePin extends AuthEvent {
   final String pin;
 
   @override
-  List<Object> get props => [
-        pin,
-      ];
+  List<Object> get props => [pin];
 }
 
 // retrieve pin
@@ -424,17 +329,11 @@ class RetrievePin extends AuthEvent {
 }
 
 class ChangeProfilePicture extends AuthEvent {
-  const ChangeProfilePicture({
-    required this.routeName,
-    required this.picture,
-  });
+  const ChangeProfilePicture({required this.routeName, required this.picture});
 
   final String routeName;
   final String picture;
 
   @override
-  List<Object> get props => [
-        routeName,
-        picture,
-      ];
+  List<Object> get props => [routeName, picture];
 }

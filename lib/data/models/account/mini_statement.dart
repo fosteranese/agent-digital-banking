@@ -22,24 +22,24 @@ class MiniStatement extends Equatable {
   });
 
   factory MiniStatement.fromMap(Map<String, dynamic> data) => MiniStatement(
-        accountTitle: data['accountTitle'] as String?,
-        accountNumber: data['accountNumber'] as String?,
-        accountType: data['accountType'] as String?,
-        currency: data['currency'] as String?,
-        balance: data['balance'] as String?,
-        transactions: (data['transactions'] as List<dynamic>?)
-            ?.map((e) => Transaction.fromMap(e as Map<String, dynamic>))
-            .toList(),
-      );
+    accountTitle: data['accountTitle'] as String?,
+    accountNumber: data['accountNumber'] as String?,
+    accountType: data['accountType'] as String?,
+    currency: data['currency'] as String?,
+    balance: data['balance'] as String?,
+    transactions: (data['transactions'] as List<dynamic>?)
+        ?.map((e) => Transaction.fromMap(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   Map<String, dynamic> toMap() => {
-        'accountTitle': accountTitle,
-        'accountNumber': accountNumber,
-        'accountType': accountType,
-        'currency': currency,
-        'balance': balance,
-        'transactions': transactions?.map((e) => e.toMap()).toList(),
-      };
+    'accountTitle': accountTitle,
+    'accountNumber': accountNumber,
+    'accountType': accountType,
+    'currency': currency,
+    'balance': balance,
+    'transactions': transactions?.map((e) => e.toMap()).toList(),
+  };
 
   /// `dart:convert`
   ///
@@ -76,13 +76,6 @@ class MiniStatement extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      accountTitle,
-      accountNumber,
-      accountType,
-      currency,
-      balance,
-      transactions,
-    ];
+    return [accountTitle, accountNumber, accountType, currency, balance, transactions];
   }
 }

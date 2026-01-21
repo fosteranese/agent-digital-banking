@@ -26,20 +26,12 @@ class FilterHistoryPage extends StatelessWidget {
       // backgroundColor: const Color(0xffF6F6F6),
       child: Container(
         color: Colors.white,
-        padding: const EdgeInsets.only(
-          top: 25,
-          left: 25,
-          right: 25,
-        ),
+        padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Item(
-              onPressed: onAllSelected,
-              padding: EdgeInsets.zero,
-              title: 'All',
-            ),
+            Item(onPressed: onAllSelected, padding: EdgeInsets.zero, title: 'All'),
             const Divider(color: Color(0xffF1F1F1)),
             ...activities.map((e) {
               return Item(

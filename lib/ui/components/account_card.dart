@@ -36,7 +36,10 @@ class _AccountCardState extends State<AccountCard> {
                 children: [
                   Text(widget.data.tile ?? '', style: PrimaryTextStyle(fontSize: 14)),
                   const SizedBox(height: 5),
-                  Text(widget.data.accountNumber ?? '', style: PrimaryTextStyle(color: Color(0xff919195), fontSize: 13)),
+                  Text(
+                    widget.data.accountNumber ?? '',
+                    style: PrimaryTextStyle(color: Color(0xff919195), fontSize: 13),
+                  ),
                   const SizedBox(height: 15),
                   ValueListenableBuilder(
                     valueListenable: _visible,
@@ -44,12 +47,20 @@ class _AccountCardState extends State<AccountCard> {
                       if (value) {
                         return Text(
                           widget.data.balance ?? '',
-                          style: PrimaryTextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
+                          style: PrimaryTextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
                         );
                       }
                       return Text(
                         'GHS***********',
-                        style: PrimaryTextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
+                        style: PrimaryTextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
                       );
                     },
                   ),
@@ -64,7 +75,12 @@ class _AccountCardState extends State<AccountCard> {
               child: ValueListenableBuilder(
                 valueListenable: _visible,
                 builder: (context, value, child) {
-                  return Padding(padding: const EdgeInsets.all(10), child: SvgPicture.asset(_visible.value ? 'assets/img/hide.svg' : 'assets/img/show.svg'));
+                  return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SvgPicture.asset(
+                      _visible.value ? 'assets/img/hide.svg' : 'assets/img/show.svg',
+                    ),
+                  );
                 },
               ),
             ),

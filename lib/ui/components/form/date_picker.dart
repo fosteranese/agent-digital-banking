@@ -5,7 +5,39 @@ import 'package:my_sage_agent/utils/theme.util.dart';
 import 'base_input.dart';
 
 class FormDatePicker extends StatefulWidget {
-  const FormDatePicker({super.key, this.label = '', this.bottomSpace = 20, this.prefix, this.controller, this.placeholder, this.validation, this.showIconOnSuccessfulValidation = false, this.showIconOnFailedValidation = false, this.keyboardType, this.onSuccess, this.info, this.onDateSelected, this.useLongList = false, this.useTextAsSelectedDisplayItem = false, this.onTap, this.showDatePicker = false, this.color = Colors.transparent, this.contentPadding, this.placeholderStyle, this.textAlign, this.textStyle, this.decoration, this.maxLength, this.prefixIconPadding, this.inputHeight, this.readOnly = false, this.currentDate, this.tooltip, this.minDate, this.maxDate});
+  const FormDatePicker({
+    super.key,
+    this.label = '',
+    this.bottomSpace = 15,
+    this.prefix,
+    this.controller,
+    this.placeholder,
+    this.validation,
+    this.showIconOnSuccessfulValidation = false,
+    this.showIconOnFailedValidation = false,
+    this.keyboardType,
+    this.onSuccess,
+    this.info,
+    this.onDateSelected,
+    this.useLongList = false,
+    this.useTextAsSelectedDisplayItem = false,
+    this.onTap,
+    this.showDatePicker = false,
+    this.color = Colors.transparent,
+    this.contentPadding,
+    this.placeholderStyle,
+    this.textAlign,
+    this.textStyle,
+    this.decoration,
+    this.maxLength,
+    this.prefixIconPadding,
+    this.inputHeight,
+    this.readOnly = false,
+    this.currentDate,
+    this.tooltip,
+    this.minDate,
+    this.maxDate,
+  });
 
   final String label;
   final double bottomSpace;
@@ -115,7 +147,13 @@ class _FormDatePickerState extends State<FormDatePicker> {
 
   Future<void> _openDatePicker() async {
     final previousDate = _selectedDate ?? DateTime.now();
-    final date = await showDatePicker(context: context, initialDate: _initialDate(previousDate), firstDate: widget.minDate ?? DateTime(1900), lastDate: widget.maxDate ?? DateTime(3000), currentDate: previousDate);
+    final date = await showDatePicker(
+      context: context,
+      initialDate: _initialDate(previousDate),
+      firstDate: widget.minDate ?? DateTime(1900),
+      lastDate: widget.maxDate ?? DateTime(3000),
+      currentDate: previousDate,
+    );
 
     if (date != null) {
       _onSelected(date);

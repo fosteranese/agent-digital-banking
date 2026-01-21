@@ -34,12 +34,10 @@ class BiometricUtil {
     return canCheckBiometrics;
   }
 
-  static Future<List<BiometricType>?>
-  getAvailableBiometrics() async {
+  static Future<List<BiometricType>?> getAvailableBiometrics() async {
     late List<BiometricType> availableBiometrics;
     try {
-      availableBiometrics = await auth
-          .getAvailableBiometrics();
+      availableBiometrics = await auth.getAvailableBiometrics();
     } on PlatformException catch (_) {
       availableBiometrics = <BiometricType>[];
     }
@@ -47,9 +45,7 @@ class BiometricUtil {
     return availableBiometrics;
   }
 
-  static Future<bool> authenticateWithBiometrics(
-    void Function() onSuccess,
-  ) async {
+  static Future<bool> authenticateWithBiometrics(void Function() onSuccess) async {
     bool authenticated = false;
     try {
       authenticated = await auth.authenticate(

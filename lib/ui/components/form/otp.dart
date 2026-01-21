@@ -40,7 +40,14 @@ class _OtpState extends State<Otp> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [_buildOtpFields(), SizedBox(height: 20), if (widget.onResendShortCode != null) _timeLeft == '00:00' ? _buildResendButton() : _buildCountdownText(context)]);
+    return Column(
+      children: [
+        _buildOtpFields(),
+        SizedBox(height: 20),
+        if (widget.onResendShortCode != null)
+          _timeLeft == '00:00' ? _buildResendButton() : _buildCountdownText(context),
+      ],
+    );
   }
 
   /// --- UI Builders ---
@@ -54,7 +61,15 @@ class _OtpState extends State<Otp> {
           children: List.generate(widget.length, (index) {
             return Padding(
               padding: EdgeInsets.only(right: index < widget.length - 1 ? _spacing : 0),
-              child: CharacterInput(controller: _controllers[index], focusNode: _focusNodes[index], previousFocusNode: index > 0 ? _focusNodes[index - 1] : null, nextFocusNode: index < widget.length - 1 ? _focusNodes[index + 1] : null, action: index == widget.length - 1 ? () => _onCompleted() : null, onPaste: _fillOtpAutomatically, initialFocus: index == 0),
+              child: CharacterInput(
+                controller: _controllers[index],
+                focusNode: _focusNodes[index],
+                previousFocusNode: index > 0 ? _focusNodes[index - 1] : null,
+                nextFocusNode: index < widget.length - 1 ? _focusNodes[index + 1] : null,
+                action: index == widget.length - 1 ? () => _onCompleted() : null,
+                onPaste: _fillOtpAutomatically,
+                initialFocus: index == 0,
+              ),
             );
           }),
         ),
@@ -104,7 +119,10 @@ class _OtpState extends State<Otp> {
               widget.onResendShortCode?.call();
               _startTimer();
             },
-            child: Text('Request a new code in ', style: PrimaryTextStyle(fontSize: 14, color: Color(0xff010101))),
+            child: Text(
+              'Request a new code in ',
+              style: PrimaryTextStyle(fontSize: 14, color: Color(0xff010101)),
+            ),
           ),
         ),
         SizedBox(width: 20),
@@ -174,7 +192,16 @@ class _OtpState extends State<Otp> {
 }
 
 class CharacterInput extends StatefulWidget {
-  const CharacterInput({super.key, required this.controller, required this.focusNode, this.previousFocusNode, this.nextFocusNode, this.action, this.onPaste, this.initialFocus = false});
+  const CharacterInput({
+    super.key,
+    required this.controller,
+    required this.focusNode,
+    this.previousFocusNode,
+    this.nextFocusNode,
+    this.action,
+    this.onPaste,
+    this.initialFocus = false,
+  });
 
   final TextEditingController controller;
   final FocusNode focusNode;

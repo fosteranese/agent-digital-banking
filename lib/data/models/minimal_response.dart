@@ -32,7 +32,9 @@ class MinimalResponse {
       header = json["header"];
     }
     if (json["menu"] is List) {
-      menu = json["menu"] == null ? null : (json["menu"] as List).map((e) => Menu.fromMap(e)).toList();
+      menu = json["menu"] == null
+          ? null
+          : (json["menu"] as List).map((e) => Menu.fromMap(e)).toList();
     }
     if (json["footer"] is String) {
       footer = json["footer"];
@@ -104,7 +106,14 @@ class Menu {
   bool? payeeValue;
   String? minifiedContent;
 
-  Menu({this.key, this.value, this.dataType, this.payeeTitle, this.payeeValue, this.minifiedContent});
+  Menu({
+    this.key,
+    this.value,
+    this.dataType,
+    this.payeeTitle,
+    this.payeeValue,
+    this.minifiedContent,
+  });
 
   Menu.fromMap(Map<String, dynamic> json) {
     if (json["key"] is String) {

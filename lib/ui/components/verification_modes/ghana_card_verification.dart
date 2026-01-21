@@ -2,9 +2,11 @@ import 'package:app_settings/app_settings.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
 import 'package:my_sage_agent/logger.dart';
+import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/face_detection_overlay.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
@@ -14,6 +16,7 @@ import 'package:my_sage_agent/utils/theme.util.dart';
 
 class GhanaCardVerification extends StatefulWidget {
   const GhanaCardVerification({super.key, required this.onVerify, this.onSkip, this.onBack});
+  static const routeName = '/ghana-card-verification';
 
   final void Function(String picture, String code) onVerify;
   final void Function()? onSkip;
@@ -308,15 +311,14 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                               }
 
                               controller.takePicture().then((image) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => PicturePreviewPage(
-                                      title: '',
-                                      image: image,
-                                      height: _height,
-                                      width: _width,
-                                      onSuccess: widget.onVerify,
-                                    ),
+                                context.push(
+                                  PicturePreviewPage.routeName,
+                                  extra: PicturePreviewPage(
+                                    title: '',
+                                    image: image,
+                                    height: _height,
+                                    width: _width,
+                                    onSuccess: widget.onVerify,
                                   ),
                                 );
                               });
@@ -388,7 +390,7 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
       logger.e('Failed to change flash mode: ${e.code} ${e.description}');
       // optionally show SnackBar to user
       ScaffoldMessenger.of(
-        context,
+        MyApp.navigatorKey.currentContext!,
       ).showSnackBar(SnackBar(content: Text('Flash not supported on this device')));
     }
   }

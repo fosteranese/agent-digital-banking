@@ -10,12 +10,7 @@ class SourceOfPayment extends Equatable {
   final bool? hasMiniStatement;
   final List<Source>? sources;
 
-  const SourceOfPayment({
-    this.mode,
-    this.title,
-    this.hasMiniStatement,
-    this.sources,
-  });
+  const SourceOfPayment({this.mode, this.title, this.hasMiniStatement, this.sources});
 
   factory SourceOfPayment.fromMap(Map<String, dynamic> data) {
     return SourceOfPayment(
@@ -29,11 +24,11 @@ class SourceOfPayment extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'mode': mode,
-        'title': title,
-        'hasMiniStatement': hasMiniStatement,
-        'sources': sources?.map((e) => e.toMap()).toList(),
-      };
+    'mode': mode,
+    'title': title,
+    'hasMiniStatement': hasMiniStatement,
+    'sources': sources?.map((e) => e.toMap()).toList(),
+  };
 
   /// `dart:convert`
   ///

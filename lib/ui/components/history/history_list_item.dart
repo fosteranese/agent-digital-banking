@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:my_sage_agent/utils/theme.util.dart';
 
-import '../../../constants/status.const.dart';
-import '../../../data/models/history/history.response.dart';
-import '../../../data/models/request_response.dart';
-import '../../../data/models/response.modal.dart';
+import 'package:my_sage_agent/constants/status.const.dart';
+import 'package:my_sage_agent/data/models/request_response.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class HistoryListItem extends StatelessWidget {
   final RequestResponse record;
-  final Response<HistoryResponse> sourceList;
   final VoidCallback? onTap;
 
-  const HistoryListItem({super.key, required this.record, required this.sourceList, this.onTap});
+  const HistoryListItem({super.key, required this.record, this.onTap});
 
   @override
   Widget build(BuildContext context) {

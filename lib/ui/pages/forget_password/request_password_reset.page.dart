@@ -55,7 +55,11 @@ class _RequestPasswordResetPageState extends State<RequestPasswordResetPage> {
                 },
                 child: Text(
                   'Forgot answer ?',
-                  style: PrimaryTextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w400, fontSize: 16),
+                  style: PrimaryTextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
                 ),
               ),
               SizedBox(width: 5),
@@ -86,7 +90,10 @@ class _RequestPasswordResetPageState extends State<RequestPasswordResetPage> {
                   return;
                 }
                 if (_phoneNumber.isEmpty) {
-                  MessageUtil.displayErrorDialog(context, message: "Phone number entered is invalid");
+                  MessageUtil.displayErrorDialog(
+                    context,
+                    message: "Phone number entered is invalid",
+                  );
                   return;
                 }
 
@@ -94,7 +101,14 @@ class _RequestPasswordResetPageState extends State<RequestPasswordResetPage> {
                   MessageUtil.displayErrorDialog(context, message: "Security Answer is required");
                   return;
                 }
-                context.read<AuthBloc>().add(InitiateForgotPassword(ForgotPasswordRequest(answer: _answerController.text, phoneNumber: _phoneNumber)));
+                context.read<AuthBloc>().add(
+                  InitiateForgotPassword(
+                    ForgotPasswordRequest(
+                      answer: _answerController.text,
+                      phoneNumber: _phoneNumber,
+                    ),
+                  ),
+                );
               },
             );
           },

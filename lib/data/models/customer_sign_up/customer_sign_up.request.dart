@@ -6,10 +6,7 @@ class CustomerSignUpRequest extends Equatable {
   final String? accountNumber;
   final String? ghanaCardNumber;
 
-  const CustomerSignUpRequest({
-    this.accountNumber,
-    this.ghanaCardNumber,
-  });
+  const CustomerSignUpRequest({this.accountNumber, this.ghanaCardNumber});
 
   factory CustomerSignUpRequest.fromMap(Map<String, dynamic> data) {
     return CustomerSignUpRequest(
@@ -19,9 +16,9 @@ class CustomerSignUpRequest extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'accountNumber': accountNumber,
-        'ghanaCardNumber': ghanaCardNumber,
-      };
+    'accountNumber': accountNumber,
+    'ghanaCardNumber': ghanaCardNumber,
+  };
 
   /// `dart:convert`
   ///
@@ -35,10 +32,7 @@ class CustomerSignUpRequest extends Equatable {
   /// Converts [CustomerSignUpRequest] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  CustomerSignUpRequest copyWith({
-    String? accountNumber,
-    String? ghanaCardNumber,
-  }) {
+  CustomerSignUpRequest copyWith({String? accountNumber, String? ghanaCardNumber}) {
     return CustomerSignUpRequest(
       accountNumber: accountNumber ?? this.accountNumber,
       ghanaCardNumber: ghanaCardNumber ?? this.ghanaCardNumber,
@@ -50,9 +44,6 @@ class CustomerSignUpRequest extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      accountNumber,
-      ghanaCardNumber,
-    ];
+    return [accountNumber, ghanaCardNumber];
   }
 }

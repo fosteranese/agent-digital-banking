@@ -9,25 +9,23 @@ class NonCustomerDatum extends Equatable {
   final List<dynamic>? activityItems;
   final String? imageDirectory;
 
-  const NonCustomerDatum({
-    this.activity,
-    this.activityItems,
-    this.imageDirectory,
-  });
+  const NonCustomerDatum({this.activity, this.activityItems, this.imageDirectory});
 
   factory NonCustomerDatum.fromMap(Map<String, dynamic> data) {
     return NonCustomerDatum(
-      activity: data['activity'] == null ? null : Activity.fromMap(data['activity'] as Map<String, dynamic>),
+      activity: data['activity'] == null
+          ? null
+          : Activity.fromMap(data['activity'] as Map<String, dynamic>),
       activityItems: data['activityItems'] as List<dynamic>?,
       imageDirectory: data['imageDirectory'] as String?,
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'activity': activity?.toMap(),
-        'activityItems': activityItems,
-        'imageDirectory': imageDirectory,
-      };
+    'activity': activity?.toMap(),
+    'activityItems': activityItems,
+    'imageDirectory': imageDirectory,
+  };
 
   /// `dart:convert`
   ///
@@ -57,9 +55,5 @@ class NonCustomerDatum extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        activity,
-        activityItems,
-        imageDirectory,
-      ];
+  List<Object?> get props => [activity, activityItems, imageDirectory];
 }

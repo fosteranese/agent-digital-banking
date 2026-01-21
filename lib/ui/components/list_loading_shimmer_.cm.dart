@@ -26,8 +26,7 @@ class ListLoadingShimmer extends StatelessWidget {
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -36,8 +35,7 @@ class ListLoadingShimmer extends StatelessWidget {
                         width: 100,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       const Spacer(),
@@ -46,8 +44,7 @@ class ListLoadingShimmer extends StatelessWidget {
                         width: 50,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ],
@@ -60,8 +57,7 @@ class ListLoadingShimmer extends StatelessWidget {
                         width: 80,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       const Spacer(),
@@ -70,8 +66,7 @@ class ListLoadingShimmer extends StatelessWidget {
                         width: 70,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius:
-                              BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ],

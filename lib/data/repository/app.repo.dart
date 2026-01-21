@@ -22,7 +22,9 @@ class AppRepo {
       return Future.error(response);
     }
 
-    final data = InitializationResponse.fromJson(response.data).copyWith(imageBaseUrl: response.imageBaseUrl, imageDirectory: response.imageDirectory);
+    final data = InitializationResponse.fromJson(
+      response.data,
+    ).copyWith(imageBaseUrl: response.imageBaseUrl, imageDirectory: response.imageDirectory);
 
     InitializationResponse newData = data;
 
@@ -30,7 +32,9 @@ class AppRepo {
       final getImages =
           data.walkThrough?.map((e) {
             return () async {
-              final response1 = await http.get(Uri.parse("${data.imageBaseUrl}${data.imageDirectory}/${e.picture}"));
+              final response1 = await http.get(
+                Uri.parse("${data.imageBaseUrl}${data.imageDirectory}/${e.picture}"),
+              );
 
               var documentDirectory = await getApplicationSupportDirectory();
               var file = File(path.join(documentDirectory.path, e.picture));

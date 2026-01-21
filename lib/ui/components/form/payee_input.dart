@@ -12,7 +12,38 @@ import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class FormPayeeInput extends StatefulWidget {
-  const FormPayeeInput({super.key, this.label = '', this.bottomSpace = 20, this.prefix, this.controller, this.placeholder, this.validation, this.showIconOnSuccessfulValidation = false, this.showIconOnFailedValidation = false, this.keyboardType, this.onSuccess, this.info, this.onSelectedOption, this.useLongList = false, this.useTextAsSelectedDisplayItem = false, this.onTap, this.showMenu = false, this.color = Colors.transparent, this.contentPadding, this.placeholderStyle, this.textAlign, this.textStyle, this.decoration, this.maxLength, this.prefixIconPadding, this.inputHeight, this.readOnly = false, this.tooltip, required this.formId, required this.title});
+  const FormPayeeInput({
+    super.key,
+    this.label = '',
+    this.bottomSpace = 20,
+    this.prefix,
+    this.controller,
+    this.placeholder,
+    this.validation,
+    this.showIconOnSuccessfulValidation = false,
+    this.showIconOnFailedValidation = false,
+    this.keyboardType,
+    this.onSuccess,
+    this.info,
+    this.onSelectedOption,
+    this.useLongList = false,
+    this.useTextAsSelectedDisplayItem = false,
+    this.onTap,
+    this.showMenu = false,
+    this.color = Colors.transparent,
+    this.contentPadding,
+    this.placeholderStyle,
+    this.textAlign,
+    this.textStyle,
+    this.decoration,
+    this.maxLength,
+    this.prefixIconPadding,
+    this.inputHeight,
+    this.readOnly = false,
+    this.tooltip,
+    required this.formId,
+    required this.title,
+  });
 
   final String label;
   final double bottomSpace;
@@ -57,7 +88,17 @@ class _FormPayeeInputState extends State<FormPayeeInput> {
 
   @override
   Widget build(BuildContext context) {
-    return FormInput(readOnly: widget.readOnly, label: widget.label, controller: widget.controller, tooltip: widget.tooltip, keyboardType: TextInputType.phone, placeholder: widget.placeholder ?? AppUtil.gh.exampleNumberMobileNational, contentPadding: const EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 0), onChange: (value) {}, suffix: _suffix());
+    return FormInput(
+      readOnly: widget.readOnly,
+      label: widget.label,
+      controller: widget.controller,
+      tooltip: widget.tooltip,
+      keyboardType: TextInputType.phone,
+      placeholder: widget.placeholder ?? AppUtil.gh.exampleNumberMobileNational,
+      contentPadding: const EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 0),
+      onChange: (value) {},
+      suffix: _suffix(),
+    );
   }
 
   Widget? _suffix() {
@@ -69,7 +110,9 @@ class _FormPayeeInputState extends State<FormPayeeInput> {
       alignment: Alignment.centerRight,
       child: BlocConsumer<PayeeBloc, PayeeState>(
         listenWhen: (previous, current) {
-          return current is RetrievingFormPayees || current is RetrieveFormPayeesError || current is FormPayeesRetrieved;
+          return current is RetrievingFormPayees ||
+              current is RetrieveFormPayeesError ||
+              current is FormPayeesRetrieved;
         },
         listener: (context, state) {
           if (state is RetrieveFormPayeesError) {
@@ -81,7 +124,11 @@ class _FormPayeeInputState extends State<FormPayeeInput> {
           if (state is RetrievingFormPayees) {
             return Padding(
               padding: const EdgeInsets.only(right: 15),
-              child: SizedBox(width: 15, height: 15, child: CircularProgressIndicator(color: ThemeUtil.secondaryColor)),
+              child: SizedBox(
+                width: 15,
+                height: 15,
+                child: CircularProgressIndicator(color: ThemeUtil.secondaryColor),
+              ),
             );
           }
 
@@ -103,7 +150,11 @@ class _FormPayeeInputState extends State<FormPayeeInput> {
             icon: Icon(Icons.group_outlined, color: ThemeUtil.secondaryColor),
             onPressed: () async {
               final payees = state.result;
-              final title = widget.title.isNotEmpty && widget.title.substring(widget.title.length - 1, widget.title.length) == '*' ? widget.title.substring(0, widget.title.length - 1) : widget.title;
+              final title =
+                  widget.title.isNotEmpty &&
+                      widget.title.substring(widget.title.length - 1, widget.title.length) == '*'
+                  ? widget.title.substring(0, widget.title.length - 1)
+                  : widget.title;
 
               showModalBottomSheet(
                 backgroundColor: Colors.transparent,

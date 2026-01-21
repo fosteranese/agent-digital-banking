@@ -12,18 +12,18 @@ class LocatorsList extends Equatable {
   const LocatorsList({this.locators, this.locatorType});
 
   factory LocatorsList.fromMap(Map<String, dynamic> data) => LocatorsList(
-        locators: (data['locators'] as List<dynamic>?)
-            ?.map((e) => Locator.fromMap(e as Map<String, dynamic>))
-            .toList(),
-        locatorType: data['locatorType'] == null
-            ? null
-            : LocatorType.fromMap(data['locatorType'] as Map<String, dynamic>),
-      );
+    locators: (data['locators'] as List<dynamic>?)
+        ?.map((e) => Locator.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    locatorType: data['locatorType'] == null
+        ? null
+        : LocatorType.fromMap(data['locatorType'] as Map<String, dynamic>),
+  );
 
   Map<String, dynamic> toMap() => {
-        'locators': locators?.map((e) => e.toMap()).toList(),
-        'locatorType': locatorType?.toMap(),
-      };
+    'locators': locators?.map((e) => e.toMap()).toList(),
+    'locatorType': locatorType?.toMap(),
+  };
 
   /// `dart:convert`
   ///
@@ -37,10 +37,7 @@ class LocatorsList extends Equatable {
   /// Converts [LocatorsList] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  LocatorsList copyWith({
-    List<Locator>? locators,
-    LocatorType? locatorType,
-  }) {
+  LocatorsList copyWith({List<Locator>? locators, LocatorType? locatorType}) {
     return LocatorsList(
       locators: locators ?? this.locators,
       locatorType: locatorType ?? this.locatorType,

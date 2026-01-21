@@ -13,16 +13,20 @@ class ScanToPay extends Equatable {
   const ScanToPay({this.activity, this.activityItems, this.imageDirectory});
 
   factory ScanToPay.fromMap(Map<String, dynamic> data) => ScanToPay(
-        activity: data['activity'] == null ? null : Activity.fromMap(data['activity'] as Map<String, dynamic>),
-        activityItems: (data['activityItems'] as List<dynamic>?)?.map((e) => GeneralFlowForm.fromMap(e as Map<String, dynamic>)).toList(),
-        imageDirectory: data['imageDirectory'] as String?,
-      );
+    activity: data['activity'] == null
+        ? null
+        : Activity.fromMap(data['activity'] as Map<String, dynamic>),
+    activityItems: (data['activityItems'] as List<dynamic>?)
+        ?.map((e) => GeneralFlowForm.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    imageDirectory: data['imageDirectory'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'activity': activity?.toMap(),
-        'activityItems': activityItems?.map((e) => e.toMap()).toList(),
-        'imageDirectory': imageDirectory,
-      };
+    'activity': activity?.toMap(),
+    'activityItems': activityItems?.map((e) => e.toMap()).toList(),
+    'imageDirectory': imageDirectory,
+  };
 
   /// `dart:convert`
   ///
@@ -52,9 +56,5 @@ class ScanToPay extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        activity,
-        activityItems,
-        imageDirectory,
-      ];
+  List<Object?> get props => [activity, activityItems, imageDirectory];
 }

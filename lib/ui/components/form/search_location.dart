@@ -12,7 +12,11 @@ import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 
 class SearchLocation extends StatefulWidget {
-  const SearchLocation({super.key, required this.onSelectedCurrentLocation, required this.onSelectedOption});
+  const SearchLocation({
+    super.key,
+    required this.onSelectedCurrentLocation,
+    required this.onSelectedOption,
+  });
 
   final void Function() onSelectedCurrentLocation;
   final void Function(FormSelectOption option) onSelectedOption;
@@ -44,7 +48,15 @@ class _SearchLocationState extends State<SearchLocation> {
               onSearch: (key) {
                 _search = key;
                 // _searched = false;
-                context.read<MapBloc>().add(GoogleMapAutoComplete(showSilentLoading: true, id: Uuid().v4(), input: _search, latitude: AppUtil.location?.latitude ?? 0, longitude: AppUtil.location?.longitude ?? 0));
+                context.read<MapBloc>().add(
+                  GoogleMapAutoComplete(
+                    showSilentLoading: true,
+                    id: Uuid().v4(),
+                    input: _search,
+                    latitude: AppUtil.location?.latitude ?? 0,
+                    longitude: AppUtil.location?.longitude ?? 0,
+                  ),
+                );
               },
               onSelectedOption: widget.onSelectedOption,
               listBuilder: (context, key) {
@@ -64,7 +76,8 @@ class _SearchLocationState extends State<SearchLocation> {
 
                     if (state is PlaceGotten) {
                       mainContext.pop();
-                      final label = '${_prediction!.structuredFormatting?.mainText ?? ''}, ${_prediction!.structuredFormatting?.secondaryText ?? ''}';
+                      final label =
+                          '${_prediction!.structuredFormatting?.mainText ?? ''}, ${_prediction!.structuredFormatting?.secondaryText ?? ''}';
                       final place = state.result.data!;
                       widget.onSelectedOption(
                         FormSelectOption(
@@ -110,7 +123,11 @@ class _SearchLocationState extends State<SearchLocation> {
                                   leading: const Icon(Icons.place_rounded),
                                   title: Text(
                                     '${e.structuredFormatting?.mainText}, ${e.structuredFormatting?.secondaryText}',
-                                    style: const TextStyle(fontWeight: FontWeight.w400, color: Color(0xff242424), fontSize: 14),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff242424),
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 );
                               }).toList(),
@@ -126,7 +143,12 @@ class _SearchLocationState extends State<SearchLocation> {
                 dense: true,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                 leading: Icon(Icons.gps_fixed_outlined, color: Theme.of(context).primaryColor),
-                title: Text('Use My Current Location', style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold)),
+                title: Text(
+                  'Use My Current Location',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                ),
                 onTap: () async {
                   widget.onSelectedCurrentLocation();
                   mainContext.pop();

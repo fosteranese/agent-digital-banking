@@ -10,7 +10,9 @@ class GeocodeResponse {
       plusCode = json["plus_code"] == null ? null : PlusCode.fromMap(json["plus_code"]);
     }
     if (json["results"] is List) {
-      results = json["results"] == null ? null : (json["results"] as List).map((e) => Results.fromMap(e)).toList();
+      results = json["results"] == null
+          ? null
+          : (json["results"] as List).map((e) => Results.fromMap(e)).toList();
     }
     if (json["status"] is String) {
       status = json["status"];
@@ -41,7 +43,9 @@ class Results {
 
   Results.fromMap(Map<String, dynamic> json) {
     if (json["address_components"] is List) {
-      addressComponents = json["address_components"] == null ? null : (json["address_components"] as List).map((e) => AddressComponents.fromMap(e)).toList();
+      addressComponents = json["address_components"] == null
+          ? null
+          : (json["address_components"] as List).map((e) => AddressComponents.fromMap(e)).toList();
     }
     if (json["formatted_address"] is String) {
       formattedAddress = json["formatted_address"];

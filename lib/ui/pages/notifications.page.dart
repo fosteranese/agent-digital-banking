@@ -52,7 +52,10 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
   Map<String, bool> _expanded = {};
 
   (List<PushNotification>, List<PushNotification>) get _separatedList {
-    return (_list.where((item) => item.read != true).toList(), _list.where((item) => item.read == true).toList());
+    return (
+      _list.where((item) => item.read != true).toList(),
+      _list.where((item) => item.read == true).toList(),
+    );
   }
 
   @override
@@ -65,12 +68,21 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
       onRefresh: () async {
         context.read<PushNotificationBloc>().add(const LoadPushNotification());
       },
-      bottom: _showSearchBox ? SearchBox(controller: _controller, onSearch: (value) => _search(value, _sourceList)) : null,
+      bottom: _showSearchBox
+          ? SearchBox(controller: _controller, onSearch: (value) => _search(value, _sourceList))
+          : null,
       actions: [
         IconButton(
-          style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
+          style: IconButton.styleFrom(
+            fixedSize: const Size(35, 35),
+            backgroundColor: const Color(0x91F7C15A),
+          ),
           onPressed: () => setState(() => _showSearchBox = !_showSearchBox),
-          icon: SvgPicture.asset('assets/img/search.svg', width: 20, colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn)),
+          icon: SvgPicture.asset(
+            'assets/img/search.svg',
+            width: 20,
+            colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+          ),
         ),
         const SizedBox(width: 10),
       ],
@@ -95,7 +107,8 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
             if (state is LoadingPushNotification) {
               return SliverList.separated(
                 itemBuilder: (context, index) => const ListLoadingShimmer(),
-                separatorBuilder: (context, index) => const Divider(color: Color(0xffF1F1F1), indent: 60),
+                separatorBuilder: (context, index) =>
+                    const Divider(color: Color(0xffF1F1F1), indent: 60),
               );
             }
 
@@ -116,11 +129,19 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
                       // ),
                       const Text(
                         'Error loading notifications',
-                        style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16, fontWeight: FontWeight.w600),
+                        style: PrimaryTextStyle(
+                          color: Color(0xff4F4F4F),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text(
                         state.result.message,
-                        style: PrimaryTextStyle(color: Color(0xff919195), fontSize: 14, fontWeight: FontWeight.normal),
+                        style: PrimaryTextStyle(
+                          color: Color(0xff919195),
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
 
                       const SizedBox(height: 150),
@@ -149,11 +170,19 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
                       const SizedBox(height: 10),
                       const Text(
                         'No notifications found',
-                        style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16, fontWeight: FontWeight.w600),
+                        style: PrimaryTextStyle(
+                          color: Color(0xff4F4F4F),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const Text(
                         'Complete an activity to see it appear here',
-                        style: PrimaryTextStyle(color: Color(0xff919195), fontSize: 14, fontWeight: FontWeight.normal),
+                        style: PrimaryTextStyle(
+                          color: Color(0xff919195),
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                       const SizedBox(height: 150),
                     ],
@@ -185,7 +214,11 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'Read Notifications',
-                        style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Color(0xff4F4F4F)),
+                        style: PrimaryTextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Color(0xff4F4F4F),
+                        ),
                       ),
                     ),
                   ),
@@ -248,8 +281,17 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
             setState(() {});
           },
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          leading: CircleAvatar(radius: 16, backgroundColor: Color(0xffF8F8F8), child: record.read == true ? SvgPicture.asset('assets/img/read-notification.svg') : SvgPicture.asset('assets/img/unread-notification.svg')),
-          title: Text(record.title ?? '', style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+          leading: CircleAvatar(
+            radius: 16,
+            backgroundColor: Color(0xffF8F8F8),
+            child: record.read == true
+                ? SvgPicture.asset('assets/img/read-notification.svg')
+                : SvgPicture.asset('assets/img/unread-notification.svg'),
+          ),
+          title: Text(
+            record.title ?? '',
+            style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          ),
           isThreeLine: true,
           subtitle: Column(
             mainAxisSize: MainAxisSize.min,
@@ -261,12 +303,20 @@ class _PushNotificationsPageState extends State<PushNotificationsPage> {
                 overflow: TextOverflow.ellipsis,
                 maxLines: _expanded[record.id ?? ''] == true ? null : 2,
 
-                style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Color(0xff54534A)),
+                style: PrimaryTextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xff54534A),
+                ),
               ),
               SizedBox(height: 5),
               Text(
                 fullFormatter.format(record.sentTime ?? DateTime.now()),
-                style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Color(0xff919195)),
+                style: PrimaryTextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Color(0xff919195),
+                ),
               ),
             ],
           ),

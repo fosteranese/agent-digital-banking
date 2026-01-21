@@ -9,25 +9,23 @@ class VerifyGhanaCardResponse extends Equatable {
   final String? ghCardUrl;
   final String? registrationId;
 
-  const VerifyGhanaCardResponse({
-    this.otpData,
-    this.ghCardUrl,
-    this.registrationId,
-  });
+  const VerifyGhanaCardResponse({this.otpData, this.ghCardUrl, this.registrationId});
 
   factory VerifyGhanaCardResponse.fromMap(Map<String, dynamic> data) {
     return VerifyGhanaCardResponse(
-      otpData: data['otpData'] == null ? null : OtpData.fromMap(data['otpData'] as Map<String, dynamic>),
+      otpData: data['otpData'] == null
+          ? null
+          : OtpData.fromMap(data['otpData'] as Map<String, dynamic>),
       ghCardUrl: data['ghCardUrl'] as String?,
       registrationId: data['registrationId'] as String?,
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'otpData': otpData?.toMap(),
-        'ghCardUrl': ghCardUrl,
-        'registrationId': registrationId,
-      };
+    'otpData': otpData?.toMap(),
+    'ghCardUrl': ghCardUrl,
+    'registrationId': registrationId,
+  };
 
   /// `dart:convert`
   ///
@@ -41,11 +39,7 @@ class VerifyGhanaCardResponse extends Equatable {
   /// Converts [VerifyGhanaCardResponse] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  VerifyGhanaCardResponse copyWith({
-    OtpData? otpData,
-    String? ghCardUrl,
-    String? registrationId,
-  }) {
+  VerifyGhanaCardResponse copyWith({OtpData? otpData, String? ghCardUrl, String? registrationId}) {
     return VerifyGhanaCardResponse(
       otpData: otpData ?? this.otpData,
       ghCardUrl: ghCardUrl ?? this.ghCardUrl,

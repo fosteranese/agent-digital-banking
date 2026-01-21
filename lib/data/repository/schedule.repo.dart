@@ -40,15 +40,18 @@ class ScheduleRepo {
     }
 
     final data = SchedulesData.fromMap(response.data as Map<String, dynamic>);
-    _db.add(key: 'schedules', payload: {
-      'data': response.data,
-      'imageBaseUrl': response.imageBaseUrl,
-      'imageDirectory': response.imageDirectory,
-      'timeStamp': response.timeStamp,
-      'code': response.code,
-      'status': response.status,
-      'message': response.message,
-    });
+    _db.add(
+      key: 'schedules',
+      payload: {
+        'data': response.data,
+        'imageBaseUrl': response.imageBaseUrl,
+        'imageDirectory': response.imageDirectory,
+        'timeStamp': response.timeStamp,
+        'code': response.code,
+        'status': response.status,
+        'message': response.message,
+      },
+    );
 
     return Response(
       code: response.code,
@@ -64,10 +67,7 @@ class ScheduleRepo {
   Future<Response<List<Schedules>>> deleteSchedule(String scheduleId) async {
     final response = await _fbl.post(
       path: 'Schedule/deleteSchedule',
-      body: {
-        "scheduleId": scheduleId,
-        "status": 0,
-      },
+      body: {"scheduleId": scheduleId, "status": 0},
       isAuthenticated: true,
     );
 
@@ -76,7 +76,11 @@ class ScheduleRepo {
     }
 
     final store = await getStoredSchedules();
-    final data = store?.data?.schedules?.where((element) => element.schedule?.scheduleId != scheduleId).toList() ?? [];
+    final data =
+        store?.data?.schedules
+            ?.where((element) => element.schedule?.scheduleId != scheduleId)
+            .toList() ??
+        [];
     return Response(
       code: response.code,
       message: response.message,

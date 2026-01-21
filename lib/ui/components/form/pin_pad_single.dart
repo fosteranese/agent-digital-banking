@@ -38,16 +38,12 @@ class _PinPadSingleState extends State<PinPadSingle> {
 
   @override
   void initState() {
-    if (context
-        .read<BiometricBloc>()
-        .isTransactionEnabled) {
+    if (context.read<BiometricBloc>().isTransactionEnabled) {
       context.read<AuthBloc>().add(const RetrievePin());
     }
 
     if (widget.pinPadType == PinPadType.authenticate &&
-        context
-            .read<BiometricBloc>()
-            .isAutoTransactionEnabled) {
+        context.read<BiometricBloc>().isAutoTransactionEnabled) {
       _biometricAuthentication();
     }
 
@@ -65,35 +61,19 @@ class _PinPadSingleState extends State<PinPadSingle> {
           placeholder: '****',
           contentPadding: EdgeInsets.zero,
           bottomSpace: 0,
-          keyboardType:
-              const TextInputType.numberWithOptions(
-                decimal: false,
-                signed: false,
-              ),
+          keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           obscureText: true,
           textAlign: TextAlign.center,
-          textStyle: const TextStyle(
-            fontSize: 28,
-            letterSpacing: 5,
-            fontWeight: FontWeight.bold,
-          ),
-          placeholderStyle: const TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.w400,
-          ),
+          textStyle: const TextStyle(fontSize: 28, letterSpacing: 5, fontWeight: FontWeight.bold),
+          placeholderStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
           textInputAction: TextInputAction.send,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(
-              widget.pinLength,
-            ),
+            LengthLimitingTextInputFormatter(widget.pinLength),
           ],
           onChange: (value) {
             if (value.length >= widget.pinLength) {
-              _controller.text = value.substring(
-                0,
-                widget.pinLength,
-              );
+              _controller.text = value.substring(0, widget.pinLength);
               _onSuccess();
               return;
             }
@@ -113,12 +93,9 @@ class _PinPadSingleState extends State<PinPadSingle> {
         //       ),
         //     ),
         //   ),
-        if (widget.pinPadType == PinPadType.authenticate)
-          const SizedBox(height: 20),
-        if (widget.pinPadType == PinPadType.authenticate)
-          _authenticate,
-        if (widget.pinPadType == PinPadType.authenticate)
-          const SizedBox(height: 20),
+        if (widget.pinPadType == PinPadType.authenticate) const SizedBox(height: 20),
+        if (widget.pinPadType == PinPadType.authenticate) _authenticate,
+        if (widget.pinPadType == PinPadType.authenticate) const SizedBox(height: 20),
       ],
     );
   }
@@ -149,9 +126,7 @@ class _PinPadSingleState extends State<PinPadSingle> {
 
         return TextButton(
           style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
           ),
           onPressed: () {
             _biometricAuthentication();
@@ -160,10 +135,7 @@ class _PinPadSingleState extends State<PinPadSingle> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
-                Icons.fingerprint_outlined,
-                color: Theme.of(context).primaryColor,
-              ),
+              Icon(Icons.fingerprint_outlined, color: Theme.of(context).primaryColor),
               const SizedBox(width: 10),
               Text(
                 'Use biometric authorization',

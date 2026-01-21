@@ -13,8 +13,7 @@ class DashboardPage extends StatefulWidget {
   static const routeName = '/dashboard';
 
   @override
-  State<DashboardPage> createState() =>
-      _DashboardPageState();
+  State<DashboardPage> createState() => _DashboardPageState();
 }
 
 class _DashboardPageState extends State<DashboardPage> {
@@ -24,13 +23,12 @@ class _DashboardPageState extends State<DashboardPage> {
       child: MultiBlocListener(
         listeners: [
           BlocListener<PaymentsBloc, PaymentsState>(
-            listener: (context, state) =>
-                ServiceUtil.paymentsListener(
-                  context: context,
-                  state: state,
-                  routeName: DashboardPage.routeName,
-                  amDoing: AmDoing.transaction,
-                ),
+            listener: (context, state) => ServiceUtil.paymentsListener(
+              context: context,
+              state: state,
+              routeName: DashboardPage.routeName,
+              amDoing: AmDoing.transaction,
+            ),
           ),
           BlocListener<GeneralFlowBloc, GeneralFlowState>(
             listener: (context, state) {

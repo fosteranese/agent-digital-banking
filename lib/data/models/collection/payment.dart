@@ -24,26 +24,26 @@ class Payment extends Equatable {
   });
 
   factory Payment.fromMap(Map<String, dynamic> data) => Payment(
-        catId: data['catId'] as String?,
-        catName: data['catName'] as String?,
-        description: data['description'] as String?,
-        tooltip: data['tooltip'] as String?,
-        icon: data['icon'] as String?,
-        customCss: data['customCss'] as String?,
-        status: data['status'] as int?,
-        rank: data['rank'] as int?,
-      );
+    catId: data['catId'] as String?,
+    catName: data['catName'] as String?,
+    description: data['description'] as String?,
+    tooltip: data['tooltip'] as String?,
+    icon: data['icon'] as String?,
+    customCss: data['customCss'] as String?,
+    status: data['status'] as int?,
+    rank: data['rank'] as int?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'catId': catId,
-        'catName': catName,
-        'description': description,
-        'tooltip': tooltip,
-        'icon': icon,
-        'customCss': customCss,
-        'status': status,
-        'rank': rank,
-      };
+    'catId': catId,
+    'catName': catName,
+    'description': description,
+    'tooltip': tooltip,
+    'icon': icon,
+    'customCss': customCss,
+    'status': status,
+    'rank': rank,
+  };
 
   /// `dart:convert`
   ///
@@ -84,15 +84,6 @@ class Payment extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      catId,
-      catName,
-      description,
-      tooltip,
-      icon,
-      customCss,
-      status,
-      rank,
-    ];
+    return [catId, catName, description, tooltip, icon, customCss, status, rank];
   }
 }

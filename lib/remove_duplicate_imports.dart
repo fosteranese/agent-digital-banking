@@ -10,7 +10,10 @@ void main() {
     return;
   }
 
-  final dartFiles = libDir.listSync(recursive: true).where((f) => f.path.endsWith('.dart')).map((f) => File(f.path));
+  final dartFiles = libDir
+      .listSync(recursive: true)
+      .where((f) => f.path.endsWith('.dart'))
+      .map((f) => File(f.path));
 
   for (final file in dartFiles) {
     cleanImports(file);

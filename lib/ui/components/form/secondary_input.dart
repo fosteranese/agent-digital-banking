@@ -51,9 +51,7 @@ class MySecondaryInput extends StatelessWidget {
       decoration: const InputDecoration(
         fillColor: Color(0xffEEEEEE),
         filled: true,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xffE6E6E6)),
-        ),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xffE6E6E6))),
       ),
       prefix: prefix,
       showIconOnFailedValidation: showIconOnFailedValidation,

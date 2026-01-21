@@ -24,10 +24,7 @@ class HideBottomNavBar extends BottomNavBarEvent {
 }
 
 class ChangeBottomNavigationTab extends BottomNavBarEvent {
-  const ChangeBottomNavigationTab({
-    required this.index,
-    required this.routeName,
-  });
+  const ChangeBottomNavigationTab({required this.index, required this.routeName});
   final int index;
   final String routeName;
 

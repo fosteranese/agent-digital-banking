@@ -24,11 +24,7 @@ class EncryptionUtil {
     }
 
     // Generate a key from the password and salt
-    final keyGen = crypt.Pbkdf2(
-      macAlgorithm: crypt.Hmac.sha256(),
-      iterations: 10000,
-      bits: 128,
-    );
+    final keyGen = crypt.Pbkdf2(macAlgorithm: crypt.Hmac.sha256(), iterations: 10000, bits: 128);
 
     final secretKey = await keyGen.deriveKey(
       secretKey: crypt.SecretKey(utf8.encode(pwd1)),
@@ -80,17 +76,23 @@ class EncryptionUtil {
     final secretKey = crypt.SecretKey(key.bytes);
     final nonce = Uint8List.fromList(iv.bytes);
 
-    final secretBox = await aesGcm.encrypt(
-      plaintextBytes,
-      secretKey: secretKey,
-      nonce: nonce,
-    );
+    final secretBox = await aesGcm.encrypt(plaintextBytes, secretKey: secretKey, nonce: nonce);
 
     // Combine IV, cipher text, and tag into a single array
-    var combined = Uint8List(iv.bytes.length + secretBox.cipherText.length + secretBox.mac.bytes.length)
-      ..setRange(0, iv.bytes.length, iv.bytes)
-      ..setRange(iv.bytes.length, iv.bytes.length + secretBox.cipherText.length, secretBox.cipherText);
-    combined = combined..setRange(iv.bytes.length + secretBox.cipherText.length, combined.length, secretBox.mac.bytes);
+    var combined =
+        Uint8List(iv.bytes.length + secretBox.cipherText.length + secretBox.mac.bytes.length)
+          ..setRange(0, iv.bytes.length, iv.bytes)
+          ..setRange(
+            iv.bytes.length,
+            iv.bytes.length + secretBox.cipherText.length,
+            secretBox.cipherText,
+          );
+    combined = combined
+      ..setRange(
+        iv.bytes.length + secretBox.cipherText.length,
+        combined.length,
+        secretBox.mac.bytes,
+      );
 
     final cipher = base64Encode(combined);
     return (cipher, key, iv);
@@ -116,9 +118,7 @@ class EncryptionUtil {
   }
 
   static Future<String> encryptRSA(String clearText) async {
-    final encrypter = enc.Encrypter(enc.RSA(
-      publicKey: _rsaPublicKey,
-    ));
+    final encrypter = enc.Encrypter(enc.RSA(publicKey: _rsaPublicKey));
     final encrypted = encrypter.encrypt(clearText);
 
     return encrypted.base64;

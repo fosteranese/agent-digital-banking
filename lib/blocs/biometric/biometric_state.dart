@@ -33,12 +33,7 @@ class BiometricSettingsRetrieved extends BiometricState {
   final bool autoTransaction;
 
   @override
-  List<Object> get props => [
-        login,
-        autoLogin,
-        transaction,
-        autoTransaction,
-      ];
+  List<Object> get props => [login, autoLogin, transaction, autoTransaction];
 }
 
 class RetrievedBiometricSettingsError extends BiometricState {
@@ -47,9 +42,7 @@ class RetrievedBiometricSettingsError extends BiometricState {
   final Response result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 //
@@ -63,9 +56,7 @@ class BiometricLoginStatusChanged extends BiometricState {
   final bool enabled;
 
   @override
-  List<Object> get props => [
-        enabled,
-      ];
+  List<Object> get props => [enabled];
 }
 
 class ChangeBiometricLoginStatusError extends BiometricState {
@@ -74,9 +65,7 @@ class ChangeBiometricLoginStatusError extends BiometricState {
   final Response result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 //
@@ -90,9 +79,7 @@ class AutoBiometricLoginStatusChanged extends BiometricState {
   final bool enabled;
 
   @override
-  List<Object> get props => [
-        enabled,
-      ];
+  List<Object> get props => [enabled];
 }
 
 class ChangeAutoBiometricLoginStatusError extends BiometricState {
@@ -101,7 +88,5 @@ class ChangeAutoBiometricLoginStatusError extends BiometricState {
   final Response result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }

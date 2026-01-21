@@ -8,16 +8,10 @@ abstract class CustomizeEvent extends Equatable {
 }
 
 class ToggleShowOnDashboardEvent extends CustomizeEvent {
-  const ToggleShowOnDashboardEvent({
-    required this.activityId,
-    required this.status,
-  });
+  const ToggleShowOnDashboardEvent({required this.activityId, required this.status});
   final bool status;
   final String activityId;
 
   @override
-  List<Object> get props => [
-        activityId,
-        status,
-      ];
+  List<Object> get props => [activityId, status];
 }

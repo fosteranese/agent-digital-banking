@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 class ExpandedSection extends StatefulWidget {
   final Widget child;
   final bool expand;
-  const ExpandedSection({
-    super.key,
-    this.expand = false,
-    required this.child,
-  });
+  const ExpandedSection({super.key, this.expand = false, required this.child});
 
   @override
   State<ExpandedSection> createState() => _ExpandedSectionState();
@@ -26,11 +22,11 @@ class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProv
 
   ///Setting up the animation
   void prepareAnimations() {
-    expandController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
-    animation = CurvedAnimation(
-      parent: expandController,
-      curve: Curves.fastOutSlowIn,
+    expandController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 250),
     );
+    animation = CurvedAnimation(parent: expandController, curve: Curves.fastOutSlowIn);
   }
 
   void _runExpandCheck() {

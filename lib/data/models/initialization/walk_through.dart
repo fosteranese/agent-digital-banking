@@ -36,38 +36,40 @@ class WalkThrough extends Equatable {
   });
 
   factory WalkThrough.fromMap(Map<String, dynamic> data) => WalkThrough(
-        walkId: data['walkId'] as String?,
-        title: data['title'] as String?,
-        description: data['description'] as String?,
-        picture: data['picture'] as String?,
-        pictureBase64: data['pictureBase64'] as String?,
-        pictureWeb: data['pictureWeb'] as String?,
-        walktype: data['walktype'] as int?,
-        walkTarget: data['walkTarget'] as String?,
-        walkUrl: data['walkUrl'] as String?,
-        dateCreated: data['dateCreated'] == null ? null : DateTime.parse(data['dateCreated'] as String),
-        status: data['status'] as int?,
-        statusLabel: data['statusLabel'] as String?,
-        createdBy: data['createdBy'] as String?,
-        lastModified: data['lastModified'] == null ? null : DateTime.parse(data['lastModified'] as String),
-      );
+    walkId: data['walkId'] as String?,
+    title: data['title'] as String?,
+    description: data['description'] as String?,
+    picture: data['picture'] as String?,
+    pictureBase64: data['pictureBase64'] as String?,
+    pictureWeb: data['pictureWeb'] as String?,
+    walktype: data['walktype'] as int?,
+    walkTarget: data['walkTarget'] as String?,
+    walkUrl: data['walkUrl'] as String?,
+    dateCreated: data['dateCreated'] == null ? null : DateTime.parse(data['dateCreated'] as String),
+    status: data['status'] as int?,
+    statusLabel: data['statusLabel'] as String?,
+    createdBy: data['createdBy'] as String?,
+    lastModified: data['lastModified'] == null
+        ? null
+        : DateTime.parse(data['lastModified'] as String),
+  );
 
   Map<String, dynamic> toMap() => {
-        'walkId': walkId,
-        'title': title,
-        'description': description,
-        'picture': picture,
-        'pictureBase64': pictureBase64,
-        'pictureWeb': pictureWeb,
-        'walktype': walktype,
-        'walkTarget': walkTarget,
-        'walkUrl': walkUrl,
-        'dateCreated': dateCreated?.toIso8601String(),
-        'status': status,
-        'statusLabel': statusLabel,
-        'createdBy': createdBy,
-        'lastModified': lastModified?.toIso8601String(),
-      };
+    'walkId': walkId,
+    'title': title,
+    'description': description,
+    'picture': picture,
+    'pictureBase64': pictureBase64,
+    'pictureWeb': pictureWeb,
+    'walktype': walktype,
+    'walkTarget': walkTarget,
+    'walkUrl': walkUrl,
+    'dateCreated': dateCreated?.toIso8601String(),
+    'status': status,
+    'statusLabel': statusLabel,
+    'createdBy': createdBy,
+    'lastModified': lastModified?.toIso8601String(),
+  };
 
   /// `dart:convert`
   ///

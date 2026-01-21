@@ -6,7 +6,13 @@ import '../../data/models/user_response/activity_datum.dart';
 import '../../data/models/user_response/user_response.dart';
 
 class QuickActionCard extends StatelessWidget {
-  const QuickActionCard({super.key, required this.action, required this.user, this.onPressed, this.useSecondVersion = false});
+  const QuickActionCard({
+    super.key,
+    required this.action,
+    required this.user,
+    this.onPressed,
+    this.useSecondVersion = false,
+  });
 
   final ActivityDatum action;
   final UserResponse user;
@@ -34,10 +40,13 @@ class QuickActionCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CachedNetworkImage(
-              imageUrl: '${user.imageBaseUrl}${user.imageDirectory}/${!useSecondVersion ? action.activity?.icon : action.activity?.customCss}',
+              imageUrl:
+                  '${user.imageBaseUrl}${user.imageDirectory}/${!useSecondVersion ? action.activity?.icon : action.activity?.customCss}',
               width: 50,
-              placeholder: (context, url) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 50),
-              errorWidget: (context, url, error) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 50),
+              placeholder: (context, url) =>
+                  Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 50),
+              errorWidget: (context, url, error) =>
+                  Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 50),
             ),
             const SizedBox(height: 10),
             Text(
@@ -45,7 +54,11 @@ class QuickActionCard extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: PrimaryTextStyle(fontWeight: FontWeight.w400, fontSize: 13, color: const Color(0xff202020)),
+              style: PrimaryTextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 13,
+                color: const Color(0xff202020),
+              ),
             ),
           ],
         ),

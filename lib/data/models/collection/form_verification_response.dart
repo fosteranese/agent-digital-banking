@@ -25,14 +25,18 @@ class FormVerificationResponse {
       formData = json["formData"] == null ? null : json["formData"] as Map<String, dynamic>;
     }
     if (json["previewData"] is List) {
-      previewData = json["previewData"] == null ? null : (json["previewData"] as List).map((e) => PreviewData.fromMap(e)).toList();
+      previewData = json["previewData"] == null
+          ? null
+          : (json["previewData"] as List).map((e) => PreviewData.fromMap(e)).toList();
     }
     if (json["requireSecondFactor"] is bool) {
       requireSecondFactor = json["requireSecondFactor"];
     }
     secondFactor = json["secondFactor"];
     if (json["authMode"] is List) {
-      authMode = json["authMode"] == null ? null : List<Map<String, dynamic>>.from(json["authMode"]);
+      authMode = json["authMode"] == null
+          ? null
+          : List<Map<String, dynamic>>.from(json["authMode"]);
     }
     currency = json["currency"];
   }

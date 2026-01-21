@@ -8,16 +8,12 @@ abstract class SetupEvent extends Equatable {
 }
 
 class RetrieveAccountOpeningLOVs extends SetupEvent {
-  const RetrieveAccountOpeningLOVs({
-    required this.routeName,
-  });
+  const RetrieveAccountOpeningLOVs({required this.routeName});
 
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class RetrieveAccessCode extends SetupEvent {
@@ -36,11 +32,5 @@ class RetrieveAccessCode extends SetupEvent {
   final String action;
 
   @override
-  List<Object> get props => [
-        routeName,
-        registrationId,
-        phoneNumber,
-        emailAddress,
-        action,
-      ];
+  List<Object> get props => [routeName, registrationId, phoneNumber, emailAddress, action];
 }

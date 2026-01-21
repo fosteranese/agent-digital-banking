@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class IntroSlide extends StatelessWidget {
-  const IntroSlide({super.key, required this.title, required this.subtitle, required this.imageUrl});
+  const IntroSlide({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.imageUrl,
+  });
 
   final String title;
   final String subtitle;
@@ -25,7 +30,8 @@ class IntroSlide extends StatelessWidget {
 
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      imageBuilder: (context, imageProvider) => ImageBackground(title: title, subtitle: subtitle, imageProvider: imageProvider),
+      imageBuilder: (context, imageProvider) =>
+          ImageBackground(title: title, subtitle: subtitle, imageProvider: imageProvider),
       width: double.maxFinite,
       placeholder: (context, url) {
         return Container(color: Colors.grey);
@@ -36,7 +42,12 @@ class IntroSlide extends StatelessWidget {
 }
 
 class ImageBackground extends StatelessWidget {
-  const ImageBackground({super.key, required this.title, required this.subtitle, required this.imageProvider});
+  const ImageBackground({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.imageProvider,
+  });
 
   final String title;
   final String subtitle;
@@ -49,7 +60,11 @@ class ImageBackground extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(bottomRight: Radius.circular(60)),
-            image: DecorationImage(image: imageProvider, fit: BoxFit.cover, alignment: Alignment.center),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+              alignment: Alignment.center,
+            ),
           ),
         ),
         // Container(color: Colors.black.withAlpha(100)),
@@ -65,7 +80,12 @@ class ImageBackground extends StatelessWidget {
                 Text(
                   title,
                   textAlign: TextAlign.left,
-                  style: PrimaryTextStyle(fontSize: 39, fontWeight: FontWeight.w700, color: Colors.white, height: 1.2),
+                  style: PrimaryTextStyle(
+                    fontSize: 39,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    height: 1.2,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(

@@ -3,33 +3,23 @@ import 'package:flutter/material.dart';
 import '../../utils/theme.util.dart';
 
 class PasswordStrengthChecker extends StatefulWidget {
-  const PasswordStrengthChecker({
-    super.key,
-    required this.controller,
-    required this.validFunc,
-  });
+  const PasswordStrengthChecker({super.key, required this.controller, required this.validFunc});
 
   final TextEditingController controller;
   final void Function(bool status) validFunc;
 
   @override
-  State<PasswordStrengthChecker> createState() =>
-      _PasswordStrengthCheckerState();
+  State<PasswordStrengthChecker> createState() => _PasswordStrengthCheckerState();
 }
 
-class _PasswordStrengthCheckerState
-    extends State<PasswordStrengthChecker> {
+class _PasswordStrengthCheckerState extends State<PasswordStrengthChecker> {
   @override
   void initState() {
     widget.controller.addListener(() {
       setState(() {});
 
       widget.validFunc(
-        _lowercaseLetter &&
-            _uppercaseLetter &&
-            _number &&
-            _specialCharacter &&
-            _passwordLength,
+        _lowercaseLetter && _uppercaseLetter && _number && _specialCharacter && _passwordLength,
       );
     });
     super.initState();
@@ -56,9 +46,7 @@ class _PasswordStrengthCheckerState
           PasswordRule(
             rule: 'At least one (1) lowercase letter',
             ruleFunc: (password) {
-              _lowercaseLetter = password.contains(
-                RegExp(r'[a-z]'),
-              );
+              _lowercaseLetter = password.contains(RegExp(r'[a-z]'));
               return _lowercaseLetter;
             },
             password: widget.controller.text,
@@ -66,9 +54,7 @@ class _PasswordStrengthCheckerState
           PasswordRule(
             rule: 'At least one (1) uppercase letter',
             ruleFunc: (password) {
-              _uppercaseLetter = password.contains(
-                RegExp(r'[A-Z]'),
-              );
+              _uppercaseLetter = password.contains(RegExp(r'[A-Z]'));
               return _uppercaseLetter;
             },
             password: widget.controller.text,
@@ -82,12 +68,9 @@ class _PasswordStrengthCheckerState
             password: widget.controller.text,
           ),
           PasswordRule(
-            rule:
-                'At least one (1) special character. Example: [!@#\$%^&*(),.?":{}|<>/]',
+            rule: 'At least one (1) special character. Example: [!@#\$%^&*(),.?":{}|<>/]',
             ruleFunc: (password) {
-              _specialCharacter = password.contains(
-                RegExp(r'[!@#$%^&*(),.?":{}|<> //]'),
-              );
+              _specialCharacter = password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<> //]'));
               return _specialCharacter;
             },
             password: widget.controller.text,
@@ -128,10 +111,7 @@ class PasswordRule extends StatelessWidget {
           child: Text(
             rule,
             softWrap: true,
-            style: TextStyle(
-              fontFamily: ThemeUtil.fontHelveticaNeue,
-              fontWeight: FontWeight.w600,
-            ),
+            style: TextStyle(fontFamily: ThemeUtil.fontHelveticaNeue, fontWeight: FontWeight.w600),
           ),
         ),
       ],
@@ -140,20 +120,11 @@ class PasswordRule extends StatelessWidget {
 
   Widget get _isValid {
     if (password.isEmpty) {
-      return const Icon(
-        Icons.info_outline,
-        color: Colors.blue,
-      );
+      return const Icon(Icons.info_outline, color: Colors.blue);
     }
 
     return ruleFunc(password)
-        ? const Icon(
-            Icons.check_circle_outline,
-            color: Colors.green,
-          )
-        : const Icon(
-            Icons.highlight_off_outlined,
-            color: Colors.red,
-          );
+        ? const Icon(Icons.check_circle_outline, color: Colors.green)
+        : const Icon(Icons.highlight_off_outlined, color: Colors.red);
   }
 }

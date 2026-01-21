@@ -14,9 +14,7 @@ class RetrievingAccountOpeningLOVs extends SetupState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrievingAccountOpeningLOVs extends SetupState {
@@ -27,17 +25,11 @@ class SilentRetrievingAccountOpeningLOVs extends SetupState {
 }
 
 class AccountOpeningLOVsRetrieved extends SetupState {
-  const AccountOpeningLOVsRetrieved({
-    required this.result,
-    required this.routeName,
-  });
+  const AccountOpeningLOVsRetrieved({required this.result, required this.routeName});
   final Response<AccountOpeningLovs> result;
   final String routeName;
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class AccountOpeningLOVsRetrievedSilently extends SetupState {
@@ -45,25 +37,17 @@ class AccountOpeningLOVsRetrievedSilently extends SetupState {
   final Response<AccountOpeningLovs> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class RetrieveAccountOpeningLOVsError extends SetupState {
-  const RetrieveAccountOpeningLOVsError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrieveAccountOpeningLOVsError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class SilentRetrieveAccountOpeningLOVsError extends SetupState {
@@ -72,9 +56,7 @@ class SilentRetrieveAccountOpeningLOVsError extends SetupState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class RetrievingAccessCode extends SetupState {
@@ -82,37 +64,23 @@ class RetrievingAccessCode extends SetupState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class AccessCodeRetrieved extends SetupState {
-  const AccessCodeRetrieved({
-    required this.result,
-    required this.routeName,
-  });
+  const AccessCodeRetrieved({required this.result, required this.routeName});
   final Response<dynamic> result;
   final String routeName;
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class RetrieveAccessCodeError extends SetupState {
-  const RetrieveAccessCodeError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrieveAccessCodeError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }

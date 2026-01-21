@@ -15,8 +15,7 @@ class InstitutionFormData extends Equatable {
     return InstitutionFormData(
       institutionData: data['institutionData'] == null
           ? null
-          : InstitutionData.fromMap(
-              data['institutionData'] as Map<String, dynamic>),
+          : InstitutionData.fromMap(data['institutionData'] as Map<String, dynamic>),
       sourceOfPayment: (data['sourceOfPayment'] as List<dynamic>?)
           ?.map((e) => SourceOfPayment.fromMap(e as Map<String, dynamic>))
           .toList(),
@@ -24,16 +23,15 @@ class InstitutionFormData extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'institutionData': institutionData?.toMap(),
-        'sourceOfPayment': sourceOfPayment?.map((e) => e.toMap()).toList(),
-      };
+    'institutionData': institutionData?.toMap(),
+    'sourceOfPayment': sourceOfPayment?.map((e) => e.toMap()).toList(),
+  };
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [InstitutionFormData].
   factory InstitutionFormData.fromJson(String data) {
-    return InstitutionFormData.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return InstitutionFormData.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`

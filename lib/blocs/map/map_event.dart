@@ -23,13 +23,7 @@ class GoogleMapAutoComplete extends MapEvent {
   final double longitude;
 
   @override
-  List<Object> get props => [
-        showSilentLoading,
-        id,
-        input,
-        latitude,
-        longitude,
-      ];
+  List<Object> get props => [showSilentLoading, id, input, latitude, longitude];
 }
 
 class SilentGoogleMapAutoComplete extends MapEvent {
@@ -43,44 +37,26 @@ class SilentGoogleMapAutoComplete extends MapEvent {
   final double longitude;
 
   @override
-  List<Object> get props => [
-        input,
-        latitude,
-        longitude,
-      ];
+  List<Object> get props => [input, latitude, longitude];
 }
 
 class GetAddressFromLatLng extends MapEvent {
-  const GetAddressFromLatLng({
-    required this.id,
-    required this.latitude,
-    required this.longitude,
-  });
+  const GetAddressFromLatLng({required this.id, required this.latitude, required this.longitude});
 
   final String id;
   final double latitude;
   final double longitude;
 
   @override
-  List<Object> get props => [
-        id,
-        latitude,
-        longitude,
-      ];
+  List<Object> get props => [id, latitude, longitude];
 }
 
 class GetPlace extends MapEvent {
-  const GetPlace({
-    required this.id,
-    required this.placeId,
-  });
+  const GetPlace({required this.id, required this.placeId});
 
   final String id;
   final String placeId;
 
   @override
-  List<Object> get props => [
-        id,
-        placeId,
-      ];
+  List<Object> get props => [id, placeId];
 }

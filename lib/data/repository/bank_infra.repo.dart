@@ -15,7 +15,9 @@ class BankInfraRepo {
       return null;
     }
 
-    final List<InfraType> list = result['list'] != null ? (result['list'] as List<dynamic>).map((e) => InfraType.fromMap(e)).toList() : [];
+    final List<InfraType> list = result['list'] != null
+        ? (result['list'] as List<dynamic>).map((e) => InfraType.fromMap(e)).toList()
+        : [];
     return list;
   }
 
@@ -26,24 +28,21 @@ class BankInfraRepo {
       return null;
     }
 
-    final List<Locators> list = result['list'] != null ? (result['list'] as List<dynamic>).map((e) => Locators.fromMap(e)).toList() : [];
+    final List<Locators> list = result['list'] != null
+        ? (result['list'] as List<dynamic>).map((e) => Locators.fromMap(e)).toList()
+        : [];
     return list;
   }
 
   Future<Response<List<InfraType>>> loadBankInfraTypes() async {
-    final response = await _fbl.post(
-      path: 'Locator/getTypes',
-      body: {},
-    );
+    final response = await _fbl.post(path: 'Locator/getTypes', body: {});
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
 
     final data = (response.data['list'] as List<dynamic>).map((e) => InfraType.fromMap(e)).toList();
-    _db.add(key: 'infra-types', payload: {
-      'list': response.data['list'],
-    });
+    _db.add(key: 'infra-types', payload: {'list': response.data['list']});
 
     return Response(
       code: response.code,
@@ -54,10 +53,7 @@ class BankInfraRepo {
   }
 
   Future<Response<BankInfra>> loadBankInfra(String typeId) async {
-    final response = await _fbl.post(
-      path: 'Locator/getAll/$typeId',
-      body: {},
-    );
+    final response = await _fbl.post(path: 'Locator/getAll/$typeId', body: {});
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
@@ -73,11 +69,6 @@ class BankInfraRepo {
   }
 
   Future<void> saveLocations(List<Locators> locators) async {
-    await _db.add(
-      key: 'locators',
-      payload: {
-        'list': locators.map((e) => e.toMap()).toList(),
-      },
-    );
+    await _db.add(key: 'locators', payload: {'list': locators.map((e) => e.toMap()).toList()});
   }
 }

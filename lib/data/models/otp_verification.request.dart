@@ -6,10 +6,7 @@ class OtpVerificationRequest extends Equatable {
   final String? otpId;
   final String? otpValue;
 
-  const OtpVerificationRequest({
-    this.otpId,
-    this.otpValue,
-  });
+  const OtpVerificationRequest({this.otpId, this.otpValue});
 
   factory OtpVerificationRequest.fromMap(Map<String, dynamic> data) {
     return OtpVerificationRequest(
@@ -18,17 +15,13 @@ class OtpVerificationRequest extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'otpId': otpId,
-        'otpValue': otpValue,
-      };
+  Map<String, dynamic> toMap() => {'otpId': otpId, 'otpValue': otpValue};
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [OtpVerificationRequest].
   factory OtpVerificationRequest.fromJson(String data) {
-    return OtpVerificationRequest.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return OtpVerificationRequest.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -36,22 +29,13 @@ class OtpVerificationRequest extends Equatable {
   /// Converts [OtpVerificationRequest] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  OtpVerificationRequest copyWith({
-    String? otpId,
-    String? otpValue,
-  }) {
-    return OtpVerificationRequest(
-      otpId: otpId ?? this.otpId,
-      otpValue: otpValue ?? this.otpValue,
-    );
+  OtpVerificationRequest copyWith({String? otpId, String? otpValue}) {
+    return OtpVerificationRequest(otpId: otpId ?? this.otpId, otpValue: otpValue ?? this.otpValue);
   }
 
   @override
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        otpId,
-        otpValue,
-      ];
+  List<Object?> get props => [otpId, otpValue];
 }

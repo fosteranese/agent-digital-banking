@@ -6,22 +6,13 @@ class ChangePinRequest extends Equatable {
   final String? pin;
   final String? newPin;
 
-  const ChangePinRequest({
-    this.pin,
-    this.newPin,
-  });
+  const ChangePinRequest({this.pin, this.newPin});
 
   factory ChangePinRequest.fromMap(Map<String, dynamic> data) {
-    return ChangePinRequest(
-      pin: data['pin'] as String?,
-      newPin: data['newPin'] as String?,
-    );
+    return ChangePinRequest(pin: data['pin'] as String?, newPin: data['newPin'] as String?);
   }
 
-  Map<String, dynamic> toMap() => {
-        'pin': pin,
-        'newPin': newPin,
-      };
+  Map<String, dynamic> toMap() => {'pin': pin, 'newPin': newPin};
 
   /// `dart:convert`
   ///
@@ -35,14 +26,8 @@ class ChangePinRequest extends Equatable {
   /// Converts [ChangePinRequest] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  ChangePinRequest copyWith({
-    String? pin,
-    String? newPin,
-  }) {
-    return ChangePinRequest(
-      pin: pin ?? this.pin,
-      newPin: newPin ?? this.newPin,
-    );
+  ChangePinRequest copyWith({String? pin, String? newPin}) {
+    return ChangePinRequest(pin: pin ?? this.pin, newPin: newPin ?? this.newPin);
   }
 
   @override
@@ -50,9 +35,6 @@ class ChangePinRequest extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      pin,
-      newPin,
-    ];
+    return [pin, newPin];
   }
 }

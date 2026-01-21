@@ -8,10 +8,7 @@ class HistoryShimmerList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverList.separated(
       itemBuilder: (_, _) => const ShimmerItem(),
-      separatorBuilder: (_, _) => const Divider(
-        color: Color(0xffF1F1F1),
-        indent: 60,
-      ),
+      separatorBuilder: (_, _) => const Divider(color: Color(0xffF1F1F1), indent: 60),
     );
   }
 }
@@ -57,17 +54,11 @@ class ShimmerItem extends StatelessWidget {
     );
   }
 
-  Widget _shimmerBox({
-    required double height,
-    required double width,
-  }) {
+  Widget _shimmerBox({required double height, required double width}) {
     return Container(
       height: height,
       width: width,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(10),
-      ),
+      decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(10)),
     );
   }
 }
@@ -86,12 +77,7 @@ class SimpleListShimmerItem extends StatelessWidget {
           children: [
             _shimmerBox(height: 20, width: 20),
             const SizedBox(width: 10),
-            Expanded(
-              child: _shimmerBox(
-                height: 15,
-                width: double.maxFinite,
-              ),
-            ),
+            Expanded(child: _shimmerBox(height: 15, width: double.maxFinite)),
             const SizedBox(width: 20),
             _shimmerBox(height: 15, width: 15),
           ],
@@ -100,10 +86,7 @@ class SimpleListShimmerItem extends StatelessWidget {
     );
   }
 
-  Widget _shimmerBox({
-    required double height,
-    required double width,
-  }) {
+  Widget _shimmerBox({required double height, required double width}) {
     return Container(
       height: height,
       width: width,
@@ -136,10 +119,7 @@ class FormShimmerItem extends StatelessWidget {
     );
   }
 
-  Widget _shimmerBox({
-    required double height,
-    required double width,
-  }) {
+  Widget _shimmerBox({required double height, required double width}) {
     return Container(
       height: height,
       width: width,

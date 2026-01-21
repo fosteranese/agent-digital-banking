@@ -14,7 +14,34 @@ import 'select.dart';
 import 'select_screen.dart';
 
 class FormPhoneInput extends StatefulWidget {
-  const FormPhoneInput({super.key, this.label = '', this.bottomSpace = 20, this.prefix, this.controller, this.placeholder, this.validation, this.showIconOnSuccessfulValidation = false, this.showIconOnFailedValidation = false, this.keyboardType, this.onSuccess, this.onSelectedOption, this.useLongList = false, this.useTextAsSelectedDisplayItem = false, this.onTap, this.showMenu = false, this.color = Colors.transparent, this.contentPadding, this.placeholderStyle, this.textAlign, this.textStyle, this.decoration, this.maxLength, this.prefixIconPadding, this.inputHeight, this.tooltip});
+  const FormPhoneInput({
+    super.key,
+    this.label = '',
+    this.bottomSpace = 20,
+    this.prefix,
+    this.controller,
+    this.placeholder,
+    this.validation,
+    this.showIconOnSuccessfulValidation = false,
+    this.showIconOnFailedValidation = false,
+    this.keyboardType,
+    this.onSuccess,
+    this.onSelectedOption,
+    this.useLongList = false,
+    this.useTextAsSelectedDisplayItem = false,
+    this.onTap,
+    this.showMenu = false,
+    this.color = Colors.transparent,
+    this.contentPadding,
+    this.placeholderStyle,
+    this.textAlign,
+    this.textStyle,
+    this.decoration,
+    this.maxLength,
+    this.prefixIconPadding,
+    this.inputHeight,
+    this.tooltip,
+  });
 
   final String label;
   final double bottomSpace;
@@ -88,7 +115,8 @@ class _FormPhoneInputState extends State<FormPhoneInput> {
               const SizedBox(width: 10),
               CachedNetworkImage(
                 imageUrl: '${_data.imageBaseUrl}Flags/${_selectedOption.countryCode}.png',
-                imageBuilder: (context, imageProvider) => CircleAvatar(radius: 12, backgroundImage: imageProvider),
+                imageBuilder: (context, imageProvider) =>
+                    CircleAvatar(radius: 12, backgroundImage: imageProvider),
                 errorWidget: (context, url, error) => const CircleAvatar(radius: 12),
                 placeholder: (context, url) => const CircleAvatar(radius: 12),
               ),
@@ -142,7 +170,9 @@ class _FormPhoneInputState extends State<FormPhoneInput> {
         widget.controller!.text = '';
       }
 
-      _selectedOption = _selectedOption = AppUtil.countries.firstWhere((option) => option.countryCode == (selected.data as CountryWithPhoneCode).countryCode);
+      _selectedOption = _selectedOption = AppUtil.countries.firstWhere(
+        (option) => option.countryCode == (selected.data as CountryWithPhoneCode).countryCode,
+      );
 
       if (widget.onSelectedOption != null) {
         widget.onSelectedOption!(_selectedOption, '');
@@ -168,7 +198,8 @@ class _FormPhoneInputState extends State<FormPhoneInput> {
                     value: e.phoneCode,
                     icon: CachedNetworkImage(
                       imageUrl: '${_data.imageBaseUrl}Flags/${e.countryCode}.png',
-                      imageBuilder: (context, imageProvider) => CircleAvatar(radius: 12, backgroundImage: imageProvider),
+                      imageBuilder: (context, imageProvider) =>
+                          CircleAvatar(radius: 12, backgroundImage: imageProvider),
                       errorWidget: (context, url, error) => const CircleAvatar(radius: 12),
                       placeholder: (context, url) => const CircleAvatar(radius: 12),
                     ),

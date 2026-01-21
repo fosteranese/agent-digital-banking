@@ -3,7 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class MySegmentButton extends StatefulWidget {
-  const MySegmentButton({super.key, required this.controller, required this.label, required this.value, this.showDivider = true, this.showIcon = false, required this.onSelected, this.isSelectable = true});
+  const MySegmentButton({
+    super.key,
+    required this.controller,
+    required this.label,
+    required this.value,
+    this.showDivider = true,
+    this.showIcon = false,
+    required this.onSelected,
+    this.isSelectable = true,
+  });
   final String label;
   final String value;
   final bool showDivider;
@@ -42,7 +51,9 @@ class _MySegmentButtonState extends State<MySegmentButton> {
           padding: const EdgeInsets.all(10),
           height: double.maxFinite,
           decoration: BoxDecoration(
-            color: widget.controller.text == widget.value ? Theme.of(context).primaryColor : Colors.white,
+            color: widget.controller.text == widget.value
+                ? Theme.of(context).primaryColor
+                : Colors.white,
             border: widget.showDivider
                 ? const Border(
                     right: BorderSide(color: Color(0xffF1F1F1), style: BorderStyle.solid, width: 1),
@@ -57,13 +68,22 @@ class _MySegmentButtonState extends State<MySegmentButton> {
                 SvgPicture.asset(
                   'assets/img/map.svg',
                   // height: 14,
-                  colorFilter: ColorFilter.mode(widget.controller.text == widget.value ? Colors.white : const Color(0xff202020), BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    widget.controller.text == widget.value ? Colors.white : const Color(0xff202020),
+                    BlendMode.srcIn,
+                  ),
                 ),
               if (widget.showIcon) const SizedBox(width: 5),
               FittedBox(
                 child: Text(
                   widget.label,
-                  style: PrimaryTextStyle(color: widget.controller.text == widget.value ? Colors.white : const Color(0xff202020), fontWeight: FontWeight.w600, fontSize: 14),
+                  style: PrimaryTextStyle(
+                    color: widget.controller.text == widget.value
+                        ? Colors.white
+                        : const Color(0xff202020),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ],

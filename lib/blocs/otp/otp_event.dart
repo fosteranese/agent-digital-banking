@@ -10,17 +10,11 @@ abstract class OtpEvent extends Equatable {
 // retrieve payments
 
 class ResendOtp extends OtpEvent {
-  const ResendOtp({
-    required this.uid,
-    required this.formId,
-  });
+  const ResendOtp({required this.uid, required this.formId});
 
   final String uid;
   final String formId;
 
   @override
-  List<Object> get props => [
-        uid,
-        formId,
-      ];
+  List<Object> get props => [uid, formId];
 }

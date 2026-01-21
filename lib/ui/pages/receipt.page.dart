@@ -7,7 +7,13 @@ import 'package:my_sage_agent/constants/field.const.dart';
 import 'package:my_sage_agent/data/models/request_response.dart';
 
 class ReceiptPage extends StatefulWidget {
-  const ReceiptPage({super.key, required this.request, required this.imageBaseUrl, required this.imageDirectory, required this.fblLogo});
+  const ReceiptPage({
+    super.key,
+    required this.request,
+    required this.imageBaseUrl,
+    required this.imageDirectory,
+    required this.fblLogo,
+  });
   static const routeName = '/history/receipt';
   final RequestResponse request;
   final String imageBaseUrl;
@@ -58,11 +64,19 @@ class _ReceiptPageState extends State<ReceiptPage> {
                             children: [
                               Text(
                                 'Total Amount',
-                                style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16, fontWeight: FontWeight.w400),
+                                style: PrimaryTextStyle(
+                                  color: Color(0xff4F4F4F),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                               Text(
                                 widget.request.amount ?? '',
-                                style: PrimaryTextStyle(color: Color(0xff010101), fontSize: 28, fontWeight: FontWeight.bold),
+                                style: PrimaryTextStyle(
+                                  color: Color(0xff010101),
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
@@ -72,7 +86,13 @@ class _ReceiptPageState extends State<ReceiptPage> {
                         ...widget.request.previewData
                                 ?.map((e) {
                                   List<Widget> list = [];
-                                  list.add(ReceiptItem(label: e.key ?? '', name: e.value ?? '', dataType: e.dataType ?? FieldDataTypesConst.string));
+                                  list.add(
+                                    ReceiptItem(
+                                      label: e.key ?? '',
+                                      name: e.value ?? '',
+                                      dataType: e.dataType ?? FieldDataTypesConst.string,
+                                    ),
+                                  );
 
                                   if (e != widget.request.previewData!.last) {
                                     list.add(_divider);
@@ -84,7 +104,10 @@ class _ReceiptPageState extends State<ReceiptPage> {
                                 .toList() ??
                             [],
                         _divider,
-                        ReceiptItem(label: 'Transaction Type', name: widget.request.activityName ?? ''),
+                        ReceiptItem(
+                          label: 'Transaction Type',
+                          name: widget.request.activityName ?? '',
+                        ),
                         _divider,
                         ReceiptItem(label: 'Status', name: widget.request.statusLabel ?? ''),
                         _divider,
@@ -110,7 +133,11 @@ class _ReceiptPageState extends State<ReceiptPage> {
                       child: const CircleAvatar(
                         radius: 34,
                         backgroundColor: Color(0xffFFE0DF),
-                        child: Icon(Icons.error_outline_outlined, color: Color(0xffF10404), size: 34),
+                        child: Icon(
+                          Icons.error_outline_outlined,
+                          color: Color(0xffF10404),
+                          size: 34,
+                        ),
                       ),
                     ),
                 ],
@@ -122,7 +149,10 @@ class _ReceiptPageState extends State<ReceiptPage> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: IconButton(
-                  style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
+                  style: IconButton.styleFrom(
+                    fixedSize: const Size(35, 35),
+                    backgroundColor: const Color(0x91F7C15A),
+                  ),
                   onPressed: () {
                     context.pop();
                   },
@@ -142,7 +172,12 @@ class _ReceiptPageState extends State<ReceiptPage> {
 }
 
 class ReceiptItem extends StatelessWidget {
-  const ReceiptItem({super.key, required this.label, required this.name, this.dataType = FieldDataTypesConst.string});
+  const ReceiptItem({
+    super.key,
+    required this.label,
+    required this.name,
+    this.dataType = FieldDataTypesConst.string,
+  });
 
   final String label;
   final String name;
@@ -166,7 +201,11 @@ class ReceiptItem extends StatelessWidget {
               label,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
-              style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xff4F4F4F)),
+              style: PrimaryTextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xff4F4F4F),
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -176,7 +215,11 @@ class ReceiptItem extends StatelessWidget {
               // overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
               softWrap: true,
-              style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xff010203)),
+              style: PrimaryTextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xff010203),
+              ),
             ),
           ),
         ],

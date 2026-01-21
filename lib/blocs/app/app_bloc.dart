@@ -26,10 +26,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   InitializationResponse? data;
   bool scheduleTransaction = false;
 
-  Future<void> _onDeviceStatusCheck(
-    DeviceStatusCheckEvent event,
-    Emitter<AppState> emit,
-  ) async {
+  Future<void> _onDeviceStatusCheck(DeviceStatusCheckEvent event, Emitter<AppState> emit) async {
     InitializationResponse? initial;
     UserResponse? currentUser;
 
@@ -42,15 +39,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         return;
       }
 
-      await Future.wait([
-        AppUtil.deviceCheck(),
-        AppUtil.getInfo(),
-      ]);
+      await Future.wait([AppUtil.deviceCheck(), AppUtil.getInfo()]);
 
-      final response = await Future.wait([
-        _repo.getCurrentUser(),
-        _repo.getInitialData(),
-      ]);
+      final response = await Future.wait([_repo.getCurrentUser(), _repo.getInitialData()]);
       currentUser = response.first as UserResponse?;
       initial = response.last as InitializationResponse?;
 
@@ -80,49 +71,31 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         emit(NewDevice());
       }
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(AppError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(AppError(error)));
       if (initial == null) {}
     }
   }
 
-  void _onAppError(
-    RaiseSecurityThreadEvent event,
-    Emitter<AppState> emit,
-  ) {
+  void _onAppError(RaiseSecurityThreadEvent event, Emitter<AppState> emit) {
     emit(CheckingDeviceStatus());
 
     emit(AppError(event.error));
   }
 
-  void _onCheckDeviceSecurity(
-    CheckDeviceSecurityEvent event,
-    Emitter<AppState> emit,
-  ) {
+  void _onCheckDeviceSecurity(CheckDeviceSecurityEvent event, Emitter<AppState> emit) {
     // AppUtil.configSecurity();
   }
 
-  Future<void> _onSilenceDeviceCheck(
-    SilentDeviceCheckEvent event,
-    Emitter<AppState> emit,
-  ) async {
+  Future<void> _onSilenceDeviceCheck(SilentDeviceCheckEvent event, Emitter<AppState> emit) async {
     try {
       // await AppUtil.deviceCheck();
     } catch (error) {
       logger.e(error);
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(AppError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(AppError(error)));
     }
   }
 
-  void _onSetScheduleStatus(
-    SetScheduleStatusEvent event,
-    Emitter<AppState> emit,
-  ) {
+  void _onSetScheduleStatus(SetScheduleStatusEvent event, Emitter<AppState> emit) {
     scheduleTransaction = event.status;
   }
 }

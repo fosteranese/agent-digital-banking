@@ -62,8 +62,7 @@ class LocationPicker extends StatefulWidget {
   final Widget? info;
   final String title;
   final FormSelectOption? selectedOption;
-  final void Function(FormSelectOption option)?
-  onSelectedOption;
+  final void Function(FormSelectOption option)? onSelectedOption;
   final void Function()? onSelectedCurrentLocation;
   final bool useLongList;
   final bool useTextAsSelectedDisplayItem;
@@ -82,8 +81,7 @@ class LocationPicker extends StatefulWidget {
   final String? tooltip;
 
   @override
-  State<LocationPicker> createState() =>
-      _LocationPickerState();
+  State<LocationPicker> createState() => _LocationPickerState();
 }
 
 class _LocationPickerState extends State<LocationPicker> {
@@ -100,9 +98,7 @@ class _LocationPickerState extends State<LocationPicker> {
     const uuid = Uuid();
     _id = uuid.v4();
 
-    _timer = Timer.periodic(const Duration(seconds: 2), (
-      timer,
-    ) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (_searched) {
         return;
       }
@@ -156,8 +152,7 @@ class _LocationPickerState extends State<LocationPicker> {
         onTap: widget.readOnly
             ? null
             : () {
-                if (widget.onTap != null &&
-                    !widget.onTap!()) {
+                if (widget.onTap != null && !widget.onTap!()) {
                   return;
                 }
 
@@ -177,28 +172,20 @@ class _LocationPickerState extends State<LocationPicker> {
         label: widget.label,
         onSuccess: widget.onSuccess,
         placeholder: widget.placeholder,
-        placeholderStyle: const TextStyle(
-          overflow: TextOverflow.ellipsis,
-        ),
+        placeholderStyle: const TextStyle(overflow: TextOverflow.ellipsis),
         prefix: _prefix,
-        showIconOnFailedValidation:
-            widget.showIconOnFailedValidation,
-        showIconOnSuccessfulValidation:
-            widget.showIconOnFailedValidation,
+        showIconOnFailedValidation: widget.showIconOnFailedValidation,
+        showIconOnSuccessfulValidation: widget.showIconOnFailedValidation,
         zeroLeftPadding: true,
         suffix: widget.showSuffix
             ? (widget.suffix ??
                   const Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center,
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [Icon(Icons.place_outlined)],
                   ))
             : null,
-        suffixIconConstraints: widget.showSuffix
-            ? const BoxConstraints(maxWidth: 80)
-            : null,
+        suffixIconConstraints: widget.showSuffix ? const BoxConstraints(maxWidth: 80) : null,
         validation: widget.validation,
         info: widget.info,
         color: widget.color,
@@ -228,8 +215,7 @@ class _LocationPickerState extends State<LocationPicker> {
     }
 
     if (widget.useTextAsSelectedDisplayItem ||
-        (_selectedOption!.text != null &&
-            _selectedOption!.text!.isNotEmpty)) {
+        (_selectedOption!.text != null && _selectedOption!.text!.isNotEmpty)) {
       return Padding(
         padding: const EdgeInsets.only(left: 5, right: 40),
         child:
@@ -286,69 +272,43 @@ class _LocationPickerState extends State<LocationPicker> {
                 builder: (context, state) {
                   List<Predictions> predications = [];
                   if (state is GoogleMapAutoCompleted) {
-                    predications =
-                        state.result.data?.predictions ??
-                        [];
+                    predications = state.result.data?.predictions ?? [];
                   }
-                  if (state
-                      is GoogleMapAutoCompletedSilently) {
-                    predications =
-                        state.result.data?.predictions ??
-                        [];
+                  if (state is GoogleMapAutoCompletedSilently) {
+                    predications = state.result.data?.predictions ?? [];
                   }
 
                   return Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Column(
                       children: [
-                        if (predications.isNotEmpty)
-                          const Divider(thickness: 0.4),
+                        if (predications.isNotEmpty) const Divider(thickness: 0.4),
                         Padding(
-                          padding:
-                              const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
                             children: predications.map((e) {
                               return ListTile(
                                 onTap: () {
                                   final label =
                                       '${e.structuredFormatting?.mainText ?? ''}, ${e.structuredFormatting?.secondaryText ?? ''}';
-                                  _selectedOption =
-                                      FormSelectOption(
-                                        value:
-                                            e.placeId ?? '',
-                                        data: e,
-                                        // icon: const Icon(Icons.place_rounded),
-                                        text: label,
-                                        selected: true,
-                                      );
+                                  _selectedOption = FormSelectOption(
+                                    value: e.placeId ?? '',
+                                    data: e,
+                                    // icon: const Icon(Icons.place_rounded),
+                                    text: label,
+                                    selected: true,
+                                  );
 
-                                  _onSelected(
-                                    _selectedOption!,
-                                  );
-                                  Navigator.pop(
-                                    MyApp
-                                            .navigatorKey
-                                            .currentContext ??
-                                        context,
-                                  );
+                                  _onSelected(_selectedOption!);
+                                  Navigator.pop(MyApp.navigatorKey.currentContext ?? context);
                                 },
-                                contentPadding:
-                                    const EdgeInsets.symmetric(
-                                      horizontal: 0,
-                                    ),
-                                leading: const Icon(
-                                  Icons.place_rounded,
-                                ),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                                leading: const Icon(Icons.place_rounded),
                                 title: Text(
                                   '${e.structuredFormatting?.mainText}, ${e.structuredFormatting?.secondaryText}',
                                   style: const TextStyle(
-                                    fontWeight:
-                                        FontWeight.w400,
-                                    color: Color(
-                                      0xff242424,
-                                    ),
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff242424),
                                     fontSize: 14,
                                   ),
                                 ),
@@ -364,37 +324,22 @@ class _LocationPickerState extends State<LocationPicker> {
             },
             fixed: ListTile(
               dense: true,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              leading: Icon(
-                Icons.gps_fixed_outlined,
-                color: Theme.of(context).primaryColor,
-              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+              leading: Icon(Icons.gps_fixed_outlined, color: Theme.of(context).primaryColor),
               title: Text(
                 'Use My Current Location',
-                style: Theme.of(context).textTheme.bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               onTap: () async {
-                if (widget.onSelectedCurrentLocation ==
-                    null) {
-                  Navigator.pop(
-                    MyApp.navigatorKey.currentContext ??
-                        context,
-                  );
+                if (widget.onSelectedCurrentLocation == null) {
+                  Navigator.pop(MyApp.navigatorKey.currentContext ?? context);
                   return;
                 }
 
                 widget.onSelectedCurrentLocation!();
-                Navigator.pop(
-                  MyApp.navigatorKey.currentContext ??
-                      context,
-                );
+                Navigator.pop(MyApp.navigatorKey.currentContext ?? context);
               },
-              trailing: const Icon(
-                Icons.chevron_right_outlined,
-              ),
+              trailing: const Icon(Icons.chevron_right_outlined),
             ),
           ),
         );

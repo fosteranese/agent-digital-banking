@@ -61,9 +61,7 @@ class GeneralFlowField extends Equatable {
     this.trasactionLimitAmount,
   });
 
-  factory GeneralFlowField.fromMap(
-    Map<String, dynamic> data,
-  ) {
+  factory GeneralFlowField.fromMap(Map<String, dynamic> data) {
     return GeneralFlowField(
       fieldId: data['fieldId'] as String?,
       formId: data['formId'] as String?,
@@ -81,8 +79,7 @@ class GeneralFlowField extends Equatable {
       readOnly: data['readOnly'] as int?,
       showOnReceipt: data['showOnReceipt'] as int?,
       isAmount: data['isAmount'] as int?,
-      requiredForVerification:
-          data['requiredForVerification'] as int?,
+      requiredForVerification: data['requiredForVerification'] as int?,
       toolTip: data['toolTip'] as String?,
       dateCreated: data['dateCreated'] == null
           ? null
@@ -96,9 +93,7 @@ class GeneralFlowField extends Equatable {
       thirdParty: data['thirdParty'] as int?,
       statusLabel: data['statusLabel'] as String?,
       lovEndpoint: data['lovEndpoint'] as String?,
-      trasactionLimitAmount:
-          (data['trasactionLimitAmount'] as num?)
-              ?.toDouble(),
+      trasactionLimitAmount: (data['trasactionLimitAmount'] as num?)?.toDouble(),
     );
   }
 
@@ -136,9 +131,7 @@ class GeneralFlowField extends Equatable {
   ///
   /// Parses the string and returns the resulting Json object as [GeneralFlowField].
   factory GeneralFlowField.fromJson(String data) {
-    return GeneralFlowField.fromMap(
-      json.decode(data) as Map<String, dynamic>,
-    );
+    return GeneralFlowField.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -183,8 +176,7 @@ class GeneralFlowField extends Equatable {
       fieldType: fieldType ?? this.fieldType,
       fieldDataType: fieldDataType ?? this.fieldDataType,
       fieldLength: fieldLength ?? this.fieldLength,
-      fieldDateFormat:
-          fieldDateFormat ?? this.fieldDateFormat,
+      fieldDateFormat: fieldDateFormat ?? this.fieldDateFormat,
       fieldMandatory: fieldMandatory ?? this.fieldMandatory,
       fieldInRemarks: fieldInRemarks ?? this.fieldInRemarks,
       rank: rank ?? this.rank,
@@ -193,9 +185,7 @@ class GeneralFlowField extends Equatable {
       readOnly: readOnly ?? this.readOnly,
       showOnReceipt: showOnReceipt ?? this.showOnReceipt,
       isAmount: isAmount ?? this.isAmount,
-      requiredForVerification:
-          requiredForVerification ??
-          this.requiredForVerification,
+      requiredForVerification: requiredForVerification ?? this.requiredForVerification,
       toolTip: toolTip ?? this.toolTip,
       dateCreated: dateCreated ?? this.dateCreated,
       createdBy: createdBy ?? this.createdBy,
@@ -205,8 +195,7 @@ class GeneralFlowField extends Equatable {
       thirdParty: thirdParty ?? this.thirdParty,
       statusLabel: statusLabel ?? this.statusLabel,
       lovEndpoint: lovEndpoint ?? this.lovEndpoint,
-      trasactionLimitAmount:
-          trasactionLimitAmount ?? trasactionLimitAmount,
+      trasactionLimitAmount: trasactionLimitAmount ?? trasactionLimitAmount,
     );
   }
 

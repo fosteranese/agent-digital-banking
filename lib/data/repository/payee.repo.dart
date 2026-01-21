@@ -9,17 +9,14 @@ class PayeeRepo {
   final _db = Database();
   final _fbl = MainRemote();
 
-  Future<Response<PayeesResponse>?>
-  getStoredPayees() async {
+  Future<Response<PayeesResponse>?> getStoredPayees() async {
     final result = await _db.read('all-payees');
 
     if (result == null || result['data'] == null) {
       return null;
     }
 
-    final data = PayeesResponse.fromMap(
-      result['data'] as Map<String, dynamic>,
-    );
+    final data = PayeesResponse.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -31,9 +28,7 @@ class PayeeRepo {
     );
   }
 
-  Future<Response<List<Payees>>?> getStoredFormPayees(
-    String formId,
-  ) async {
+  Future<Response<List<Payees>>?> getStoredFormPayees(String formId) async {
     final result = await _db.read('form-payees/$formId');
 
     if (result == null || result['list'] == null) {
@@ -41,9 +36,7 @@ class PayeeRepo {
     }
 
     final List<Payees> list = result['list'] != null
-        ? (result['list'] as List<dynamic>)
-              .map((e) => Payees.fromMap(e))
-              .toList()
+        ? (result['list'] as List<dynamic>).map((e) => Payees.fromMap(e)).toList()
         : [];
     return Response(
       code: result['code'].toString(),
@@ -57,19 +50,13 @@ class PayeeRepo {
   }
 
   Future<Response<PayeesResponse>> retrievePayees() async {
-    final response = await _fbl.post(
-      path: 'Payee/getAllPayees',
-      body: {},
-      isAuthenticated: true,
-    );
+    final response = await _fbl.post(path: 'Payee/getAllPayees', body: {}, isAuthenticated: true);
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
 
-    final data = PayeesResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = PayeesResponse.fromMap(response.data as Map<String, dynamic>);
     if (data.payees?.isNotEmpty ?? false) {
       storePayees(response);
     }
@@ -85,9 +72,7 @@ class PayeeRepo {
     );
   }
 
-  Future<Response<List<Payees>>> retrieveFormPayees(
-    String formId,
-  ) async {
+  Future<Response<List<Payees>>> retrieveFormPayees(String formId) async {
     final response = await _fbl.post(
       path: 'Payee/getPayeesByFormId',
       body: {'formId': formId},
@@ -98,14 +83,9 @@ class PayeeRepo {
       return Future.error(response);
     }
 
-    final data =
-        ((response.data['list'] ?? []) as List<dynamic>)
-            .map((e) {
-              return Payees.fromMap(
-                e as Map<String, dynamic>,
-              );
-            })
-            .toList();
+    final data = ((response.data['list'] ?? []) as List<dynamic>).map((e) {
+      return Payees.fromMap(e as Map<String, dynamic>);
+    }).toList();
 
     if (data.isNotEmpty) {
       storeFormPayees(formId, response);
@@ -122,24 +102,17 @@ class PayeeRepo {
     );
   }
 
-  Future<Response<PayeesResponse>> filterPayees(
-    PayeeForm form,
-  ) async {
+  Future<Response<PayeesResponse>> filterPayees(PayeeForm form) async {
     final response = await _fbl.post(
       path: 'Payee/getAllPayees',
-      body: {
-        'formId': form.formId,
-        'activityId': form.activityId,
-      },
+      body: {'formId': form.formId, 'activityId': form.activityId},
       isAuthenticated: true,
     );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = PayeesResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = PayeesResponse.fromMap(response.data as Map<String, dynamic>);
     if (data.payees?.isNotEmpty ?? false) {
       storePayees(response);
     }
@@ -170,10 +143,7 @@ class PayeeRepo {
     );
   }
 
-  void storeFormPayees(
-    String formId,
-    Response<dynamic> response,
-  ) {
+  void storeFormPayees(String formId, Response<dynamic> response) {
     _db.add(
       key: 'form-payees/$formId',
       payload: {
@@ -272,10 +242,7 @@ class PayeeRepo {
     );
   }
 
-  Future<Response> sendPayeeNow({
-    required String payeeId,
-    required String pin,
-  }) async {
+  Future<Response> sendPayeeNow({required String payeeId, required String pin}) async {
     final response = await _fbl.post(
       path: 'Payee/payPayee',
       body: {

@@ -54,7 +54,10 @@ class _OtpSingleState extends State<OtpSingle> {
           textStyle: const TextStyle(fontSize: 28, letterSpacing: 5, fontWeight: FontWeight.bold),
           placeholderStyle: const TextStyle(fontSize: 28, fontWeight: FontWeight.w400),
           textInputAction: TextInputAction.send,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(widget.length)],
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(widget.length),
+          ],
           onChange: (value) {
             if (value.length >= widget.length) {
               _controller.text = value.substring(0, widget.length);
@@ -75,17 +78,29 @@ class _OtpSingleState extends State<OtpSingle> {
             },
             child: const Text(
               'Didn’t receive a code?',
-              style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700, decorationStyle: TextDecorationStyle.solid, decoration: TextDecoration.underline),
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                decorationStyle: TextDecorationStyle.solid,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
         if (widget.onResendShortCode != null && _timeLeft != '00:00')
           RichText(
             text: TextSpan(
               children: [
-                TextSpan(text: 'Request a new code in ', style: Theme.of(context).textTheme.titleSmall),
+                TextSpan(
+                  text: 'Request a new code in ',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
                 TextSpan(
                   text: '$_timeLeft mins',
-                  style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Theme.of(context).primaryColor, fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),

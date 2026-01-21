@@ -1,39 +1,35 @@
-import '../../constants/status.const.dart';
-import '../database/db.dart';
-import '../models/history/activity.dart';
-import '../models/history/history.response.dart';
-import '../models/response.modal.dart';
-import '../remote/main.remote.dart';
+import 'package:my_sage_agent/constants/status.const.dart';
+import 'package:my_sage_agent/data/database/db.dart';
+import 'package:my_sage_agent/data/models/collection_model.dart';
+import 'package:my_sage_agent/data/models/history/activity.dart';
+import 'package:my_sage_agent/data/models/history/history.response.dart';
+import 'package:my_sage_agent/data/remote/main.remote.dart';
 
 class HistoryRepo {
   final _db = Database();
   final _fbl = MainRemote();
 
-  Future<Response<HistoryResponse>?>
-  getStoredHistory() async {
-    final result = await _db.read('history');
+  void storeCollections(List<CollectionModel> list) {
+    _db.add(key: 'collections', payload: {'list': list});
+  }
 
-    if (result == null || result['data'] == null) {
+  Future<List<CollectionModel>?> getStoredCollections({Activity? activity}) async {
+    final result = await _db.read('collections');
+
+    if (result == null || result['list'] == null) {
       return null;
     }
 
-    final data = HistoryResponse.fromMap(
-      result['data'] as Map<String, dynamic>,
-    );
-    return Response(
-      code: result['code'].toString(),
-      status: result['status'].toString(),
-      message: result['message'].toString(),
-      data: data,
-      imageBaseUrl: result['imageBaseUrl']?.toString(),
-      imageDirectory: result['imageDirectory']?.toString(),
-      timeStamp: result['timeStamp']?.toString(),
-    );
+    final list = (result['list'] as List<dynamic>).map((item) {
+      return CollectionModel.fromMap(item as Map<String, dynamic>);
+    }).toList();
+
+    return list;
   }
 
-  Future<Response<HistoryResponse>> loadHistory() async {
+  Future<List<CollectionModel>> loadCollections() async {
     final response = await _fbl.post(
-      path: 'MyAccount/history',
+      path: 'FieldExecutive/getAgentCollections',
       body: {},
       isAuthenticated: true,
     );
@@ -41,25 +37,59 @@ class HistoryRepo {
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = HistoryResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
-    storeHistory(response);
 
-    return Response(
-      code: response.code,
-      message: response.message,
-      status: response.status,
-      data: data,
-      imageBaseUrl: response.imageBaseUrl,
-      imageDirectory: response.imageDirectory,
-      timeStamp: response.timeStamp,
-    );
+    final list = (response.data['list'] as List<dynamic>).map((item) {
+      return CollectionModel.fromMap(item as Map<String, dynamic>);
+    }).toList();
+
+    storeCollections(list);
+
+    return list;
   }
 
-  Future<Response<HistoryResponse>> filterHistory(
-    Activity activity,
-  ) async {
+  Future<HistoryResponse?> getStoredHistory({Activity? activity}) async {
+    final result = await _db.read('history');
+
+    if (result == null || result['data'] == null) {
+      return null;
+    }
+
+    final data = HistoryResponse.fromMap(result['data'] as Map<String, dynamic>);
+    final filtered = (activity == null)
+        ? data
+        : data.copyWith(
+            request: data.request?.where((item) {
+              return item.activityName == activity.activityName;
+            }).toList(),
+          );
+
+    return filtered;
+  }
+
+  Future<HistoryResponse> loadHistory({
+    Activity? activity,
+    String? dateFrom,
+    String? dateTo,
+  }) async {
+    dateFrom = (dateFrom?.isNotEmpty ?? false) ? dateFrom : null;
+    dateTo = (dateTo?.isNotEmpty ?? false) ? dateTo : null;
+
+    final response = await _fbl.post(
+      path: 'MyAccount/history',
+      body: {'activityId': activity?.activityId, 'dateFrom': dateFrom, 'dateTo': dateTo},
+      isAuthenticated: true,
+    );
+
+    if (response.status != StatusConstants.success) {
+      return Future.error(response);
+    }
+    final data = HistoryResponse.fromMap(response.data as Map<String, dynamic>);
+    storeHistory(data);
+
+    return data;
+  }
+
+  Future<HistoryResponse> filterHistory(Activity activity) async {
     final response = await _fbl.post(
       path: 'MyAccount/history',
       body: {'activityId': activity.activityId},
@@ -69,34 +99,13 @@ class HistoryRepo {
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = HistoryResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
-    storeHistory(response);
+    final data = HistoryResponse.fromMap(response.data as Map<String, dynamic>);
+    storeHistory(data);
 
-    return Response(
-      code: response.code,
-      message: response.message,
-      status: response.status,
-      data: data,
-      imageBaseUrl: response.imageBaseUrl,
-      imageDirectory: response.imageDirectory,
-      timeStamp: response.timeStamp,
-    );
+    return data;
   }
 
-  void storeHistory(Response<dynamic> response) {
-    _db.add(
-      key: 'history',
-      payload: {
-        'data': response.data,
-        'imageBaseUrl': response.imageBaseUrl,
-        'imageDirectory': response.imageDirectory,
-        'timeStamp': response.timeStamp,
-        'code': response.code,
-        'status': response.status,
-        'message': response.message,
-      },
-    );
+  void storeHistory(HistoryResponse response) {
+    _db.add(key: 'history', payload: response);
   }
 }

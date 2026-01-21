@@ -8,15 +8,16 @@ class Enquiry {
   dynamic header;
   List<Sources>? sources;
 
-  Enquiry(
-      {this.title,
-      this.endPoint,
-      this.formId,
-      this.activityId,
-      this.hasEnquiry,
-      this.activityType,
-      this.header,
-      this.sources});
+  Enquiry({
+    this.title,
+    this.endPoint,
+    this.formId,
+    this.activityId,
+    this.hasEnquiry,
+    this.activityType,
+    this.header,
+    this.sources,
+  });
 
   Enquiry.fromMap(Map<String, dynamic> json) {
     if (json["title"] is String) {
@@ -98,8 +99,7 @@ class Source {
   bool? payeeTitle;
   bool? payeeValue;
 
-  Source(
-      {this.key, this.value, this.dataType, this.payeeTitle, this.payeeValue});
+  Source({this.key, this.value, this.dataType, this.payeeTitle, this.payeeValue});
 
   Source.fromMap(Map<String, dynamic> json) {
     if (json["key"] is String) {

@@ -7,7 +7,38 @@ import 'package:my_sage_agent/utils/theme.util.dart';
 import '../../utils/navigator.util.dart';
 
 class ProfileLayout extends StatelessWidget {
-  const ProfileLayout({super.key, this.backIcon, this.onPressHelped, this.title, this.child, this.children = const [], this.sliver, this.slivers = const [], this.useCloseIcon = false, this.onBackPressed, this.bottom, this.showBackBtn = false, this.backgroundColor, this.titleColor, this.showNavBarOnPop = true, this.floatingActionButton, this.floatingActionButtonLocation, this.floatingActionButtonMargin = 50, this.isTopPadded = true, this.actions, this.nav, this.refreshController, this.onRefresh, this.bottomNavigationBar, this.physics, this.useCustomScroll = true, this.profileHeight = 170, this.flexibleSpace, this.useSliverAppBar = false, this.headerBackgroundColor});
+  const ProfileLayout({
+    super.key,
+    this.backIcon,
+    this.onPressHelped,
+    this.title,
+    this.child,
+    this.children = const [],
+    this.sliver,
+    this.slivers = const [],
+    this.useCloseIcon = false,
+    this.onBackPressed,
+    this.bottom,
+    this.showBackBtn = false,
+    this.backgroundColor,
+    this.titleColor,
+    this.showNavBarOnPop = true,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonMargin = 50,
+    this.isTopPadded = true,
+    this.actions,
+    this.nav,
+    this.refreshController,
+    this.onRefresh,
+    this.bottomNavigationBar,
+    this.physics,
+    this.useCustomScroll = true,
+    this.profileHeight = 170,
+    this.flexibleSpace,
+    this.useSliverAppBar = false,
+    this.headerBackgroundColor,
+  });
 
   final NavigatorState? nav;
   final Widget? backIcon;
@@ -60,7 +91,15 @@ class ProfileLayout extends StatelessWidget {
       children: [
         Container(color: Colors.white),
         if (flexibleSpace == null) _buildBackgroundImage(),
-        Scaffold(backgroundColor: backgroundColor, appBar: useSliverAppBar ? null : _buildAppBar(context), body: body, floatingActionButton: _buildFAB(safeAreaBottomPadding), floatingActionButtonLocation: floatingActionButtonLocation ?? FloatingActionButtonLocation.centerDocked, bottomNavigationBar: bottomNavigationBar),
+        Scaffold(
+          backgroundColor: backgroundColor,
+          appBar: useSliverAppBar ? null : _buildAppBar(context),
+          body: body,
+          floatingActionButton: _buildFAB(safeAreaBottomPadding),
+          floatingActionButtonLocation:
+              floatingActionButtonLocation ?? FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: bottomNavigationBar,
+        ),
       ],
     );
   }
@@ -88,7 +127,15 @@ class ProfileLayout extends StatelessWidget {
           ),
         if (slivers.isNotEmpty) ..._buildSliversWithSpacing(spaceAllowed),
         if (child != null) _wrapSliverWithSafeArea(spaceAllowed, child!),
-        if (children.isNotEmpty) _wrapSliverWithSafeArea(spaceAllowed, Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: children)),
+        if (children.isNotEmpty)
+          _wrapSliverWithSafeArea(
+            spaceAllowed,
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            ),
+          ),
       ],
     );
   }
@@ -135,7 +182,11 @@ class ProfileLayout extends StatelessWidget {
       leading: showBackBtn ? _buildBackButton(context) : null,
       title: Text(
         title ?? '',
-        style: TextStyle(color: titleColor ?? Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
+        style: TextStyle(
+          color: titleColor ?? Colors.white,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+        ),
       ),
       centerTitle: true,
       bottom: bottom,
@@ -159,7 +210,11 @@ class ProfileLayout extends StatelessWidget {
       leading: showBackBtn ? _buildBackButton(context) : null,
       title: Text(
         title ?? '',
-        style: PrimaryTextStyle(color: titleColor ?? Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+        style: PrimaryTextStyle(
+          color: titleColor ?? Colors.black,
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
       ),
       centerTitle: true,
       bottom: bottom,
@@ -173,11 +228,18 @@ class ProfileLayout extends StatelessWidget {
 
   Widget _buildBackButton(BuildContext? context) {
     return IconButton(
-      style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
+      style: IconButton.styleFrom(
+        fixedSize: const Size(35, 35),
+        backgroundColor: const Color(0x91F7C15A),
+      ),
       onPressed:
           onBackPressed ??
           () {
-            NavigatorUtil.pop(context!, nav: nav ?? MyApp.navigatorKey.currentState ?? Navigator.of(context), showNavBar: showNavBarOnPop);
+            NavigatorUtil.pop(
+              context!,
+              nav: nav ?? MyApp.navigatorKey.currentState ?? Navigator.of(context),
+              showNavBar: showNavBarOnPop,
+            );
           },
       icon: const Icon(Icons.arrow_back, color: Colors.black),
     );

@@ -45,7 +45,11 @@ class _VerifyPasswordResetPageState extends State<VerifyPasswordResetPage> {
           length: _data.otpData!.length!,
           onCompleted: (otp) {
             _otp = otp;
-            context.read<AuthBloc>().add(VerifyForgotPassword(OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: otp)));
+            context.read<AuthBloc>().add(
+              VerifyForgotPassword(
+                OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: otp),
+              ),
+            );
           },
           onResendShortCode: () {
             context.read<AuthBloc>().add(ReInitiateForgotPassword(_resendPayload));
@@ -81,7 +85,11 @@ class _VerifyPasswordResetPageState extends State<VerifyPasswordResetPage> {
               loading: state is VerifyingForgotPassword || state is ReInitiatingForgotPassword,
               text: 'Verify',
               onPressed: () {
-                context.read<AuthBloc>().add(VerifyForgotPassword(OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: _otp)));
+                context.read<AuthBloc>().add(
+                  VerifyForgotPassword(
+                    OtpVerificationRequest(otpId: _data.otpData!.otpId, otpValue: _otp),
+                  ),
+                );
               },
             );
           },

@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
-import 'package:my_sage_agent/blocs/history/history_bloc.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key, required this.navigationShell, required GoRouterState state});
@@ -191,8 +192,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
         onTabChanged: (index) {
           _currentIndex.value = index;
 
-          if (_currentIndex.value == 1 || _currentIndex.value == 2) {
-            context.read<HistoryBloc>().add(const LoadHistory(true));
+          if (_currentIndex.value == 0 || _currentIndex.value == 1) {
+            context.read<RetrieveDataBloc>().add(
+              RetrieveCollectionEvent(
+                id: Uuid().v4(),
+                action: 'RetrieveCollectionEvent',
+                skipSavedData: true,
+              ),
+            );
+          } else if (_currentIndex.value == 2) {
+            context.read<RetrieveDataBloc>().add(
+              RetrieveActivitiesEvent(
+                id: Uuid().v4(),
+                action: 'RetrieveActivitiesEvent',
+                skipSavedData: true,
+              ),
+            );
           }
         },
         navBarBuilder: (navBarConfig) {

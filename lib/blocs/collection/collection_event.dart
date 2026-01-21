@@ -10,10 +10,7 @@ abstract class PaymentsEvent extends Equatable {
 // retrieve payments
 
 class RetrievePayments extends PaymentsEvent {
-  const RetrievePayments({
-    required this.activityId,
-    required this.routeName,
-  });
+  const RetrievePayments({required this.activityId, required this.routeName});
   final String activityId;
   final String routeName;
 
@@ -31,10 +28,7 @@ class SilentRetrievePayments extends PaymentsEvent {
 // retrieve payment categories
 
 class RetrievePaymentCategories extends PaymentsEvent {
-  const RetrievePaymentCategories({
-    required this.routeName,
-    required this.categoryId,
-  });
+  const RetrievePaymentCategories({required this.routeName, required this.categoryId});
   final String routeName;
   final String categoryId;
 
@@ -42,8 +36,7 @@ class RetrievePaymentCategories extends PaymentsEvent {
   List<Object> get props => [routeName, categoryId];
 }
 
-class SilentRetrievePaymentCategories
-    extends PaymentsEvent {
+class SilentRetrievePaymentCategories extends PaymentsEvent {
   const SilentRetrievePaymentCategories(this.categoryId);
   final String categoryId;
 
@@ -51,8 +44,7 @@ class SilentRetrievePaymentCategories
   List<Object> get props => [categoryId];
 }
 
-class RetrievePaymentCategoriesWithEndpoint
-    extends PaymentsEvent {
+class RetrievePaymentCategoriesWithEndpoint extends PaymentsEvent {
   const RetrievePaymentCategoriesWithEndpoint({
     required this.routeName,
     required this.endpoint,
@@ -63,18 +55,11 @@ class RetrievePaymentCategoriesWithEndpoint
   final String activityId;
 
   @override
-  List<Object> get props => [
-    routeName,
-    endpoint,
-    activityId,
-  ];
+  List<Object> get props => [routeName, endpoint, activityId];
 }
 
-class SilentRetrievePaymentCategoriesWithEndpoint
-    extends PaymentsEvent {
-  const SilentRetrievePaymentCategoriesWithEndpoint(
-    this.endpoint,
-  );
+class SilentRetrievePaymentCategoriesWithEndpoint extends PaymentsEvent {
+  const SilentRetrievePaymentCategoriesWithEndpoint(this.endpoint);
   final String endpoint;
 
   @override
@@ -84,10 +69,7 @@ class SilentRetrievePaymentCategoriesWithEndpoint
 // retrieve institution forms
 
 class RetrieveInstitutionForms extends PaymentsEvent {
-  const RetrieveInstitutionForms({
-    required this.routeName,
-    required this.institutionId,
-  });
+  const RetrieveInstitutionForms({required this.routeName, required this.institutionId});
   final String routeName;
   final String institutionId;
 
@@ -106,11 +88,7 @@ class SilentRetrieveInstitutionForms extends PaymentsEvent {
 // verify forms
 
 class VerifyForm extends PaymentsEvent {
-  const VerifyForm({
-    required this.routeName,
-    required this.formData,
-    required this.payload,
-  });
+  const VerifyForm({required this.routeName, required this.formData, required this.payload});
   final String routeName;
   final FormsDatum formData;
   final Map<String, dynamic> payload;
@@ -122,11 +100,7 @@ class VerifyForm extends PaymentsEvent {
 // make payment
 
 class MakePayment extends PaymentsEvent {
-  const MakePayment({
-    required this.routeName,
-    required this.payment,
-    required this.payload,
-  });
+  const MakePayment({required this.routeName, required this.payment, required this.payload});
 
   final String routeName;
   final ProcessRequestModel payment;
@@ -152,12 +126,7 @@ class RetrieveCollectionForm extends PaymentsEvent {
   final String? payeeId;
 
   @override
-  List<Object?> get props => [
-    routeName,
-    formId,
-    activityId,
-    payeeId,
-  ];
+  List<Object?> get props => [routeName, formId, activityId, payeeId];
 }
 
 class SilentlyRetrieveCollectionForm extends PaymentsEvent {
@@ -173,21 +142,13 @@ class SilentlyRetrieveCollectionForm extends PaymentsEvent {
   final String? payeeId;
 
   @override
-  List<Object?> get props => [
-    routeName,
-    formId,
-    activityId,
-    payeeId,
-  ];
+  List<Object?> get props => [routeName, formId, activityId, payeeId];
 }
 
 // save Beneficiary
 
 class SaveBeneficiary extends PaymentsEvent {
-  const SaveBeneficiary({
-    required this.routeName,
-    required this.payload,
-  });
+  const SaveBeneficiary({required this.routeName, required this.payload});
 
   final String routeName;
   final RequestResponse payload;

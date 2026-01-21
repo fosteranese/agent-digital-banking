@@ -9,13 +9,7 @@ class VerifyGhanaCardRequest extends Equatable {
   final String? pin;
   final String? error;
 
-  const VerifyGhanaCardRequest({
-    this.registrationId,
-    this.code,
-    this.state,
-    this.pin,
-    this.error,
-  });
+  const VerifyGhanaCardRequest({this.registrationId, this.code, this.state, this.pin, this.error});
 
   factory VerifyGhanaCardRequest.fromMap(Map<String, dynamic> data) {
     return VerifyGhanaCardRequest(
@@ -28,19 +22,18 @@ class VerifyGhanaCardRequest extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'registrationId': registrationId,
-        'code': code,
-        'state': state,
-        'pin': pin,
-        'error': error,
-      };
+    'registrationId': registrationId,
+    'code': code,
+    'state': state,
+    'pin': pin,
+    'error': error,
+  };
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [VerifyGhanaCardRequest].
   factory VerifyGhanaCardRequest.fromJson(String data) {
-    return VerifyGhanaCardRequest.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return VerifyGhanaCardRequest.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`

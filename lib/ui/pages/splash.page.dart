@@ -18,10 +18,7 @@ class _SplashPageState extends State<SplashPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const Spacer(),
-          Image.asset(
-            'assets/img/splash-logo.gif',
-            repeat: ImageRepeat.noRepeat,
-          ),
+          Image.asset('assets/img/splash-logo.gif', repeat: ImageRepeat.noRepeat),
           const Spacer(),
           LinearProgressIndicator(
             backgroundColor: const Color(0xff919195),

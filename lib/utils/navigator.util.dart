@@ -28,13 +28,9 @@ class NavigatorUtil {
     bool showNavBar = true,
   }) {
     if (showNavBar) {
-      context.read<BottomNavBarBloc>().add(
-        ShowBottomNavBar(routeName ?? ''),
-      );
+      context.read<BottomNavBarBloc>().add(ShowBottomNavBar(routeName ?? ''));
     } else {
-      context.read<BottomNavBarBloc>().add(
-        HideBottomNavBar(routeName ?? ''),
-      );
+      context.read<BottomNavBarBloc>().add(HideBottomNavBar(routeName ?? ''));
     }
 
     if (routeName != null && routeName.isNotEmpty) {

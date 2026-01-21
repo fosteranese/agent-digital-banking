@@ -33,7 +33,10 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
   bool isTransactionEnabled = false;
   bool isAutoTransactionEnabled = false;
 
-  Future<void> _onRetrieveBiometricSettings(RetrieveBiometricSettings event, Emitter<BiometricState> emit) async {
+  Future<void> _onRetrieveBiometricSettings(
+    RetrieveBiometricSettings event,
+    Emitter<BiometricState> emit,
+  ) async {
     try {
       emit(const RetrievingBiometricSettings());
 
@@ -46,13 +49,23 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
       isAutoTransactionEnabled = data['biometric-auto-transaction'] ?? false;
       allowBiometrics = data['allow-transaction'] ?? false;
 
-      emit(BiometricSettingsRetrieved(autoLogin: isAutoLoginEnabled, autoTransaction: isAutoTransactionEnabled, login: isLoginEnabled, transaction: isTransactionEnabled));
+      emit(
+        BiometricSettingsRetrieved(
+          autoLogin: isAutoLoginEnabled,
+          autoTransaction: isAutoTransactionEnabled,
+          login: isLoginEnabled,
+          transaction: isTransactionEnabled,
+        ),
+      );
     } catch (error) {
       ResponseUtil.handleException(error, (error) => emit(RetrievedBiometricSettingsError(error)));
     }
   }
 
-  Future<void> _resetBiometricSettings(ResetBiometricSettings event, Emitter<BiometricState> emit) async {
+  Future<void> _resetBiometricSettings(
+    ResetBiometricSettings event,
+    Emitter<BiometricState> emit,
+  ) async {
     allowBiometrics = false;
     isLoginEnabled = false;
     isAutoLoginEnabled = false;
@@ -60,7 +73,10 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
     isAutoTransactionEnabled = false;
   }
 
-  Future<void> _onBiometricLoginStatusChange(BiometricLoginStatusChange event, Emitter<BiometricState> emit) async {
+  Future<void> _onBiometricLoginStatusChange(
+    BiometricLoginStatusChange event,
+    Emitter<BiometricState> emit,
+  ) async {
     try {
       emit(ChangingBiometricLoginStatus());
 
@@ -76,7 +92,10 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
     }
   }
 
-  Future<void> _onAutoBiometricLoginStatusChange(AutoBiometricLoginStatusChange event, Emitter<BiometricState> emit) async {
+  Future<void> _onAutoBiometricLoginStatusChange(
+    AutoBiometricLoginStatusChange event,
+    Emitter<BiometricState> emit,
+  ) async {
     try {
       emit(ChangingAutoBiometricLoginStatus());
 
@@ -89,11 +108,17 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
       isAutoLoginEnabled = result.data ?? false;
       emit(AutoBiometricLoginStatusChanged(isAutoLoginEnabled));
     } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(ChangeAutoBiometricLoginStatusError(error)));
+      ResponseUtil.handleException(
+        error,
+        (error) => emit(ChangeAutoBiometricLoginStatusError(error)),
+      );
     }
   }
 
-  Future<void> _onBiometricTransactionStatusChange(BiometricTransactionStatusChange event, Emitter<BiometricState> emit) async {
+  Future<void> _onBiometricTransactionStatusChange(
+    BiometricTransactionStatusChange event,
+    Emitter<BiometricState> emit,
+  ) async {
     try {
       emit(ChangingBiometricLoginStatus());
 
@@ -113,7 +138,10 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
     }
   }
 
-  Future<void> _onAutoBiometricTransactionStatusChange(AutoBiometricTransactionStatusChange event, Emitter<BiometricState> emit) async {
+  Future<void> _onAutoBiometricTransactionStatusChange(
+    AutoBiometricTransactionStatusChange event,
+    Emitter<BiometricState> emit,
+  ) async {
     try {
       emit(ChangingAutoBiometricLoginStatus());
 
@@ -126,7 +154,10 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
       isAutoTransactionEnabled = result.data ?? false;
       emit(AutoBiometricLoginStatusChanged(isAutoLoginEnabled));
     } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(ChangeAutoBiometricLoginStatusError(error)));
+      ResponseUtil.handleException(
+        error,
+        (error) => emit(ChangeAutoBiometricLoginStatusError(error)),
+      );
     }
   }
 }

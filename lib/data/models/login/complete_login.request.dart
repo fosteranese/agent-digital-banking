@@ -6,10 +6,7 @@ class VerifyLoginRequest extends Equatable {
   final String? requestId;
   final String? securityAnswer;
 
-  const VerifyLoginRequest({
-    this.requestId,
-    this.securityAnswer,
-  });
+  const VerifyLoginRequest({this.requestId, this.securityAnswer});
 
   factory VerifyLoginRequest.fromMap(Map<String, dynamic> data) {
     return VerifyLoginRequest(
@@ -18,10 +15,7 @@ class VerifyLoginRequest extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'requestId': requestId,
-        'securityAnswer': securityAnswer,
-      };
+  Map<String, dynamic> toMap() => {'requestId': requestId, 'securityAnswer': securityAnswer};
 
   /// `dart:convert`
   ///
@@ -35,10 +29,7 @@ class VerifyLoginRequest extends Equatable {
   /// Converts [VerifyLoginRequest] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  VerifyLoginRequest copyWith({
-    String? requestId,
-    String? securityAnswer,
-  }) {
+  VerifyLoginRequest copyWith({String? requestId, String? securityAnswer}) {
     return VerifyLoginRequest(
       requestId: requestId ?? this.requestId,
       securityAnswer: securityAnswer ?? this.securityAnswer,
@@ -49,8 +40,5 @@ class VerifyLoginRequest extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        requestId,
-        securityAnswer,
-      ];
+  List<Object?> get props => [requestId, securityAnswer];
 }

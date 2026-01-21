@@ -7,8 +7,7 @@ abstract class SecuritySettingsState extends Equatable {
   List<Object> get props => [];
 }
 
-class SecuritySettingsInitial
-    extends SecuritySettingsState {}
+class SecuritySettingsInitial extends SecuritySettingsState {}
 
 // authenticate pin
 
@@ -22,11 +21,7 @@ class AuthenticatingPin extends SecuritySettingsState {
 }
 
 class PinAuthenticated extends SecuritySettingsState {
-  const PinAuthenticated({
-    required this.id,
-    required this.pin,
-    required this.result,
-  });
+  const PinAuthenticated({required this.id, required this.pin, required this.result});
 
   final String id;
   final String pin;
@@ -37,10 +32,7 @@ class PinAuthenticated extends SecuritySettingsState {
 }
 
 class PinAuthenticationError extends SecuritySettingsState {
-  const PinAuthenticationError({
-    required this.id,
-    required this.result,
-  });
+  const PinAuthenticationError({required this.id, required this.result});
 
   final String id;
   final Response<dynamic> result;
@@ -51,21 +43,16 @@ class PinAuthenticationError extends SecuritySettingsState {
 
 // biometric login
 
-class SavingBiometricSetting
-    extends SecuritySettingsState {}
+class SavingBiometricSetting extends SecuritySettingsState {}
 
 class BiometricSettingSaved extends SecuritySettingsState {
-  const BiometricSettingSaved({
-    required this.enable,
-    required this.message,
-  });
+  const BiometricSettingSaved({required this.enable, required this.message});
 
   final bool enable;
   final String message;
 }
 
-class SaveBiometricSettingError
-    extends SecuritySettingsState {
+class SaveBiometricSettingError extends SecuritySettingsState {
   const SaveBiometricSettingError(this.result);
 
   final Response<dynamic> result;
@@ -129,8 +116,7 @@ class SecretAnswerChanged extends SecuritySettingsState {
   final String message;
 }
 
-class ChangeSecretAnswerError
-    extends SecuritySettingsState {
+class ChangeSecretAnswerError extends SecuritySettingsState {
   const ChangeSecretAnswerError(this.result);
 
   final Response<dynamic> result;

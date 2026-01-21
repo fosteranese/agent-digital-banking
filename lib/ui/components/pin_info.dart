@@ -21,10 +21,7 @@ class PinInfo extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
-                Icons.info_outline,
-                color: Colors.blue,
-              ),
+              const Icon(Icons.info_outline, color: Colors.blue),
               const SizedBox(width: 5),
               Expanded(
                 child: Text(

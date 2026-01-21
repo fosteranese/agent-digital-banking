@@ -24,26 +24,26 @@ class Institution extends Equatable {
   });
 
   factory Institution.fromMap(Map<String, dynamic> data) => Institution(
-        insId: data['insId'] as String?,
-        catId: data['catId'] as String?,
-        insName: data['insName'] as String?,
-        description: data['description'] as String?,
-        tooltip: data['tooltip'] as String?,
-        icon: data['icon'] as String?,
-        customCss: data['customCss'] as String?,
-        insCode: data['insCode'] as String?,
-      );
+    insId: data['insId'] as String?,
+    catId: data['catId'] as String?,
+    insName: data['insName'] as String?,
+    description: data['description'] as String?,
+    tooltip: data['tooltip'] as String?,
+    icon: data['icon'] as String?,
+    customCss: data['customCss'] as String?,
+    insCode: data['insCode'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'insId': insId,
-        'catId': catId,
-        'insName': insName,
-        'description': description,
-        'tooltip': tooltip,
-        'icon': icon,
-        'customCss': customCss,
-        'insCode': insCode,
-      };
+    'insId': insId,
+    'catId': catId,
+    'insName': insName,
+    'description': description,
+    'tooltip': tooltip,
+    'icon': icon,
+    'customCss': customCss,
+    'insCode': insCode,
+  };
 
   /// `dart:convert`
   ///
@@ -84,15 +84,6 @@ class Institution extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      insId,
-      catId,
-      insName,
-      description,
-      tooltip,
-      icon,
-      customCss,
-      insCode,
-    ];
+    return [insId, catId, insName, description, tooltip, icon, customCss, insCode];
   }
 }

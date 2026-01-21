@@ -30,8 +30,7 @@ class ResetBiometricSettings extends BiometricEvent {
   List<Object> get props => [];
 }
 
-class AutoBiometricLoginStatusChange
-    extends BiometricEvent {
+class AutoBiometricLoginStatusChange extends BiometricEvent {
   const AutoBiometricLoginStatusChange(this.pin);
 
   final String pin;
@@ -40,8 +39,7 @@ class AutoBiometricLoginStatusChange
   List<Object> get props => [pin];
 }
 
-class BiometricTransactionStatusChange
-    extends BiometricEvent {
+class BiometricTransactionStatusChange extends BiometricEvent {
   const BiometricTransactionStatusChange(this.pin);
 
   final String pin;
@@ -50,8 +48,7 @@ class BiometricTransactionStatusChange
   List<Object> get props => [pin];
 }
 
-class AutoBiometricTransactionStatusChange
-    extends BiometricEvent {
+class AutoBiometricTransactionStatusChange extends BiometricEvent {
   const AutoBiometricTransactionStatusChange(this.pin);
 
   final String pin;

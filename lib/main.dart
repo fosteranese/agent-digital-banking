@@ -19,7 +19,6 @@ import 'package:my_sage_agent/blocs/bottom_nav_bar/bottom_nav_bar_bloc.dart';
 import 'package:my_sage_agent/blocs/bulk_payment/bulk_payment_bloc.dart';
 import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
 import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
-import 'package:my_sage_agent/blocs/history/history_bloc.dart';
 import 'package:my_sage_agent/blocs/infra/infra_bloc.dart';
 import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
@@ -30,6 +29,7 @@ import 'package:my_sage_agent/blocs/setup/setup_bloc.dart';
 import 'package:my_sage_agent/data/database/db.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
+import 'package:my_sage_agent/data/repository/history.repo.dart';
 import 'package:my_sage_agent/data/repository/payment.repo.dart';
 import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
 import 'package:my_sage_agent/logger.dart';
@@ -98,6 +98,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(create: (_) => FblOnlineRepo()),
         RepositoryProvider(create: (_) => QuickFlowRepo()),
         RepositoryProvider(create: (_) => PaymentRepo()),
+        RepositoryProvider(create: (_) => HistoryRepo()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -112,6 +113,7 @@ class _MyAppState extends State<MyApp> {
               fblOnlineRepo: context.read<FblOnlineRepo>(),
               quickflow: context.read<QuickFlowRepo>(),
               paymentRepo: context.read<PaymentRepo>(),
+              historyRepo: context.read<HistoryRepo>(),
             ),
           ),
           BlocProvider(create: (context) => AccountBloc()),
@@ -125,7 +127,6 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => InfraBloc()),
           BlocProvider(create: (context) => SetupBloc()),
           BlocProvider(create: (context) => OtpBloc()),
-          BlocProvider(create: (context) => HistoryBloc()),
         ],
         child: MaterialApp.router(
           title: 'Agent Digital Banking',

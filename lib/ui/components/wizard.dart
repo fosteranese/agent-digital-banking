@@ -21,8 +21,7 @@ class Wizard extends StatefulWidget {
   setup;
   final void Function(void Function(int) goTo)? init;
   final int initialIndex;
-  final Widget Function(Widget, Animation<double>)?
-  customTransition;
+  final Widget Function(Widget, Animation<double>)? customTransition;
   final WizardAnimationType animationType;
 
   @override
@@ -79,10 +78,7 @@ class _WizardState extends State<Wizard> {
     }
   }
 
-  Widget setupTransition(
-    Widget child,
-    Animation<double> animation,
-  ) {
+  Widget setupTransition(Widget child, Animation<double> animation) {
     switch (widget.animationType) {
       case WizardAnimationType.slide:
         return slideTransition(child, animation);
@@ -95,34 +91,20 @@ class _WizardState extends State<Wizard> {
     }
   }
 
-  SlideTransition slideTransition(
-    Widget child,
-    Animation<double> animation,
-  ) {
+  SlideTransition slideTransition(Widget child, Animation<double> animation) {
     final offsetAnimation = Tween(
-      begin: _currentIndex >= _previousIndex
-          ? const Offset(1.0, 0.0)
-          : const Offset(-0.5, 0.0),
+      begin: _currentIndex >= _previousIndex ? const Offset(1.0, 0.0) : const Offset(-0.5, 0.0),
       end: const Offset(0.0, 0.0),
     ).animate(animation);
 
-    return SlideTransition(
-      position: offsetAnimation,
-      child: child,
-    );
+    return SlideTransition(position: offsetAnimation, child: child);
   }
 
-  ScaleTransition scaleTransition(
-    Widget child,
-    Animation<double> animation,
-  ) {
+  ScaleTransition scaleTransition(Widget child, Animation<double> animation) {
     return ScaleTransition(scale: animation, child: child);
   }
 
-  FadeTransition fadeTransition(
-    Widget child,
-    Animation<double> animation,
-  ) {
+  FadeTransition fadeTransition(Widget child, Animation<double> animation) {
     return FadeTransition(opacity: animation, child: child);
   }
 

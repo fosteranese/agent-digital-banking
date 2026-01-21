@@ -46,11 +46,28 @@ class Result {
   int? utcOffset;
   String? vicinity;
 
-  Result({this.addressComponents, this.adrAddress, this.formattedAddress, this.geometry, this.icon, this.iconBackgroundColor, this.iconMaskBaseUri, this.name, this.placeId, this.reference, this.types, this.url, this.utcOffset, this.vicinity});
+  Result({
+    this.addressComponents,
+    this.adrAddress,
+    this.formattedAddress,
+    this.geometry,
+    this.icon,
+    this.iconBackgroundColor,
+    this.iconMaskBaseUri,
+    this.name,
+    this.placeId,
+    this.reference,
+    this.types,
+    this.url,
+    this.utcOffset,
+    this.vicinity,
+  });
 
   Result.fromMap(Map<String, dynamic> json) {
     if (json["address_components"] is List) {
-      addressComponents = json["address_components"] == null ? null : (json["address_components"] as List).map((e) => AddressComponents.fromMap(e)).toList();
+      addressComponents = json["address_components"] == null
+          ? null
+          : (json["address_components"] as List).map((e) => AddressComponents.fromMap(e)).toList();
     }
     if (json["adr_address"] is String) {
       adrAddress = json["adr_address"];

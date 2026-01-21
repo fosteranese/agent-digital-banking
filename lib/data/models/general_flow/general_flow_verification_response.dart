@@ -15,9 +15,7 @@ class GeneralFlowVerificationResponse {
     this.authMode,
   });
 
-  GeneralFlowVerificationResponse.fromMap(
-    Map<String, dynamic> json,
-  ) {
+  GeneralFlowVerificationResponse.fromMap(Map<String, dynamic> json) {
     if (json["formId"] is String) {
       formId = json["formId"];
     }
@@ -27,9 +25,7 @@ class GeneralFlowVerificationResponse {
     if (json["previewData"] is List) {
       previewData = json["previewData"] == null
           ? null
-          : (json["previewData"] as List)
-                .map((e) => PreviewData.fromMap(e))
-                .toList();
+          : (json["previewData"] as List).map((e) => PreviewData.fromMap(e)).toList();
     }
     if (json["requireSecondFactor"] is bool) {
       requireSecondFactor = json["requireSecondFactor"];
@@ -38,9 +34,7 @@ class GeneralFlowVerificationResponse {
     if (json["authMode"] is List) {
       authMode = json["authMode"] == null
           ? null
-          : List<Map<String, dynamic>>.from(
-              json["authMode"],
-            );
+          : List<Map<String, dynamic>>.from(json["authMode"]);
     }
   }
 
@@ -51,9 +45,7 @@ class GeneralFlowVerificationResponse {
       data["formData"] = formData;
     }
     if (previewData != null) {
-      data["previewData"] = previewData
-          ?.map((e) => e.toMap())
-          .toList();
+      data["previewData"] = previewData?.map((e) => e.toMap()).toList();
     }
     data["requireSecondFactor"] = requireSecondFactor;
     data["secondFactor"] = secondFactor;

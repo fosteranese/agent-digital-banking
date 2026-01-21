@@ -36,16 +36,12 @@ class _PinPadState extends State<PinPad> {
 
   @override
   void initState() {
-    if (context
-        .read<BiometricBloc>()
-        .isTransactionEnabled) {
+    if (context.read<BiometricBloc>().isTransactionEnabled) {
       context.read<AuthBloc>().add(const RetrievePin());
     }
 
     if (widget.pinPadType == PinPadType.authenticate &&
-        context
-            .read<BiometricBloc>()
-            .isAutoTransactionEnabled) {
+        context.read<BiometricBloc>().isAutoTransactionEnabled) {
       _biometricAuthentication();
     }
     super.initState();
@@ -72,17 +68,11 @@ class _PinPadState extends State<PinPad> {
                 _keyCharacter(context, 4),
                 const SizedBox(height: 20),
                 _keyCharacter(context, 7),
-                if (widget.pinPadType ==
-                        PinPadType.authenticate &&
-                    context
-                        .read<BiometricBloc>()
-                        .isTransactionEnabled)
+                if (widget.pinPadType == PinPadType.authenticate &&
+                    context.read<BiometricBloc>().isTransactionEnabled)
                   const SizedBox(height: 20),
-                if (widget.pinPadType ==
-                        PinPadType.authenticate &&
-                    context
-                        .read<BiometricBloc>()
-                        .isTransactionEnabled)
+                if (widget.pinPadType == PinPadType.authenticate &&
+                    context.read<BiometricBloc>().isTransactionEnabled)
                   _authenticate,
               ],
             ),
@@ -116,17 +106,11 @@ class _PinPadState extends State<PinPad> {
             ),
           ],
         ),
-        if (widget.pinPadType == PinPadType.setup)
-          const SizedBox(height: 40),
+        if (widget.pinPadType == PinPadType.setup) const SizedBox(height: 40),
+        if (widget.pinPadType == PinPadType.authenticate) const SizedBox(height: 20),
         if (widget.pinPadType == PinPadType.authenticate)
-          const SizedBox(height: 20),
-        if (widget.pinPadType == PinPadType.authenticate)
-          TextButton(
-            onPressed: () {},
-            child: const Text('Forgot PIN ?'),
-          ),
-        if (widget.pinPadType == PinPadType.authenticate)
-          const SizedBox(height: 20),
+          TextButton(onPressed: () {}, child: const Text('Forgot PIN ?')),
+        if (widget.pinPadType == PinPadType.authenticate) const SizedBox(height: 20),
       ],
     );
   }
@@ -134,9 +118,7 @@ class _PinPadState extends State<PinPad> {
   Widget _keyCharacter(BuildContext context, int number) {
     return TextButton(
       style: TextButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       ),
       onPressed: () {
         setState(() {
@@ -154,11 +136,7 @@ class _PinPadState extends State<PinPad> {
       },
       child: Text(
         number.toString(),
-        style: const TextStyle(
-          fontSize: 28,
-          fontWeight: FontWeight.w700,
-          color: Color(0xff97785E),
-        ),
+        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: Color(0xff97785E)),
       ),
     );
   }
@@ -179,17 +157,12 @@ class _PinPadState extends State<PinPad> {
 
         return TextButton(
           style: TextButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
           ),
           onPressed: () {
             _biometricAuthentication();
           },
-          child: Icon(
-            Icons.fingerprint_outlined,
-            color: Theme.of(context).primaryColor,
-          ),
+          child: Icon(Icons.fingerprint_outlined, color: Theme.of(context).primaryColor),
         );
       },
     );
@@ -198,9 +171,7 @@ class _PinPadState extends State<PinPad> {
   Widget get _deleteKey {
     return TextButton(
       style: TextButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       ),
       onPressed: () {
         setState(() {
@@ -213,10 +184,7 @@ class _PinPadState extends State<PinPad> {
           _pin = _pin.substring(0, _currentIndex);
         });
       },
-      child: const Icon(
-        Icons.backspace_outlined,
-        color: Colors.red,
-      ),
+      child: const Icon(Icons.backspace_outlined, color: Colors.red),
     );
   }
 
@@ -257,10 +225,7 @@ class _PinPadState extends State<PinPad> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Theme.of(context).primaryColor,
-          width: 1,
-        ),
+        border: Border.all(color: Theme.of(context).primaryColor, width: 1),
       ),
     );
   }
@@ -280,16 +245,11 @@ class CharacterInput extends StatelessWidget {
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(
-                  color: Color(0xff919195),
-                ),
+                borderSide: const BorderSide(color: Color(0xff919195)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(6),
-                borderSide: const BorderSide(
-                  color: Color(0xff919195),
-                  width: 1.5,
-                ),
+                borderSide: const BorderSide(color: Color(0xff919195), width: 1.5),
               ),
             ),
           );

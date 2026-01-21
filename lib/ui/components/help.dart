@@ -27,7 +27,15 @@ class Help extends StatelessWidget {
 }
 
 class HelpItem extends StatelessWidget {
-  const HelpItem({super.key, this.icon, required this.iconColor, required this.title, this.subtitle, this.onPressed, this.iconSvg});
+  const HelpItem({
+    super.key,
+    this.icon,
+    required this.iconColor,
+    required this.title,
+    this.subtitle,
+    this.onPressed,
+    this.iconSvg,
+  });
 
   final IconData? icon;
   final String? iconSvg;

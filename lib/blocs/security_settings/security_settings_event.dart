@@ -10,10 +10,7 @@ abstract class SecuritySettingsEvent extends Equatable {
 // authenticating pin
 
 class AuthenticatePin extends SecuritySettingsEvent {
-  const AuthenticatePin({
-    required this.id,
-    required this.pin,
-  });
+  const AuthenticatePin({required this.id, required this.pin});
 
   final String id;
   final String pin;

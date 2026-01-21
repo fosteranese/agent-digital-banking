@@ -10,25 +10,25 @@ class HistoryResponse extends Equatable {
   final List<RequestResponse>? request;
   final String? fblLogo;
 
-  const HistoryResponse({
-    this.activity,
-    this.request,
-    this.fblLogo,
-  });
+  const HistoryResponse({this.activity, this.request, this.fblLogo});
 
   factory HistoryResponse.fromMap(Map<String, dynamic> data) {
     return HistoryResponse(
-      activity: (data['activity'] as List<dynamic>?)?.map((e) => Activity.fromMap(e as Map<String, dynamic>)).toList(),
-      request: (data['request'] as List<dynamic>?)?.map((e) => RequestResponse.fromMap(e as Map<String, dynamic>)).toList(),
+      activity: (data['activity'] as List<dynamic>?)
+          ?.map((e) => Activity.fromMap(e as Map<String, dynamic>))
+          .toList(),
+      request: (data['request'] as List<dynamic>?)
+          ?.map((e) => RequestResponse.fromMap(e as Map<String, dynamic>))
+          .toList(),
       fblLogo: data['fblLogo'] as String?,
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'activity': activity?.map((e) => e.toMap()).toList(),
-        'request': request?.map((e) => e.toMap()).toList(),
-        'fblLogo': fblLogo,
-      };
+    'activity': activity?.map((e) => e.toMap()).toList(),
+    'request': request?.map((e) => e.toMap()).toList(),
+    'fblLogo': fblLogo,
+  };
 
   /// `dart:convert`
   ///
@@ -58,9 +58,5 @@ class HistoryResponse extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        activity,
-        request,
-        fblLogo,
-      ];
+  List<Object?> get props => [activity, request, fblLogo];
 }

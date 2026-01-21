@@ -47,7 +47,22 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static FirebaseOptions android = FirebaseOptions(apiKey: Env.androidApiKey, appId: Env.androidAppId, messagingSenderId: Env.androidMessagingSenderId, projectId: Env.androidProjectId, databaseURL: Env.androidDatabaseUrl, storageBucket: Env.androidStorageBucket);
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: Env.androidApiKey,
+    appId: Env.androidAppId,
+    messagingSenderId: Env.androidMessagingSenderId,
+    projectId: Env.androidProjectId,
+    databaseURL: Env.androidDatabaseUrl,
+    storageBucket: Env.androidStorageBucket,
+  );
 
-  static FirebaseOptions ios = FirebaseOptions(apiKey: Env.iosApiKey, appId: Env.iosAppId, messagingSenderId: Env.iosMessagingSenderId, projectId: Env.iosProjectId, databaseURL: Env.iosDatabaseUrl, storageBucket: Env.iosStorageBucket, iosBundleId: Env.iosBundleId);
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: Env.iosApiKey,
+    appId: Env.iosAppId,
+    messagingSenderId: Env.iosMessagingSenderId,
+    projectId: Env.iosProjectId,
+    databaseURL: Env.iosDatabaseUrl,
+    storageBucket: Env.iosStorageBucket,
+    iosBundleId: Env.iosBundleId,
+  );
 }

@@ -12,8 +12,7 @@ class AccountRepo {
   final _db = Database();
   final _fbl = MainRemote();
 
-  Future<Response<List<Account>>?>
-  getStoredAccounts() async {
+  Future<Response<List<Account>>?> getStoredAccounts() async {
     final result = await _db.read('all-accounts');
 
     if (result == null || result['list'] == null) {
@@ -21,9 +20,7 @@ class AccountRepo {
     }
 
     final list = result['list'] != null
-        ? (result['list'] as List<dynamic>)
-              .map((e) => Account.fromMap(e))
-              .toList()
+        ? (result['list'] as List<dynamic>).map((e) => Account.fromMap(e)).toList()
         : <Account>[];
     return Response(
       code: result['code'].toString(),
@@ -37,20 +34,14 @@ class AccountRepo {
   }
 
   Future<Response<List<Account>>> retrieveAccounts() async {
-    final response = await _fbl.post(
-      path: 'MyAccount/allAccount',
-      body: {},
-      isAuthenticated: true,
-    );
+    final response = await _fbl.post(path: 'MyAccount/allAccount', body: {}, isAuthenticated: true);
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
 
     final list = response.data['list'] != null
-        ? (response.data['list'] as List<dynamic>)
-              .map((e) => Account.fromMap(e))
-              .toList()
+        ? (response.data['list'] as List<dynamic>).map((e) => Account.fromMap(e)).toList()
         : <Account>[];
     if (list.isNotEmpty) {
       _db.add(
@@ -78,15 +69,9 @@ class AccountRepo {
     );
   }
 
-  Future<Response<MiniStatement>?> getStoredMiniStatement(
-    Source source,
-  ) async {
-    final sourceValue = base64.encode(
-      utf8.encode(source.value ?? ''),
-    );
-    final result = await _db.read(
-      'mini-statement/$sourceValue',
-    );
+  Future<Response<MiniStatement>?> getStoredMiniStatement(Source source) async {
+    final sourceValue = base64.encode(utf8.encode(source.value ?? ''));
+    final result = await _db.read('mini-statement/$sourceValue');
 
     if (result == null || result['data'] == null) {
       return null;
@@ -131,12 +116,8 @@ class AccountRepo {
     }
 
     final data = MiniStatement.fromMap(response.data);
-    if (startDate == null &&
-        endDate == null &&
-        (data.transactions?.isNotEmpty ?? false)) {
-      final sourceValue = base64.encode(
-        utf8.encode(source.value ?? ''),
-      );
+    if (startDate == null && endDate == null && (data.transactions?.isNotEmpty ?? false)) {
+      final sourceValue = base64.encode(utf8.encode(source.value ?? ''));
       _db.add(
         key: 'mini-statement/$sourceValue',
         payload: {

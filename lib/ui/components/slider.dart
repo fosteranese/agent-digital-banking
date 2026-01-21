@@ -4,12 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class MySlider extends StatefulWidget {
-  const MySlider({
-    super.key,
-    required this.children,
-    required this.height,
-    required this.width,
-  });
+  const MySlider({super.key, required this.children, required this.height, required this.width});
 
   final List<Widget> children;
   final double height;
@@ -20,9 +15,7 @@ class MySlider extends StatefulWidget {
 }
 
 class MySliderState extends State<MySlider> {
-  final ScrollController _controller = ScrollController(
-    initialScrollOffset: 0,
-  );
+  final ScrollController _controller = ScrollController(initialScrollOffset: 0);
   double _scrollExtent = 0;
 
   Timer? _timer;
@@ -68,13 +61,12 @@ class MySliderState extends State<MySlider> {
           _pause = false;
         },
         child: SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            dragStartBehavior: DragStartBehavior.start,
-            controller: _controller,
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: widget.children,
-            )),
+          physics: const ClampingScrollPhysics(),
+          dragStartBehavior: DragStartBehavior.start,
+          controller: _controller,
+          scrollDirection: Axis.horizontal,
+          child: Row(children: widget.children),
+        ),
       ),
     );
   }

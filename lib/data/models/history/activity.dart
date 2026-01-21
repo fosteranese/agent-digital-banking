@@ -10,16 +10,16 @@ class Activity extends Equatable {
   const Activity({this.activityId, this.activityName, this.caption});
 
   factory Activity.fromMap(Map<String, dynamic> data) => Activity(
-        activityId: data['activityId'] as String?,
-        activityName: data['activityName'] as String?,
-        caption: data['caption'] as String?,
-      );
+    activityId: data['activityId'] as String?,
+    activityName: data['activityName'] as String?,
+    caption: data['caption'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'activityId': activityId,
-        'activityName': activityName,
-        'caption': caption,
-      };
+    'activityId': activityId,
+    'activityName': activityName,
+    'caption': caption,
+  };
 
   /// `dart:convert`
   ///
@@ -33,11 +33,7 @@ class Activity extends Equatable {
   /// Converts [Activity] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  Activity copyWith({
-    String? activityId,
-    String? activityName,
-    String? caption,
-  }) {
+  Activity copyWith({String? activityId, String? activityName, String? caption}) {
     return Activity(
       activityId: activityId ?? this.activityId,
       activityName: activityName ?? this.activityName,

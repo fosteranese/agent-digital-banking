@@ -8,11 +8,7 @@ import '../../utils/service.util.dart';
 import '../pages/dashboard/dashboard.page.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard({
-    super.key,
-    required this.recentActivity,
-    required this.user,
-  });
+  const TransactionCard({super.key, required this.recentActivity, required this.user});
 
   final RecentActivity recentActivity;
   final UserResponse user;
@@ -28,34 +24,23 @@ class TransactionCard extends StatelessWidget {
       child: Container(
         width: (MediaQuery.of(MyApp.navigatorKey.currentContext!).size.width / 2) - 50,
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(31),
-        ),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(31)),
         child: Row(
           children: [
             CachedNetworkImage(
-              imageUrl: recentActivity.iconPath ?? '${user.imageBaseUrl}${user.imageDirectory}/${recentActivity.icon}',
-              imageBuilder: (context, imageProvider) => CircleAvatar(
-                backgroundImage: imageProvider,
-                radius: 32,
-              ),
+              imageUrl:
+                  recentActivity.iconPath ??
+                  '${user.imageBaseUrl}${user.imageDirectory}/${recentActivity.icon}',
+              imageBuilder: (context, imageProvider) =>
+                  CircleAvatar(backgroundImage: imageProvider, radius: 32),
               width: 30,
               placeholder: (context, url) => CircleAvatar(
                 radius: 32,
-                child: Icon(
-                  Icons.circle_outlined,
-                  color: Theme.of(context).primaryColor,
-                  size: 16,
-                ),
+                child: Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 16),
               ),
               errorWidget: (context, url, error) => CircleAvatar(
                 radius: 32,
-                child: Icon(
-                  Icons.circle_outlined,
-                  color: Theme.of(context).primaryColor,
-                  size: 16,
-                ),
+                child: Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 16),
               ),
             ),
             const SizedBox(width: 10),
@@ -67,19 +52,17 @@ class TransactionCard extends StatelessWidget {
                 children: [
                   Text(
                     recentActivity.formName ?? '',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w600),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     recentActivity.activityName ?? '',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(fontSize: 10, fontWeight: FontWeight.w600),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

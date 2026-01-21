@@ -4,8 +4,7 @@ import '../models/push_notification.dart';
 class PushNotificationRepo {
   final _db = Database();
 
-  Future<List<PushNotification>>
-  getStoredPushNotification() async {
+  Future<List<PushNotification>> getStoredPushNotification() async {
     // _db.delete('notifications');
 
     final result = await _db.read('notifications');
@@ -15,18 +14,12 @@ class PushNotificationRepo {
     }
 
     final list = result['notifications'] as List<dynamic>;
-    final notifications = list.map(
-      (e) => PushNotification.fromMap(
-        e as Map<String, dynamic>,
-      ),
-    );
+    final notifications = list.map((e) => PushNotification.fromMap(e as Map<String, dynamic>));
 
     return notifications.toList();
   }
 
-  Future<List<PushNotification>> savePushNotification(
-    PushNotification notification,
-  ) async {
+  Future<List<PushNotification>> savePushNotification(PushNotification notification) async {
     final list = await getStoredPushNotification();
 
     if (list.isEmpty) {
@@ -39,9 +32,7 @@ class PushNotificationRepo {
     return list;
   }
 
-  Future<List<PushNotification>> deletePushNotification(
-    PushNotification notification,
-  ) async {
+  Future<List<PushNotification>> deletePushNotification(PushNotification notification) async {
     final list = await getStoredPushNotification();
 
     if (list.isEmpty) {
@@ -56,9 +47,7 @@ class PushNotificationRepo {
     return records;
   }
 
-  Future<List<PushNotification>> readPushNotification(
-    PushNotification notification,
-  ) async {
+  Future<List<PushNotification>> readPushNotification(PushNotification notification) async {
     final list = await getStoredPushNotification();
 
     if (list.isEmpty) {
@@ -77,9 +66,7 @@ class PushNotificationRepo {
     return records;
   }
 
-  Future<List<PushNotification>> unreadPushNotification(
-    PushNotification notification,
-  ) async {
+  Future<List<PushNotification>> unreadPushNotification(PushNotification notification) async {
     final list = await getStoredPushNotification();
 
     if (list.isEmpty) {
@@ -103,9 +90,6 @@ class PushNotificationRepo {
       return e.toMap();
     }).toList();
 
-    _db.add(
-      key: 'notifications',
-      payload: {'notifications': records},
-    );
+    _db.add(key: 'notifications', payload: {'notifications': records});
   }
 }

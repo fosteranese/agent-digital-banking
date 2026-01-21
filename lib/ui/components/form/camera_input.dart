@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:my_sage_agent/logger.dart';
+import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/wizard.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 
@@ -60,7 +61,9 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
               SizedBox(
                 height: constraint.maxHeight - 180,
                 width: double.maxFinite,
-                child: (_image == null) ? CameraPreview(controller!) : Image.file(File(_image!.path), fit: BoxFit.fill),
+                child: (_image == null)
+                    ? CameraPreview(controller!)
+                    : Image.file(File(_image!.path), fit: BoxFit.fill),
               ),
               Container(
                 height: 180,
@@ -78,7 +81,12 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text('Cancel', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white)),
+                            child: Text(
+                              'Cancel',
+                              style: Theme.of(
+                                context,
+                              ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                            ),
                           ),
                         ),
                         Expanded(
@@ -123,7 +131,11 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
                               _initializedCamera(CameraLensDirection.back);
                             }
                           },
-                          icon: const Icon(Icons.flip_camera_android, size: 30, color: Colors.white),
+                          icon: const Icon(
+                            Icons.flip_camera_android,
+                            size: 30,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
@@ -140,14 +152,24 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
                             });
                             previous();
                           },
-                          child: Text('ReTake', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white)),
+                          child: Text(
+                            'ReTake',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
                             widget.onSuccess(_image!);
                             Navigator.of(context).pop();
                           },
-                          child: Text('Done', style: Theme.of(context).textTheme.labelMedium!.copyWith(color: Colors.white)),
+                          child: Text(
+                            'Done',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelMedium!.copyWith(color: Colors.white),
+                          ),
                         ),
                       ],
                     ),
@@ -164,13 +186,23 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
   void _initializedCamera(CameraLensDirection cameraLensDirection) {
     _cameraLensDirection = cameraLensDirection;
     if (widget.cameras.isEmpty) {
-      MessageUtil.displayErrorDialog(context, message: 'No camera found. Please allow permission to your camera');
+      MessageUtil.displayErrorDialog(
+        context,
+        message: 'No camera found. Please allow permission to your camera',
+      );
       return;
     }
 
-    final camera = widget.cameras.firstWhere((camera) => camera.lensDirection == cameraLensDirection, orElse: () => widget.cameras.first);
+    final camera = widget.cameras.firstWhere(
+      (camera) => camera.lensDirection == cameraLensDirection,
+      orElse: () => widget.cameras.first,
+    );
 
-    controller = CameraController(camera, ResolutionPreset.high, imageFormatGroup: ImageFormatGroup.jpeg);
+    controller = CameraController(
+      camera,
+      ResolutionPreset.high,
+      imageFormatGroup: ImageFormatGroup.jpeg,
+    );
     controller!
         .initialize()
         .then((_) {
@@ -184,7 +216,10 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
             switch (e.code) {
               case 'CameraAccessDenied':
                 logger.d('User denied camera access.');
-                MessageUtil.displayErrorDialog(context, message: 'User denied camera access.');
+                MessageUtil.displayErrorDialog(
+                  MyApp.navigatorKey.currentContext!,
+                  message: 'User denied camera access.',
+                );
                 break;
               default:
                 logger.d('Handle other errors.');
@@ -207,7 +242,12 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
       await oldController.dispose();
     }
 
-    final CameraController cameraController = CameraController(cameraDescription, ResolutionPreset.medium, enableAudio: false, imageFormatGroup: ImageFormatGroup.jpeg);
+    final CameraController cameraController = CameraController(
+      cameraDescription,
+      ResolutionPreset.medium,
+      enableAudio: false,
+      imageFormatGroup: ImageFormatGroup.jpeg,
+    );
 
     controller = cameraController;
 

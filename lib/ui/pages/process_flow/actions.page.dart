@@ -59,7 +59,14 @@ class _ActionsPageState extends State<ActionsPage> {
     var action = '';
 
     if (widget.payment != null) {
-      context.read<RetrieveDataBloc>().add(RetrievePaymentCategories(categoryId: widget.payment?.catId ?? '', skipSavedData: skipSavedData, id: _id, action: widget.payment?.catId));
+      context.read<RetrieveDataBloc>().add(
+        RetrievePaymentCategories(
+          categoryId: widget.payment?.catId ?? '',
+          skipSavedData: skipSavedData,
+          id: _id,
+          action: widget.payment?.catId,
+        ),
+      );
       return;
     }
 
@@ -74,17 +81,30 @@ class _ActionsPageState extends State<ActionsPage> {
         if (widget.action.activity?.activityType == ActivityTypesConst.quickFlowAlt) {
           activityType = ActivityTypesConst.quickFlow;
         }
-        context.read<RetrieveDataBloc>().add(RetrieveCategories(activityId: widget.action.activity?.activityId ?? '', endpoint: widget.action.activity?.endpoint ?? '', id: _id, action: action, skipSavedData: skipSavedData, activityType: activityType));
+        context.read<RetrieveDataBloc>().add(
+          RetrieveCategories(
+            activityId: widget.action.activity?.activityId ?? '',
+            endpoint: widget.action.activity?.endpoint ?? '',
+            id: _id,
+            action: action,
+            skipSavedData: skipSavedData,
+            activityType: activityType,
+          ),
+        );
         break;
     }
   }
 
   bool get _shouldLoad {
-    return (_payment?.data?.isEmpty ?? true) && (_paymentCategory?.data?.institution?.isEmpty ?? true) && (_result?.data?.forms?.isEmpty ?? true);
+    return (_payment?.data?.isEmpty ?? true) &&
+        (_paymentCategory?.data?.institution?.isEmpty ?? true) &&
+        (_result?.data?.forms?.isEmpty ?? true);
   }
 
   bool get _isEmpty {
-    return (_paymentList?.isEmpty ?? true) && (_paymentCategoryList?.isEmpty ?? true) && (_resultList?.isEmpty ?? true);
+    return (_paymentList?.isEmpty ?? true) &&
+        (_paymentCategoryList?.isEmpty ?? true) &&
+        (_resultList?.isEmpty ?? true);
   }
 
   List<GeneralFlowForm>? get _resultList {
@@ -200,12 +220,19 @@ class _ActionsPageState extends State<ActionsPage> {
             : null,
         actions: [
           IconButton(
-            style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
+            style: IconButton.styleFrom(
+              fixedSize: const Size(35, 35),
+              backgroundColor: const Color(0x91F7C15A),
+            ),
             onPressed: () => setState(() {
               _controller.text = '';
               _showSearchBox = !_showSearchBox;
             }),
-            icon: SvgPicture.asset('assets/img/search.svg', width: 20, colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn)),
+            icon: SvgPicture.asset(
+              'assets/img/search.svg',
+              width: 20,
+              colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+            ),
           ),
           const SizedBox(width: 10),
         ],
@@ -234,7 +261,11 @@ class _ActionsPageState extends State<ActionsPage> {
                           Text(
                             _message,
                             textAlign: TextAlign.center,
-                            style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Color(0xff919195)),
+                            style: PrimaryTextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff919195),
+                            ),
                           ),
                           const SizedBox(height: 150),
                         ],
@@ -258,12 +289,20 @@ class _ActionsPageState extends State<ActionsPage> {
                           Text(
                             'Nothing found',
                             textAlign: TextAlign.center,
-                            style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff4F4F4F)),
+                            style: PrimaryTextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff4F4F4F),
+                            ),
                           ),
                           Text(
                             'no "${_controller.text}" was found',
                             textAlign: TextAlign.center,
-                            style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Color(0xff919195)),
+                            style: PrimaryTextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              color: Color(0xff919195),
+                            ),
                           ),
                           const SizedBox(height: 150),
                         ],
@@ -282,21 +321,40 @@ class _ActionsPageState extends State<ActionsPage> {
                     return Item(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        context.push(ProcessFormPage.routeName, extra: {'form': formData, 'amDoing': widget.amDoing, 'activity': widget.action});
+                        context.push(
+                          ProcessFormPage.routeName,
+                          extra: {
+                            'form': formData,
+                            'amDoing': widget.amDoing,
+                            'activity': widget.action,
+                          },
+                        );
                       },
                       title: formData.formName ?? '',
                       fullIcon: CachedNetworkImage(
-                        imageUrl: '${_result?.imageBaseUrl}${_result?.imageDirectory}/${formData.icon}',
-                        imageBuilder: (context, imageProvider) => CircleAvatar(backgroundColor: Colors.white, backgroundImage: imageProvider),
+                        imageUrl:
+                            '${_result?.imageBaseUrl}${_result?.imageDirectory}/${formData.icon}',
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundColor: Colors.white,
+                          backgroundImage: imageProvider,
+                        ),
                         width: 25,
                         height: 25,
                         placeholder: (context, url) => CircleAvatar(
                           backgroundColor: const Color(0xffF4F4F4),
-                          child: Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 25),
+                          child: Icon(
+                            Icons.circle_outlined,
+                            color: Theme.of(context).primaryColor,
+                            size: 25,
+                          ),
                         ),
                         errorWidget: (context, url, error) => CircleAvatar(
                           backgroundColor: const Color(0xffF4F4F4),
-                          child: Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 25),
+                          child: Icon(
+                            Icons.circle_outlined,
+                            color: Theme.of(context).primaryColor,
+                            size: 25,
+                          ),
                         ),
                       ),
                     );
@@ -345,21 +403,40 @@ class _ActionsPageState extends State<ActionsPage> {
                     return Item(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        context.push(ProcessFormPage.routeName, extra: {'form': formData, 'amDoing': widget.amDoing, 'activity': widget.action});
+                        context.push(
+                          ProcessFormPage.routeName,
+                          extra: {
+                            'form': formData,
+                            'amDoing': widget.amDoing,
+                            'activity': widget.action,
+                          },
+                        );
                       },
                       title: formData.insName ?? '',
                       fullIcon: CachedNetworkImage(
-                        imageUrl: '${_paymentCategory?.imageBaseUrl}${_paymentCategory?.imageDirectory}/${formData.icon}',
-                        imageBuilder: (context, imageProvider) => CircleAvatar(backgroundColor: Colors.white, backgroundImage: imageProvider),
+                        imageUrl:
+                            '${_paymentCategory?.imageBaseUrl}${_paymentCategory?.imageDirectory}/${formData.icon}',
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundColor: Colors.white,
+                          backgroundImage: imageProvider,
+                        ),
                         width: 25,
                         height: 25,
                         placeholder: (context, url) => CircleAvatar(
                           backgroundColor: const Color(0xffF4F4F4),
-                          child: Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 25),
+                          child: Icon(
+                            Icons.circle_outlined,
+                            color: Theme.of(context).primaryColor,
+                            size: 25,
+                          ),
                         ),
                         errorWidget: (context, url, error) => CircleAvatar(
                           backgroundColor: const Color(0xffF4F4F4),
-                          child: Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 25),
+                          child: Icon(
+                            Icons.circle_outlined,
+                            color: Theme.of(context).primaryColor,
+                            size: 25,
+                          ),
                         ),
                       ),
                     );

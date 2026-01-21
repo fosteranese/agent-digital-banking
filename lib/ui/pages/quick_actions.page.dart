@@ -11,7 +11,14 @@ import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
-enum AmDoing { transaction, addPayee, payeeTransaction, createBulkPaymentGroup, createSchedule, createScheduleFromPayee }
+enum AmDoing {
+  transaction,
+  addPayee,
+  payeeTransaction,
+  createBulkPaymentGroup,
+  createSchedule,
+  createScheduleFromPayee,
+}
 
 class QuickActionsPage extends StatefulWidget {
   const QuickActionsPage({super.key, this.amDoing = AmDoing.transaction});
@@ -96,12 +103,19 @@ class _QuickActionsPageState extends State<QuickActionsPage> {
               : null,
           actions: [
             IconButton(
-              style: IconButton.styleFrom(fixedSize: const Size(35, 35), backgroundColor: const Color(0x91F7C15A)),
+              style: IconButton.styleFrom(
+                fixedSize: const Size(35, 35),
+                backgroundColor: const Color(0x91F7C15A),
+              ),
               onPressed: () => setState(() {
                 _controller.text = '';
                 _showSearchBox = !_showSearchBox;
               }),
-              icon: SvgPicture.asset('assets/img/search.svg', width: 20, colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn)),
+              icon: SvgPicture.asset(
+                'assets/img/search.svg',
+                width: 20,
+                colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+              ),
             ),
             const SizedBox(width: 10),
           ],
@@ -130,12 +144,20 @@ class _QuickActionsPageState extends State<QuickActionsPage> {
                             Text(
                               'Nothing found',
                               textAlign: TextAlign.center,
-                              style: PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff4F4F4F)),
+                              style: PrimaryTextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xff4F4F4F),
+                              ),
                             ),
                             Text(
                               'no "${_controller.text}" was found',
                               textAlign: TextAlign.center,
-                              style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Color(0xff919195)),
+                              style: PrimaryTextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.normal,
+                                color: Color(0xff919195),
+                              ),
                             ),
                             const SizedBox(height: 150),
                           ],

@@ -26,9 +26,7 @@ class StringUtil {
 
       return piece.substring(0, 2).toUpperCase();
     } else if (pieces.length > 1) {
-      return (pieces[0].substring(0, 1) +
-              pieces[pieces.length - 1].substring(0, 1))
-          .toUpperCase();
+      return (pieces[0].substring(0, 1) + pieces[pieces.length - 1].substring(0, 1)).toUpperCase();
     }
 
     return '';
@@ -43,11 +41,7 @@ class StringUtil {
     var index = code % Colors.primaries.length;
     index = index == 0 ? index : index - 1;
     final backgroundColor = Colors.primaries[index];
-    final textColor =
-        ThemeData.estimateBrightnessForColor(
-              backgroundColor,
-            ) ==
-            Brightness.dark
+    final textColor = ThemeData.estimateBrightnessForColor(backgroundColor) == Brightness.dark
         ? Colors.white
         : Colors.black;
 
@@ -79,17 +73,14 @@ extension StringExtension on String {
           if (word.isEmpty) {
             return '';
           }
-          return word[0].toUpperCase() +
-              word.substring(1).toLowerCase();
+          return word[0].toUpperCase() + word.substring(1).toLowerCase();
         })
         .join(' ');
   }
 
   bool isPasswordComplex() {
     // Define the regular expression pattern
-    final pattern = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$',
-    );
+    final pattern = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$');
 
     // Test the password against the regular expression
     return pattern.hasMatch(this);

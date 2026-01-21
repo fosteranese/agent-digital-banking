@@ -2,11 +2,11 @@ import 'package:flutter/services.dart';
 import 'dart:math' as math;
 
 class DecimalTextInputFormatter extends TextInputFormatter {
-  DecimalTextInputFormatter({
-    this.decimalRange,
-    this.activatedNegativeValues = true,
-  }) : assert(decimalRange == null || decimalRange >= 0,
-            'DecimalTextInputFormatter declaration error');
+  DecimalTextInputFormatter({this.decimalRange, this.activatedNegativeValues = true})
+    : assert(
+        decimalRange == null || decimalRange >= 0,
+        'DecimalTextInputFormatter declaration error',
+      );
 
   final int? decimalRange;
   final bool activatedNegativeValues;
@@ -27,14 +27,11 @@ class DecimalTextInputFormatter extends TextInputFormatter {
       return newValue;
     } else if (newValue.text != '.' &&
         double.tryParse(newValue.text) == null &&
-        !(newValue.text.length == 1 &&
-            (activatedNegativeValues == true) &&
-            newValue.text == '-')) {
+        !(newValue.text.length == 1 && (activatedNegativeValues == true) && newValue.text == '-')) {
       return oldValue;
     }
 
-    if (activatedNegativeValues == false &&
-        (double.tryParse(newValue.text) ?? -1) < 0) {
+    if (activatedNegativeValues == false && (double.tryParse(newValue.text) ?? -1) < 0) {
       return oldValue;
     }
 
@@ -46,8 +43,7 @@ class DecimalTextInputFormatter extends TextInputFormatter {
         newSelection = oldValue.selection;
       }
 
-      if (value.contains(".") &&
-          value.substring(value.indexOf(".") + 1).length > decimalRange!) {
+      if (value.contains(".") && value.substring(value.indexOf(".") + 1).length > decimalRange!) {
         truncated = oldValue.text;
         newSelection = oldValue.selection;
       } else if (value == ".") {
@@ -59,11 +55,7 @@ class DecimalTextInputFormatter extends TextInputFormatter {
         );
       }
 
-      return TextEditingValue(
-        text: truncated,
-        selection: newSelection,
-        composing: TextRange.empty,
-      );
+      return TextEditingValue(text: truncated, selection: newSelection, composing: TextRange.empty);
     }
     return newValue;
   }

@@ -13,12 +13,7 @@ class MinimalRepo {
         'requestType': '',
         'minifiedSessionId': '',
         'userInput': '',
-        'auth': {
-          'secretAnswer': '',
-          'securityanswer': '',
-          'otp': '',
-          'pin': '',
-        }
+        'auth': {'secretAnswer': '', 'securityanswer': '', 'otp': '', 'pin': ''},
       },
       isAuthenticated: true,
     );
@@ -49,12 +44,7 @@ class MinimalRepo {
         'requestType': session.requestType,
         'minifiedSessionId': session.minifiedSessionId,
         'userInput': reply,
-        'auth': {
-          'secretAnswer': '',
-          'securityanswer': '',
-          'otp': '',
-          'pin': '',
-        }
+        'auth': {'secretAnswer': '', 'securityanswer': '', 'otp': '', 'pin': ''},
       },
       isAuthenticated: true,
     );

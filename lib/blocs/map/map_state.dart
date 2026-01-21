@@ -24,46 +24,30 @@ class SilentGoogleMapAutoCompleting extends MapState {
 }
 
 class GoogleMapAutoCompleted extends MapState {
-  const GoogleMapAutoCompleted({
-    required this.routeName,
-    required this.result,
-  });
+  const GoogleMapAutoCompleted({required this.routeName, required this.result});
   final String routeName;
   final Response<GoogleMapAutoCompleteResponse> result;
 
   @override
-  List<Object> get props => [
-        routeName,
-        result,
-      ];
+  List<Object> get props => [routeName, result];
 }
 
 class GoogleMapAutoCompletedSilently extends MapState {
-  const GoogleMapAutoCompletedSilently({
-    required this.result,
-  });
+  const GoogleMapAutoCompletedSilently({required this.result});
   final Response<GoogleMapAutoCompleteResponse> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class GoogleMapAutoCompleteError extends MapState {
-  const GoogleMapAutoCompleteError({
-    required this.routeName,
-    required this.result,
-  });
+  const GoogleMapAutoCompleteError({required this.routeName, required this.result});
 
   final String routeName;
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        routeName,
-        result,
-      ];
+  List<Object> get props => [routeName, result];
 }
 
 class SilentGoogleMapAutoCompleteError extends MapState {
@@ -72,9 +56,7 @@ class SilentGoogleMapAutoCompleteError extends MapState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class GettingAddressFromLatLng extends MapState {
@@ -83,40 +65,26 @@ class GettingAddressFromLatLng extends MapState {
   final String id;
 
   @override
-  List<Object> get props => [
-        id,
-      ];
+  List<Object> get props => [id];
 }
 
 class AddressFromLatLngGotten extends MapState {
-  const AddressFromLatLngGotten({
-    required this.id,
-    required this.result,
-  });
+  const AddressFromLatLngGotten({required this.id, required this.result});
   final String id;
   final Response<PlaceResponse> result;
 
   @override
-  List<Object> get props => [
-        id,
-        result,
-      ];
+  List<Object> get props => [id, result];
 }
 
 class GetAddressFromLatLngError extends MapState {
-  const GetAddressFromLatLngError({
-    required this.id,
-    required this.result,
-  });
+  const GetAddressFromLatLngError({required this.id, required this.result});
 
   final String id;
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        id,
-        result,
-      ];
+  List<Object> get props => [id, result];
 }
 
 class GettingPlace extends MapState {
@@ -125,38 +93,24 @@ class GettingPlace extends MapState {
   final String id;
 
   @override
-  List<Object> get props => [
-        id,
-      ];
+  List<Object> get props => [id];
 }
 
 class PlaceGotten extends MapState {
-  const PlaceGotten({
-    required this.id,
-    required this.result,
-  });
+  const PlaceGotten({required this.id, required this.result});
   final String id;
   final Response<PlaceResponse> result;
 
   @override
-  List<Object> get props => [
-        id,
-        result,
-      ];
+  List<Object> get props => [id, result];
 }
 
 class GetPlaceError extends MapState {
-  const GetPlaceError({
-    required this.id,
-    required this.result,
-  });
+  const GetPlaceError({required this.id, required this.result});
 
   final String id;
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        id,
-        result,
-      ];
+  List<Object> get props => [id, result];
 }

@@ -31,11 +31,7 @@ class AppErrorPageState extends State<AppErrorPage> {
           child: BlocBuilder<AppBloc, AppState>(
             builder: (context, state) {
               if (state is CheckingDeviceStatus) {
-                return SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: CircularProgressIndicator(),
-                );
+                return SizedBox(height: 100, width: 100, child: CircularProgressIndicator());
               }
 
               return Column(
@@ -54,16 +50,16 @@ class AppErrorPageState extends State<AppErrorPage> {
                   ),
                   if (widget.response.code == StatusCodeConstants.networkUnavailable)
                     Container(
-                      padding: EdgeInsets.only(
-                        top: 20,
-                      ),
+                      padding: EdgeInsets.only(top: 20),
                       child: FormButton(
                         text: 'Retry',
                         onPressed: () {
-                          MyApp.navigatorKey.currentContext!.read<AppBloc>().add(DeviceStatusCheckEvent());
+                          MyApp.navigatorKey.currentContext!.read<AppBloc>().add(
+                            DeviceStatusCheckEvent(),
+                          );
                         },
                       ),
-                    )
+                    ),
                 ],
               );
             },

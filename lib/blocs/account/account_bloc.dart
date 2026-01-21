@@ -32,37 +32,24 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
   Map<String, Response<MiniStatement>> miniStatement = {};
 
-  Future<void> _onRetrieveAccounts(
-    RetrieveAccounts event,
-    Emitter<AccountState> emit,
-  ) async {
+  Future<void> _onRetrieveAccounts(RetrieveAccounts event, Emitter<AccountState> emit) async {
     Response<List<Account>>? stored;
     try {
       emit(RetrievingAccounts(event.routeName));
 
       stored = await _repo.getStoredAccounts();
 
-      if (stored != null &&
-          (stored.data?.isNotEmpty ?? false)) {
+      if (stored != null && (stored.data?.isNotEmpty ?? false)) {
         accounts = stored;
-        emit(
-          AccountsRetrieved(
-            result: accounts,
-            routeName: event.routeName,
-          ),
-        );
+        emit(AccountsRetrieved(result: accounts, routeName: event.routeName));
 
         if (event.showSilentLoading) {
-          await Future.delayed(
-            const Duration(milliseconds: 200),
-          );
+          await Future.delayed(const Duration(milliseconds: 200));
           emit(const SilentRetrievingAccounts());
         }
       } else if (accounts.data != null) {
         if (event.showSilentLoading) {
-          await Future.delayed(
-            const Duration(milliseconds: 200),
-          );
+          await Future.delayed(const Duration(milliseconds: 200));
           emit(const SilentRetrievingAccounts());
         }
       }
@@ -70,35 +57,19 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       final result = await _repo.retrieveAccounts();
       accounts = result;
 
-      if (stored == null ||
-          (stored.data?.isEmpty ?? false)) {
-        emit(
-          AccountsRetrieved(
-            result: accounts,
-            routeName: event.routeName,
-          ),
-        );
+      if (stored == null || (stored.data?.isEmpty ?? false)) {
+        emit(AccountsRetrieved(result: accounts, routeName: event.routeName));
       } else {
         emit(AccountsRetrievedSilently(accounts));
       }
     } catch (ex) {
-      if (stored == null ||
-          (stored.data?.isEmpty ?? false)) {
+      if (stored == null || (stored.data?.isEmpty ?? false)) {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            RetrieveAccountsError(
-              result: error,
-              routeName: event.routeName,
-            ),
-          ),
+          (error) => emit(RetrieveAccountsError(result: error, routeName: event.routeName)),
         );
       } else {
-        ResponseUtil.handleException(
-          ex,
-          (error) =>
-              emit(SilentRetrieveAccountsError(error)),
-        );
+        ResponseUtil.handleException(ex, (error) => emit(SilentRetrieveAccountsError(error)));
       }
     }
   }
@@ -114,10 +85,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
       emit(AccountsRetrievedSilently(result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(SilentRetrieveAccountsError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(SilentRetrieveAccountsError(error)));
     }
   }
 
@@ -131,21 +99,11 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       final result = await _repo.retrieveAccounts();
       accounts = result;
 
-      emit(
-        AccountsRetrieved(
-          result: accounts,
-          routeName: event.routeName,
-        ),
-      );
+      emit(AccountsRetrieved(result: accounts, routeName: event.routeName));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          RetrieveAccountsError(
-            result: error,
-            routeName: event.routeName,
-          ),
-        ),
+        (error) => emit(RetrieveAccountsError(result: error, routeName: event.routeName)),
       );
     }
   }
@@ -161,25 +119,16 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       if (mini?.data?.transactions?.isNotEmpty ?? false) {
         stored = mini;
         emit(
-          MiniStatementRetrieved(
-            result: stored!,
-            routeName: event.routeName,
-            source: event.source,
-          ),
+          MiniStatementRetrieved(result: stored!, routeName: event.routeName, source: event.source),
         );
 
-        await Future.delayed(
-          const Duration(milliseconds: 200),
-        );
+        await Future.delayed(const Duration(milliseconds: 200));
         emit(const SilentRetrievingMiniStatement());
       } else {
         emit(RetrievingMiniStatement(event.routeName));
 
-        stored = await _repo.getStoredMiniStatement(
-          event.source,
-        );
-        if (stored?.data?.transactions?.isNotEmpty ??
-            false) {
+        stored = await _repo.getStoredMiniStatement(event.source);
+        if (stored?.data?.transactions?.isNotEmpty ?? false) {
           miniStatement[event.sourceValue] = stored!;
           emit(
             MiniStatementRetrieved(
@@ -189,23 +138,14 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
             ),
           );
 
-          await Future.delayed(
-            const Duration(milliseconds: 200),
-          );
+          await Future.delayed(const Duration(milliseconds: 200));
           emit(const SilentRetrievingMiniStatement());
-        } else if (mini?.data?.transactions?.isNotEmpty ??
-            false) {
+        } else if (mini?.data?.transactions?.isNotEmpty ?? false) {
           emit(
-            MiniStatementRetrieved(
-              result: mini!,
-              routeName: event.routeName,
-              source: event.source,
-            ),
+            MiniStatementRetrieved(result: mini!, routeName: event.routeName, source: event.source),
           );
 
-          await Future.delayed(
-            const Duration(milliseconds: 200),
-          );
+          await Future.delayed(const Duration(milliseconds: 200));
           emit(const SilentRetrievingMiniStatement());
         }
       }
@@ -221,29 +161,15 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
       if (stored?.data?.transactions?.isEmpty ?? true) {
         emit(
-          MiniStatementRetrieved(
-            result: result,
-            routeName: event.routeName,
-            source: event.source,
-          ),
+          MiniStatementRetrieved(result: result, routeName: event.routeName, source: event.source),
         );
       } else {
-        emit(
-          MiniStatementRetrievedSilently(
-            result: result,
-            source: event.source,
-          ),
-        );
+        emit(MiniStatementRetrievedSilently(result: result, source: event.source));
       }
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          RetrieveMiniStatementError(
-            result: error,
-            routeName: event.routeName,
-          ),
-        ),
+        (error) => emit(RetrieveMiniStatementError(result: error, routeName: event.routeName)),
       );
     }
   }
@@ -260,18 +186,9 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         endDate: event.endDate,
       );
 
-      emit(
-        MiniStatementRetrievedSilently(
-          result: result,
-          source: event.source,
-        ),
-      );
+      emit(MiniStatementRetrievedSilently(result: result, source: event.source));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) =>
-            emit(SilentRetrieveMiniStatementError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(SilentRetrieveMiniStatementError(error)));
     }
   }
 }

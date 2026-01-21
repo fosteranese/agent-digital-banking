@@ -9,7 +9,37 @@ import '../popover.dart';
 import 'input.dart';
 
 class FormPhonePicker extends StatelessWidget {
-  const FormPhonePicker({super.key, this.label = '', this.bottomSpace = 20, this.prefix, this.controller, this.placeholder, this.validation, this.showIconOnSuccessfulValidation = false, this.showIconOnFailedValidation = false, this.keyboardType, this.onSuccess, this.info, this.onSelectedOption, this.useLongList = false, this.useTextAsSelectedDisplayItem = false, this.onTap, this.showMenu = false, this.color = Colors.transparent, this.contentPadding, this.placeholderStyle, this.textAlign, this.textStyle, this.decoration, this.maxLength, this.prefixIconPadding, this.inputHeight, this.readOnly = false, this.tooltip, this.onSelected});
+  const FormPhonePicker({
+    super.key,
+    this.label = '',
+    this.bottomSpace = 20,
+    this.prefix,
+    this.controller,
+    this.placeholder,
+    this.validation,
+    this.showIconOnSuccessfulValidation = false,
+    this.showIconOnFailedValidation = false,
+    this.keyboardType,
+    this.onSuccess,
+    this.info,
+    this.onSelectedOption,
+    this.useLongList = false,
+    this.useTextAsSelectedDisplayItem = false,
+    this.onTap,
+    this.showMenu = false,
+    this.color = Colors.transparent,
+    this.contentPadding,
+    this.placeholderStyle,
+    this.textAlign,
+    this.textStyle,
+    this.decoration,
+    this.maxLength,
+    this.prefixIconPadding,
+    this.inputHeight,
+    this.readOnly = false,
+    this.tooltip,
+    this.onSelected,
+  });
 
   final String label;
   final double bottomSpace;
@@ -47,7 +77,17 @@ class FormPhonePicker extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Expanded(
-          child: FormInput(readOnly: readOnly, label: label, controller: controller, tooltip: tooltip, keyboardType: TextInputType.phone, placeholder: placeholder ?? AppUtil.gh.exampleNumberMobileNational, contentPadding: const EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 0), onChange: (value) {}, suffix: _suffix(context)),
+          child: FormInput(
+            readOnly: readOnly,
+            label: label,
+            controller: controller,
+            tooltip: tooltip,
+            keyboardType: TextInputType.phone,
+            placeholder: placeholder ?? AppUtil.gh.exampleNumberMobileNational,
+            contentPadding: const EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 0),
+            onChange: (value) {},
+            suffix: _suffix(context),
+          ),
         ),
       ],
     );
@@ -92,7 +132,10 @@ class FormPhonePicker extends StatelessWidget {
                           },
                           contentPadding: EdgeInsets.zero,
                           leading: Icon(Icons.phone_outlined),
-                          title: Text(phoneNumber, style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+                          title: Text(
+                            phoneNumber,
+                            style: PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
                           trailing: Icon(Icons.navigate_next_outlined),
                         );
                       }),

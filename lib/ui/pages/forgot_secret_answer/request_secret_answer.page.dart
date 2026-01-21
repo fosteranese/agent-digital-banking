@@ -76,7 +76,11 @@ class _RequestSecretAnswerPageState extends State<RequestSecretAnswerPage> {
                         Text(
                           state.message,
                           textAlign: TextAlign.center,
-                          style: PrimaryTextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: const Color(0xff4F4F4F)),
+                          style: PrimaryTextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 16,
+                            color: const Color(0xff4F4F4F),
+                          ),
                         ),
                         const SizedBox(height: 30),
                         FormButton(
@@ -110,7 +114,10 @@ class _RequestSecretAnswerPageState extends State<RequestSecretAnswerPage> {
                   return;
                 }
                 if (_phoneNumber.isEmpty) {
-                  MessageUtil.displayErrorDialog(context, message: "Phone number entered is invalid");
+                  MessageUtil.displayErrorDialog(
+                    context,
+                    message: "Phone number entered is invalid",
+                  );
                   return;
                 }
 

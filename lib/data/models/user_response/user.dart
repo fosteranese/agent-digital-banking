@@ -26,28 +26,28 @@ class User extends Equatable {
   });
 
   factory User.fromMap(Map<String, dynamic> data) => User(
-        picture: data['picture'] as String?,
-        name: data['name'] as String?,
-        shortName: data['shortName'] as String?,
-        verified: data['verified'] as String?,
-        lastLogin: data['lastLogin'] as String?,
-        walletNumber: data['walletNumber'] as int?,
-        qrCode: data['qrCode'] as String?,
-        previewData: (data['previewData'] as List<dynamic>?)
-            ?.map((e) => PreviewDatum.fromMap(e as Map<String, dynamic>))
-            .toList(),
-      );
+    picture: data['picture'] as String?,
+    name: data['name'] as String?,
+    shortName: data['shortName'] as String?,
+    verified: data['verified'] as String?,
+    lastLogin: data['lastLogin'] as String?,
+    walletNumber: data['walletNumber'] as int?,
+    qrCode: data['qrCode'] as String?,
+    previewData: (data['previewData'] as List<dynamic>?)
+        ?.map((e) => PreviewDatum.fromMap(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   Map<String, dynamic> toMap() => {
-        'picture': picture,
-        'name': name,
-        'shortName': shortName,
-        'verified': verified,
-        'lastLogin': lastLogin,
-        'walletNumber': walletNumber,
-        'qrCode': qrCode,
-        'previewData': previewData?.map((e) => e.toMap()).toList(),
-      };
+    'picture': picture,
+    'name': name,
+    'shortName': shortName,
+    'verified': verified,
+    'lastLogin': lastLogin,
+    'walletNumber': walletNumber,
+    'qrCode': qrCode,
+    'previewData': previewData?.map((e) => e.toMap()).toList(),
+  };
 
   /// `dart:convert`
   ///
@@ -88,14 +88,6 @@ class User extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      picture,
-      name,
-      verified,
-      lastLogin,
-      walletNumber,
-      qrCode,
-      previewData,
-    ];
+    return [picture, name, verified, lastLogin, walletNumber, qrCode, previewData];
   }
 }

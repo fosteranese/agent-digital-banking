@@ -27,25 +27,16 @@ class Response<T> extends Equatable {
     String? imageBaseUrl,
     String? imageDirectory,
     T? data,
-  }) =>
-      Response(
-        code: code ?? this.code,
-        status: status ?? this.status,
-        message: message ?? this.message,
-        timeStamp: timeStamp ?? this.timeStamp,
-        imageBaseUrl: imageBaseUrl ?? this.imageBaseUrl,
-        imageDirectory: imageDirectory ?? this.imageDirectory,
-        data: data ?? this.data,
-      );
+  }) => Response(
+    code: code ?? this.code,
+    status: status ?? this.status,
+    message: message ?? this.message,
+    timeStamp: timeStamp ?? this.timeStamp,
+    imageBaseUrl: imageBaseUrl ?? this.imageBaseUrl,
+    imageDirectory: imageDirectory ?? this.imageDirectory,
+    data: data ?? this.data,
+  );
 
   @override
-  List<Object?> get props => [
-        code,
-        status,
-        message,
-        timeStamp,
-        imageBaseUrl,
-        imageDirectory,
-        data,
-      ];
+  List<Object?> get props => [code, status, message, timeStamp, imageBaseUrl, imageDirectory, data];
 }

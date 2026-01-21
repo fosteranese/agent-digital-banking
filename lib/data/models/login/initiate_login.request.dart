@@ -6,10 +6,7 @@ class InitiateLoginRequest extends Equatable {
   final String? phoneNumber;
   final String? password;
 
-  const InitiateLoginRequest({
-    this.phoneNumber,
-    this.password,
-  });
+  const InitiateLoginRequest({this.phoneNumber, this.password});
 
   factory InitiateLoginRequest.fromMap(Map<String, dynamic> data) {
     return InitiateLoginRequest(
@@ -18,17 +15,13 @@ class InitiateLoginRequest extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'phoneNumber': phoneNumber,
-        'password': password,
-      };
+  Map<String, dynamic> toMap() => {'phoneNumber': phoneNumber, 'password': password};
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [InitiateLoginRequest].
   factory InitiateLoginRequest.fromJson(String data) {
-    return InitiateLoginRequest.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return InitiateLoginRequest.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -36,10 +29,7 @@ class InitiateLoginRequest extends Equatable {
   /// Converts [InitiateLoginRequest] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  InitiateLoginRequest copyWith({
-    String? phoneNumber,
-    String? password,
-  }) {
+  InitiateLoginRequest copyWith({String? phoneNumber, String? password}) {
     return InitiateLoginRequest(
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
@@ -50,8 +40,5 @@ class InitiateLoginRequest extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        phoneNumber,
-        password,
-      ];
+  List<Object?> get props => [phoneNumber, password];
 }

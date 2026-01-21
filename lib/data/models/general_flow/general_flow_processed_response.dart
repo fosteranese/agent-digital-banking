@@ -62,29 +62,28 @@ class GeneralFlowProcessedResponse extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'receiptId': receiptId,
-        'reference': reference,
-        'amount': amount,
-        'status': status,
-        'statusLabel': statusLabel,
-        'formName': formName,
-        'activityName': activityName,
-        'dateCreated': dateCreated,
-        'receiptDate': receiptDate,
-        'showReceipt': showReceipt,
-        'saveBenficiary': saveBenficiary,
-        'allowSchedule': allowSchedule,
-        'previewData': previewData?.map((e) => e.toMap()).toList(),
-        'scheduleForm': scheduleForm,
-        'benficiaryEndpoint': benficiaryEndpoint,
-      };
+    'receiptId': receiptId,
+    'reference': reference,
+    'amount': amount,
+    'status': status,
+    'statusLabel': statusLabel,
+    'formName': formName,
+    'activityName': activityName,
+    'dateCreated': dateCreated,
+    'receiptDate': receiptDate,
+    'showReceipt': showReceipt,
+    'saveBenficiary': saveBenficiary,
+    'allowSchedule': allowSchedule,
+    'previewData': previewData?.map((e) => e.toMap()).toList(),
+    'scheduleForm': scheduleForm,
+    'benficiaryEndpoint': benficiaryEndpoint,
+  };
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [GeneralFlowProcessedResponse].
   factory GeneralFlowProcessedResponse.fromJson(String data) {
-    return GeneralFlowProcessedResponse.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return GeneralFlowProcessedResponse.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`

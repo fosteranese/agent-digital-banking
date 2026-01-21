@@ -26,28 +26,28 @@ class Account extends Equatable {
   });
 
   factory Account.fromMap(Map<String, dynamic> data) => Account(
-        mode: data['mode'] as String?,
-        title: data['title'] as String?,
-        icon: data['icon'] as String?,
-        formId: data['formId'] as String?,
-        activityId: data['activityId'] as String?,
-        hasMiniStatement: data['hasMiniStatement'] as bool?,
-        activityType: data['activityType'] as String?,
-        sources: (data['sources'] as List<dynamic>?)
-            ?.map((e) => Source.fromMap(e as Map<String, dynamic>))
-            .toList(),
-      );
+    mode: data['mode'] as String?,
+    title: data['title'] as String?,
+    icon: data['icon'] as String?,
+    formId: data['formId'] as String?,
+    activityId: data['activityId'] as String?,
+    hasMiniStatement: data['hasMiniStatement'] as bool?,
+    activityType: data['activityType'] as String?,
+    sources: (data['sources'] as List<dynamic>?)
+        ?.map((e) => Source.fromMap(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   Map<String, dynamic> toMap() => {
-        'mode': mode,
-        'title': title,
-        'icon': icon,
-        'formId': formId,
-        'activityId': activityId,
-        'hasMiniStatement': hasMiniStatement,
-        'activityType': activityType,
-        'sources': sources?.map((e) => e.toMap()).toList(),
-      };
+    'mode': mode,
+    'title': title,
+    'icon': icon,
+    'formId': formId,
+    'activityId': activityId,
+    'hasMiniStatement': hasMiniStatement,
+    'activityType': activityType,
+    'sources': sources?.map((e) => e.toMap()).toList(),
+  };
 
   /// `dart:convert`
   ///
@@ -88,15 +88,6 @@ class Account extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      mode,
-      title,
-      icon,
-      formId,
-      activityId,
-      hasMiniStatement,
-      activityType,
-      sources,
-    ];
+    return [mode, title, icon, formId, activityId, hasMiniStatement, activityType, sources];
   }
 }

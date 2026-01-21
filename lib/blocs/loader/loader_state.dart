@@ -17,9 +17,7 @@ class LoadingLoader extends LoaderState {
   const LoadingLoader(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class SuccessfulLoader extends LoaderState {
@@ -28,9 +26,7 @@ class SuccessfulLoader extends LoaderState {
   const SuccessfulLoader(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class SuccessfulWithOptionsLoader extends LoaderState {
@@ -38,18 +34,10 @@ class SuccessfulWithOptionsLoader extends LoaderState {
   final String? message;
   final void Function() onClose;
 
-  const SuccessfulWithOptionsLoader({
-    required this.title,
-    this.message,
-    required this.onClose,
-  });
+  const SuccessfulWithOptionsLoader({required this.title, this.message, required this.onClose});
 
   @override
-  List<Object?> get props => [
-        title,
-        message,
-        onClose,
-      ];
+  List<Object?> get props => [title, message, onClose];
 }
 
 class SuccessfulGeneralFlowOptionsLoader extends LoaderState {
@@ -71,13 +59,13 @@ class SuccessfulGeneralFlowOptionsLoader extends LoaderState {
 
   @override
   List<Object?> get props => [
-        title,
-        result,
-        onClose,
-        onSaveBeneficiary,
-        onScheduleTransaction,
-        onShowReceipt,
-      ];
+    title,
+    result,
+    onClose,
+    onSaveBeneficiary,
+    onScheduleTransaction,
+    onShowReceipt,
+  ];
 }
 
 class SuccessfulPayeeAddedOptionsLoader extends LoaderState {
@@ -94,12 +82,7 @@ class SuccessfulPayeeAddedOptionsLoader extends LoaderState {
   });
 
   @override
-  List<Object?> get props => [
-        title,
-        result,
-        onClose,
-        onShowDetails,
-      ];
+  List<Object?> get props => [title, result, onClose, onShowDetails];
 }
 
 class SuccessfulBulkPaymentLoader extends LoaderState {
@@ -116,12 +99,7 @@ class SuccessfulBulkPaymentLoader extends LoaderState {
   });
 
   @override
-  List<Object?> get props => [
-        title,
-        result,
-        onClose,
-        onGotoHistory,
-      ];
+  List<Object?> get props => [title, result, onClose, onGotoHistory];
 }
 
 class FailedLoader extends LoaderState {
@@ -130,9 +108,7 @@ class FailedLoader extends LoaderState {
   const FailedLoader(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }
 
 class FailedWithOptionsLoader extends LoaderState {
@@ -140,18 +116,10 @@ class FailedWithOptionsLoader extends LoaderState {
   final String? message;
   final void Function() onClose;
 
-  const FailedWithOptionsLoader({
-    required this.title,
-    this.message,
-    required this.onClose,
-  });
+  const FailedWithOptionsLoader({required this.title, this.message, required this.onClose});
 
   @override
-  List<Object?> get props => [
-        title,
-        message,
-        onClose,
-      ];
+  List<Object?> get props => [title, message, onClose];
 }
 
 class InfoLoader extends LoaderState {
@@ -160,7 +128,5 @@ class InfoLoader extends LoaderState {
   const InfoLoader(this.message);
 
   @override
-  List<Object> get props => [
-        message,
-      ];
+  List<Object> get props => [message];
 }

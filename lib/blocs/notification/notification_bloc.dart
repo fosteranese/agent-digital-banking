@@ -9,10 +9,8 @@ import '../../utils/response.util.dart';
 part 'notification_event.dart';
 part 'notification_state.dart';
 
-class PushNotificationBloc
-    extends Bloc<NotificationEvent, PushNotificationState> {
-  PushNotificationBloc()
-    : super(PushNotificationInitial()) {
+class PushNotificationBloc extends Bloc<NotificationEvent, PushNotificationState> {
+  PushNotificationBloc() : super(PushNotificationInitial()) {
     on(_onLoadNotification);
     on(_onReceiveNotification);
     on(_onDeletePushNotification);
@@ -31,15 +29,11 @@ class PushNotificationBloc
         emit(const LoadingPushNotification());
       }
 
-      final result = await _repo
-          .getStoredPushNotification();
+      final result = await _repo.getStoredPushNotification();
 
       emit(PushNotificationLoaded(result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(LoadPushNotificationError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(LoadPushNotificationError(error)));
     }
   }
 
@@ -48,15 +42,10 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     try {
-      final result = await _repo.savePushNotification(
-        event.notification,
-      );
+      final result = await _repo.savePushNotification(event.notification);
       emit(PushNotificationLoaded(result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(LoadPushNotificationError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(LoadPushNotificationError(error)));
     }
   }
 
@@ -65,15 +54,10 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     try {
-      final result = await _repo.deletePushNotification(
-        event.notification,
-      );
+      final result = await _repo.deletePushNotification(event.notification);
       emit(PushNotificationLoaded(result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(LoadPushNotificationError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(LoadPushNotificationError(error)));
     }
   }
 
@@ -82,15 +66,10 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     try {
-      final result = await _repo.readPushNotification(
-        event.notification,
-      );
+      final result = await _repo.readPushNotification(event.notification);
       emit(PushNotificationLoaded(result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(LoadPushNotificationError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(LoadPushNotificationError(error)));
     }
   }
 
@@ -99,15 +78,10 @@ class PushNotificationBloc
     Emitter<PushNotificationState> emit,
   ) async {
     try {
-      final result = await _repo.unreadPushNotification(
-        event.notification,
-      );
+      final result = await _repo.unreadPushNotification(event.notification);
       emit(PushNotificationLoaded(result));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(LoadPushNotificationError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(LoadPushNotificationError(error)));
     }
   }
 }

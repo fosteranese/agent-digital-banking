@@ -17,10 +17,7 @@ class MinimalBloc extends Bloc<MinimalEvent, MinimalState> {
 
   final _repo = MinimalRepo();
 
-  Future<void> _onStartNewSession(
-    StartNewSession event,
-    Emitter<MinimalState> emit,
-  ) async {
+  Future<void> _onStartNewSession(StartNewSession event, Emitter<MinimalState> emit) async {
     try {
       emit(const StartingNewSession());
 
@@ -28,34 +25,21 @@ class MinimalBloc extends Bloc<MinimalEvent, MinimalState> {
 
       emit(NewSessionStarted(result));
     } catch (error) {
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(StartSessionError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(StartSessionError(error)));
     }
   }
 
-  Future<void> _onSendReplySession(
-    SendReplySession event,
-    Emitter<MinimalState> emit,
-  ) async {
+  Future<void> _onSendReplySession(SendReplySession event, Emitter<MinimalState> emit) async {
     try {
-      emit(
-        ReplyingSession(id: event.id, reply: event.reply),
-      );
+      emit(ReplyingSession(id: event.id, reply: event.reply));
 
-      final result = await _repo.replySession(
-        reply: event.reply,
-        session: event.session,
-      );
+      final result = await _repo.replySession(reply: event.reply, session: event.session);
 
       emit(SessionReplied(id: event.id, result: result));
     } catch (error) {
       ResponseUtil.handleException(
         error,
-        (error) => emit(
-          ReplySessionError(id: event.id, result: error),
-        ),
+        (error) => emit(ReplySessionError(id: event.id, result: error)),
       );
     }
   }

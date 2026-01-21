@@ -6,10 +6,7 @@ import '../../logger.dart';
 import '../responses/general.responses.dart';
 
 class GoogleMapRemote {
-  Future<dynamic> get({
-    required String path,
-    required Map<String, dynamic> params,
-  }) async {
+  Future<dynamic> get({required String path, required Map<String, dynamic> params}) async {
     params['key'] = Env.googleMapApiKey;
 
     try {
@@ -18,10 +15,7 @@ class GoogleMapRemote {
 
       final fullPath = '${Env.googleMapPlaceBasePathUrl}/$path/json';
       var url = Uri.https(Env.googleMapBaseUrl, fullPath, params);
-      var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-      );
+      var response = await http.get(url, headers: {"Content-Type": "application/json"});
 
       logger.i(response.body);
       final result = json.decode(response.body);

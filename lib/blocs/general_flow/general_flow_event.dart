@@ -9,8 +9,7 @@ abstract class GeneralFlowEvent extends Equatable {
 
 // retrieve payments
 
-class RetrieveGeneralFlowCategories
-    extends GeneralFlowEvent {
+class RetrieveGeneralFlowCategories extends GeneralFlowEvent {
   const RetrieveGeneralFlowCategories({
     required this.activityId,
     required this.endpoint,
@@ -24,16 +23,10 @@ class RetrieveGeneralFlowCategories
   final String activityType;
 
   @override
-  List<Object> get props => [
-    activityId,
-    endpoint,
-    routeName,
-    activityType,
-  ];
+  List<Object> get props => [activityId, endpoint, routeName, activityType];
 }
 
-class SilentRetrieveGeneralFlowCategories
-    extends GeneralFlowEvent {
+class SilentRetrieveGeneralFlowCategories extends GeneralFlowEvent {
   const SilentRetrieveGeneralFlowCategories({
     required this.endpoint,
     this.activityType = ActivityTypesConst.fblOnline,
@@ -45,11 +38,7 @@ class SilentRetrieveGeneralFlowCategories
   final String? routeName;
 
   @override
-  List<Object?> get props => [
-    endpoint,
-    activityType,
-    routeName,
-  ];
+  List<Object?> get props => [endpoint, activityType, routeName];
 }
 
 // retrieve payment categories
@@ -69,17 +58,10 @@ class RetrieveGeneralFlowFormData extends GeneralFlowEvent {
   final String? payeeId;
 
   @override
-  List<Object?> get props => [
-    routeName,
-    formId,
-    activityType,
-    qrCode,
-    payeeId,
-  ];
+  List<Object?> get props => [routeName, formId, activityType, qrCode, payeeId];
 }
 
-class SilentRetrieveGeneralFlowFormData
-    extends GeneralFlowEvent {
+class SilentRetrieveGeneralFlowFormData extends GeneralFlowEvent {
   const SilentRetrieveGeneralFlowFormData({
     required this.formId,
     this.activityType = ActivityTypesConst.fblOnline,
@@ -92,12 +74,7 @@ class SilentRetrieveGeneralFlowFormData
   final String? payeeId;
 
   @override
-  List<Object?> get props => [
-    formId,
-    qrCode,
-    activityType,
-    payeeId,
-  ];
+  List<Object?> get props => [formId, qrCode, activityType, payeeId];
 }
 
 // verify request
@@ -115,12 +92,7 @@ class VerifyRequest extends GeneralFlowEvent {
   final String activityType;
 
   @override
-  List<Object> get props => [
-    routeName,
-    formData,
-    payload,
-    activityType,
-  ];
+  List<Object> get props => [routeName, formData, payload, activityType];
 }
 
 // process request
@@ -139,12 +111,7 @@ class ProcessRequest extends GeneralFlowEvent {
   final String activityType;
 
   @override
-  List<Object> get props => [
-    routeName,
-    request,
-    payload,
-    activityType,
-  ];
+  List<Object> get props => [routeName, request, payload, activityType];
 }
 
 // save Beneficiaries
@@ -161,11 +128,7 @@ class SaveBeneficiary extends GeneralFlowEvent {
   final String activityType;
 
   @override
-  List<Object> get props => [
-    routeName,
-    payload,
-    activityType,
-  ];
+  List<Object> get props => [routeName, payload, activityType];
 }
 
 // enquire general flow
@@ -195,11 +158,7 @@ class SilentGeneralFlowEnquiry extends GeneralFlowEvent {
   final String activityType;
 
   @override
-  List<Object> get props => [
-    routeName,
-    endpoint,
-    activityType,
-  ];
+  List<Object> get props => [routeName, endpoint, activityType];
 }
 
 class GeneralFlowSubEnquiry extends GeneralFlowEvent {
@@ -217,13 +176,7 @@ class GeneralFlowSubEnquiry extends GeneralFlowEvent {
   final String activityType;
 
   @override
-  List<Object> get props => [
-    routeName,
-    formId,
-    hashValue,
-    endpoint,
-    activityType,
-  ];
+  List<Object> get props => [routeName, formId, hashValue, endpoint, activityType];
 }
 
 class SilentGeneralFlowSubEnquiry extends GeneralFlowEvent {
@@ -241,32 +194,18 @@ class SilentGeneralFlowSubEnquiry extends GeneralFlowEvent {
   final String activityType;
 
   @override
-  List<Object> get props => [
-    routeName,
-    formId,
-    hashValue,
-    endpoint,
-    activityType,
-  ];
+  List<Object> get props => [routeName, formId, hashValue, endpoint, activityType];
 }
 
 // prepare scheduler
 
 class PrepareScheduler extends GeneralFlowEvent {
-  const PrepareScheduler({
-    required this.routeName,
-    this.receiptId,
-    this.payeeId,
-  });
+  const PrepareScheduler({required this.routeName, this.receiptId, this.payeeId});
 
   final String routeName;
   final String? receiptId;
   final String? payeeId;
 
   @override
-  List<Object?> get props => [
-    routeName,
-    receiptId,
-    payeeId,
-  ];
+  List<Object?> get props => [routeName, receiptId, payeeId];
 }

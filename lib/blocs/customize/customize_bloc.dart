@@ -11,8 +11,7 @@ import '../../utils/response.util.dart';
 part 'customize_event.dart';
 part 'customize_state.dart';
 
-class CustomizeBloc
-    extends Bloc<CustomizeEvent, CustomizeState> {
+class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
   CustomizeBloc() : super(CustomizeInitial()) {
     on(_onToggleShowOnDashboard);
   }
@@ -34,53 +33,29 @@ class CustomizeBloc
 
       final status = result ? 1 : 0;
       AppUtil.currentUser = AppUtil.currentUser.copyWith(
-        activities: AppUtil.currentUser.activities!.map((
-          e,
-        ) {
+        activities: AppUtil.currentUser.activities!.map((e) {
           if (e.activity!.activityId != event.activityId) {
             return e;
           }
-          return e.copyWith(
-            activity: e.activity!.copyWith(
-              showOnDashboard: status,
-            ),
-          );
+          return e.copyWith(activity: e.activity!.copyWith(showOnDashboard: status));
         }).toList(),
       );
 
-      if (AppUtil
-              .currentUser
-              .scanToPay!
-              .activity!
-              .activityId ==
-          event.activityId) {
+      if (AppUtil.currentUser.scanToPay!.activity!.activityId == event.activityId) {
         AppUtil.currentUser = AppUtil.currentUser.copyWith(
-          scanToPay: AppUtil.currentUser.scanToPay!
-              .copyWith(
-                activity: AppUtil
-                    .currentUser
-                    .scanToPay!
-                    .activity!
-                    .copyWith(showOnDashboard: status),
-              ),
+          scanToPay: AppUtil.currentUser.scanToPay!.copyWith(
+            activity: AppUtil.currentUser.scanToPay!.activity!.copyWith(showOnDashboard: status),
+          ),
         );
         // AppUtil.currentUser.scanToPay!.activity!.copyWith(
         //   showOnDashboard: status,
         // );
       }
 
-      emit(
-        ShowOnDashboardToggled(
-          status: result,
-          activityId: event.activityId,
-        ),
-      );
+      emit(ShowOnDashboardToggled(status: result, activityId: event.activityId));
     } catch (error) {
       logger.e(error);
-      ResponseUtil.handleException(
-        error,
-        (error) => emit(ToggleShowOnDashboardError(error)),
-      );
+      ResponseUtil.handleException(error, (error) => emit(ToggleShowOnDashboardError(error)));
     }
   }
 }

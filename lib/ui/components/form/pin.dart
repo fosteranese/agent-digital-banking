@@ -48,9 +48,7 @@ class _PinState extends State<Pin> {
 }
 
 class CharacterInput extends StatelessWidget {
-  const CharacterInput({
-    super.key,
-  });
+  const CharacterInput({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +61,11 @@ class CharacterInput extends StatelessWidget {
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4),
-                borderSide: const BorderSide(
-                  color: Color(0xff919195),
-                ),
+                borderSide: const BorderSide(color: Color(0xff919195)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(6),
-                borderSide: const BorderSide(
-                  color: Color(0xff919195),
-                  width: 1.5,
-                ),
+                borderSide: const BorderSide(color: Color(0xff919195), width: 1.5),
               ),
             ),
           );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:my_sage_agent/data/models/agent_data/agent_data.dart';
 
 import '../account/account.dart';
 import '../general_flow/general_flow_form.dart';
@@ -9,10 +10,7 @@ import 'recent_activity.dart';
 import 'scan_to_pay.dart';
 import 'user.dart';
 
-enum UserType {
-  customer,
-  nonCustomer,
-}
+enum UserType { customer, nonCustomer }
 
 class UserResponse extends Equatable {
   final UserType? userType;
@@ -27,6 +25,7 @@ class UserResponse extends Equatable {
   final String? imageBaseUrl;
   final String? imageDirectory;
   final String? profilePicture;
+  final AgentData? agentData;
 
   const UserResponse({
     this.userType,
@@ -41,38 +40,57 @@ class UserResponse extends Equatable {
     this.imageBaseUrl,
     this.imageDirectory,
     this.profilePicture,
+    this.agentData,
   });
 
   factory UserResponse.fromMap(Map<String, dynamic> data) => UserResponse(
-        userType: (data['userType'] as String?) == 'CUSTOMER' ? UserType.customer : UserType.nonCustomer,
-        sessionId: data['sessionId'] as String?,
-        user: data['user'] == null ? null : User.fromMap(data['user'] as Map<String, dynamic>),
-        recentActivity: (data['recentActivity'] as List<dynamic>?)?.map((e) => RecentActivity.fromMap(e as Map<String, dynamic>)).toList(),
-        customerData: (data['customerData'] as List<dynamic>?)?.map((e) => Account.fromMap(e as Map<String, dynamic>)).toList(),
-        // customerData: (data['customerData'] as List<dynamic>?)?.map((e) => CustomerDatum.fromJson(e as String)).toList(),
-        nonCustomerData: (data['nonCustomerData'] as List<dynamic>?)?.map((e) => GeneralFlowForm.fromMap(e as Map<String, dynamic>)).toList(),
-        quickAction: data['quickAction'] as dynamic,
-        scanToPay: data['scanToPay'] == null ? null : ScanToPay.fromMap(data['scanToPay'] as Map<String, dynamic>),
-        activities: (data['activities'] as List<dynamic>?)?.map((e) => ActivityDatum.fromMap(e as Map<String, dynamic>)).toList(),
-        imageBaseUrl: data['imageBaseUrl'] as String?,
-        imageDirectory: data['imageDirectory'] as String?,
-        profilePicture: data['profilePicture'] as String?,
-      );
+    userType: (data['userType'] as String?) == 'CUSTOMER'
+        ? UserType.customer
+        : UserType.nonCustomer,
+    sessionId: data['sessionId'] as String?,
+    user: data['user'] == null ? null : User.fromMap(data['user'] as Map<String, dynamic>),
+    recentActivity: (data['recentActivity'] as List<dynamic>?)
+        ?.map((e) => RecentActivity.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    customerData: (data['customerData'] as List<dynamic>?)
+        ?.map((e) => Account.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    // customerData: (data['customerData'] as List<dynamic>?)?.map((e) => CustomerDatum.fromJson(e as String)).toList(),
+    nonCustomerData: (data['nonCustomerData'] as List<dynamic>?)
+        ?.map((e) => GeneralFlowForm.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    quickAction: data['quickAction'] as dynamic,
+    scanToPay: data['scanToPay'] == null
+        ? null
+        : ScanToPay.fromMap(data['scanToPay'] as Map<String, dynamic>),
+    activities: (data['activities'] as List<dynamic>?)
+        ?.map((e) => ActivityDatum.fromMap(e as Map<String, dynamic>))
+        .toList(),
+    imageBaseUrl: data['imageBaseUrl'] as String?,
+    imageDirectory: data['imageDirectory'] as String?,
+    profilePicture: data['profilePicture'] as String?,
+    agentData: data['agentData'] == null
+        ? null
+        : (data['agentData'] is String
+              ? AgentData.fromJson(data['agentData'])
+              : AgentData.fromMap(data['agentData'] as Map<String, dynamic>)),
+  );
 
   Map<String, dynamic> toMap() => {
-        'userType': userType == UserType.customer ? 'CUSTOMER' : 'NONCUSTOMER',
-        'sessionId': sessionId,
-        'user': user?.toMap(),
-        'recentActivity': recentActivity?.map((e) => e.toMap()).toList(),
-        'customerData': customerData?.map((e) => e.toMap()).toList(),
-        'nonCustomerData': nonCustomerData?.map((e) => e.toMap()).toList(),
-        'quickAction': quickAction,
-        'scanToPay': scanToPay?.toMap(),
-        'activities': activities?.map((e) => e.toMap()).toList(),
-        'imageBaseUrl': imageBaseUrl,
-        'imageDirectory': imageDirectory,
-        'profilePicture': profilePicture,
-      };
+    'userType': userType == UserType.customer ? 'CUSTOMER' : 'NONCUSTOMER',
+    'sessionId': sessionId,
+    'user': user?.toMap(),
+    'recentActivity': recentActivity?.map((e) => e.toMap()).toList(),
+    'customerData': customerData?.map((e) => e.toMap()).toList(),
+    'nonCustomerData': nonCustomerData?.map((e) => e.toMap()).toList(),
+    'quickAction': quickAction,
+    'scanToPay': scanToPay?.toMap(),
+    'activities': activities?.map((e) => e.toMap()).toList(),
+    'imageBaseUrl': imageBaseUrl,
+    'imageDirectory': imageDirectory,
+    'profilePicture': profilePicture,
+    'agentData': agentData,
+  };
 
   /// `dart:convert`
   ///
@@ -99,6 +117,7 @@ class UserResponse extends Equatable {
     String? imageBaseUrl,
     String? imageDirectory,
     String? profilePicture,
+    AgentData? agentData,
   }) {
     return UserResponse(
       userType: userType ?? this.userType,
@@ -113,6 +132,7 @@ class UserResponse extends Equatable {
       imageBaseUrl: imageBaseUrl ?? this.imageBaseUrl,
       imageDirectory: imageDirectory ?? this.imageDirectory,
       profilePicture: profilePicture ?? this.profilePicture,
+      agentData: agentData ?? this.agentData,
     );
   }
 
@@ -134,6 +154,7 @@ class UserResponse extends Equatable {
       imageBaseUrl,
       imageDirectory,
       profilePicture,
+      agentData,
     ];
   }
 }

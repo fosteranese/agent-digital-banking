@@ -11,6 +11,7 @@ import 'package:my_sage_agent/data/models/user_response/activity.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/data/models/user_response/recent_activity.dart';
 import 'package:my_sage_agent/logger.dart';
+import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
@@ -102,7 +103,10 @@ class ServiceUtil {
       _loader.stop();
 
       Future.delayed(const Duration(seconds: 0), () {
-        MessageUtil.displayErrorDialog(context, message: state.result.message);
+        MessageUtil.displayErrorDialog(
+          MyApp.navigatorKey.currentContext!,
+          message: state.result.message,
+        );
       });
       return;
     }
@@ -210,7 +214,10 @@ class ServiceUtil {
       _loader.stop();
 
       Future.delayed(const Duration(seconds: 0), () {
-        MessageUtil.displayErrorDialog(context, message: state.result.message);
+        MessageUtil.displayErrorDialog(
+          MyApp.navigatorKey.currentContext!,
+          message: state.result.message,
+        );
       });
       return;
     }

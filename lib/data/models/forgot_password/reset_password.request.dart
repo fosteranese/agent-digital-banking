@@ -6,10 +6,7 @@ class ResetPasswordRequest extends Equatable {
   final String? requestId;
   final String? password;
 
-  const ResetPasswordRequest({
-    this.requestId,
-    this.password,
-  });
+  const ResetPasswordRequest({this.requestId, this.password});
 
   factory ResetPasswordRequest.fromMap(Map<String, dynamic> data) {
     return ResetPasswordRequest(
@@ -18,17 +15,13 @@ class ResetPasswordRequest extends Equatable {
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'requestId': requestId,
-        'password': password,
-      };
+  Map<String, dynamic> toMap() => {'requestId': requestId, 'password': password};
 
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [ResetPasswordRequest].
   factory ResetPasswordRequest.fromJson(String data) {
-    return ResetPasswordRequest.fromMap(
-        json.decode(data) as Map<String, dynamic>);
+    return ResetPasswordRequest.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -36,10 +29,7 @@ class ResetPasswordRequest extends Equatable {
   /// Converts [ResetPasswordRequest] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  ResetPasswordRequest copyWith({
-    String? requestId,
-    String? password,
-  }) {
+  ResetPasswordRequest copyWith({String? requestId, String? password}) {
     return ResetPasswordRequest(
       requestId: requestId ?? this.requestId,
       password: password ?? this.password,
@@ -51,9 +41,6 @@ class ResetPasswordRequest extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      requestId,
-      password,
-    ];
+    return [requestId, password];
   }
 }

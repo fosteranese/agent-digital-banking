@@ -5,6 +5,7 @@ import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/router/auth.router.dart';
+import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
 import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
 import 'package:my_sage_agent/ui/pages/forget_password/reset_password.page.dart';
@@ -156,14 +157,15 @@ final router = GoRouter(
     GoRoute(
       path: PicturePreviewPage.routeName,
       builder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        return PicturePreviewPage(
-          image: extra['image'],
-          onSuccess: extra['onSuccess'],
-          title: extra['title'],
-          height: extra['height'],
-          width: extra['width'],
-        );
+        final page = state.extra as PicturePreviewPage;
+        return page;
+      },
+    ),
+    GoRoute(
+      path: GhanaCardVerification.routeName,
+      builder: (context, state) {
+        final page = state.extra as GhanaCardVerification;
+        return page;
       },
     ),
     GoRoute(

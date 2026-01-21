@@ -50,7 +50,8 @@ class _SetSecretAnswerLoginPageState extends State<SetSecretAnswerLoginPage> {
       },
       child: PlainWithHeaderLayout(
         title: 'Set Your Secret Question & Answer',
-        subtitle: 'Please choose a security question from the list and input your preferred answer. Please keep this information safe. This will be required for account recovery.',
+        subtitle:
+            'Please choose a security question from the list and input your preferred answer. Please keep this information safe. This will be required for account recovery.',
         onBackPressed: () {
           context.go(NewDeviceLoginPage.routeName);
         },
@@ -62,7 +63,13 @@ class _SetSecretAnswerLoginPageState extends State<SetSecretAnswerLoginPage> {
               _selectedQuestion = option;
             },
           ),
-          FormPasswordInput(controller: _secretAnswerController, label: 'Security Answer', placeholder: 'Enter your security answer', labelStyle: Theme.of(context).textTheme.labelMedium, visibilityColor: Colors.black),
+          FormPasswordInput(
+            controller: _secretAnswerController,
+            label: 'Security Answer',
+            placeholder: 'Enter your security answer',
+            labelStyle: Theme.of(context).textTheme.labelMedium,
+            visibilityColor: Colors.black,
+          ),
           const Spacer(),
           FormButton(
             text: 'Continue',
@@ -75,7 +82,13 @@ class _SetSecretAnswerLoginPageState extends State<SetSecretAnswerLoginPage> {
                 return;
               }
 
-              context.read<AuthBloc>().add(SetSecurityAnswerLogin(registrationId: widget.data.registrationId ?? '', answer: _secretAnswerController.text, question: _selectedQuestion!.text ?? ''));
+              context.read<AuthBloc>().add(
+                SetSecurityAnswerLogin(
+                  registrationId: widget.data.registrationId ?? '',
+                  answer: _secretAnswerController.text,
+                  question: _selectedQuestion!.text ?? '',
+                ),
+              );
             },
           ),
         ],

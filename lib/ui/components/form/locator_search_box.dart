@@ -33,26 +33,14 @@ class LocatorSearchBox extends StatelessWidget implements PreferredSizeWidget {
         listener: listener,
         child: Container(
           color: Colors.white,
-          padding: const EdgeInsets.only(
-            top: 20,
-            left: 20,
-            right: 20,
-            bottom: 20,
-          ),
+          padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
           child: Container(
-            padding: const EdgeInsets.only(
-              top: 5,
-              left: 5,
-              right: 5,
-              bottom: 5,
-            ),
+            padding: const EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
             // height: 45,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: const Color(0xffD9DADB),
-              ),
+              border: Border.all(color: const Color(0xffD9DADB)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -66,14 +54,10 @@ class LocatorSearchBox extends StatelessWidget implements PreferredSizeWidget {
                       contentPadding: EdgeInsets.all(0),
                       hintText: 'Search',
                       border: InputBorder.none,
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
                       disabledBorder: InputBorder.none,
                       errorBorder: InputBorder.none,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
                     ),
                     controller: controller,
                     onSelectedOption: (option) async {
@@ -84,21 +68,14 @@ class LocatorSearchBox extends StatelessWidget implements PreferredSizeWidget {
                     },
                     title: 'Search Location',
                     prefixIconPadding: EdgeInsets.zero,
-                    contentPadding: const EdgeInsets.only(
-                      left: 10,
-                      bottom: 0,
-                      top: 0,
-                    ),
+                    contentPadding: const EdgeInsets.only(left: 10, bottom: 0, top: 0),
                     inputHeight: 30,
                     bottomSpace: 0,
                     showSuffix: false,
                     // textStyle: TextStyle(fontSize: 16),
                   ),
                 ),
-                SvgPicture.asset(
-                  'assets/img/search.svg',
-                  width: 25,
-                ),
+                SvgPicture.asset('assets/img/search.svg', width: 25),
                 const SizedBox(width: 3),
               ],
             ),

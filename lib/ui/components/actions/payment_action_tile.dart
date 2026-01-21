@@ -20,7 +20,14 @@ import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class PaymentActionTile extends StatefulWidget {
-  const PaymentActionTile({super.key, required this.id, required this.isExpanded, required this.onExpand, required this.payment, required this.action});
+  const PaymentActionTile({
+    super.key,
+    required this.id,
+    required this.isExpanded,
+    required this.onExpand,
+    required this.payment,
+    required this.action,
+  });
   final String id;
   final bool isExpanded;
   final void Function(bool status) onExpand;
@@ -108,14 +115,19 @@ class _PaymentActionTileState extends State<PaymentActionTile> {
         leading: CachedNetworkImage(
           imageUrl: '${user.imageBaseUrl}${user.imageDirectory}/${widget.payment.icon}',
           width: 24,
-          placeholder: (context, url) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
-          errorWidget: (context, url, error) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+          placeholder: (context, url) =>
+              Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+          errorWidget: (context, url, error) =>
+              Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
         ),
         title: Text(
           widget.payment.catName ?? '',
           style: PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black),
         ),
-        subtitle: Text(widget.payment.description ?? '', style: PrimaryTextStyle(fontSize: 14, color: Color(0xff919195))),
+        subtitle: Text(
+          widget.payment.description ?? '',
+          style: PrimaryTextStyle(fontSize: 14, color: Color(0xff919195)),
+        ),
         trailing: ValueListenableBuilder(
           valueListenable: _stage,
           builder: (context, stage, child) {
@@ -172,7 +184,14 @@ class _PaymentActionTileState extends State<PaymentActionTile> {
       return;
     }
 
-    context.read<RetrieveDataBloc>().add(RetrievePaymentCategories(id: _id, action: _action, skipSavedData: false, categoryId: widget.payment.catId ?? ''));
+    context.read<RetrieveDataBloc>().add(
+      RetrievePaymentCategories(
+        id: _id,
+        action: _action,
+        skipSavedData: false,
+        categoryId: widget.payment.catId ?? '',
+      ),
+    );
   }
 }
 
@@ -198,7 +217,10 @@ class DoneState extends StatelessWidget {
               final text = item;
               logger.i(text);
 
-              context.push(ProcessFormPage.routeName, extra: {'form': item, 'amDoing': AmDoing.transaction, 'activity': action});
+              context.push(
+                ProcessFormPage.routeName,
+                extra: {'form': item, 'amDoing': AmDoing.transaction, 'activity': action},
+              );
             },
             title: item.insName!,
             image: getImage(item.icon!),
@@ -217,24 +239,40 @@ class DoneState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset('assets/img/empty.svg', colorFilter: ColorFilter.mode(Color(0xff919195), BlendMode.srcIn), width: 64),
+          SvgPicture.asset(
+            'assets/img/empty.svg',
+            colorFilter: ColorFilter.mode(Color(0xff919195), BlendMode.srcIn),
+            width: 64,
+          ),
           SizedBox(height: 10),
           Text(
             'Services unavailable',
             textAlign: TextAlign.center,
-            style: PrimaryTextStyle(color: Color(0xff4F4F4F), fontSize: 16, fontWeight: FontWeight.w600),
+            style: PrimaryTextStyle(
+              color: Color(0xff4F4F4F),
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           Text(
             'Sorry! services currently unavailable.',
             textAlign: TextAlign.center,
-            style: PrimaryTextStyle(color: Color(0xff919195), fontSize: 14, fontWeight: FontWeight.normal),
+            style: PrimaryTextStyle(
+              color: Color(0xff919195),
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+            ),
           ),
         ],
       ),
     );
   }
 
-  ListTile listItem({required String title, required String image, required void Function() onPressed}) {
+  ListTile listItem({
+    required String title,
+    required String image,
+    required void Function() onPressed,
+  }) {
     return ListTile(
       onTap: onPressed,
       dense: true,
@@ -242,8 +280,10 @@ class DoneState extends StatelessWidget {
       leading: CachedNetworkImage(
         imageUrl: image,
         width: 24,
-        placeholder: (context, url) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
-        errorWidget: (context, url, error) => Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+        placeholder: (context, url) =>
+            Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
+        errorWidget: (context, url, error) =>
+            Icon(Icons.circle_outlined, color: Theme.of(context).primaryColor, size: 24),
       ),
       title: Text(title, style: PrimaryTextStyle(fontSize: 16)),
       trailing: Icon(Icons.navigate_next, color: Color(0xffD9DADB)),
@@ -257,7 +297,13 @@ class LoadingState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [for (int i = 0; i < 2; i++) Padding(padding: const EdgeInsets.symmetric(horizontal: 20), child: SimpleListShimmerItem())],
+      children: [
+        for (int i = 0; i < 2; i++)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SimpleListShimmerItem(),
+          ),
+      ],
     );
   }
 }

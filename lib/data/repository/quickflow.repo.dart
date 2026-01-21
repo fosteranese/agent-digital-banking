@@ -15,17 +15,14 @@ class QuickFlowRepo {
   final _db = Database();
   final _fbl = MainRemote();
 
-  Future<Response<GeneralFlowCategory>?>
-  getStoredCategories(String endpoint) async {
+  Future<Response<GeneralFlowCategory>?> getStoredCategories(String endpoint) async {
     final result = await _db.read(endpoint);
 
     if (result == null || result['data'] == null) {
       return null;
     }
 
-    final data = GeneralFlowCategory.fromMap(
-      result['data'] as Map<String, dynamic>,
-    );
+    final data = GeneralFlowCategory.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -37,22 +34,14 @@ class QuickFlowRepo {
     );
   }
 
-  Future<Response<GeneralFlowCategory>> retrieveCategories(
-    String endpoint,
-  ) async {
-    final response = await _fbl.post(
-      path: endpoint,
-      body: {},
-      isAuthenticated: true,
-    );
+  Future<Response<GeneralFlowCategory>> retrieveCategories(String endpoint) async {
+    final response = await _fbl.post(path: endpoint, body: {}, isAuthenticated: true);
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
 
-    final data = GeneralFlowCategory.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = GeneralFlowCategory.fromMap(response.data as Map<String, dynamic>);
 
     if (data.forms?.isNotEmpty ?? false) {
       _db.add(
@@ -85,20 +74,14 @@ class QuickFlowRepo {
     String? qrCode,
     String? payeeId,
   }) async {
-    final qrCodeBase64 = (qrCode?.isNotEmpty ?? false)
-        ? base64.encode(utf8.encode(qrCode!))
-        : '';
-    final result = await _db.read(
-      'fbl-online-forms/$id/$qrCodeBase64/$payeeId',
-    );
+    final qrCodeBase64 = (qrCode?.isNotEmpty ?? false) ? base64.encode(utf8.encode(qrCode!)) : '';
+    final result = await _db.read('fbl-online-forms/$id/$qrCodeBase64/$payeeId');
 
     if (result == null || result['data'] == null) {
       return null;
     }
 
-    final data = GeneralFlowFormData.fromMap(
-      result['data'] as Map<String, dynamic>,
-    );
+    final data = GeneralFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -117,27 +100,18 @@ class QuickFlowRepo {
   }) async {
     final response = await _fbl.post(
       path: 'QuickFlow/formDataByFormId',
-      body: {
-        'formId': id,
-        'qrCode': qrCode,
-        'payeeId': payeeId,
-      },
+      body: {'formId': id, 'qrCode': qrCode, 'payeeId': payeeId},
       isAuthenticated: true,
     );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = GeneralFlowFormData.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = GeneralFlowFormData.fromMap(response.data as Map<String, dynamic>);
 
     if (data.fieldsDatum?.isNotEmpty ?? false) {
-      final qrCodeBase64 = (qrCode?.isNotEmpty ?? false)
-          ? base64.encode(utf8.encode(qrCode!))
-          : '';
-      final key =
-          'fbl-online-forms/$id/$qrCodeBase64/$payeeId';
+      final qrCodeBase64 = (qrCode?.isNotEmpty ?? false) ? base64.encode(utf8.encode(qrCode!)) : '';
+      final key = 'fbl-online-forms/$id/$qrCodeBase64/$payeeId';
 
       _db.add(
         key: key,
@@ -170,20 +144,14 @@ class QuickFlowRepo {
   }) async {
     final response = await _fbl.post(
       path: 'QuickFlow/verifyForm',
-      body: {
-        'insId': formData.form?.insId,
-        'formId': formData.form?.formId,
-        'formData': payload,
-      },
+      body: {'insId': formData.form?.insId, 'formId': formData.form?.formId, 'formData': payload},
       isAuthenticated: true,
     );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = FormVerificationResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = FormVerificationResponse.fromMap(response.data as Map<String, dynamic>);
     return Response(
       code: response.code,
       message: response.message,
@@ -214,9 +182,7 @@ class QuickFlowRepo {
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = FormVerificationResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = FormVerificationResponse.fromMap(response.data as Map<String, dynamic>);
     return Response(
       code: response.code,
       message: response.message,
@@ -234,19 +200,14 @@ class QuickFlowRepo {
   }) async {
     final response = await _fbl.post(
       path: 'QuickFlow/verifyForm',
-      body: {
-        'formId': formData.form?.formId,
-        'formData': payload,
-      },
+      body: {'formId': formData.form?.formId, 'formData': payload},
       isAuthenticated: true,
     );
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = FormVerificationResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = FormVerificationResponse.fromMap(response.data as Map<String, dynamic>);
     return Response(
       code: response.code,
       message: response.message,
@@ -280,9 +241,7 @@ class QuickFlowRepo {
       return Future.error(response);
     }
 
-    final data = RequestResponse.fromMap(
-      response.data as Map<String, dynamic>,
-    );
+    final data = RequestResponse.fromMap(response.data as Map<String, dynamic>);
     return Response(
       code: response.code,
       message: response.message,
@@ -294,9 +253,7 @@ class QuickFlowRepo {
     );
   }
 
-  Future<Response> saveBeneficiary(
-    RequestResponse payload,
-  ) async {
+  Future<Response> saveBeneficiary(RequestResponse payload) async {
     final response = await _fbl.post(
       path: payload.benficiaryEndpoint ?? '',
       body: {'receiptId': payload.receiptId},

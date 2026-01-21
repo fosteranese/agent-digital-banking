@@ -9,29 +9,23 @@ class OtpData extends Equatable {
   final String? expiryDate;
   final int? length;
 
-  const OtpData({
-    this.otpId,
-    this.message,
-    this.title,
-    this.expiryDate,
-    this.length,
-  });
+  const OtpData({this.otpId, this.message, this.title, this.expiryDate, this.length});
 
   factory OtpData.fromMap(Map<String, dynamic> data) => OtpData(
-        otpId: data['otpId'] as String?,
-        message: data['message'] as String?,
-        title: data['title'] as String?,
-        expiryDate: data['expiryDate'] as String?,
-        length: data['length'] as int?,
-      );
+    otpId: data['otpId'] as String?,
+    message: data['message'] as String?,
+    title: data['title'] as String?,
+    expiryDate: data['expiryDate'] as String?,
+    length: data['length'] as int?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'otpId': otpId,
-        'message': message,
-        'title': title,
-        'expiryDate': expiryDate,
-        'length': length,
-      };
+    'otpId': otpId,
+    'message': message,
+    'title': title,
+    'expiryDate': expiryDate,
+    'length': length,
+  };
 
   /// `dart:convert`
   ///
@@ -65,11 +59,5 @@ class OtpData extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        otpId,
-        message,
-        title,
-        expiryDate,
-        length,
-      ];
+  List<Object?> get props => [otpId, message, title, expiryDate, length];
 }

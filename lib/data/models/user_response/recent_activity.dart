@@ -34,14 +34,14 @@ class RecentActivity extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'activityId': activityId,
-        'formId': formId,
-        'formName': formName,
-        'activityName': activityName,
-        'activityType': activityType,
-        'icon': icon,
-        'iconPath': iconPath,
-      };
+    'activityId': activityId,
+    'formId': formId,
+    'formName': formName,
+    'activityName': activityName,
+    'activityType': activityType,
+    'icon': icon,
+    'iconPath': iconPath,
+  };
 
   /// `dart:convert`
   ///
@@ -80,14 +80,6 @@ class RecentActivity extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      activityId,
-      formId,
-      formName,
-      activityName,
-      activityType,
-      icon,
-      iconPath,
-    ];
+    return [activityId, formId, formName, activityName, activityType, icon, iconPath];
   }
 }

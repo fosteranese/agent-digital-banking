@@ -17,7 +17,9 @@ class SchedulesData {
       activityId = json["activityId"];
     }
     if (json["schedules"] is List) {
-      schedules = json["schedules"] == null ? null : (json["schedules"] as List).map((e) => Schedules.fromMap(e)).toList();
+      schedules = json["schedules"] == null
+          ? null
+          : (json["schedules"] as List).map((e) => Schedules.fromMap(e)).toList();
     }
   }
 
@@ -98,7 +100,30 @@ class Payee {
   int? amount;
   String? currency;
 
-  Payee({this.payeeId, this.activityId, this.categoryId, this.formId, this.formName, this.activityType, this.activityName, this.userId, this.sessionId, this.title, this.value, this.shortTitle, this.icon, this.formData, this.previewData, this.dateCreated, this.status, this.statusLabel, this.lastModified, this.paymentSource, this.amount, this.currency});
+  Payee({
+    this.payeeId,
+    this.activityId,
+    this.categoryId,
+    this.formId,
+    this.formName,
+    this.activityType,
+    this.activityName,
+    this.userId,
+    this.sessionId,
+    this.title,
+    this.value,
+    this.shortTitle,
+    this.icon,
+    this.formData,
+    this.previewData,
+    this.dateCreated,
+    this.status,
+    this.statusLabel,
+    this.lastModified,
+    this.paymentSource,
+    this.amount,
+    this.currency,
+  });
 
   Payee.fromMap(Map<String, dynamic> json) {
     if (json["payeeId"] is String) {
@@ -212,7 +237,25 @@ class Schedule {
   String? dateCreated;
   dynamic lastModified;
 
-  Schedule({this.scheduleId, this.userId, this.payeeId, this.receiptId, this.formId, this.sessionId, this.scheduleType, this.activityType, this.executionType, this.executionInterval, this.nextExecutionDate, this.startDate, this.endDate, this.status, this.statusLabel, this.dateCreated, this.lastModified});
+  Schedule({
+    this.scheduleId,
+    this.userId,
+    this.payeeId,
+    this.receiptId,
+    this.formId,
+    this.sessionId,
+    this.scheduleType,
+    this.activityType,
+    this.executionType,
+    this.executionInterval,
+    this.nextExecutionDate,
+    this.startDate,
+    this.endDate,
+    this.status,
+    this.statusLabel,
+    this.dateCreated,
+    this.lastModified,
+  });
 
   Schedule.fromMap(Map<String, dynamic> json) {
     if (json["scheduleId"] is String) {

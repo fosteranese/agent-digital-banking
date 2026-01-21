@@ -32,34 +32,34 @@ class Form extends Equatable {
   });
 
   factory Form.fromMap(Map<String, dynamic> data) => Form(
-        formId: data['formId'] as String?,
-        insId: data['insId'] as String?,
-        formName: data['formName'] as String?,
-        caption: data['caption'] as String?,
-        tooltip: data['tooltip'] as String?,
-        requireVerification: data['requireVerification'] as int?,
-        verifyEndpoint: data['verifyEndpoint'] as String?,
-        processEndpoint: data['processEndpoint'] as String?,
-        accountNumber: data['accountNumber'] as String?,
-        currency: data['currency'] as String?,
-        rank: data['rank'] as int?,
-        showOnline: data['showOnline'] as int?,
-      );
+    formId: data['formId'] as String?,
+    insId: data['insId'] as String?,
+    formName: data['formName'] as String?,
+    caption: data['caption'] as String?,
+    tooltip: data['tooltip'] as String?,
+    requireVerification: data['requireVerification'] as int?,
+    verifyEndpoint: data['verifyEndpoint'] as String?,
+    processEndpoint: data['processEndpoint'] as String?,
+    accountNumber: data['accountNumber'] as String?,
+    currency: data['currency'] as String?,
+    rank: data['rank'] as int?,
+    showOnline: data['showOnline'] as int?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'formId': formId,
-        'insId': insId,
-        'formName': formName,
-        'caption': caption,
-        'tooltip': tooltip,
-        'requireVerification': requireVerification,
-        'verifyEndpoint': verifyEndpoint,
-        'processEndpoint': processEndpoint,
-        'accountNumber': accountNumber,
-        'currency': currency,
-        'rank': rank,
-        'showOnline': showOnline,
-      };
+    'formId': formId,
+    'insId': insId,
+    'formName': formName,
+    'caption': caption,
+    'tooltip': tooltip,
+    'requireVerification': requireVerification,
+    'verifyEndpoint': verifyEndpoint,
+    'processEndpoint': processEndpoint,
+    'accountNumber': accountNumber,
+    'currency': currency,
+    'rank': rank,
+    'showOnline': showOnline,
+  };
 
   /// `dart:convert`
   ///

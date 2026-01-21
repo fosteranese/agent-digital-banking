@@ -38,44 +38,42 @@ class Category extends Equatable {
   });
 
   factory Category.fromMap(Map<String, dynamic> data) => Category(
-        catId: data['catId'] as String?,
-        catName: data['catName'] as String?,
-        description: data['description'] as String?,
-        tooltip: data['tooltip'] as String?,
-        icon: data['icon'] as String?,
-        customCss: data['customCss'] as String?,
-        status: data['status'] as int?,
-        statusLabel: data['statusLabel'] as String?,
-        dateCreated: data['dateCreated'] == null
-            ? null
-            : DateTime.parse(data['dateCreated'] as String),
-        createdBy: data['createdBy'] as String?,
-        rank: data['rank'] as int?,
-        dateModified: data['dateModified'] == null
-            ? null
-            : DateTime.parse(data['dateModified'] as String),
-        modifiedBy: data['modifiedBy'] as String?,
-        showInActivity: data['showInActivity'] as int?,
-        activityId: data['activityId'] as String?,
-      );
+    catId: data['catId'] as String?,
+    catName: data['catName'] as String?,
+    description: data['description'] as String?,
+    tooltip: data['tooltip'] as String?,
+    icon: data['icon'] as String?,
+    customCss: data['customCss'] as String?,
+    status: data['status'] as int?,
+    statusLabel: data['statusLabel'] as String?,
+    dateCreated: data['dateCreated'] == null ? null : DateTime.parse(data['dateCreated'] as String),
+    createdBy: data['createdBy'] as String?,
+    rank: data['rank'] as int?,
+    dateModified: data['dateModified'] == null
+        ? null
+        : DateTime.parse(data['dateModified'] as String),
+    modifiedBy: data['modifiedBy'] as String?,
+    showInActivity: data['showInActivity'] as int?,
+    activityId: data['activityId'] as String?,
+  );
 
   Map<String, dynamic> toMap() => {
-        'catId': catId,
-        'catName': catName,
-        'description': description,
-        'tooltip': tooltip,
-        'icon': icon,
-        'customCss': customCss,
-        'status': status,
-        'statusLabel': statusLabel,
-        'dateCreated': dateCreated?.toIso8601String(),
-        'createdBy': createdBy,
-        'rank': rank,
-        'dateModified': dateModified?.toIso8601String(),
-        'modifiedBy': modifiedBy,
-        'showInActivity': showInActivity,
-        'activityId': activityId,
-      };
+    'catId': catId,
+    'catName': catName,
+    'description': description,
+    'tooltip': tooltip,
+    'icon': icon,
+    'customCss': customCss,
+    'status': status,
+    'statusLabel': statusLabel,
+    'dateCreated': dateCreated?.toIso8601String(),
+    'createdBy': createdBy,
+    'rank': rank,
+    'dateModified': dateModified?.toIso8601String(),
+    'modifiedBy': modifiedBy,
+    'showInActivity': showInActivity,
+    'activityId': activityId,
+  };
 
   /// `dart:convert`
   ///

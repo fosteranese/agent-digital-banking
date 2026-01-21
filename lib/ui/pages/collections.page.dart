@@ -4,19 +4,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:my_sage_agent/blocs/history/history_bloc.dart';
-import 'package:my_sage_agent/data/models/history/history.response.dart';
-import 'package:my_sage_agent/data/models/request_response.dart';
-import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/data/models/collection_model.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/ui/components/form/collection_header.dart';
-import 'package:my_sage_agent/ui/components/history/history_list_item.dart';
+import 'package:my_sage_agent/ui/components/history/collection_item.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 class CollectionsPage extends StatefulWidget {
   const CollectionsPage({super.key, this.showBackBtn = false});
@@ -28,34 +27,27 @@ class CollectionsPage extends StatefulWidget {
 }
 
 class _CollectionsPageState extends State<CollectionsPage> {
-  final _controller = TextEditingController();
   final _filterBy = ValueNotifier('');
-  Response<HistoryResponse> _sourceList = const Response(
-    code: '',
-    message: '',
-    status: '',
-    data: HistoryResponse(),
-  );
-  List<RequestResponse> _list = [];
+  List<CollectionModel> _sourceList = [];
+  List<CollectionModel> _list = [];
   final _fToast = FToast();
-  bool _showUpdating = true;
   final scrollController = ScrollController();
 
   @override
   void initState() {
-    _sourceList = context.read<HistoryBloc>().history;
-    _list = _sourceList.data?.request ?? [];
+    _sourceList = context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
+    _list = _sourceList;
     _fToast.init(context);
     super.initState();
   }
 
-  List<RequestResponse> _applyFilter(String filter) {
+  List<CollectionModel> _applyFilter(String filter) {
     filter = filter.trim().toLowerCase();
 
     return _list.where((e) {
       if (filter.isEmpty) return true;
 
-      return e.formName?.toLowerCase() == filter;
+      return e.collectionMode?.toLowerCase() == filter;
     }).toList();
   }
 
@@ -68,8 +60,13 @@ class _CollectionsPageState extends State<CollectionsPage> {
       scrollController: scrollController,
       backgroundColor: Colors.white,
       onRefresh: () async {
-        _showUpdating = false;
-        context.read<HistoryBloc>().add(const SilentLoadHistory());
+        context.read<RetrieveDataBloc>().add(
+          RetrieveCollectionEvent(
+            id: Uuid().v4(),
+            action: 'RetrieveCollectionEvent',
+            skipSavedData: true,
+          ),
+        );
       },
       title: 'Collections',
       backIcon: IconButton(
@@ -88,7 +85,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
       ),
       showBackBtn: true,
       slivers: [
-        BlocBuilder<HistoryBloc, HistoryState>(
+        BlocBuilder<RetrieveDataBloc, RetrieveDataState>(
           builder: (context, state) {
             if (_list.isEmpty) {
               return SliverToBoxAdapter(child: SizedBox.shrink());
@@ -100,25 +97,18 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 maxHeight: 140,
                 minHeight: 84,
                 builder: (context, shrinkOffset, overlapsContent) {
-                  return CollectionHeader(controller: _controller, filterBy: _filterBy);
+                  return CollectionHeader(filterBy: _filterBy);
                 },
               ),
             );
           },
         ),
-        BlocConsumer<HistoryBloc, HistoryState>(
+        BlocConsumer<RetrieveDataBloc, RetrieveDataState>(
           listener: (context, state) => _handleBlocListener(state),
-          buildWhen: (previous, current) =>
-              current is LoadingHistory ||
-              current is HistoryLoaded ||
-              current is HistoryLoadedSilently,
+          buildWhen: (previous, current) => current.event is RetrieveCollectionEvent,
           builder: (context, state) {
-            if (state is LoadingHistory) {
+            if (_list.isEmpty && state is RetrievingData) {
               return const HistoryShimmerList();
-            }
-
-            if (state is! HistoryLoaded && state is! HistoryLoadedSilently) {
-              return const SliverToBoxAdapter();
             }
 
             if (_list.isEmpty) {
@@ -140,7 +130,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     itemCount: collections.length,
                     itemBuilder: (_, index) {
                       final record = collections[index];
-                      return HistoryListItem(record: record, sourceList: _sourceList, onTap: null);
+                      return CollectionItem(record: record, onTap: null);
                     },
                     separatorBuilder: (_, _) =>
                         Divider(thickness: 1, color: ThemeUtil.headerBackground, height: 0),
@@ -154,33 +144,38 @@ class _CollectionsPageState extends State<CollectionsPage> {
     );
   }
 
-  void _handleBlocListener(HistoryState state) {
-    if (state is SilentLoadingHistory && _showUpdating) {
-      _fToast.showToast(child: const Toaster('Updating'), toastDuration: const Duration(hours: 1));
+  void _handleBlocListener(RetrieveDataState state) {
+    if (state.event is! RetrieveCollectionEvent) {
+      return;
     }
 
-    if (state is HistoryLoaded || state is HistoryLoadedSilently) {
-      if (state is HistoryLoaded) {
-        _sourceList = state.result;
-      } else if (state is HistoryLoadedSilently) {
-        _sourceList = state.result;
-      }
-
-      _search('', _sourceList.data?.request ?? [], shouldSetState: false);
-      _fToast.removeCustomToast();
-      MainLayout.stopRefresh(context);
+    if (state is DataRetrieved && state.stillLoading) {
+      _fToast.showToast(child: const Toaster('Loading'), toastDuration: const Duration(hours: 1));
+      return;
     }
 
-    if (state is LoadHistoryError || state is SilentLoadHistoryError) {
+    if (state is DataRetrieved) {
+      _sourceList = state.data ?? [];
+
+      _search('', _sourceList, shouldSetState: false);
       _fToast.removeCustomToast();
       MainLayout.stopRefresh(context);
+      return;
+    }
+
+    if (state is RetrieveDataError) {
+      _fToast.removeCustomToast();
+      MainLayout.stopRefresh(context);
+      return;
     }
   }
 
-  void _search(String value, List<RequestResponse> requests, {bool shouldSetState = true}) {
+  void _search(String value, List<CollectionModel> requests, {bool shouldSetState = true}) {
     logger.i(value);
     final search = value.trim().toLowerCase();
-    _list = requests.where((e) => e.formName?.toLowerCase().contains(search) ?? false).toList();
+    _list = requests
+        .where((e) => e.collectionMode?.toLowerCase().contains(search) ?? false)
+        .toList();
     if (shouldSetState) setState(() {});
   }
 

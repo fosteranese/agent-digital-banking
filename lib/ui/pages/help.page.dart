@@ -219,7 +219,10 @@ class _HelpPageState extends State<HelpPage> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      MessageUtil.displayErrorDialog(context, message: 'Sorry! Could not launch Whatsapp');
+      MessageUtil.displayErrorDialog(
+        MyApp.navigatorKey.currentContext!,
+        message: 'Sorry! Could not launch Whatsapp',
+      );
     }
   }
 }

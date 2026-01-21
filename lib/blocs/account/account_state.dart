@@ -16,9 +16,7 @@ class RetrievingAccounts extends AccountState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrievingAccounts extends AccountState {
@@ -29,17 +27,11 @@ class SilentRetrievingAccounts extends AccountState {
 }
 
 class AccountsRetrieved extends AccountState {
-  const AccountsRetrieved({
-    required this.result,
-    required this.routeName,
-  });
+  const AccountsRetrieved({required this.result, required this.routeName});
   final Response<List<Account>> result;
   final String routeName;
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class AccountsRetrievedSilently extends AccountState {
@@ -47,25 +39,17 @@ class AccountsRetrievedSilently extends AccountState {
   final Response<List<Account>> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 class RetrieveAccountsError extends AccountState {
-  const RetrieveAccountsError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrieveAccountsError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class SilentRetrieveAccountsError extends AccountState {
@@ -74,9 +58,7 @@ class SilentRetrieveAccountsError extends AccountState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }
 
 // retrieve mini statement
@@ -86,9 +68,7 @@ class RetrievingMiniStatement extends AccountState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class SilentRetrievingMiniStatement extends AccountState {
@@ -110,42 +90,27 @@ class MiniStatementRetrieved extends AccountState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class MiniStatementRetrievedSilently extends AccountState {
-  const MiniStatementRetrievedSilently({
-    required this.result,
-    required this.source,
-  });
+  const MiniStatementRetrievedSilently({required this.result, required this.source});
 
   final Response<MiniStatement> result;
   final Source source;
 
   @override
-  List<Object> get props => [
-        result,
-        source,
-      ];
+  List<Object> get props => [result, source];
 }
 
 class RetrieveMiniStatementError extends AccountState {
-  const RetrieveMiniStatementError({
-    required this.result,
-    required this.routeName,
-  });
+  const RetrieveMiniStatementError({required this.result, required this.routeName});
 
   final Response<dynamic> result;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        result,
-        routeName,
-      ];
+  List<Object> get props => [result, routeName];
 }
 
 class SilentRetrieveMiniStatementError extends AccountState {
@@ -154,7 +119,5 @@ class SilentRetrieveMiniStatementError extends AccountState {
   final Response<dynamic> result;
 
   @override
-  List<Object> get props => [
-        result,
-      ];
+  List<Object> get props => [result];
 }

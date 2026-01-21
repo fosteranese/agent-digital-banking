@@ -23,7 +23,9 @@ class VerificationResponse extends Equatable {
 
   factory VerificationResponse.fromMap(Map<String, dynamic> data) {
     return VerificationResponse(
-      otpData: data['otpData'] == null ? null : OtpData.fromMap(data['otpData'] as Map<String, dynamic>),
+      otpData: data['otpData'] == null
+          ? null
+          : OtpData.fromMap(data['otpData'] as Map<String, dynamic>),
       ghCardUrl: data['ghCardUrl'] as String?,
       registrationId: data['registrationId'] as String?,
       imageBaseUrl: data['imageBaseUrl'] as String?,
@@ -33,13 +35,13 @@ class VerificationResponse extends Equatable {
   }
 
   Map<String, dynamic> toMap() => {
-        'otpData': otpData?.toMap(),
-        'ghCardUrl': ghCardUrl,
-        'registrationId': registrationId,
-        'imageBaseUrl': imageBaseUrl,
-        'imageDirectory': imageDirectory,
-        'accessType': accessType,
-      };
+    'otpData': otpData?.toMap(),
+    'ghCardUrl': ghCardUrl,
+    'registrationId': registrationId,
+    'imageBaseUrl': imageBaseUrl,
+    'imageDirectory': imageDirectory,
+    'accessType': accessType,
+  };
 
   /// `dart:convert`
   ///
@@ -76,13 +78,6 @@ class VerificationResponse extends Equatable {
 
   @override
   List<Object?> get props {
-    return [
-      otpData,
-      ghCardUrl,
-      registrationId,
-      imageBaseUrl,
-      imageDirectory,
-      accessType,
-    ];
+    return [otpData, ghCardUrl, registrationId, imageBaseUrl, imageDirectory, accessType];
   }
 }

@@ -5,9 +5,11 @@ import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/collection/institution.dart';
 import 'package:my_sage_agent/data/models/enquiry.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/history/activity.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
+import 'package:my_sage_agent/data/repository/history.repo.dart';
 import 'package:my_sage_agent/data/repository/payment.repo.dart';
 import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
 import 'package:my_sage_agent/utils/response.util.dart';
@@ -16,12 +18,19 @@ part 'retrieve_data_event.dart';
 part 'retrieve_data_state.dart';
 
 class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
-  RetrieveDataBloc({required this.fblOnlineRepo, required this.quickflow, required this.paymentRepo}) : super(RetrieveDataInitial(id: '', action: '')) {
+  RetrieveDataBloc({
+    required this.fblOnlineRepo,
+    required this.quickflow,
+    required this.paymentRepo,
+    required this.historyRepo,
+  }) : super(RetrieveDataInitial(id: '', action: '')) {
     on(_onRetrieveCategories);
     on(_onRetrievePaymentCategories);
     on(_onRetrieveForm);
     on(_onRetrieveScheduleForm);
     on(_onRetrieveEnquiry);
+    on(_onRetrieveActivities);
+    on(_onRetrieveCollection);
   }
 
   final Map<String, dynamic> data = {};
@@ -29,15 +38,31 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
   final FblOnlineRepo fblOnlineRepo;
   final QuickFlowRepo quickflow;
   final PaymentRepo paymentRepo;
+  final HistoryRepo historyRepo;
 
-  Future<void> _onRetrieveData<T>({required RetrieveDataEvent event, required Emitter<RetrieveDataState> emit, required Future<T> Function() retrieveFunc, Future<T> Function(dynamic payload)? storeFunc, Future<T> Function()? getStoredFunc, bool saveCurrent = true}) async {
+  Future<void> _onRetrieveData<T>({
+    required RetrieveDataEvent event,
+    required Emitter<RetrieveDataState> emit,
+    required Future<T> Function() retrieveFunc,
+    Future<T> Function(dynamic payload)? storeFunc,
+    Future<T> Function()? getStoredFunc,
+    bool saveCurrent = true,
+  }) async {
     T currentData;
     try {
       if (!event.skipSavedData && saveCurrent && event.action != null) {
         currentData = data[event.action] ?? (getStoredFunc != null ? await getStoredFunc() : null);
 
         if (currentData != null && (currentData is! List || (currentData as List).isNotEmpty)) {
-          emit(DataRetrieved<T>(id: event.id, action: event.action ?? '', data: currentData, event: event, stillLoading: true));
+          emit(
+            DataRetrieved<T>(
+              id: event.id,
+              action: event.action ?? '',
+              data: currentData,
+              event: event,
+              stillLoading: true,
+            ),
+          );
 
           // emit(
           //   RetrievingDataSilently(
@@ -55,7 +80,9 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
 
       final resultData = await retrieveFunc();
 
-      emit(DataRetrieved<T>(id: event.id, action: event.action ?? '', data: resultData, event: event));
+      emit(
+        DataRetrieved<T>(id: event.id, action: event.action ?? '', data: resultData, event: event),
+      );
 
       if (!saveCurrent || event.action != null) {
         currentData = resultData;
@@ -67,11 +94,19 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
         }
       }
     } catch (error) {
-      ResponseUtil.handleException(error, (error) => emit(RetrieveDataError(id: event.id, event: event, action: event.action ?? '', error: error)));
+      ResponseUtil.handleException(
+        error,
+        (error) => emit(
+          RetrieveDataError(id: event.id, event: event, action: event.action ?? '', error: error),
+        ),
+      );
     }
   }
 
-  Future<void> _onRetrieveCategories(RetrieveCategories event, Emitter<RetrieveDataState> emit) async {
+  Future<void> _onRetrieveCategories(
+    RetrieveCategories event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
     await _onRetrieveData(
       event: event,
       emit: emit,
@@ -112,7 +147,10 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     );
   }
 
-  Future<void> _onRetrievePaymentCategories(RetrievePaymentCategories event, Emitter<RetrieveDataState> emit) async {
+  Future<void> _onRetrievePaymentCategories(
+    RetrievePaymentCategories event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
     await _onRetrieveData(
       event: event,
       emit: emit,
@@ -142,17 +180,31 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
 
               case ActivityTypesConst.quickFlow:
               case ActivityTypesConst.quickFlowAlt:
-                return await quickflow.retrieveFormData(id: form.formId!, qrCode: event.qrCode, payeeId: event.payeeId);
+                return await quickflow.retrieveFormData(
+                  id: form.formId!,
+                  qrCode: event.qrCode,
+                  payeeId: event.payeeId,
+                );
 
               case ActivityTypesConst.fblCollectCategory:
-                return await paymentRepo.retrieveFormData1(formId: form.formId!, activityType: ActivityTypesConst.fblCollectCategory);
+                return await paymentRepo.retrieveFormData1(
+                  formId: form.formId!,
+                  activityType: ActivityTypesConst.fblCollectCategory,
+                );
 
               default:
-                return await fblOnlineRepo.retrieveFormData(id: form.formId!, qrCode: event.qrCode, payeeId: event.payeeId);
+                return await fblOnlineRepo.retrieveFormData(
+                  id: form.formId!,
+                  qrCode: event.qrCode,
+                  payeeId: event.payeeId,
+                );
             }
 
           case Institution form:
-            return await paymentRepo.retrieveInstitutionFormData1(institutionId: form.insId!, activity: event.activity);
+            return await paymentRepo.retrieveInstitutionFormData1(
+              institutionId: form.insId!,
+              activity: event.activity,
+            );
         }
       },
       saveCurrent: true,
@@ -165,13 +217,24 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
 
               case ActivityTypesConst.quickFlow:
               case ActivityTypesConst.quickFlowAlt:
-                return await quickflow.getStoredFormData(id: form.formId!, qrCode: event.qrCode, payeeId: event.payeeId);
+                return await quickflow.getStoredFormData(
+                  id: form.formId!,
+                  qrCode: event.qrCode,
+                  payeeId: event.payeeId,
+                );
 
               case ActivityTypesConst.fblCollectCategory:
-                return await paymentRepo.getStoredCollectionForm1(formId: form.formId!, activityType: ActivityTypesConst.fblCollectCategory);
+                return await paymentRepo.getStoredCollectionForm1(
+                  formId: form.formId!,
+                  activityType: ActivityTypesConst.fblCollectCategory,
+                );
 
               default:
-                return await fblOnlineRepo.getStoredFormData(id: form.formId!, qrCode: event.qrCode, payeeId: event.payeeId);
+                return await fblOnlineRepo.getStoredFormData(
+                  id: form.formId!,
+                  qrCode: event.qrCode,
+                  payeeId: event.payeeId,
+                );
             }
 
           case Institution form:
@@ -184,16 +247,25 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     );
   }
 
-  Future<void> _onRetrieveScheduleForm(RetrieveScheduleForm event, Emitter<RetrieveDataState> emit) async {
+  Future<void> _onRetrieveScheduleForm(
+    RetrieveScheduleForm event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
     await _onRetrieveData(
       event: event,
       emit: emit,
       retrieveFunc: () async {
-        return await fblOnlineRepo.prepareScheduler(receiptId: event.receiptId, payeeId: event.payeeId);
+        return await fblOnlineRepo.prepareScheduler(
+          receiptId: event.receiptId,
+          payeeId: event.payeeId,
+        );
       },
       saveCurrent: true,
       getStoredFunc: () async {
-        return await fblOnlineRepo.getStoredPreparedSchedule(receiptId: event.receiptId, payeeId: event.payeeId);
+        return await fblOnlineRepo.getStoredPreparedSchedule(
+          receiptId: event.receiptId,
+          payeeId: event.payeeId,
+        );
       },
       storeFunc: (data) async {
         // await repo.saveWallets(data);
@@ -209,7 +281,11 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
         if (event.enquiry == null) {
           return await fblOnlineRepo.retrieveEnquiry(event.form.verifyEndpoint ?? '');
         } else {
-          return await fblOnlineRepo.retrieveSubEnquiry(endpoint: event.enquiry!.endPoint ?? '', formId: event.enquiry!.formId ?? '', hashValue: event.enquiry!.header ?? '');
+          return await fblOnlineRepo.retrieveSubEnquiry(
+            endpoint: event.enquiry!.endPoint ?? '',
+            formId: event.enquiry!.formId ?? '',
+            hashValue: event.enquiry!.header ?? '',
+          );
         }
       },
       saveCurrent: true,
@@ -217,8 +293,56 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
         if (event.enquiry == null) {
           return await fblOnlineRepo.getStoredEnquiry(event.form.verifyEndpoint ?? '');
         } else {
-          return await fblOnlineRepo.getStoredSubEnquiry(endpoint: event.enquiry!.endPoint ?? '', formId: event.enquiry!.formId ?? '', hashValue: event.enquiry!.header ?? '');
+          return await fblOnlineRepo.getStoredSubEnquiry(
+            endpoint: event.enquiry!.endPoint ?? '',
+            formId: event.enquiry!.formId ?? '',
+            hashValue: event.enquiry!.header ?? '',
+          );
         }
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveCollection(
+    RetrieveCollectionEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await historyRepo.loadCollections();
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return await historyRepo.getStoredCollections();
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveActivities(
+    RetrieveActivitiesEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await historyRepo.loadHistory(
+          activity: event.activity,
+          dateFrom: event.dateFrom,
+          dateTo: event.dateTo,
+        );
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return await historyRepo.getStoredHistory(activity: event.activity);
       },
       storeFunc: (data) async {
         // await repo.saveWallets(data);

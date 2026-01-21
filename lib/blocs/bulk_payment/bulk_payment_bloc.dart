@@ -10,8 +10,7 @@ import '../../utils/response.util.dart';
 part 'bulk_payment_event.dart';
 part 'bulk_payment_state.dart';
 
-class BulkPaymentBloc
-    extends Bloc<BulkPaymentEvent, BulkPaymentState> {
+class BulkPaymentBloc extends Bloc<BulkPaymentEvent, BulkPaymentState> {
   BulkPaymentBloc() : super(BulkPaymentInitial()) {
     on(_onRetrieveBulkPaymentGroups);
     on(_onSilentRetrieveBulkPaymentGroups);
@@ -36,8 +35,7 @@ class BulkPaymentBloc
     message: '',
     data: null,
   );
-  Map<String, Response<BulkPaymentGroupPayees>>
-  groupMembers = {};
+  Map<String, Response<BulkPaymentGroupPayees>> groupMembers = {};
 
   Future<void> _onRetrieveBulkPaymentGroups(
     RetrieveBulkPaymentGroups event,
@@ -47,44 +45,21 @@ class BulkPaymentBloc
 
     try {
       if (groups.data?.groups?.isNotEmpty ?? false) {
-        emit(
-          BulkPaymentGroupsRetrieved(
-            result: groups,
-            routeName: event.routeName,
-          ),
-        );
+        emit(BulkPaymentGroupsRetrieved(result: groups, routeName: event.routeName));
 
-        await Future.delayed(
-          const Duration(milliseconds: 200),
-        );
-        emit(
-          SilentRetrievingBulkPaymentGroups(
-            event.routeName,
-          ),
-        );
+        await Future.delayed(const Duration(milliseconds: 200));
+        emit(SilentRetrievingBulkPaymentGroups(event.routeName));
       } else {
         emit(RetrievingBulkPaymentGroups(event.routeName));
       }
 
       stored = await _repo.getStoredGroups();
-      if (stored != null &&
-          (stored.data?.groups?.isNotEmpty ?? false)) {
+      if (stored != null && (stored.data?.groups?.isNotEmpty ?? false)) {
         groups = stored;
-        emit(
-          BulkPaymentGroupsRetrieved(
-            result: groups,
-            routeName: event.routeName,
-          ),
-        );
+        emit(BulkPaymentGroupsRetrieved(result: groups, routeName: event.routeName));
 
-        await Future.delayed(
-          const Duration(milliseconds: 200),
-        );
-        emit(
-          SilentRetrievingBulkPaymentGroups(
-            event.routeName,
-          ),
-        );
+        await Future.delayed(const Duration(milliseconds: 200));
+        emit(SilentRetrievingBulkPaymentGroups(event.routeName));
       }
 
       final result = await _repo.retrieveGroups();
@@ -93,43 +68,23 @@ class BulkPaymentBloc
         groups = result;
       }
 
-      if (stored == null ||
-          (stored.data?.groups?.isEmpty ?? false)) {
-        emit(
-          BulkPaymentGroupsRetrieved(
-            result: result,
-            routeName: event.routeName,
-          ),
-        );
+      if (stored == null || (stored.data?.groups?.isEmpty ?? false)) {
+        emit(BulkPaymentGroupsRetrieved(result: result, routeName: event.routeName));
       } else {
-        emit(
-          BulkPaymentGroupsRetrievedSilently(
-            result: result,
-            routeName: event.routeName,
-          ),
-        );
+        emit(BulkPaymentGroupsRetrievedSilently(result: result, routeName: event.routeName));
       }
     } catch (ex) {
-      if (stored == null ||
-          (stored.data?.groups?.isEmpty ?? false)) {
+      if (stored == null || (stored.data?.groups?.isEmpty ?? false)) {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            RetrieveBulkPaymentGroupsError(
-              result: error,
-              routeName: event.routeName,
-            ),
-          ),
+          (error) =>
+              emit(RetrieveBulkPaymentGroupsError(result: error, routeName: event.routeName)),
         );
       } else {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            SilentRetrieveBulkPaymentGroupsError(
-              result: error,
-              routeName: event.routeName,
-            ),
-          ),
+          (error) =>
+              emit(SilentRetrieveBulkPaymentGroupsError(result: error, routeName: event.routeName)),
         );
       }
     }
@@ -140,26 +95,15 @@ class BulkPaymentBloc
     Emitter<BulkPaymentState> emit,
   ) async {
     try {
-      emit(
-        SilentRetrievingBulkPaymentGroups(event.routeName),
-      );
+      emit(SilentRetrievingBulkPaymentGroups(event.routeName));
       final result = await _repo.retrieveGroups();
       groups = result;
-      emit(
-        BulkPaymentGroupsRetrievedSilently(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(BulkPaymentGroupsRetrievedSilently(result: result, routeName: event.routeName));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          SilentRetrieveBulkPaymentGroupsError(
-            result: error,
-            routeName: event.routeName,
-          ),
-        ),
+        (error) =>
+            emit(SilentRetrieveBulkPaymentGroupsError(result: error, routeName: event.routeName)),
       );
     }
   }
@@ -171,8 +115,7 @@ class BulkPaymentBloc
     Response<BulkPaymentGroupPayees>? stored;
     final groupId = event.group.groupId ?? '';
     try {
-      if (groupMembers[groupId]?.data?.payees?.isNotEmpty ??
-          false) {
+      if (groupMembers[groupId]?.data?.payees?.isNotEmpty ?? false) {
         emit(
           BulkPaymentGroupMembersRetrieved(
             result: groupMembers[groupId]!,
@@ -180,25 +123,14 @@ class BulkPaymentBloc
           ),
         );
 
-        await Future.delayed(
-          const Duration(milliseconds: 200),
-        );
-        emit(
-          SilentRetrievingBulkPaymentGroupMembers(
-            event.routeName,
-          ),
-        );
+        await Future.delayed(const Duration(milliseconds: 200));
+        emit(SilentRetrievingBulkPaymentGroupMembers(event.routeName));
       } else {
-        emit(
-          RetrievingBulkPaymentGroupMembers(
-            event.routeName,
-          ),
-        );
+        emit(RetrievingBulkPaymentGroupMembers(event.routeName));
       }
 
       stored = await _repo.getStoredGroupMembers(groupId);
-      if (stored != null &&
-          (stored.data?.payees?.isNotEmpty ?? false)) {
+      if (stored != null && (stored.data?.payees?.isNotEmpty ?? false)) {
         groupMembers[groupId] = stored;
         emit(
           BulkPaymentGroupMembersRetrieved(
@@ -207,60 +139,33 @@ class BulkPaymentBloc
           ),
         );
 
-        await Future.delayed(
-          const Duration(milliseconds: 200),
-        );
-        emit(
-          SilentRetrievingBulkPaymentGroupMembers(
-            event.routeName,
-          ),
-        );
+        await Future.delayed(const Duration(milliseconds: 200));
+        emit(SilentRetrievingBulkPaymentGroupMembers(event.routeName));
       }
 
-      final result = await _repo.retrieveGroupMembers(
-        groupId,
-      );
+      final result = await _repo.retrieveGroupMembers(groupId);
 
       if (result.data?.payees?.isNotEmpty ?? false) {
         groupMembers[groupId] = result;
       }
 
-      if (stored == null ||
-          (stored.data?.payees?.isEmpty ?? false)) {
-        emit(
-          BulkPaymentGroupMembersRetrieved(
-            result: result,
-            routeName: event.routeName,
-          ),
-        );
+      if (stored == null || (stored.data?.payees?.isEmpty ?? false)) {
+        emit(BulkPaymentGroupMembersRetrieved(result: result, routeName: event.routeName));
       } else {
-        emit(
-          BulkPaymentGroupMembersRetrievedSilently(
-            result: result,
-            routeName: event.routeName,
-          ),
-        );
+        emit(BulkPaymentGroupMembersRetrievedSilently(result: result, routeName: event.routeName));
       }
     } catch (ex) {
-      if (stored == null ||
-          (stored.data?.payees?.isEmpty ?? false)) {
+      if (stored == null || (stored.data?.payees?.isEmpty ?? false)) {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            RetrieveBulkPaymentGroupMembersError(
-              result: error,
-              routeName: event.routeName,
-            ),
-          ),
+          (error) =>
+              emit(RetrieveBulkPaymentGroupMembersError(result: error, routeName: event.routeName)),
         );
       } else {
         ResponseUtil.handleException(
           ex,
           (error) => emit(
-            SilentRetrieveBulkPaymentGroupMembersError(
-              result: error,
-              routeName: event.routeName,
-            ),
+            SilentRetrieveBulkPaymentGroupMembersError(result: error, routeName: event.routeName),
           ),
         );
       }
@@ -273,27 +178,15 @@ class BulkPaymentBloc
   ) async {
     try {
       final groupId = event.group.groupId ?? '';
-      emit(
-        SilentRetrievingBulkPaymentGroups(event.routeName),
-      );
-      final result = await _repo.retrieveGroupMembers(
-        groupId,
-      );
+      emit(SilentRetrievingBulkPaymentGroups(event.routeName));
+      final result = await _repo.retrieveGroupMembers(groupId);
       groupMembers[groupId] = result;
-      emit(
-        BulkPaymentGroupMembersRetrievedSilently(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(BulkPaymentGroupMembersRetrievedSilently(result: result, routeName: event.routeName));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
         (error) => emit(
-          SilentRetrieveBulkPaymentGroupMembersError(
-            result: error,
-            routeName: event.routeName,
-          ),
+          SilentRetrieveBulkPaymentGroupMembersError(result: error, routeName: event.routeName),
         ),
       );
     }
@@ -313,27 +206,14 @@ class BulkPaymentBloc
 
       groupMembers[event.group.groupId ?? ''] = result;
 
-      emit(
-        PayeesAddedToBulkPaymentGroup(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(PayeesAddedToBulkPaymentGroup(result: result, routeName: event.routeName));
 
-      emit(
-        BulkPaymentGroupMembersRetrieved(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(BulkPaymentGroupMembersRetrieved(result: result, routeName: event.routeName));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
         (error) => emit(
-          SilentRetrieveBulkPaymentGroupMembersError(
-            result: error,
-            routeName: event.routeName,
-          ),
+          SilentRetrieveBulkPaymentGroupMembersError(result: error, routeName: event.routeName),
         ),
       );
     }
@@ -346,9 +226,7 @@ class BulkPaymentBloc
     try {
       emit(DeletingBulkPaymentGroup(event.routeName));
 
-      final result = await _repo.deleteGroup(
-        event.group.groupId ?? '',
-      );
+      final result = await _repo.deleteGroup(event.group.groupId ?? '');
       if (groups.data != null) {
         groups = Response(
           code: groups.code,
@@ -357,28 +235,13 @@ class BulkPaymentBloc
           data: groups.data!.copyWith(groups: result.data),
         );
       }
-      emit(
-        BulkPaymentGroupsRetrieved(
-          result: groups,
-          routeName: event.routeName,
-        ),
-      );
+      emit(BulkPaymentGroupsRetrieved(result: groups, routeName: event.routeName));
 
-      emit(
-        BulkPaymentGroupDeleted(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(BulkPaymentGroupDeleted(result: result, routeName: event.routeName));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          DeleteBulkPaymentGroupError(
-            result: error,
-            routeName: event.routeName,
-          ),
-        ),
+        (error) => emit(DeleteBulkPaymentGroupError(result: error, routeName: event.routeName)),
       );
     }
   }
@@ -389,21 +252,14 @@ class BulkPaymentBloc
   ) async {
     try {
       final groupId = event.group.groupId ?? '';
-      emit(
-        RemovingPayeeFromBulkPaymentGroup(event.routeName),
-      );
+      emit(RemovingPayeeFromBulkPaymentGroup(event.routeName));
 
       final result = await _repo.removePayeeFromGroup(
         groupId: groupId,
         payeeId: event.payee.payeeId ?? '',
       );
 
-      emit(
-        PayeeRemovedFromBulkPaymentGroup(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(PayeeRemovedFromBulkPaymentGroup(result: result, routeName: event.routeName));
 
       if (result.data != null) {
         groups = groups.copyWith(
@@ -417,38 +273,21 @@ class BulkPaymentBloc
             }).toList(),
           ),
         );
-        emit(
-          BulkPaymentGroupsRetrieved(
-            result: groups,
-            routeName: event.routeName,
-          ),
-        );
+        emit(BulkPaymentGroupsRetrieved(result: groups, routeName: event.routeName));
 
         groupMembers[groupId] = result.data!;
-        emit(
-          BulkPaymentGroupMembersRetrieved(
-            result: result.data!,
-            routeName: event.routeName,
-          ),
-        );
+        emit(BulkPaymentGroupMembersRetrieved(result: result.data!, routeName: event.routeName));
       }
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          RemovePayeeFromBulkPaymentGroupError(
-            result: error,
-            routeName: event.routeName,
-          ),
-        ),
+        (error) =>
+            emit(RemovePayeeFromBulkPaymentGroupError(result: error, routeName: event.routeName)),
       );
     }
   }
 
-  Future<void> _onMakeBulkPayment(
-    MakeBulkPayment event,
-    Emitter<BulkPaymentState> emit,
-  ) async {
+  Future<void> _onMakeBulkPayment(MakeBulkPayment event, Emitter<BulkPaymentState> emit) async {
     try {
       emit(MakingBulkPayment(event.routeName));
 
@@ -457,46 +296,24 @@ class BulkPaymentBloc
         pin: event.pin,
       );
 
-      emit(
-        BulkPaymentMade(
-          result: result,
-          routeName: event.routeName,
-        ),
-      );
+      emit(BulkPaymentMade(result: result, routeName: event.routeName));
     } catch (ex) {
       ResponseUtil.handleException(
         ex,
-        (error) => emit(
-          MakeBulkPaymentError(
-            result: error,
-            routeName: event.routeName,
-          ),
-        ),
+        (error) => emit(MakeBulkPaymentError(result: error, routeName: event.routeName)),
       );
     }
   }
 
-  Future<void> _onGotoNewGroup(
-    GotoNewGroup event,
-    Emitter<BulkPaymentState> emit,
-  ) async {
+  Future<void> _onGotoNewGroup(GotoNewGroup event, Emitter<BulkPaymentState> emit) async {
     try {
       emit(const MovingToNewGroup());
-      final oldGroups =
-          groups.data?.groups?.map(
-            (group) => group.groupId,
-          ) ??
-          [];
+      final oldGroups = groups.data?.groups?.map((group) => group.groupId) ?? [];
 
-      await _onSilentRetrieveBulkPaymentGroups(
-        const SilentRetrieveBulkPaymentGroups(''),
-        emit,
-      );
+      await _onSilentRetrieveBulkPaymentGroups(const SilentRetrieveBulkPaymentGroups(''), emit);
 
       final newGroups = groups.data?.groups?.where(
-        (group) => !oldGroups.any(
-          (groupId) => groupId == group.groupId,
-        ),
+        (group) => !oldGroups.any((groupId) => groupId == group.groupId),
       );
       final newGroup = (newGroups?.isNotEmpty ?? false)
           ? newGroups!.last
@@ -504,10 +321,7 @@ class BulkPaymentBloc
 
       emit(MovedToNewGroup(newGroup!));
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(MoveToNewGroupError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(MoveToNewGroupError(error)));
     }
   }
 }

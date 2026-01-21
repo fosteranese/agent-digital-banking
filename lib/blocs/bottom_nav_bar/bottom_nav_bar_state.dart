@@ -14,9 +14,7 @@ class ChangingBottomNavBarVisible extends BottomNavBarState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class BottomNavBarHidden extends BottomNavBarState {
@@ -24,9 +22,7 @@ class BottomNavBarHidden extends BottomNavBarState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class BottomNavBarVisible extends BottomNavBarState {
@@ -34,9 +30,7 @@ class BottomNavBarVisible extends BottomNavBarState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class ChangingBottomNavigationTab extends BottomNavBarState {
@@ -44,22 +38,14 @@ class ChangingBottomNavigationTab extends BottomNavBarState {
   final String routeName;
 
   @override
-  List<Object> get props => [
-        routeName,
-      ];
+  List<Object> get props => [routeName];
 }
 
 class BottomNavigationTabChanged extends BottomNavBarState {
-  const BottomNavigationTabChanged({
-    required this.index,
-    required this.routeName,
-  });
+  const BottomNavigationTabChanged({required this.index, required this.routeName});
   final int index;
   final String routeName;
 
   @override
-  List<Object> get props => [
-        index,
-        routeName,
-      ];
+  List<Object> get props => [index, routeName];
 }

@@ -18,16 +18,16 @@ class PaymentCategories extends Equatable {
           : Payment.fromMap(data['category'] as Map<String, dynamic>),
       institution: data['institution'] != null
           ? (data['institution'] as List<dynamic>?)
-              ?.map((e) => Institution.fromMap(e as Map<String, dynamic>))
-              .toList()
+                ?.map((e) => Institution.fromMap(e as Map<String, dynamic>))
+                .toList()
           : [],
     );
   }
 
   Map<String, dynamic> toMap() => {
-        'category': category?.toMap(),
-        'institution': institution?.map((e) => e.toMap()).toList() ?? [],
-      };
+    'category': category?.toMap(),
+    'institution': institution?.map((e) => e.toMap()).toList() ?? [],
+  };
 
   /// `dart:convert`
   ///
@@ -41,10 +41,7 @@ class PaymentCategories extends Equatable {
   /// Converts [PaymentCategories] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  PaymentCategories copyWith({
-    Payment? category,
-    List<Institution>? institution,
-  }) {
+  PaymentCategories copyWith({Payment? category, List<Institution>? institution}) {
     return PaymentCategories(
       category: category ?? this.category,
       institution: institution ?? this.institution,
@@ -55,8 +52,5 @@ class PaymentCategories extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [
-        category,
-        institution,
-      ];
+  List<Object?> get props => [category, institution];
 }

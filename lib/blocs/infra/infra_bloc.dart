@@ -19,21 +19,12 @@ class InfraBloc extends Bloc<InfraEvent, InfraState> {
   List<Locators> locators = [];
   List<InfraType> infraTypes = [];
 
-  Future<void> _onLoadBankInfra(
-    LoadBankInfra event,
-    Emitter<InfraState> emit,
-  ) async {
+  Future<void> _onLoadBankInfra(LoadBankInfra event, Emitter<InfraState> emit) async {
     List<Locators> locs = [];
     List<InfraType> liveTypes = [];
     try {
       if (locators.isNotEmpty && infraTypes.isNotEmpty) {
-        emit(
-          BankInfraLoaded(
-            id: event.id,
-            locators: locators,
-            infraTypes: infraTypes,
-          ),
-        );
+        emit(BankInfraLoaded(id: event.id, locators: locators, infraTypes: infraTypes));
 
         if (event.showSilentLoading) {
           await Future.delayed(const Duration(seconds: 0));
@@ -50,18 +41,10 @@ class InfraBloc extends Bloc<InfraEvent, InfraState> {
         }
 
         if (locators.isNotEmpty && infraTypes.isNotEmpty) {
-          emit(
-            BankInfraLoaded(
-              id: event.id,
-              locators: locators,
-              infraTypes: infraTypes,
-            ),
-          );
+          emit(BankInfraLoaded(id: event.id, locators: locators, infraTypes: infraTypes));
 
           if (event.showSilentLoading) {
-            await Future.delayed(
-              const Duration(seconds: 0),
-            );
+            await Future.delayed(const Duration(seconds: 0));
             emit(const SilentLoadingBankInfra());
           }
         } else {
@@ -72,30 +55,16 @@ class InfraBloc extends Bloc<InfraEvent, InfraState> {
       final result = await _repo.loadBankInfraTypes();
       liveTypes = result.data ?? [] as List<InfraType>;
       for (var infra in liveTypes) {
-        final result1 = await _repo.loadBankInfra(
-          infra.typeId ?? '',
-        );
-        locs =
-            locs + (result1.data?.locators ?? <Locators>[]);
+        final result1 = await _repo.loadBankInfra(infra.typeId ?? '');
+        locs = locs + (result1.data?.locators ?? <Locators>[]);
       }
 
       _repo.saveLocations(locs);
 
       if (locators.isNotEmpty && (infraTypes.isNotEmpty)) {
-        emit(
-          BankInfraLoadedSilently(
-            infraTypes: liveTypes,
-            locators: locs,
-          ),
-        );
+        emit(BankInfraLoadedSilently(infraTypes: liveTypes, locators: locs));
       } else {
-        emit(
-          BankInfraLoaded(
-            id: event.id,
-            infraTypes: liveTypes,
-            locators: locs,
-          ),
-        );
+        emit(BankInfraLoaded(id: event.id, infraTypes: liveTypes, locators: locs));
       }
 
       infraTypes = liveTypes;
@@ -104,26 +73,15 @@ class InfraBloc extends Bloc<InfraEvent, InfraState> {
       if (locs.isNotEmpty && (liveTypes.isNotEmpty)) {
         ResponseUtil.handleException(
           ex,
-          (error) => emit(
-            LoadBankInfraError(
-              result: error,
-              routeName: event.id,
-            ),
-          ),
+          (error) => emit(LoadBankInfraError(result: error, routeName: event.id)),
         );
       } else {
-        ResponseUtil.handleException(
-          ex,
-          (error) => emit(SilentLoadBankInfraError(error)),
-        );
+        ResponseUtil.handleException(ex, (error) => emit(SilentLoadBankInfraError(error)));
       }
     }
   }
 
-  Future<void> _onSilentLoadBankInfra(
-    SilentLoadBankInfra event,
-    Emitter<InfraState> emit,
-  ) async {
+  Future<void> _onSilentLoadBankInfra(SilentLoadBankInfra event, Emitter<InfraState> emit) async {
     List<Locators> locs = [];
     List<InfraType> liveTypes = [];
     try {
@@ -132,27 +90,16 @@ class InfraBloc extends Bloc<InfraEvent, InfraState> {
       final result = await _repo.loadBankInfraTypes();
       liveTypes = result.data ?? [] as List<InfraType>;
       for (var infra in liveTypes) {
-        final result1 = await _repo.loadBankInfra(
-          infra.typeId ?? '',
-        );
-        locs =
-            locs + (result1.data?.locators ?? <Locators>[]);
+        final result1 = await _repo.loadBankInfra(infra.typeId ?? '');
+        locs = locs + (result1.data?.locators ?? <Locators>[]);
       }
 
-      emit(
-        BankInfraLoadedSilently(
-          infraTypes: liveTypes,
-          locators: locs,
-        ),
-      );
+      emit(BankInfraLoadedSilently(infraTypes: liveTypes, locators: locs));
 
       infraTypes = liveTypes;
       locators = locs;
     } catch (ex) {
-      ResponseUtil.handleException(
-        ex,
-        (error) => emit(SilentLoadBankInfraError(error)),
-      );
+      ResponseUtil.handleException(ex, (error) => emit(SilentLoadBankInfraError(error)));
     }
   }
 }

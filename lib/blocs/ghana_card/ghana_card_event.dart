@@ -21,11 +21,7 @@ class VerifyCompleteGhanaCard extends GhanaCardEvent {
   final String code;
 
   @override
-  List<Object> get props => [
-        registrationId,
-        image,
-        code,
-      ];
+  List<Object> get props => [registrationId, image, code];
 }
 
 class ReVerifyCompleteGhanaCard extends GhanaCardEvent {
@@ -34,7 +30,5 @@ class ReVerifyCompleteGhanaCard extends GhanaCardEvent {
   final String registrationId;
 
   @override
-  List<Object> get props => [
-        registrationId,
-      ];
+  List<Object> get props => [registrationId];
 }
