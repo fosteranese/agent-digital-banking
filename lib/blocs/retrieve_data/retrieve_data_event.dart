@@ -123,3 +123,18 @@ class RetrieveCollectionEvent extends RetrieveDataEvent {
   @override
   List<Object?> get props => [id, action, skipSavedData];
 }
+
+class RetrieveCommissionsEvent extends RetrieveDataEvent {
+  const RetrieveCommissionsEvent({
+    required super.id,
+    required super.action,
+    required super.skipSavedData,
+    this.dateFrom,
+    this.dateTo,
+  });
+  final String? dateFrom;
+  final String? dateTo;
+
+  @override
+  List<Object?> get props => [id, action, skipSavedData, dateFrom, dateTo];
+}

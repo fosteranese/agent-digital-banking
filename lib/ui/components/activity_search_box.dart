@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:my_sage_agent/data/models/history/activity.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
-import 'input.dart';
+import 'form/input.dart';
 
 class ActivitySearchBox extends StatefulWidget {
   const ActivitySearchBox({
@@ -52,7 +52,7 @@ class _ActivitySearchBoxState extends State<ActivitySearchBox> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Activities',
+                      widget.filterBy.value?.activityName ?? 'Activities',
                       style: const PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                     ),
                   ),

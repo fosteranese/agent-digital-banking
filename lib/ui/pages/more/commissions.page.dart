@@ -5,36 +5,32 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:my_sage_agent/data/models/history/activity.dart';
-import 'package:my_sage_agent/data/models/history/history.response.dart';
-import 'package:my_sage_agent/data/models/request_response.dart';
+import 'package:my_sage_agent/data/models/commission_model.dart';
 import 'package:my_sage_agent/main.dart';
-import 'package:my_sage_agent/ui/components/activity_search_box.dart';
-import 'package:my_sage_agent/ui/components/history/history_filter_sheet.dart';
-import 'package:my_sage_agent/ui/components/history/history_list_item.dart';
+import 'package:my_sage_agent/ui/components/commission_search_box.dart';
+import 'package:my_sage_agent/ui/components/history/commission_filter_sheet.dart';
+import 'package:my_sage_agent/ui/components/history/commission_list_item.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
-import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:uuid/uuid.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key, this.showBackBtn = false});
-  static const routeName = '/history';
+class CommissionsPage extends StatefulWidget {
+  const CommissionsPage({super.key, this.showBackBtn = false});
+  static const routeName = '/more/commissions';
   final bool showBackBtn;
 
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<CommissionsPage> createState() => _CommissionsPageState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
-  final _filterBy = ValueNotifier<Activity?>(null);
+class _CommissionsPageState extends State<CommissionsPage> {
   final _controller = TextEditingController();
-  HistoryResponse? _sourceList;
-  final _list = ValueNotifier<List<RequestResponse>>([]);
+  List<CommissionModel>? _sourceList;
+  final _list = ValueNotifier<List<CommissionModel>>([]);
   final _fToast = FToast();
   final scrollController = ScrollController();
 
@@ -43,8 +39,15 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   void initState() {
-    _sourceList = context.read<RetrieveDataBloc>().data['RetrieveActivitiesEvent'];
-    _list.value = _sourceList?.request ?? [];
+    context.read<RetrieveDataBloc>().add(
+      RetrieveCommissionsEvent(
+        id: Uuid().v4(),
+        action: 'RetrieveCommissionsEvent',
+        skipSavedData: false,
+      ),
+    );
+    _sourceList = context.read<RetrieveDataBloc>().data['RetrieveCommissionsEvent'];
+    _list.value = _sourceList ?? [];
 
     _fToast.init(context);
     super.initState();
@@ -53,24 +56,18 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      onBackPressed: () {
-        context.replace(DashboardPage.routeName);
-      },
       scrollController: scrollController,
       backgroundColor: Colors.white,
       onRefresh: () async {
         context.read<RetrieveDataBloc>().add(
-          RetrieveActivitiesEvent(
+          RetrieveCommissionsEvent(
             id: Uuid().v4(),
-            action: 'RetrieveActivitiesEvent',
+            action: 'RetrieveCommissionsEvent',
             skipSavedData: true,
-            activity: _filterBy.value,
-            dateFrom: _dateFrom.text.trim(),
-            dateTo: _dateTo.text.trim(),
           ),
         );
       },
-      title: 'Activities',
+      title: 'Commissions',
       backIcon: IconButton(
         style: IconButton.styleFrom(
           fixedSize: const Size(35, 35),
@@ -87,34 +84,26 @@ class _HistoryPageState extends State<HistoryPage> {
       ),
       showBackBtn: true,
       slivers: [
-        ValueListenableBuilder(
-          valueListenable: _filterBy,
-          builder: (context, filter, child) {
-            return SliverPersistentHeader(
-              pinned: true,
-              delegate: MyHeaderDelegate(
-                maxHeight: 120,
-                minHeight: 84,
-                builder: (context, shrinkOffset, overlapsContent) {
-                  return ActivitySearchBox(
-                    filterBy: _filterBy,
-                    controller: _controller,
-                    onSearch: (value) {
-                      _search(value, _sourceList?.request ?? []);
-                    },
-                    onFilter: _onShowFilterDialog,
-                  );
-                },
-              ),
-            );
-          },
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: MyHeaderDelegate(
+            maxHeight: 80,
+            minHeight: 80,
+            builder: (context, shrinkOffset, overlapsContent) {
+              return CommissionSearchBox(
+                dateFrom: _dateFrom,
+                dateTo: _dateTo,
+                onFilter: _onShowFilterDialog,
+              );
+            },
+          ),
         ),
         ValueListenableBuilder(
           valueListenable: _list,
           builder: (context, list, child) {
             return BlocConsumer<RetrieveDataBloc, RetrieveDataState>(
               listener: (context, state) => _handleBlocListener(state),
-              buildWhen: (previous, current) => current.event is RetrieveActivitiesEvent,
+              buildWhen: (previous, current) => current.event is RetrieveCommissionsEvent,
               builder: (context, state) {
                 if (list.isEmpty && state is RetrievingData) {
                   return const HistoryShimmerList();
@@ -130,7 +119,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     itemCount: list.length,
                     itemBuilder: (_, index) {
                       final record = list[index];
-                      return HistoryListItem(record: record, onTap: null);
+                      return CommissionListItem(record: record, onTap: null);
                     },
                     separatorBuilder: (_, _) =>
                         Divider(thickness: 1, color: ThemeUtil.headerBackground, height: 0),
@@ -145,13 +134,13 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   void _handleBlocListener(RetrieveDataState state) {
-    if (state.event is! RetrieveActivitiesEvent) {
+    if (state.event is! RetrieveCommissionsEvent) {
       return;
     }
 
     if (state is DataRetrieved && state.stillLoading) {
       _fToast.showToast(
-        child: const Toaster('Loading activities'),
+        child: const Toaster('Loading commissions'),
         toastDuration: const Duration(hours: 1),
       );
       return;
@@ -159,8 +148,8 @@ class _HistoryPageState extends State<HistoryPage> {
 
     if (state is DataRetrieved) {
       _sourceList = state.data ?? [];
+      _list.value = _sourceList!;
 
-      _search('', _sourceList?.request ?? []);
       _fToast.removeCustomToast();
       MainLayout.stopRefresh(context);
       return;
@@ -171,14 +160,6 @@ class _HistoryPageState extends State<HistoryPage> {
       MainLayout.stopRefresh(context);
       return;
     }
-  }
-
-  void _search(String value, List<RequestResponse> requests) {
-    final search = value.trim().toLowerCase();
-    _list.value = requests.where((e) {
-      return (e.formName?.toLowerCase().contains(search) ?? false) ||
-          (e.activityName?.toLowerCase().contains(search) ?? false);
-    }).toList();
   }
 
   Widget _buildEmptyState(BuildContext context) {
@@ -194,12 +175,12 @@ class _HistoryPageState extends State<HistoryPage> {
             children: [
               SvgPicture.asset('assets/img/empty.svg', width: 100),
               Text(
-                'No collections found',
+                'No Commissions found',
                 textAlign: .center,
                 style: PrimaryTextStyle(color: ThemeUtil.black, fontSize: 18, fontWeight: .bold),
               ),
               Text(
-                '${_filterBy.value?.activityName} Collections you\'ve made will appear here.',
+                'Commissions you\'ve made will appear here.',
                 textAlign: TextAlign.center,
                 style: PrimaryTextStyle(
                   color: ThemeUtil.flat,
@@ -216,50 +197,34 @@ class _HistoryPageState extends State<HistoryPage> {
   }
 
   void _onShowFilterDialog() {
-    if (_sourceList == null) {
-      MessageUtil.displayErrorDialog(
-        context,
-        message: 'There are currently no activities to filter',
-      );
-      return;
-    }
-
     showModalBottomSheet(
       context: MyApp.navigatorKey.currentContext!,
       isScrollControlled: true,
       useSafeArea: true,
       backgroundColor: Colors.white,
-      builder: (_) => HistoryFilterSheet(
-        sourceList: _sourceList!,
-        filterBy: _filterBy,
+      builder: (_) => CommissionFilterSheet(
         dateFrom: _dateFrom,
         dateTo: _dateTo,
-        onFilterSelected: (filter, dateFrom, dateTo) {
-          if (_filterBy.value != filter) {
-            // _sourceList = null;
-            _list.value = [];
-          }
+        onFilterSelected: (dateFrom, dateTo) {
+          _list.value = [];
 
-          _filterBy.value = filter;
           context.read<RetrieveDataBloc>().add(
-            RetrieveActivitiesEvent(
+            RetrieveCommissionsEvent(
               id: Uuid().v4(),
-              action: 'RetrieveActivitiesEvent',
+              action: 'RetrieveCommissionsEvent',
               skipSavedData: true,
-              activity: filter,
               dateFrom: dateFrom,
               dateTo: dateTo,
             ),
           );
         },
         onClearFilter: () {
-          _filterBy.value = null;
           _dateFrom.text = '';
           _dateTo.text = '';
           context.read<RetrieveDataBloc>().add(
-            RetrieveActivitiesEvent(
+            RetrieveCommissionsEvent(
               id: Uuid().v4(),
-              action: 'RetrieveActivitiesEvent',
+              action: 'RetrieveCommissionsEvent',
               skipSavedData: true,
             ),
           );
@@ -271,10 +236,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void dispose() {
     scrollController.dispose();
-    _filterBy.dispose();
     _controller.dispose();
-    _dateFrom.dispose();
-    _dateTo.dispose();
     _list.dispose();
     _fToast.removeQueuedCustomToasts();
     _fToast.removeCustomToast();

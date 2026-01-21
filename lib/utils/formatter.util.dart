@@ -37,7 +37,17 @@ class FormatterUtil {
   }
 
   static String fullDate(DateTime date) {
-    final DateFormat formatter = DateFormat('MMM dd yyyy HH:mm:A');
+    final DateFormat formatter = DateFormat('MMM dd yyyy hh:mm a');
+    return formatter.format(date);
+  }
+
+  static String shortDateOnly(DateTime date) {
+    final DateFormat formatter = DateFormat('MMM dd yyyy');
+    return formatter.format(date);
+  }
+
+  static String timeOnly(DateTime date) {
+    final DateFormat formatter = DateFormat('hh:mm a');
     return formatter.format(date);
   }
 

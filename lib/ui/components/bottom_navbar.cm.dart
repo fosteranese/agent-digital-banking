@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
@@ -34,51 +35,43 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
           inactiveIcon: SvgPicture.asset(
             'assets/img/home.svg',
-            colorFilter: ColorFilter.mode(ThemeUtil.primaryColorList, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(ThemeUtil.inactivate, BlendMode.srcIn),
             width: 24,
           ),
           title: "Home",
           iconSize: 24,
           activeForegroundColor: ThemeUtil.primaryColor,
-          inactiveForegroundColor: ThemeUtil.primaryColorList,
+          textStyle: GoogleFonts.mulish(fontWeight: .w600, color: ThemeUtil.flat),
         ),
       ),
       PersistentRouterTabConfig(
         item: ItemConfig(
           icon: const Icon(Icons.people),
-          inactiveIcon: const Icon(Icons.people_outlined),
+          inactiveIcon: const Icon(Icons.people, color: ThemeUtil.inactivate),
           title: "Collections",
           iconSize: 24,
           activeForegroundColor: ThemeUtil.primaryColor,
-          inactiveForegroundColor: ThemeUtil.primaryColorList,
+          textStyle: GoogleFonts.mulish(fontWeight: .w600, color: ThemeUtil.flat),
         ),
       ),
       PersistentRouterTabConfig(
         item: ItemConfig(
-          icon: const Icon(Icons.sync_alt_outlined),
-          inactiveIcon: const Icon(Icons.sync_alt_outlined),
-          title: "Transactions",
+          icon: const Icon(Icons.history_outlined),
+          inactiveIcon: const Icon(Icons.history_outlined, color: ThemeUtil.inactivate),
+          title: "Activities",
           iconSize: 24,
           activeForegroundColor: ThemeUtil.primaryColor,
-          inactiveForegroundColor: ThemeUtil.primaryColorList,
+          textStyle: GoogleFonts.mulish(fontWeight: .w600, color: ThemeUtil.flat),
         ),
       ),
       PersistentRouterTabConfig(
         item: ItemConfig(
-          icon: SvgPicture.asset(
-            'assets/img/more.svg',
-            colorFilter: ColorFilter.mode(ThemeUtil.primaryColor, BlendMode.srcIn),
-            width: 24,
-          ),
-          inactiveIcon: SvgPicture.asset(
-            'assets/img/more.svg',
-            colorFilter: ColorFilter.mode(ThemeUtil.primaryColorList, BlendMode.srcIn),
-            width: 24,
-          ),
+          icon: const Icon(Icons.more_horiz_outlined),
+          inactiveIcon: const Icon(Icons.more_horiz_outlined, color: ThemeUtil.inactivate),
           title: "More",
           iconSize: 24,
           activeForegroundColor: ThemeUtil.primaryColor,
-          inactiveForegroundColor: ThemeUtil.primaryColorList,
+          textStyle: GoogleFonts.mulish(fontWeight: .w600, color: ThemeUtil.flat),
         ),
       ),
     ];
@@ -108,83 +101,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
         }
 
         AppUtil.logout();
-        // await showModalBottomSheet(
-        //   backgroundColor: Colors.transparent,
-        //   context: context,
-        //   isScrollControlled: true,
-        //   builder: (context) {
-        //     return PopOver(
-        //       child: Padding(
-        //         padding: EdgeInsets.only(
-        //           top: 30,
-        //           left: 30,
-        //           right: 30,
-        //           bottom: 20,
-        //         ),
-        //         child: Column(
-        //           crossAxisAlignment:
-        //               CrossAxisAlignment.start,
-        //           mainAxisSize: MainAxisSize.min,
-        //           children: [
-        //             Align(
-        //               alignment: Alignment.topRight,
-        //               child: IconButton(
-        //                 onPressed: () {
-        //                   context.pop();
-        //                 },
-        //                 icon: Icon(Icons.close),
-        //               ),
-        //             ),
-        //             const SizedBox(height: 20),
-        //             const Text(
-        //               'About to Logout',
-        //               style: TextStyle(
-        //                 fontWeight: FontWeight.bold,
-        //                 fontSize: 24,
-        //               ),
-        //             ),
-        //             const Text(
-        //               'Are you sure you are ready to logout of this amazing app?',
-        //               style: TextStyle(
-        //                 fontWeight: FontWeight.w400,
-        //                 fontSize: 20,
-        //                 color: Color(0xff54534A),
-        //               ),
-        //             ),
-        //             const SizedBox(height: 20),
-        //             FormButton(
-        //               onPressed: () {
-        //                 // context.pop();
-        //                 context.read<AuthBloc>().add(
-        //                   Logout(),
-        //                 );
-        //               },
-        //               text: 'No, Cancel',
-        //             ),
-        //             const SizedBox(height: 10),
-        //             FormOutlineButton(
-        //               backgroundColor: Colors.red,
-        //               textColor: Colors.red,
-        //               onPressed: () {
-        //                 context.pop();
-        //                 SystemNavigator.pop();
-        //               },
-        //               icon: SvgPicture.asset(
-        //                 'assets/img/logout.svg',
-        //                 colorFilter: const ColorFilter.mode(
-        //                   Colors.red,
-        //                   BlendMode.srcIn,
-        //                 ),
-        //                 width: 20,
-        //               ),
-        //               text: 'Yes, Close',
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // );
       },
       child: PersistentTabView.router(
         avoidBottomPadding: isNavMovedDown,
@@ -213,8 +129,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         navBarBuilder: (navBarConfig) {
           return Style1BottomNavBar(
             navBarDecoration: NavBarDecoration(
-              color: Color(0xffF6FAFF),
-              border: Border(top: BorderSide(color: Color(0xffF1F3F8), width: 1)),
+              color: Colors.white,
+              // border: Border(top: BorderSide(color: Color(0xffF1F3F8), width: 1)),
               padding: isNavMovedDown ? EdgeInsets.all(5) : EdgeInsets.only(top: 5, bottom: 20),
             ),
             navBarConfig: navBarConfig,

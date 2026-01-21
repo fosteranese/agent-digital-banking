@@ -16,6 +16,7 @@ import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/set_secret_answer_login.page.dart';
+import 'package:my_sage_agent/ui/pages/more/commissions.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
 import 'package:my_sage_agent/ui/pages/notifications.page.dart';
@@ -111,6 +112,7 @@ final router = GoRouter(
           path: SecuritySettingsPage.routeName,
           builder: (context, state) => SecuritySettingsPage(),
         ),
+        GoRoute(path: CommissionsPage.routeName, builder: (context, state) => CommissionsPage()),
         GoRoute(
           path: EnquiryFlowPage.routeName,
           builder: (context, state) {

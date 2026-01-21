@@ -31,6 +31,7 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     on(_onRetrieveEnquiry);
     on(_onRetrieveActivities);
     on(_onRetrieveCollection);
+    on(_onRetrieveCommissions);
   }
 
   final Map<String, dynamic> data = {};
@@ -343,6 +344,26 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       saveCurrent: true,
       getStoredFunc: () async {
         return await historyRepo.getStoredHistory(activity: event.activity);
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveCommissions(
+    RetrieveCommissionsEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await historyRepo.loadCommissions(dateFrom: event.dateFrom, dateTo: event.dateTo);
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return await historyRepo.getStoredCommissions();
       },
       storeFunc: (data) async {
         // await repo.saveWallets(data);
