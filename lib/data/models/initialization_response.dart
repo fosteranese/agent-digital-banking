@@ -1,3 +1,5 @@
+import 'package:my_sage_agent/data/models/key_value_model.dart';
+
 class InitializationResponse {
   List<WalkThrough>? walkThrough;
   String? termsAndConditions;
@@ -8,6 +10,7 @@ class InitializationResponse {
   List<LocatorTypes>? locatorTypes;
   Social1? social;
   List<Advert>? adverts;
+  List<KeyValueModel>? regions;
   String? imageBaseUrl;
   String? imageDirectory;
 
@@ -21,6 +24,7 @@ class InitializationResponse {
     this.locatorTypes,
     this.social,
     this.adverts,
+    this.regions,
     this.imageBaseUrl,
     this.imageDirectory,
   });
@@ -59,6 +63,16 @@ class InitializationResponse {
           ? null
           : (json["advert"] as List).map((e) => Advert.fromJson(e)).toList();
     }
+    if (json["regions"] is List) {
+      regions = json["regions"] == null
+          ? null
+          : (json["regions"] as List).map((e) {
+              if (e is String) {
+                return KeyValueModel.fromJson(e);
+              }
+              return KeyValueModel.fromMap(e);
+            }).toList();
+    }
     if (json["imageBaseUrl"] is String) {
       imageBaseUrl = json["imageBaseUrl"];
     }
@@ -90,6 +104,9 @@ class InitializationResponse {
     if (adverts != null) {
       data["advert"] = adverts?.map((e) => e.toJson()).toList();
     }
+    if (regions != null) {
+      data["regions"] = regions?.map((e) => e.toJson()).toList();
+    }
     data["imageBaseUrl"] = imageBaseUrl;
     data["imageDirectory"] = imageDirectory;
     return data;
@@ -105,6 +122,7 @@ class InitializationResponse {
     List<LocatorTypes>? locatorTypes,
     Social1? social,
     List<Advert>? adverts,
+    List<KeyValueModel>? regions,
     String? imageBaseUrl,
     String? imageDirectory,
   }) {
@@ -118,6 +136,7 @@ class InitializationResponse {
       locatorTypes: locatorTypes ?? this.locatorTypes,
       social: social ?? this.social,
       adverts: adverts ?? this.adverts,
+      regions: regions ?? this.regions,
       imageBaseUrl: imageBaseUrl ?? this.imageBaseUrl,
       imageDirectory: imageDirectory ?? this.imageDirectory,
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/ui/components/register/ghana_card_verification_notice.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:my_sage_agent/blocs/registration/registration_bloc.dart';
@@ -15,7 +16,7 @@ import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verifi
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
-import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:string_validator/string_validator.dart';
 
 enum RegisterStep { personalInfo, residentialAddress, identityVerification }
 
@@ -42,8 +43,11 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   final regionController = TextEditingController();
   final cityOrTownController = TextEditingController();
 
+  final _isCameraAvailable = ValueNotifier(true);
+
   void _onManual() {
     context.pop();
+    _isCameraAvailable.value = false;
     _pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
   }
 
@@ -61,16 +65,6 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
               },
             ),
           );
-          // Navigator.push(
-          //   MyApp.navigatorKey.currentContext!,
-          //   MaterialPageRoute(
-          //     builder: (_) => GhanaCardVerification(
-          //       onVerify: (picture, code) {
-          //         context.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
-          //       },
-          //     ),
-          //   ),
-          // );
         })
         .onPermanentlyDeniedCallback(_onManual)
         .onRestrictedCallback(_onManual)
@@ -137,56 +131,10 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
               backgroundColor: Colors.transparent,
               primary: false,
               body: BlocListener<RegistrationBloc, RegistrationState>(
-                listener: (context, state) {
-                  if (state is SavingPersonalInfo ||
-                      state is SavingResidentialAddress ||
-                      state is VerifyingPicture ||
-                      state is VerifyingManually) {
-                    MessageUtil.displayLoading(mainContext);
-                    return;
-                  } else {
-                    MessageUtil.stopLoading(mainContext);
-                  }
-
-                  switch (state) {
-                    case PersonalInfoSaved _:
-                      _pageController.animateToPage(
-                        1,
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeIn,
-                      );
-                      return;
-
-                    case ResidentialAddressSaved _:
-                      _startVerification(context);
-                      return;
-
-                    case PictureVerified state:
-                      context.go(DashboardPage.routeName);
-
-                      Future.delayed(Duration(milliseconds: 100), () {
-                        MessageUtil.displaySuccessFullDialog(
-                          MyApp.navigatorKey.currentContext!,
-                          message: state.response.message,
-                          onOk: () {
-                            context.go(DashboardPage.routeName);
-                          },
-                        );
-                      });
-
-                      return;
-
-                    case VerifyPictureError _:
-                      _pageController.animateToPage(
-                        2,
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.easeIn,
-                      );
-                      return;
-                  }
-                },
+                listener: (_, state) => _registrationListener(mainContext, state),
                 child: PageView(
                   controller: _pageController,
+                  physics: NeverScrollableScrollPhysics(),
                   onPageChanged: (index) {
                     _stage.value = RegisterStep.values[index];
                   },
@@ -198,8 +146,13 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                       gender: genderController,
                       phoneNumber: phoneNumberController,
                     ),
-                    RegisterClientStep2(),
-                    RegisterClientStep3(),
+                    RegisterClientStep2(
+                      address1: address1Controller,
+                      address2: address2Controller,
+                      region: regionController,
+                      cityOrTown: cityOrTownController,
+                    ),
+                    RegisterClientStep3(isCameraAvailable: _isCameraAvailable),
                   ],
                 ),
               ),
@@ -222,26 +175,11 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                   onPressed: () {
                     switch (_stage.value) {
                       case RegisterStep.personalInfo:
-                        context.read<RegistrationBloc>().add(
-                          SavePersonalInfo(
-                            firstName: firstNameController.text,
-                            lastName: lastNameController.text,
-                            gender: genderController.text,
-                            phoneNumber: phoneNumberController.text,
-                            emailAddress: emailAddressController.text,
-                          ),
-                        );
+                        _savePersonalDetails(context);
                         return;
 
                       case RegisterStep.residentialAddress:
-                        context.read<RegistrationBloc>().add(
-                          SaveResidentialAddress(
-                            address1: address1Controller.text,
-                            address2: address2Controller.text,
-                            region: regionController.text,
-                            cityOrTown: cityOrTownController.text,
-                          ),
-                        );
+                        _saveResidentialAddress(context);
                         return;
 
                       default:
@@ -258,6 +196,55 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     );
   }
 
+  void _registrationListener(BuildContext mainContext, RegistrationState state) {
+    if (state is SavingPersonalInfo ||
+        state is SavingResidentialAddress ||
+        state is VerifyingPicture ||
+        state is VerifyingManually) {
+      MessageUtil.displayLoading(mainContext);
+      return;
+    } else {
+      MessageUtil.stopLoading(mainContext);
+    }
+
+    switch (state) {
+      case PersonalInfoSaved _:
+        _pageController.animateToPage(
+          1,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
+        return;
+
+      case ResidentialAddressSaved _:
+        _startVerification(context);
+        return;
+
+      case PictureVerified state:
+        context.go(DashboardPage.routeName);
+
+        Future.delayed(Duration(milliseconds: 100), () {
+          MessageUtil.displaySuccessFullDialog(
+            MyApp.navigatorKey.currentContext!,
+            message: state.response.message,
+            onOk: () {
+              context.go(DashboardPage.routeName);
+            },
+          );
+        });
+
+        return;
+
+      case VerifyPictureError _:
+        _pageController.animateToPage(
+          2,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
+        return;
+    }
+  }
+
   void _startVerification(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -271,67 +258,116 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       },
     );
   }
-}
 
-class GhanaCardVerificationNotice extends StatelessWidget {
-  const GhanaCardVerificationNotice({super.key, required this.onStartGhanaCardVerification});
-  final void Function() onStartGhanaCardVerification;
+  void _savePersonalDetails(BuildContext context) {
+    final fullName = firstNameController.text.trim();
+    if (fullName.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Full name is required.\nEnter full name to proceed.',
+      );
+      return;
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return MediaQuery(
-      data: MediaQueryData.fromView(View.of(context)),
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton.filled(
-            style: IconButton.styleFrom(backgroundColor: ThemeUtil.offWhite),
-            onPressed: () {
-              context.pop();
-            },
-            icon: Icon(Icons.arrow_back),
-          ),
-          actions: [
-            FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: ThemeUtil.offWhite,
-                foregroundColor: ThemeUtil.black,
-              ),
-              onPressed: () {},
-              child: Text('Help'),
-            ),
-          ],
-          actionsPadding: const .only(right: 10),
-        ),
-        body: Column(
-          children: [
-            const SizedBox(height: 20),
-            Padding(
-              padding: const .symmetric(horizontal: 20),
-              child: Text(
-                'Let\'s get your Identity Verified using you Ghana Card',
-                style: PrimaryTextStyle(fontSize: 20, fontWeight: .w600, color: ThemeUtil.black),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const .symmetric(horizontal: 20),
-              child: Text(
-                'Kindly enable camera access to continue when prompted',
-                style: PrimaryTextStyle(fontSize: 16, fontWeight: .w400, color: ThemeUtil.flat),
-              ),
-            ),
-            const Spacer(),
-            Image.asset('assets/img/ghana-card-1.png'),
-            const Spacer(flex: 2),
-          ],
-        ),
-        bottomNavigationBar: SafeArea(
-          bottom: true,
-          child: Container(
-            padding: .only(left: 20, right: 20, top: 20),
-            child: FormButton(onPressed: onStartGhanaCardVerification, text: 'Continue'),
-          ),
-        ),
+    final gender = genderController.text.trim();
+    if (gender.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Gender is required.\nEnter gender to proceed.',
+      );
+      return;
+    }
+
+    final phoneNumber = phoneNumberController.text
+        .trim()
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
+        .replaceAll('(', '')
+        .replaceAll(')', '');
+    if (phoneNumber.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Phone number is required.\nEnter phone number to proceed.',
+      );
+      return;
+    } else if (!phoneNumber.isNumeric || (phoneNumber.length != 10 && phoneNumber.length != 12)) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message:
+            'Invalid phone number.\nEnter a correct phone number to proceed.\nExample: 0244123654',
+      );
+      return;
+    }
+
+    final emailAddress = emailAddressController.text.trim();
+    if (emailAddress.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Email Address is required.\nEnter email address to proceed.',
+      );
+      return;
+    } else if (!emailAddress.isEmail) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Invalid Email Address.\nEnter a valid email address to proceed.',
+      );
+      return;
+    }
+
+    context.read<RegistrationBloc>().add(
+      SavePersonalInfo(
+        firstName: fullName,
+        lastName: lastNameController.text,
+        gender: gender,
+        phoneNumber: phoneNumber,
+        emailAddress: emailAddress,
+      ),
+    );
+  }
+
+  void _saveResidentialAddress(BuildContext context) {
+    final address1 = address1Controller.text.trim();
+    if (address1.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Address Line 1 is required.\nEnter Address Line 1 to proceed.',
+      );
+      return;
+    }
+
+    final region = regionController.text.trim();
+    if (region.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Region is required.\nEnter region to proceed.',
+      );
+      return;
+    }
+
+    final cityOrTown = cityOrTownController.text.trim();
+    if (cityOrTown.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Town/city is required.\nEnter the town or city to proceed.',
+      );
+      return;
+    }
+
+    context.read<RegistrationBloc>().add(
+      SaveResidentialAddress(
+        address1: address1Controller.text,
+        address2: address2Controller.text,
+        region: regionController.text,
+        cityOrTown: cityOrTownController.text,
       ),
     );
   }

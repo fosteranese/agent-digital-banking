@@ -50,6 +50,10 @@ final class MessageUtil {
   }
 
   static void stopLoading(BuildContext context) {
+    if (!context.canPop()) {
+      return;
+    }
+
     context.pop();
   }
 
@@ -57,7 +61,7 @@ final class MessageUtil {
     BuildContext context, {
     String? title,
     String? message,
-    String okButtonText = 'Ok',
+    String okButtonText = 'Okay',
     void Function()? onOkPressed,
     Widget? customButton,
   }) {
@@ -70,34 +74,41 @@ final class MessageUtil {
         child: FadeIn(
           child: Dialog(
             backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            insetPadding: EdgeInsets.all(20),
+            shape: RoundedRectangleBorder(borderRadius: .circular(20)),
+            insetPadding: .all(20),
             child: Padding(
-              padding: const EdgeInsets.all(30),
+              padding: const .all(30),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: .min,
                 children: [
-                  Icon(Icons.error_outline, color: Colors.red, size: 55),
-                  const SizedBox(height: 10),
+                  CircleAvatar(
+                    radius: 27,
+                    child: Icon(Icons.close, color: ThemeUtil.danger, size: 24),
+                  ),
+                  const SizedBox(height: 15),
                   if (title != null)
                     Text(
                       title,
-                      textAlign: TextAlign.center,
+                      textAlign: .center,
                       style: PrimaryTextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        color: ThemeUtil.black,
+                        fontWeight: .w600,
+                        fontSize: 16,
                       ),
                     ),
-                  if (message != null) const SizedBox(height: 5),
+                  if (message != null) const SizedBox(height: 10),
                   if (message != null)
                     Text(
                       message,
-                      textAlign: TextAlign.center,
-                      style: PrimaryTextStyle(fontWeight: FontWeight.normal, fontSize: 16),
+                      textAlign: .center,
+                      style: PrimaryTextStyle(
+                        fontWeight: .normal,
+                        fontSize: 14,
+                        color: ThemeUtil.subtitleGrey,
+                      ),
                     ),
-                  const SizedBox(height: 20),
-                  FormButton(
+                  const SizedBox(height: 25),
+                  FormOutlineButton(
                     height: 50,
                     onPressed: () {
                       Navigator.pop(context);

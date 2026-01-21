@@ -52,7 +52,7 @@ class FormOutlineButton extends StatelessWidget {
                   textAlign: textAlign,
                   style:
                       textStyle ??
-                      PrimaryTextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor),
+                      PrimaryTextStyle(fontSize: 16, fontWeight: .w500, color: textColor),
                 ),
               )
             : FittedBox(
@@ -67,11 +67,7 @@ class FormOutlineButton extends StatelessWidget {
                       textAlign: textAlign,
                       style:
                           textStyle ??
-                          PrimaryTextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: textColor,
-                          ),
+                          PrimaryTextStyle(fontSize: 16, fontWeight: .w500, color: textColor),
                     ),
                   ],
                 ),

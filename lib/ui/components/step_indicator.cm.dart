@@ -37,7 +37,13 @@ class StepIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed,
+      onTap: () {
+        if (index > currentIndex) {
+          return;
+        }
+
+        onPressed();
+      },
       child: Row(
         mainAxisSize: .min,
         mainAxisAlignment: .start,
