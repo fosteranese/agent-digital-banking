@@ -83,13 +83,13 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     try {
       emit(VerifyingManually());
 
-      await _repo.manualVerification(
+      final result = await _repo.manualVerification(
         token: residentialAddressToken!,
         cardFront: event.cardFront,
         cardBack: event.cardBack,
       );
 
-      emit(ManuallyVerified());
+      emit(ManuallyVerified(response: result));
     } catch (ex) {
       ResponseUtil.handleException(ex, (error) => emit(ManualVerificationError(error: error)));
     }

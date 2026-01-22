@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/ui/components/register/ghana_card_verification_notice.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -221,18 +222,11 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         return;
 
       case PictureVerified state:
-        context.go(DashboardPage.routeName);
+        _onVerified(state.response);
+        return;
 
-        Future.delayed(Duration(milliseconds: 100), () {
-          MessageUtil.displaySuccessFullDialog(
-            MyApp.navigatorKey.currentContext!,
-            message: state.response.message,
-            onOk: () {
-              context.go(DashboardPage.routeName);
-            },
-          );
-        });
-
+      case ManuallyVerified state:
+        _onVerified(state.response);
         return;
 
       case VerifyPictureError _:
@@ -242,7 +236,31 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
           curve: Curves.easeIn,
         );
         return;
+
+      case ManualVerificationError state:
+        _onVerifiedFailed(state.error);
+        return;
     }
+  }
+
+  void _onVerified(Response response) {
+    context.go(DashboardPage.routeName);
+    Future.delayed(Duration(milliseconds: 100), () {
+      MessageUtil.displaySuccessFullDialog(
+        MyApp.navigatorKey.currentContext!,
+        message: response.message,
+        onOk: () {
+          context.go(DashboardPage.routeName);
+        },
+      );
+    });
+  }
+
+  void _onVerifiedFailed(Response error) {
+    context.go(DashboardPage.routeName);
+    Future.delayed(Duration(milliseconds: 100), () {
+      MessageUtil.displayErrorDialog(MyApp.navigatorKey.currentContext!, message: error.message);
+    });
   }
 
   void _startVerification(BuildContext context) {

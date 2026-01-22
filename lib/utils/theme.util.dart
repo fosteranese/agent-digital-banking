@@ -26,6 +26,7 @@ class ThemeUtil {
   static const Color success = Color(0xff007E13);
   static const Color pageColor = Color(0xffE5E5E5);
   static const Color inactivate = Color(0xffA9B6D5);
+  static const Color inactiveState = Color(0xffFFF2D2);
 }
 
 class PrimaryTextStyle extends TextStyle {

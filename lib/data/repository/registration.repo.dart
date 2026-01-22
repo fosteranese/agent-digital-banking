@@ -73,7 +73,7 @@ class RegistrationRepo {
     return response;
   }
 
-  Future<String> manualVerification({
+  Future<Response> manualVerification({
     required String token,
     required String cardFront,
     required String cardBack,
@@ -88,6 +88,6 @@ class RegistrationRepo {
       return Future.error(response);
     }
 
-    return response.data as String;
+    return response;
   }
 }

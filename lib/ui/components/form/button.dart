@@ -17,6 +17,7 @@ class FormButton extends StatelessWidget {
     this.iconColor,
     this.height = 48,
     this.loading = false,
+    this.disabled = false,
     this.iconSize,
     this.iconSpacerBeforeAfter,
     this.svgIcon,
@@ -36,9 +37,14 @@ class FormButton extends StatelessWidget {
   final double? iconSpacerBeforeAfter;
   final double height;
   final bool loading;
+  final bool disabled;
   final String? svgIcon;
   final FontWeight? fontWeight;
   final BorderRadius? borderRadius;
+
+  bool get _enabled {
+    return !loading && !disabled;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,15 +53,13 @@ class FormButton extends StatelessWidget {
       height: height,
       child: FilledButton(
         style: FilledButton.styleFrom(
-          backgroundColor: !loading ? backgroundColor : Color(0xffF8F8F8),
+          backgroundColor: _enabled ? backgroundColor : ThemeUtil.inactiveState,
           padding: .symmetric(horizontal: 8, vertical: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(height),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: borderRadius ?? .circular(height)),
           fixedSize: Size(double.maxFinite, height),
         ),
         onPressed: () {
-          if (loading) {
+          if (!_enabled) {
             return;
           }
 
@@ -86,7 +90,7 @@ class FormButton extends StatelessWidget {
       style: PrimaryTextStyle(
         fontSize: labelSize ?? 16,
         fontWeight: fontWeight ?? .w500,
-        color: foregroundColor,
+        color: _enabled ? foregroundColor : ThemeUtil.flora,
       ),
     );
   }
@@ -95,7 +99,7 @@ class FormButton extends StatelessWidget {
     if (svgIcon?.isNotEmpty ?? false) {
       return SvgPicture.asset(
         svgIcon!,
-        colorFilter: ColorFilter.mode(iconColor ?? foregroundColor, BlendMode.srcIn),
+        colorFilter: .mode(_enabled ? (iconColor ?? foregroundColor) : ThemeUtil.flora, .srcIn),
         width: iconSize ?? labelSize ?? 30,
       );
     }
@@ -104,10 +108,10 @@ class FormButton extends StatelessWidget {
   }
 
   Widget get _textAndIcon {
-    if (buttonIconAlignment == ButtonIconAlignment.left) {
+    if (buttonIconAlignment == .left) {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: .center,
+        crossAxisAlignment: .center,
         children: [
           _icon,
           SizedBox(width: iconSpacerBeforeAfter ?? 10),
@@ -117,8 +121,8 @@ class FormButton extends StatelessWidget {
     }
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: .center,
+      crossAxisAlignment: .center,
       children: [
         _text,
         SizedBox(width: iconSpacerBeforeAfter ?? 10),
