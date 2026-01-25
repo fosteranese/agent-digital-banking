@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
-import '../popover.dart';
 import 'input.dart';
 import 'select.dart';
 
@@ -62,29 +62,50 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
     if (!widget.fullScreen) {
       return LayoutBuilder(
         builder: (context, constraint) {
-          return PopOver(
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(20),
-              height: constraint.maxHeight,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // const SizedBox(height: 5),
-                  FittedBox(
-                    child: Text(
+          return Container(
+            margin: .only(left: 10, right: 10, bottom: 10 + MediaQuery.of(context).padding.bottom),
+            padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            child: Column(
+              mainAxisSize: .min,
+              crossAxisAlignment: .center,
+              children: [
+                Stack(
+                  alignment: .topLeft,
+                  children: [
+                    Text(
                       widget.title,
+                      textAlign: .center,
                       style: PrimaryTextStyle(
-                        color: Color(0xff202020),
+                        fontWeight: .w600,
                         fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                        color: ThemeUtil.black,
                       ),
                     ),
-                  ),
-                  _getList,
-                ],
-              ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        iconSize: 18,
+
+                        style: IconButton.styleFrom(
+                          tapTargetSize: .shrinkWrap,
+                          maximumSize: const Size(32, 32),
+                          minimumSize: const Size(32, 32),
+                          backgroundColor: ThemeUtil.offWhite,
+                          fixedSize: const Size(32, 32),
+                          padding: .zero,
+                        ),
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: Icon(Icons.close),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                _getList,
+              ],
             ),
           );
         },
@@ -179,14 +200,12 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                                     Container(
                                       margin: const EdgeInsets.only(bottom: 10),
                                       decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: const Color(0xffF1F1F1),
-                                          width: 1,
-                                        ),
+                                        border: Border.all(color: ThemeUtil.offWhite, width: 1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: ListTile(
                                         dense: false,
+                                        contentPadding: .only(left: 10),
                                         leading: option.icon,
                                         title:
                                             option.label ??
@@ -201,30 +220,29 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
                                         selected:
                                             _selectedOption != null &&
                                             _selectedOption!.value == option.value,
-                                        onTap: () {
-                                          _selectedOption = option;
+                                        onTap: () => _onSelected(option),
+                                        trailing:
+                                            option.trailing ??
+                                            RadioGroup(
+                                              groupValue: widget.selectedOption?.value,
 
-                                          if (widget.onSelectedOption != null) {
-                                            widget.onSelectedOption!(option);
-                                          }
+                                              onChanged: (_) {
+                                                _onSelected(option);
+                                              },
+                                              child: Radio(
+                                                value: option.value,
+                                                activeColor: ThemeUtil.primaryColor,
+                                                fillColor: WidgetStateProperty.resolveWith((
+                                                  states,
+                                                ) {
+                                                  if (states.contains(WidgetState.selected)) {
+                                                    return ThemeUtil.primaryColor;
+                                                  }
 
-                                          setState(() {});
-                                          Navigator.of(context).pop();
-                                        },
-                                        // trailing:
-                                        //     option
-                                        //         .trailing ??
-                                        //     RadioGroup(
-                                        //       groupValue: widget
-                                        //           .selectedOption
-                                        //           ?.value,
-                                        //       onChanged:
-                                        //           (_) {},
-                                        //       child: Radio(
-                                        //         value: option
-                                        //             .value,
-                                        //       ),
-                                        //     ),
+                                                  return ThemeUtil.inactiveBorder;
+                                                }),
+                                              ),
+                                            ),
                                       ),
                                     ),
                                   );
@@ -272,6 +290,17 @@ class _FormSelectOptionScreenState extends State<FormSelectOptionScreen> {
         ],
       ),
     );
+  }
+
+  void _onSelected(FormSelectOption option) {
+    _selectedOption = option;
+
+    if (widget.onSelectedOption != null) {
+      widget.onSelectedOption!(option);
+    }
+
+    setState(() {});
+    Navigator.of(context).pop();
   }
 
   PreferredSize get _searchBox {

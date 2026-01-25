@@ -1,22 +1,26 @@
+import 'dart:convert';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/verification_modes/scan_ghana_card_verification.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
-import 'package:uuid/uuid.dart';
 
 enum GhanaCardVerificationUploadStages { front, back }
 
+enum UploadTypes { scan, file }
+
 class GhanaCardVerificationUpload extends StatefulWidget {
-  const GhanaCardVerificationUpload({super.key, required this.onVerify, this.onSkip, this.onBack});
+  const GhanaCardVerificationUpload({super.key, required this.onVerify, required this.uploadTypes});
   static const routeName = '/ghana-card-verification-upload';
 
-  final void Function(String cardFront, String cardBack, String code) onVerify;
-  final void Function()? onSkip;
-  final void Function()? onBack;
+  final void Function(String cardFront, String cardBack) onVerify;
+  final UploadTypes uploadTypes;
 
   @override
   State<GhanaCardVerificationUpload> createState() => _GhanaCardVerificationUploadState();
@@ -43,6 +47,38 @@ class _GhanaCardVerificationUploadState extends State<GhanaCardVerificationUploa
         child: Container(color: const Color(0x30FFFFFF)),
       ),
     );
+  }
+
+  String get _title {
+    if (widget.uploadTypes == .file) {
+      return 'Upload Ghana Card';
+    }
+
+    return 'Scan Ghana Card';
+  }
+
+  String get _cardFrontTitle {
+    if (widget.uploadTypes == .file) {
+      return 'Upload the front of Ghana Card';
+    }
+
+    return 'Scan the front of Ghana Card';
+  }
+
+  String get _cardBackTitle {
+    if (widget.uploadTypes == .file) {
+      return 'Upload the back of Ghana Card';
+    }
+
+    return 'Scan the back of Ghana Card';
+  }
+
+  String get _icon {
+    if (widget.uploadTypes == .file) {
+      return 'assets/img/upload.svg';
+    }
+
+    return 'assets/img/scan.svg';
   }
 
   @override
@@ -77,7 +113,7 @@ class _GhanaCardVerificationUploadState extends State<GhanaCardVerificationUploa
                     children: [
                       const Spacer(),
                       Text(
-                        'Scan Ghana Card',
+                        _title,
                         textAlign: .center,
                         style: PrimaryTextStyle(
                           color: Colors.white,
@@ -89,16 +125,19 @@ class _GhanaCardVerificationUploadState extends State<GhanaCardVerificationUploa
 
                       ValueListenableBuilder(
                         valueListenable: _cardFront,
-                        builder: (context, value, child) {
+                        builder: (context, image, child) {
                           return VerificationItemButton(
+                            image: image,
+                            icon: _icon,
                             height: _height,
                             onPressed: () async {
-                              await pickImageFromGallery(_cardFront);
-                              if (_cardFront.value != null) {
-                                _stage.value = .back;
-                              }
+                              await _invokeUploadMethod(context, _cardFront, () {
+                                if (_cardFront.value != null) {
+                                  _stage.value = .back;
+                                }
+                              });
                             },
-                            title: 'Upload the front of Ghana Card',
+                            title: _cardFrontTitle,
                             errorTitle: '',
                             errorMessage: '',
                             stage: GhanaCardVerificationUploadStages.front,
@@ -109,16 +148,18 @@ class _GhanaCardVerificationUploadState extends State<GhanaCardVerificationUploa
                       const SizedBox(height: 20),
                       ValueListenableBuilder(
                         valueListenable: _cardBack,
-                        builder: (context, value, child) {
+                        builder: (context, image, child) {
                           return VerificationItemButton(
+                            image: image,
+                            icon: _icon,
                             height: _height,
                             onPressed: () {
-                              pickImageFromGallery(_cardBack);
+                              _invokeUploadMethod(context, _cardBack, () {});
                             },
-                            title: 'Upload the back of Ghana Card',
-                            errorTitle: 'Front Of Card Not Uploaded',
+                            title: _cardBackTitle,
+                            errorTitle: 'Front Of Card Not Selected',
                             errorMessage:
-                                'You must first upload the front of your ghana card to proceed with this.',
+                                'You must first select the front of your ghana card to proceed with this.',
                             stage: GhanaCardVerificationUploadStages.back,
                             currentStage: stage,
                           );
@@ -152,11 +193,14 @@ class _GhanaCardVerificationUploadState extends State<GhanaCardVerificationUploa
                         }
 
                         final images = await Future.wait([
-                          _cardFront.value!.readAsString(),
-                          _cardBack.value!.readAsString(),
+                          _cardFront.value!.readAsBytes(),
+                          _cardBack.value!.readAsBytes(),
                         ]);
 
-                        widget.onVerify(images.first, images.last, Uuid().v4());
+                        final imageFirst = base64Encode(images.first);
+                        final imageLast = base64Encode(images.last);
+
+                        widget.onVerify(imageFirst, imageLast);
                       },
                       text: 'Submit',
                     );
@@ -170,13 +214,40 @@ class _GhanaCardVerificationUploadState extends State<GhanaCardVerificationUploa
     );
   }
 
-  Future<void> pickImageFromGallery(ValueNotifier<XFile?> cardImage) async {
+  Future<void> _invokeUploadMethod(
+    BuildContext context,
+    ValueNotifier<XFile?> cardSide,
+    void Function() onSuccess,
+  ) async {
+    switch (widget.uploadTypes) {
+      case .file:
+        await pickImageFromGallery(cardSide, onSuccess);
+        break;
+      case .scan:
+        context.push(
+          ScanGhanaCardVerification.routeName,
+          extra: ScanGhanaCardVerification(
+            onVerify: (image) {
+              cardSide.value = image;
+              onSuccess();
+            },
+          ),
+        );
+        break;
+    }
+  }
+
+  Future<void> pickImageFromGallery(
+    ValueNotifier<XFile?> cardImage,
+    void Function() onSuccess,
+  ) async {
     final image = await _picker.pickImage(source: .gallery);
     if (image == null) {
       return;
     }
 
     cardImage.value = image;
+    onSuccess();
   }
 
   @override
@@ -191,6 +262,8 @@ class _GhanaCardVerificationUploadState extends State<GhanaCardVerificationUploa
 class VerificationItemButton extends StatelessWidget {
   const VerificationItemButton({
     super.key,
+    required this.image,
+    required this.icon,
     required this.height,
     required this.onPressed,
     required this.title,
@@ -200,6 +273,8 @@ class VerificationItemButton extends StatelessWidget {
     required this.currentStage,
   });
 
+  final XFile? image;
+  final String icon;
   final double height;
   final String title;
   final String errorTitle;
@@ -243,26 +318,53 @@ class VerificationItemButton extends StatelessWidget {
           radius: const Radius.circular(8),
         ),
 
-        child: Container(
-          alignment: .center,
-          height: height,
-          decoration: BoxDecoration(color: _bgColor, borderRadius: .circular(8)),
-          child: Row(
-            mainAxisAlignment: .center,
-            crossAxisAlignment: .center,
-            children: [
-              SvgPicture.asset(
-                'assets/img/upload.svg',
-                colorFilter: ColorFilter.mode(_activityColor, BlendMode.srcIn),
+        child: Builder(
+          builder: (context) {
+            final invokeButton = Container(
+              alignment: .center,
+              height: height,
+              decoration: BoxDecoration(color: _bgColor, borderRadius: .circular(8)),
+              child: Row(
+                mainAxisAlignment: .center,
+                crossAxisAlignment: .center,
+                children: [
+                  SvgPicture.asset(
+                    icon,
+                    colorFilter: ColorFilter.mode(_activityColor, BlendMode.srcIn),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    title,
+                    textAlign: .center,
+                    style: PrimaryTextStyle(color: _activityColor, fontSize: 16, fontWeight: .w400),
+                  ),
+                ],
               ),
-              const SizedBox(width: 10),
-              Text(
-                title,
-                textAlign: .center,
-                style: PrimaryTextStyle(color: _activityColor, fontSize: 16, fontWeight: .w400),
-              ),
-            ],
-          ),
+            );
+
+            if (image != null) {
+              return FutureBuilder(
+                future: image!.readAsBytes(),
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return invokeButton;
+                  }
+                  return ClipRRect(
+                    borderRadius: .circular(8),
+                    child: Image.memory(
+                      snapshot.requireData,
+                      alignment: .center,
+                      height: height,
+                      width: double.maxFinite,
+                      fit: .cover,
+                    ),
+                  );
+                },
+              );
+            }
+
+            return invokeButton;
+          },
         ),
       ),
     );

@@ -10,7 +10,7 @@ class DashboardStats extends StatelessWidget {
   static final List<Map<String, dynamic>> _cards = [
     {
       'color': ThemeUtil.primaryColor,
-      'iconColor': Color(0xff00569C),
+      'iconColor': Color(0x29FFFFFF),
       'icon': 'assets/img/cash-collected.svg',
       'title': '',
       'caption': 'Cash Collected',
@@ -19,8 +19,8 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': Color(0xff5A7CBC),
-      'iconColor': Color(0xff224B98),
+      'color': Color(0xff003F37),
+      'iconColor': Color(0x29FFFFFF),
       'icon': 'assets/img/money.svg',
       'title': '',
       'caption': 'Cash Deposited',
@@ -29,8 +29,8 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': Color(0xff57B16B),
-      'iconColor': Color(0xff308F46),
+      'color': Color(0xff054C86),
+      'iconColor': Color(0x29FFFFFF),
       'icon': 'assets/img/cash-collected.svg',
       'title': '',
       'caption': 'Cash at Hand',
@@ -39,8 +39,8 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': Color(0xffE53793),
-      'iconColor': Color(0xff820849),
+      'color': Color(0xff727600),
+      'iconColor': Color(0x29FFFFFF),
       'icon': 'assets/img/wallet.svg',
       'title': '',
       'caption': 'MoMo Collected',

@@ -7,6 +7,7 @@ import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/router/auth.router.dart';
 import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification.dart';
 import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification_upload.dart';
+import 'package:my_sage_agent/ui/components/verification_modes/scan_ghana_card_verification.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
 import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
 import 'package:my_sage_agent/ui/pages/forget_password/reset_password.page.dart';
@@ -168,6 +169,13 @@ final router = GoRouter(
       path: GhanaCardVerification.routeName,
       builder: (context, state) {
         final page = state.extra as GhanaCardVerification;
+        return page;
+      },
+    ),
+    GoRoute(
+      path: ScanGhanaCardVerification.routeName,
+      builder: (context, state) {
+        final page = state.extra as ScanGhanaCardVerification;
         return page;
       },
     ),

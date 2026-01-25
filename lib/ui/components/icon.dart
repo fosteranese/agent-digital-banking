@@ -8,7 +8,7 @@ class MyIcon extends StatelessWidget {
     super.key,
     required this.icon,
     this.iconColor = ThemeUtil.primaryColor,
-    this.iconBackgroundColor = ThemeUtil.highlight,
+    this.iconBackgroundColor = ThemeUtil.iconBg,
   });
   final String icon;
   final Color? iconColor;

@@ -18,6 +18,7 @@ import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:uuid/uuid.dart';
 
 enum RegisterStep { personalInfo, residentialAddress, identityVerification }
 
@@ -54,15 +55,15 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
 
   final stageTitles = ['Personal Info', 'Residential Address', 'Identity Verification'];
 
-  void _onStartGhanaCardVerification(BuildContext context) async {
+  void _onStartGhanaCardVerification(BuildContext mainContext) async {
     await Permission.camera
         .onDeniedCallback(_onManual)
         .onGrantedCallback(() {
-          context.push(
+          mainContext.push(
             GhanaCardVerification.routeName,
             extra: GhanaCardVerification(
-              onVerify: (picture, code) {
-                context.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
+              onVerify: (picture, _) {
+                mainContext.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
               },
             ),
           );
@@ -78,121 +79,136 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   Widget build(BuildContext mainContext) {
     return BlocProvider(
       create: (context) => RegistrationBloc(),
-      child: MainLayout(
-        showBackBtn: true,
-        useSafeArea: false,
-        title: 'Register Client',
-        slivers: [
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: MyHeaderDelegate(
-              maxHeight: 80,
-              minHeight: 80,
-              builder: (context, shrinkOffset, overlapsContent) {
-                return Container(
-                  color: Colors.white,
-                  child: Container(
-                    margin: const .symmetric(vertical: 20),
-                    color: Color(0xffF1F4FB),
-                    child: ValueListenableBuilder(
-                      valueListenable: _stage,
-                      builder: (context, stage, child) {
-                        return ListView(
-                          padding: const .only(left: 20),
-                          scrollDirection: .horizontal,
-                          children: [
-                            for (var i = 0; i < stageTitles.length; i++)
-                              StepIndicator(
-                                index: i,
-                                currentIndex: stage.index,
-                                title: stageTitles[i],
-                                onPressed: () {
-                                  _pageController.animateToPage(
-                                    i,
-                                    duration: Duration(milliseconds: 300),
-                                    curve: Curves.easeIn,
-                                  );
-                                  _stage.value = RegisterStep.values[i];
-                                },
-                              ),
-                          ],
-                        );
+      child: Builder(
+        builder: (context) {
+          return MainLayout(
+            showBackBtn: true,
+            useSafeArea: false,
+            title: 'Register Client',
+            slivers: [
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: MyHeaderDelegate(
+                  maxHeight: 80,
+                  minHeight: 80,
+                  builder: (context, shrinkOffset, overlapsContent) {
+                    return Container(
+                      color: Colors.white,
+                      child: Container(
+                        margin: const .symmetric(vertical: 20),
+                        color: Color(0xffF1F4FB),
+                        child: ValueListenableBuilder(
+                          valueListenable: _stage,
+                          builder: (context, stage, child) {
+                            return ListView(
+                              padding: const .only(left: 20),
+                              scrollDirection: .horizontal,
+                              children: [
+                                for (var i = 0; i < stageTitles.length; i++)
+                                  StepIndicator(
+                                    index: i,
+                                    currentIndex: stage.index,
+                                    title: stageTitles[i],
+                                    onPressed: () {
+                                      _pageController.animateToPage(
+                                        i,
+                                        duration: Duration(milliseconds: 300),
+                                        curve: Curves.easeIn,
+                                      );
+                                      _stage.value = RegisterStep.values[i];
+                                    },
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              SliverFillRemaining(
+                fillOverscroll: true,
+                hasScrollBody: false,
+                child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  primary: false,
+                  body: BlocListener<RegistrationBloc, RegistrationState>(
+                    listener: (_, state) => _registrationListener(context, state),
+                    child: PageView(
+                      controller: _pageController,
+                      physics: NeverScrollableScrollPhysics(),
+                      onPageChanged: (index) {
+                        _stage.value = RegisterStep.values[index];
                       },
+                      children: [
+                        RegisterClientStep1(
+                          emailAddress: emailAddressController,
+                          firstName: firstNameController,
+                          lastName: lastNameController,
+                          gender: genderController,
+                          phoneNumber: phoneNumberController,
+                        ),
+                        RegisterClientStep2(
+                          address1: address1Controller,
+                          address2: address2Controller,
+                          region: regionController,
+                          cityOrTown: cityOrTownController,
+                        ),
+                        RegisterClientStep3(
+                          isCameraAvailable: _isCameraAvailable,
+                          onVerify: (cardFront, cardBack) {
+                            context.read<RegistrationBloc>().add(
+                              ManualVerification(
+                                id: Uuid().v4(),
+                                cardFront: cardFront,
+                                cardBack: cardBack,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+            bottomNavigationBar: ValueListenableBuilder(
+              valueListenable: _stage,
+              builder: (context, value, child) {
+                if (value == RegisterStep.identityVerification) {
+                  return SizedBox.shrink();
+                }
+
+                return SafeArea(
+                  top: false,
+                  bottom: true,
+                  child: Container(
+                    padding: .only(left: 20, right: 20, top: 20),
+                    child: FormButton(
+                      onPressed: () {
+                        switch (_stage.value) {
+                          case RegisterStep.personalInfo:
+                            _savePersonalDetails(context);
+                            return;
+
+                          case RegisterStep.residentialAddress:
+                            _saveResidentialAddress(context);
+                            return;
+
+                          default:
+                            return;
+                        }
+                      },
+                      text: 'Continue',
                     ),
                   ),
                 );
               },
             ),
-          ),
-
-          SliverFillRemaining(
-            fillOverscroll: true,
-            hasScrollBody: false,
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              primary: false,
-              body: BlocListener<RegistrationBloc, RegistrationState>(
-                listener: (_, state) => _registrationListener(mainContext, state),
-                child: PageView(
-                  controller: _pageController,
-                  physics: NeverScrollableScrollPhysics(),
-                  onPageChanged: (index) {
-                    _stage.value = RegisterStep.values[index];
-                  },
-                  children: [
-                    RegisterClientStep1(
-                      emailAddress: emailAddressController,
-                      firstName: firstNameController,
-                      lastName: lastNameController,
-                      gender: genderController,
-                      phoneNumber: phoneNumberController,
-                    ),
-                    RegisterClientStep2(
-                      address1: address1Controller,
-                      address2: address2Controller,
-                      region: regionController,
-                      cityOrTown: cityOrTownController,
-                    ),
-                    RegisterClientStep3(isCameraAvailable: _isCameraAvailable),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-        bottomNavigationBar: ValueListenableBuilder(
-          valueListenable: _stage,
-          builder: (context, value, child) {
-            if (value == RegisterStep.identityVerification) {
-              return SizedBox.shrink();
-            }
-
-            return SafeArea(
-              top: false,
-              bottom: true,
-              child: Container(
-                padding: .only(left: 20, right: 20, top: 20),
-                child: FormButton(
-                  onPressed: () {
-                    switch (_stage.value) {
-                      case RegisterStep.personalInfo:
-                        _savePersonalDetails(context);
-                        return;
-
-                      case RegisterStep.residentialAddress:
-                        _saveResidentialAddress(context);
-                        return;
-
-                      default:
-                        return;
-                    }
-                  },
-                  text: 'Continue',
-                ),
-              ),
-            );
-          },
-        ),
+          );
+        },
       ),
     );
   }
@@ -218,7 +234,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         return;
 
       case ResidentialAddressSaved _:
-        _startVerification(context);
+        _startVerification(mainContext);
         return;
 
       case PictureVerified state:
@@ -263,15 +279,15 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     });
   }
 
-  void _startVerification(BuildContext context) {
+  void _startVerification(BuildContext mainContext) {
     showModalBottomSheet(
-      context: context,
+      context: mainContext,
       useSafeArea: false,
       isScrollControlled: true,
       backgroundColor: Colors.white,
       builder: (_) {
         return GhanaCardVerificationNotice(
-          onStartGhanaCardVerification: () => _onStartGhanaCardVerification(context),
+          onStartGhanaCardVerification: () => _onStartGhanaCardVerification(mainContext),
         );
       },
     );

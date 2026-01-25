@@ -1,5 +1,5 @@
 name: my_sage_agent
-description: "Agent Agent Digital Banking Application"
+description: "Agent Digital Banking Application"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
@@ -43,8 +43,8 @@ dependencies:
   hive_ce: ^2.15.1
   hive_ce_flutter: ^2.3.3
   flutter_native_contact_picker: ^0.0.11
-  firebase_messaging: ^16.0.4
   firebase_core: ^4.2.1
+  firebase_messaging: ^16.0.4
   envied: ^1.3.2
   freerasp: ^7.3.0
   path: ^1.9.1

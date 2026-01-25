@@ -697,29 +697,30 @@ class AppUtil {
           margin: .only(left: 10, right: 10, bottom: 10 + MediaQuery.of(context).padding.bottom),
           padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: .min,
+            crossAxisAlignment: .center,
             children: [
               Stack(
                 alignment: .center,
                 children: [
                   const Text(
                     'Sign Out',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                    textAlign: .center,
+                    style: PrimaryTextStyle(
+                      fontWeight: .bold,
                       fontSize: 16,
                       color: ThemeUtil.danger,
                     ),
                   ),
                   Align(
-                    alignment: Alignment.centerRight,
+                    alignment: .centerRight,
                     child: IconButton(
                       iconSize: 18,
 
                       style: IconButton.styleFrom(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        tapTargetSize: .shrinkWrap,
                         maximumSize: const Size(32, 32),
                         minimumSize: const Size(32, 32),
                         backgroundColor: ThemeUtil.offWhite,

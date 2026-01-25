@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_sage_agent/ui/components/form/input.dart';
 import 'package:my_sage_agent/ui/components/form/select.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -32,7 +33,12 @@ class RegisterClientStep1 extends StatelessWidget {
           ),
           const SizedBox(height: 30),
 
-          FormInput(label: 'Full Name *', placeholder: 'Enter full name', controller: firstName),
+          FormInput(
+            label: 'Full Name *',
+            placeholder: 'Enter full name',
+            controller: firstName,
+            keyboardType: .name,
+          ),
           FormSelect(
             controller: gender,
             label: 'Gender *',
@@ -46,11 +52,14 @@ class RegisterClientStep1 extends StatelessWidget {
             label: 'Phone Number *',
             placeholder: 'Eg. 0244123654',
             controller: phoneNumber,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            keyboardType: .phone,
           ),
           FormInput(
             label: 'Email Address *',
             placeholder: 'Enter email address',
             controller: emailAddress,
+            keyboardType: .emailAddress,
           ),
         ],
       ),

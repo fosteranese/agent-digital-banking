@@ -20,6 +20,7 @@ class ThemeUtil {
   static const Color fade = Color(0xffD9DADB);
   static const Color highlight = Color(0xffF1F8FF);
   static const Color border = Color(0xffF0F0F0);
+  static const Color inactiveBorder = Color(0xffE0E0E0);
   static const Color danger = Color(0xffE10303);
   static const Color offWhite = Color(0xffF1F1F1);
   static const Color grey = Color(0xff7D7D7D);
@@ -27,6 +28,7 @@ class ThemeUtil {
   static const Color pageColor = Color(0xffE5E5E5);
   static const Color inactivate = Color(0xffA9B6D5);
   static const Color inactiveState = Color(0xffFFF2D2);
+  static const Color iconBg = Color(0xffF5F2EB);
 }
 
 class PrimaryTextStyle extends TextStyle {

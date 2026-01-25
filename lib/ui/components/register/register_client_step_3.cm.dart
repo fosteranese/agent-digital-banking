@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/blocs/registration/registration_bloc.dart';
+
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification_upload.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class RegisterClientStep3 extends StatelessWidget {
-  const RegisterClientStep3({super.key, required this.isCameraAvailable});
+  const RegisterClientStep3({super.key, required this.isCameraAvailable, required this.onVerify});
 
   final ValueNotifier<bool> isCameraAvailable;
+  final void Function(String cardFront, String cardBack) onVerify;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,15 @@ class RegisterClientStep3 extends StatelessWidget {
                     const SizedBox(height: 20),
                     if (value)
                       FormButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.push(
+                            GhanaCardVerificationUpload.routeName,
+                            extra: GhanaCardVerificationUpload(
+                              onVerify: onVerify,
+                              uploadTypes: .scan,
+                            ),
+                          );
+                        },
                         text: 'Scan Now',
                         svgIcon: 'assets/img/scan.svg',
                         buttonIconAlignment: .left,
@@ -66,15 +74,8 @@ class RegisterClientStep3 extends StatelessWidget {
                         context.push(
                           GhanaCardVerificationUpload.routeName,
                           extra: GhanaCardVerificationUpload(
-                            onVerify: (cardFront, cardBack, code) {
-                              context.read<RegistrationBloc>().add(
-                                ManualVerification(
-                                  id: code,
-                                  cardFront: cardFront,
-                                  cardBack: cardBack,
-                                ),
-                              );
-                            },
+                            onVerify: onVerify,
+                            uploadTypes: .file,
                           ),
                         );
                       },

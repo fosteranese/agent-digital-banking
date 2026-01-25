@@ -180,11 +180,11 @@ class ReceiptItem extends StatelessWidget {
       leading: MyIcon(icon: _icon),
       title: Text(
         label,
-        style: PrimaryTextStyle(color: ThemeUtil.grey, fontSize: 14, fontWeight: FontWeight.w400),
+        style: PrimaryTextStyle(color: ThemeUtil.grey, fontSize: 14, fontWeight: .w400),
       ),
       subtitle: Text(
         name,
-        style: PrimaryTextStyle(color: ThemeUtil.black, fontSize: 16, fontWeight: FontWeight.w600),
+        style: PrimaryTextStyle(color: ThemeUtil.black, fontSize: 16, fontWeight: .w600),
       ),
       trailing: trailing,
     );

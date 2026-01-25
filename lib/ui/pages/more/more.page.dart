@@ -87,7 +87,7 @@ class _MorePageState extends State<MorePage> {
             margin: const .all(20),
             padding: const .symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: ThemeUtil.highlight,
+              color: ThemeUtil.iconBg,
               borderRadius: BorderRadius.circular(12),
             ),
             child: ListTile(
@@ -101,11 +101,7 @@ class _MorePageState extends State<MorePage> {
               ),
               subtitle: Text(
                 'Agent Code: ${AppUtil.currentUser.user?.walletNumber ?? 'N/A'}',
-                style: PrimaryTextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: ThemeUtil.flat,
-                ),
+                style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
               ),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Color(0xffC4C4C4)),
             ),
@@ -296,7 +292,7 @@ class MoreTitle extends StatelessWidget {
     required this.title,
     required this.icon,
     this.iconColor = ThemeUtil.primaryColor,
-    this.iconBackgroundColor = ThemeUtil.highlight,
+    this.iconBackgroundColor = ThemeUtil.iconBg,
   });
   final void Function()? onTap;
   final String title;
