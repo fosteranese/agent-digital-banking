@@ -9,10 +9,6 @@ import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verifi
 import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification_upload.dart';
 import 'package:my_sage_agent/ui/components/verification_modes/scan_ghana_card_verification.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
-import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
-import 'package:my_sage_agent/ui/pages/forget_password/reset_password.page.dart';
-import 'package:my_sage_agent/ui/pages/forget_password/verify_password_reset.page.dart';
-import 'package:my_sage_agent/ui/pages/forgot_secret_answer/request_secret_answer.page.dart';
 import 'package:my_sage_agent/ui/pages/intro.page.dart';
 import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
@@ -31,7 +27,6 @@ import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 import 'package:my_sage_agent/ui/pages/update.page.dart';
-import 'package:my_sage_agent/ui/pages/welcome.page.dart';
 
 final router = GoRouter(
   initialLocation: '/',
@@ -48,7 +43,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const WelcomePage(),
+      builder: (context, state) => const NewDeviceLoginPage(),
       routes: [
         authRouter,
         GoRoute(
@@ -128,7 +123,10 @@ final router = GoRouter(
         ),
       ],
     ),
-    GoRoute(path: WelcomePage.routeName, builder: (context, state) => const WelcomePage()),
+    GoRoute(
+      path: NewDeviceLoginPage.routeName,
+      builder: (context, state) => const NewDeviceLoginPage(),
+    ),
     GoRoute(path: IntroPage.routeName, builder: (context, state) => const IntroPage()),
 
     GoRoute(
@@ -144,14 +142,6 @@ final router = GoRouter(
     GoRoute(
       path: NewDeviceLoginPage.routeName,
       builder: (context, state) => const NewDeviceLoginPage(),
-    ),
-    GoRoute(
-      path: RequestPasswordResetPage.routeName,
-      builder: (context, state) => const RequestPasswordResetPage(),
-    ),
-    GoRoute(
-      path: RequestSecretAnswerPage.routeName,
-      builder: (context, state) => RequestSecretAnswerPage(),
     ),
     GoRoute(path: OtpLoginPage.routeName, builder: (context, state) => OtpLoginPage()),
     GoRoute(
@@ -186,11 +176,6 @@ final router = GoRouter(
         return page;
       },
     ),
-    GoRoute(
-      path: VerifyPasswordResetPage.routeName,
-      builder: (context, state) => VerifyPasswordResetPage(),
-    ),
-    GoRoute(path: ResetPasswordPage.routeName, builder: (context, state) => ResetPasswordPage()),
     GoRoute(
       path: RegisterClientPage.routeName,
       builder: (context, state) {

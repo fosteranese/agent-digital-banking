@@ -13,7 +13,6 @@ import 'package:my_sage_agent/data/models/unlock_screen.request.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/password_input.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
-import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/biometric.util.dart';
@@ -89,22 +88,6 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
           placeholder: 'Password',
           color: Colors.white,
           visibilityColor: Colors.black,
-          info: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Align(
-              child: InkWell(
-                onTap: () => context.push(RequestPasswordResetPage.routeName),
-                child: Text(
-                  "Forgot password?",
-                  style: PrimaryTextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
-            ),
-          ),
         ),
         if (biometricEnabled)
           InkWell(

@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/ui/pages/welcome.page.dart';
+import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 import 'package:my_sage_agent/utils/help.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -87,7 +87,7 @@ class _PlainWithHeaderLayoutState extends State<PlainWithHeaderLayout> {
                           context.pop();
                           return;
                         }
-                        context.go(WelcomePage.routeName);
+                        context.go(NewDeviceLoginPage.routeName);
                       },
                   color: Colors.white,
                   icon: const Icon(Icons.keyboard_backspace, color: Colors.black, size: 20),

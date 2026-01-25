@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => OtpBloc()),
         ],
         child: MaterialApp.router(
-          title: 'Agent Digital Banking',
+          title: 'MySage Agent',
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
           localizationsDelegates: const [

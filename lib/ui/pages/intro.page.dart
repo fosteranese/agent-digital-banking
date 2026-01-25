@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 
 import '../../blocs/app/app_bloc.dart';
 import '../../constants/status.const.dart';
@@ -13,7 +14,6 @@ import '../../utils/app.util.dart';
 import '../../utils/theme.util.dart';
 import '../components/form/button.dart';
 import '../components/intro_slide.dart';
-import 'welcome.page.dart';
 
 class IntroPage extends StatefulWidget {
   const IntroPage({super.key});
@@ -187,7 +187,7 @@ class IntroPageState extends State<IntroPage> {
                         foregroundColor: ThemeUtil.black,
                         icon: Icons.east_outlined,
                         onPressed: () {
-                          context.go(WelcomePage.routeName);
+                          context.go(NewDeviceLoginPage.routeName);
                         },
                         text: 'Get Started',
                       );

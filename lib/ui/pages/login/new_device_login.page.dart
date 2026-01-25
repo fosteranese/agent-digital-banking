@@ -9,7 +9,6 @@ import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/input.dart';
 import 'package:my_sage_agent/ui/components/form/password_input.dart';
 import 'package:my_sage_agent/ui/layouts/background.layout.dart';
-import 'package:my_sage_agent/ui/pages/forget_password/request_password_reset.page.dart';
 import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -61,22 +60,6 @@ class _NewDeviceLoginPageState extends State<NewDeviceLoginPage> {
           placeholder: 'Password',
           color: Colors.white,
           visibilityColor: Colors.black,
-          info: Align(
-            alignment: Alignment.topRight,
-            child: InkWell(
-              onTap: () {
-                context.push(RequestPasswordResetPage.routeName);
-              },
-              child: Text(
-                'Forgot password?',
-                style: PrimaryTextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
         ),
         const Spacer(),
         const SizedBox(height: 5),
