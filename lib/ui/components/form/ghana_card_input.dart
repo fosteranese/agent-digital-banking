@@ -27,7 +27,7 @@ class _GhanaCardInputState extends State<GhanaCardInput> {
   @override
   Widget build(BuildContext context) {
     return FormInput(
-      label: 'Ghana Card Number ${widget.isRequired ? '*' : ''}',
+      label: 'Ghana Card No. ${widget.isRequired ? '*' : ''}',
       placeholder: 'GHA-012345678-9',
       controller: widget._controller,
       showIconOnSuccessfulValidation: true,

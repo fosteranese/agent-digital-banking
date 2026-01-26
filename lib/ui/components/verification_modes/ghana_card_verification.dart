@@ -15,10 +15,19 @@ import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class GhanaCardVerification extends StatefulWidget {
-  const GhanaCardVerification({super.key, required this.onVerify, this.onSkip, this.onBack});
+  const GhanaCardVerification({
+    super.key,
+    required this.mainContext,
+    required this.onVerify,
+    required this.onManualVerification,
+    this.onSkip,
+    this.onBack,
+  });
   static const routeName = '/ghana-card-verification';
 
+  final BuildContext mainContext;
   final void Function(String picture, String code) onVerify;
+  final void Function() onManualVerification;
   final void Function()? onSkip;
   final void Function()? onBack;
 
@@ -314,11 +323,13 @@ class _GhanaCardVerificationState extends State<GhanaCardVerification> {
                                 context.push(
                                   PicturePreviewPage.routeName,
                                   extra: PicturePreviewPage(
+                                    mainContext: widget.mainContext,
                                     title: '',
                                     image: image,
                                     height: _height,
                                     width: _width,
                                     onSuccess: widget.onVerify,
+                                    onManualVerification: widget.onManualVerification,
                                   ),
                                 );
                               });

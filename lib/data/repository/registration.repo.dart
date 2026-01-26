@@ -13,15 +13,17 @@ class RegistrationRepo {
     required String gender,
     required String phoneNumber,
     required String emailAddress,
+    required String cardNumber,
   }) async {
-    final response = await _fbl.postMockUp(
-      path: 'register/personal-info',
+    final response = await _fbl.post(
+      path: 'FieldExecutive/initiateAccountOpening',
       body: {
         'firstName': firstName,
         'lastName': lastName,
         'gender': gender,
         'phoneNumber': phoneNumber,
         'emailAddress': emailAddress,
+        'cardNumber': cardNumber,
       },
       isAuthenticated: true,
     );
@@ -40,10 +42,10 @@ class RegistrationRepo {
     required String region,
     required String token,
   }) async {
-    final response = await _fbl.postMockUp(
-      path: 'register/residential-address',
+    final response = await _fbl.post(
+      path: 'FieldExecutive/AccountOpeningAddress',
       body: {
-        'token': token,
+        'id': token,
         'address1': address1,
         'address2': address2,
         'region': region,
@@ -60,9 +62,9 @@ class RegistrationRepo {
   }
 
   Future<Response> verifyPicture({required String token, required String picture}) async {
-    final response = await _fbl.postMockUp(
-      path: 'register/verification',
-      body: {'token': token, 'picture': picture},
+    final response = await _fbl.post(
+      path: 'FieldExecutive/AccountOpeningVerification',
+      body: {'id': token, 'picture': picture},
       isAuthenticated: true,
     );
 
@@ -78,9 +80,9 @@ class RegistrationRepo {
     required String cardFront,
     required String cardBack,
   }) async {
-    final response = await _fbl.postMockUp(
-      path: 'register/manual-verification',
-      body: {'token': token, 'cardFront': cardFront, 'cardBack': cardBack},
+    final response = await _fbl.post(
+      path: 'FieldExecutive/AccountOpeningManualVerify',
+      body: {'id': token, 'cardFront': cardFront, 'cardBack': cardBack},
       isAuthenticated: true,
     );
 

@@ -14,6 +14,7 @@ class SavePersonalInfo extends RegistrationEvent {
     required this.gender,
     required this.phoneNumber,
     required this.emailAddress,
+    required this.cardNumber,
   });
 
   final String firstName;
@@ -21,9 +22,10 @@ class SavePersonalInfo extends RegistrationEvent {
   final String gender;
   final String phoneNumber;
   final String emailAddress;
+  final String cardNumber;
 
   @override
-  List<Object> get props => [firstName, lastName, gender, phoneNumber, emailAddress];
+  List<Object> get props => [firstName, lastName, gender, phoneNumber, emailAddress, cardNumber];
 }
 
 class SaveResidentialAddress extends RegistrationEvent {

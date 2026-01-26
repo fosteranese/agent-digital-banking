@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
@@ -9,6 +10,7 @@ import 'package:my_sage_agent/data/models/schedule/schedules.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 
 final class ProcessFlowUtil {
   static String id = '';
@@ -100,6 +102,12 @@ final class ProcessFlowUtil {
         action = form.insId!;
         break;
     }
+
+    if (action == "e59a1a12-6189-427f-820d-835b6f9ab730") {
+      context.push(RegisterClientPage.routeName);
+      return;
+    }
+
     context.read<RetrieveDataBloc>().add(
       RetrieveForm(
         id: id,

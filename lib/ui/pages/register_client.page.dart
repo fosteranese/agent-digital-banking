@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/data/models/response.modal.dart';
-import 'package:my_sage_agent/ui/components/register/ghana_card_verification_notice.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:string_validator/string_validator.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/registration/registration_bloc.dart';
+import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
+import 'package:my_sage_agent/ui/components/register/ghana_card_verification_notice.dart';
 import 'package:my_sage_agent/ui/components/register/register_client_step_1.cm.dart';
 import 'package:my_sage_agent/ui/components/register/register_client_step_2.cm.dart';
 import 'package:my_sage_agent/ui/components/register/register_client_step_3.cm.dart';
@@ -17,8 +19,6 @@ import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verifi
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
-import 'package:string_validator/string_validator.dart';
-import 'package:uuid/uuid.dart';
 
 enum RegisterStep { personalInfo, residentialAddress, identityVerification }
 
@@ -39,6 +39,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   final genderController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final emailAddressController = TextEditingController();
+  final cardNumberController = TextEditingController();
 
   final address1Controller = TextEditingController();
   final address2Controller = TextEditingController();
@@ -48,7 +49,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   final _isCameraAvailable = ValueNotifier(true);
 
   void _onManual() {
-    context.pop();
+    // context.pop();
     _isCameraAvailable.value = false;
     _pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
   }
@@ -56,14 +57,23 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   final stageTitles = ['Personal Info', 'Residential Address', 'Identity Verification'];
 
   void _onStartGhanaCardVerification(BuildContext mainContext) async {
+    context.pop();
     await Permission.camera
         .onDeniedCallback(_onManual)
         .onGrantedCallback(() {
           mainContext.push(
             GhanaCardVerification.routeName,
             extra: GhanaCardVerification(
+              mainContext: mainContext,
               onVerify: (picture, _) {
                 mainContext.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
+              },
+              onManualVerification: () {
+                _pageController.animateToPage(
+                  2,
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                );
               },
             ),
           );
@@ -149,6 +159,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                           lastName: lastNameController,
                           gender: genderController,
                           phoneNumber: phoneNumberController,
+                          cardNumber: cardNumberController,
                         ),
                         RegisterClientStep2(
                           address1: address1Controller,
@@ -245,12 +256,22 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         _onVerified(state.response);
         return;
 
-      case VerifyPictureError _:
-        _pageController.animateToPage(
-          2,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeIn,
-        );
+      // case VerifyPictureError state:
+      //   context.pop();
+      //   _pageController.animateToPage(
+      //     2,
+      //     duration: Duration(milliseconds: 300),
+      //     curve: Curves.easeIn,
+      //   );
+      //   _onVerifiedFailed(state.error);
+      //   return;
+
+      case SavePersonalInfoError state:
+        _onVerifiedFailed(state.error);
+        return;
+
+      case SaveResidentialAddressError state:
+        _onVerifiedFailed(state.error);
         return;
 
       case ManualVerificationError state:
@@ -273,7 +294,6 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   }
 
   void _onVerifiedFailed(Response error) {
-    context.go(DashboardPage.routeName);
     Future.delayed(Duration(milliseconds: 100), () {
       MessageUtil.displayErrorDialog(MyApp.navigatorKey.currentContext!, message: error.message);
     });
@@ -354,6 +374,16 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
+    final cardNumber = cardNumberController.text.trim();
+    if (cardNumber.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Ghana Card No. is required.\nEnter the ghana card number to proceed.',
+      );
+      return;
+    }
+
     context.read<RegistrationBloc>().add(
       SavePersonalInfo(
         firstName: fullName,
@@ -361,6 +391,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         gender: gender,
         phoneNumber: phoneNumber,
         emailAddress: emailAddress,
+        cardNumber: cardNumber,
       ),
     );
   }

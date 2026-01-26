@@ -30,6 +30,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         gender: event.gender,
         phoneNumber: event.phoneNumber,
         emailAddress: event.emailAddress,
+        cardNumber: event.cardNumber,
       );
       personalInfoToken = result;
 

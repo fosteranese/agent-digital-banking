@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/icon.dart';
-import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/process_flow.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -33,12 +31,7 @@ class DashboardButton extends StatelessWidget {
     var icon = '${AppUtil.data.imageBaseUrl}${AppUtil.data.imageDirectory}/${item.activity?.icon}';
     return InkWell(
       onTap: () {
-        if (item.activity?.activityId != '7b7b9140-cab1-42bf-acbc-347fcc4b4f6c') {
-          _onTap(activityDatum: item, skipSavedData: false);
-          return;
-        }
-
-        context.push(RegisterClientPage.routeName);
+        _onTap(activityDatum: item, skipSavedData: false);
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(

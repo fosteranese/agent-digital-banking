@@ -22,30 +22,32 @@ class RegisterClientStep2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const .symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Residential Address', style: PrimaryTextStyle(fontSize: 24, fontWeight: .w600)),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Residential Address', style: PrimaryTextStyle(fontSize: 24, fontWeight: .w600)),
 
-          const SizedBox(height: 30),
+            const SizedBox(height: 30),
 
-          FormInput(label: 'Address Line 1 *', controller: address1),
+            FormInput(label: 'Address Line 1 *', controller: address1),
 
-          FormInput(label: 'Address Line 2', controller: address2),
+            FormInput(label: 'Address Line 2', controller: address2),
 
-          FormSelect(
-            label: 'Region *',
-            title: 'Enter region',
-            controller: region,
-            options:
-                AppUtil.data.regions?.map((item) {
-                  return FormSelectOption(value: item.key ?? '', text: item.value);
-                }).toList() ??
-                [],
-          ),
+            FormSelect(
+              label: 'Region *',
+              title: 'Enter region',
+              controller: region,
+              options:
+                  AppUtil.data.regions?.map((item) {
+                    return FormSelectOption(value: item.key ?? '', text: item.value);
+                  }).toList() ??
+                  [],
+            ),
 
-          FormInput(label: 'Town / City', controller: cityOrTown),
-        ],
+            FormInput(label: 'Town / City', controller: cityOrTown),
+          ],
+        ),
       ),
     );
   }
