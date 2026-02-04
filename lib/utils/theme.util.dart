@@ -14,6 +14,7 @@ class ThemeUtil {
 
   static const Color flat = Color(0xff54534A);
   static const Color black = Color(0xff010203);
+  static const Color sikaBlack = Color(0xff222222);
   static const Color subtitleGrey = Color(0xff4F4F4F);
   static const Color headerBackground = Color(0xffF6F6F6);
   static const Color flora = Color(0xff919195);

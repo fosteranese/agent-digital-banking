@@ -212,10 +212,12 @@ class InitiateLogin extends AuthEvent {
 }
 
 class ReInitiateLogin extends AuthEvent {
-  const ReInitiateLogin();
+  const ReInitiateLogin({required this.id});
+
+  final String id;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [id];
 }
 
 class VerifyLogin extends AuthEvent {

@@ -96,11 +96,10 @@ class PlainLayout extends StatelessWidget {
                         child: Text(
                           title!,
                           textAlign: centerTitle ? TextAlign.center : TextAlign.start,
-                          style: TextStyle(
-                            fontFamily: ThemeUtil.fontHelveticaNeue,
-                            color: titleTextColor,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
+                          style: const PrimaryTextStyle(
+                            fontWeight: .w600,
+                            fontSize: 24,
+                            color: ThemeUtil.sikaBlack,
                           ),
                         ),
                       ),
@@ -112,10 +111,10 @@ class PlainLayout extends StatelessWidget {
                           child: Text(
                             subtitle!,
                             textAlign: centerTitle ? TextAlign.center : TextAlign.start,
-                            style: const TextStyle(
-                              color: Color(0xff4F4F4F),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
+                            style: const PrimaryTextStyle(
+                              color: ThemeUtil.flat,
+                              fontWeight: .w400,
+                              fontSize: 16,
                             ),
                           ),
                         ),

@@ -9,13 +9,13 @@ class DashboardStats extends StatelessWidget {
 
   static final List<Map<String, dynamic>> _cards = [
     {
-      'color': ThemeUtil.primaryColor,
+      'color': Color(0xff727600),
       'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/cash-collected.svg',
+      'icon': 'assets/img/wallet.svg',
       'title': '',
-      'caption': 'Cash Collected',
+      'caption': 'MoMo Collected',
       'value': () {
-        return AppUtil.currentUser.agentData?.cashCollected?.formatedValue ?? 'GHS 0.00';
+        return AppUtil.currentUser.agentData?.moMoCollected?.formatedValue ?? 'GHS 0.00';
       },
     },
     {
@@ -39,13 +39,13 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': Color(0xff727600),
+      'color': ThemeUtil.primaryColor,
       'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/wallet.svg',
+      'icon': 'assets/img/cash-collected.svg',
       'title': '',
-      'caption': 'MoMo Collected',
+      'caption': 'Cash Collected',
       'value': () {
-        return AppUtil.currentUser.agentData?.moMoCollected?.formatedValue ?? 'GHS 0.00';
+        return AppUtil.currentUser.agentData?.cashCollected?.formatedValue ?? 'GHS 0.00';
       },
     },
   ];

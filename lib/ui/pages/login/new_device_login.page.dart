@@ -65,29 +65,50 @@ class _NewDeviceLoginPageState extends State<NewDeviceLoginPage> {
         const SizedBox(height: 5),
         BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) async {
-            if (state is LoginInitiated) {
-              context.push(OtpLoginPage.routeName);
+            if (state is InitiatingLogin) {
+              MessageUtil.displayLoading(context);
+              return;
+            }
 
+            if (state is LoginInitiated) {
+              MessageUtil.stopLoading(context);
+              Future.delayed(Duration(milliseconds: 100), () {
+                context.push(OtpLoginPage.routeName);
+              });
               return;
             }
 
             if (state is InitiateLoginError) {
-              MessageUtil.displayErrorDialog(context, message: state.result.message);
+              MessageUtil.stopLoading(context);
+              Future.delayed(Duration(milliseconds: 100), () {
+                MessageUtil.displayErrorDialog(
+                  context,
+                  title: 'Login Failed',
+                  message: state.result.message,
+                );
+              });
               return;
             }
           },
           builder: (context, state) {
             return FormButton(
-              loading: state is InitiatingLogin,
               text: 'Sign In',
               onPressed: () {
                 if (_usernameController.text.isEmpty) {
-                  MessageUtil.displayErrorDialog(context, message: "Username is required");
+                  MessageUtil.displayErrorDialog(
+                    context,
+                    title: 'Validation Failed',
+                    message: "Username is required",
+                  );
                   return;
                 }
 
                 if (_passwordController.text.isEmpty) {
-                  MessageUtil.displayErrorDialog(context, message: "Password is required");
+                  MessageUtil.displayErrorDialog(
+                    context,
+                    title: 'Validation Failed',
+                    message: "Password is required",
+                  );
                   return;
                 }
 

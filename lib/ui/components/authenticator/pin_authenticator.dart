@@ -138,6 +138,7 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
             ),
             const SizedBox(height: 20),
             FormPasswordInput(
+              isPin: true,
               maxLength: 4,
               label: 'Authorization PIN',
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],

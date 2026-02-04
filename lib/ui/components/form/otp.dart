@@ -78,58 +78,29 @@ class _OtpState extends State<Otp> {
   }
 
   Widget _buildResendButton() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              widget.onResendShortCode?.call();
-              _startTimer();
-            },
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(text: 'Didn’t get the code? '),
-                  TextSpan(
-                    text: 'Resend',
-                    style: PrimaryTextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-                style: PrimaryTextStyle(fontSize: 14, color: Color(0xff010101)),
-              ),
-            ),
-          ),
+    return InkWell(
+      onTap: () {
+        widget.onResendShortCode?.call();
+        _startTimer();
+      },
+      child: Text(
+        'Request a new code',
+        style: PrimaryTextStyle(
+          fontSize: 14,
+          fontWeight: .normal,
+          color: ThemeUtil.black,
+          decoration: .underline,
         ),
-        SizedBox(width: 20),
-        Icon(Icons.access_time_filled_outlined, color: Color(0xff919195)),
-        SizedBox(width: 5),
-        Text('0:00', style: PrimaryTextStyle(fontSize: 16, color: Color(0xff010101))),
-      ],
+      ),
     );
   }
 
   Widget _buildCountdownText(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: InkWell(
-            onTap: () {
-              widget.onResendShortCode?.call();
-              _startTimer();
-            },
-            child: Text(
-              'Request a new code in ',
-              style: PrimaryTextStyle(fontSize: 14, color: Color(0xff010101)),
-            ),
-          ),
-        ),
-        SizedBox(width: 20),
-        Icon(Icons.access_time_filled_outlined, color: Color(0xff919195)),
-        SizedBox(width: 5),
-        Text(_timeLeft, style: PrimaryTextStyle(fontSize: 16, color: Color(0xff010101))),
-      ],
+    return Center(
+      child: Text(
+        _timeLeft,
+        style: PrimaryTextStyle(fontSize: 14, color: ThemeUtil.black, fontWeight: .normal),
+      ),
     );
   }
 

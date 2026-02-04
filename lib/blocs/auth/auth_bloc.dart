@@ -320,7 +320,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           phoneNumber = event.payload.phoneNumber ?? '';
           password = event.payload.password ?? '';
           emit(
-            VerifyId(
+            InitiateLoginError(
               Response(
                 code: error.code,
                 status: error.status,

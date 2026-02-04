@@ -409,7 +409,8 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
   /// Show error bottom sheet
   void _showProcessRequestError(BuildContext context, ProcessRequestError state) {
-    _loader.failed(state.result.message);
+    // _loader.failed(state.result.message);
+    MessageUtil.displayErrorDialog(context, message: state.result.message);
   }
 }
 
