@@ -9,6 +9,16 @@ class DashboardStats extends StatelessWidget {
 
   static final List<Map<String, dynamic>> _cards = [
     {
+      'color': ThemeUtil.primaryColor,
+      'iconColor': Color(0x29FFFFFF),
+      'icon': 'assets/img/cash-collected.svg',
+      'title': '',
+      'caption': 'Cash Collected',
+      'value': () {
+        return AppUtil.currentUser.agentData?.cashCollected?.formatedValue ?? 'GHS 0.00';
+      },
+    },
+    {
       'color': Color(0xff727600),
       'iconColor': Color(0x29FFFFFF),
       'icon': 'assets/img/wallet.svg',
@@ -16,16 +26,6 @@ class DashboardStats extends StatelessWidget {
       'caption': 'MoMo Collected',
       'value': () {
         return AppUtil.currentUser.agentData?.moMoCollected?.formatedValue ?? 'GHS 0.00';
-      },
-    },
-    {
-      'color': Color(0xff003F37),
-      'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/money.svg',
-      'title': '',
-      'caption': 'Cash Deposited',
-      'value': () {
-        return AppUtil.currentUser.agentData?.cashDeposited?.formatedValue ?? 'GHS 0.00';
       },
     },
     {
@@ -39,13 +39,13 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': ThemeUtil.primaryColor,
+      'color': Color(0xff003F37),
       'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/cash-collected.svg',
+      'icon': 'assets/img/money.svg',
       'title': '',
-      'caption': 'Cash Collected',
+      'caption': 'Cash Deposited',
       'value': () {
-        return AppUtil.currentUser.agentData?.cashCollected?.formatedValue ?? 'GHS 0.00';
+        return AppUtil.currentUser.agentData?.cashDeposited?.formatedValue ?? 'GHS 0.00';
       },
     },
   ];
