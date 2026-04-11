@@ -71,9 +71,9 @@ final class ProcessFlowUtil {
     required AmDoing amDoing,
     Payee? payee,
     String? receiptId,
+    String? collectionId,
     dynamic form,
     required String id,
-
     required ActivityDatum activity,
   }) {
     String action = '';
@@ -116,6 +116,7 @@ final class ProcessFlowUtil {
         form: form,
         activity: activity,
         payeeId: payee?.payeeId,
+        collectionId: collectionId,
       ),
     );
   }

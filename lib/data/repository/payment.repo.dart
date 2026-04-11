@@ -562,6 +562,7 @@ class PaymentRepo {
     required String activityType,
     required String formId,
     String? payeeId,
+    String? collectionId,
   }) async {
     final activity = AppUtil.currentUser.activities!.firstWhere(
       (item) => item.activity!.activityType == activityType,
@@ -569,7 +570,12 @@ class PaymentRepo {
 
     final response = await _fbl.post(
       path: 'FBLCollect/formDataByFormId',
-      body: {'activityId': activity.activity!.activityId, 'formId': formId, 'payeeId': payeeId},
+      body: {
+        'activityId': activity.activity!.activityId,
+        'formId': formId,
+        'payeeId': payeeId,
+        'collectionId': collectionId,
+      },
       isAuthenticated: true,
     );
 

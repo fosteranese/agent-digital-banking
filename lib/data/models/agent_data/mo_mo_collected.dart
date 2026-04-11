@@ -4,14 +4,14 @@ import 'package:equatable/equatable.dart';
 
 class MoMoCollected extends Equatable {
   final int? count;
-  final int? value;
+  final double? value;
   final String? formatedValue;
 
   const MoMoCollected({this.count, this.value, this.formatedValue});
 
   factory MoMoCollected.fromMap(Map<String, dynamic> data) => MoMoCollected(
     count: data['count'] as int?,
-    value: data['value'] as int?,
+    value: (data['value'] as num?) as double?,
     formatedValue: data['formatedValue'] as String?,
   );
 
@@ -29,7 +29,7 @@ class MoMoCollected extends Equatable {
   /// Converts [MoMoCollected] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  MoMoCollected copyWith({int? count, int? value, String? formatedValue}) {
+  MoMoCollected copyWith({int? count, double? value, String? formatedValue}) {
     return MoMoCollected(
       count: count ?? this.count,
       value: value ?? this.value,

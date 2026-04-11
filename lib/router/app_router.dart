@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/data/models/collection_model.dart';
 
 import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
@@ -9,6 +10,7 @@ import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verifi
 import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification_upload.dart';
 import 'package:my_sage_agent/ui/components/verification_modes/scan_ghana_card_verification.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
+import 'package:my_sage_agent/ui/pages/collections/collections_details.page.dart';
 import 'package:my_sage_agent/ui/pages/intro.page.dart';
 import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
@@ -181,6 +183,10 @@ final router = GoRouter(
       builder: (context, state) {
         return const RegisterClientPage();
       },
+    ),
+    GoRoute(
+      path: CollectionsDetailsPage.routeName,
+      builder: (context, state) => CollectionsDetailsPage(record: state.extra as CollectionModel),
     ),
   ],
 );

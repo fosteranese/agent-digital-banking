@@ -53,7 +53,7 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
                       onPressed: () async {
                         Navigator.pop(context);
 
-                        final result = await FilePicker.platform.pickFiles(
+                        final result = await FilePicker.pickFiles(
                           dialogTitle: widget.caption,
                           type: FileType.image,
                         );
@@ -76,25 +76,25 @@ class _FormUploadFileControlState extends State<FormUploadFileControl> {
                       onPressed: () async {
                         Navigator.pop(context);
 
-                        FilePicker.platform
-                            .pickFiles(dialogTitle: widget.caption, type: FileType.any)
-                            .then((result) async {
-                              if (result == null) {
-                                // _messenger.errorAlert('File not selected');
-                                return;
-                              }
+                        FilePicker.pickFiles(dialogTitle: widget.caption, type: FileType.any).then((
+                          result,
+                        ) async {
+                          if (result == null) {
+                            // _messenger.errorAlert('File not selected');
+                            return;
+                          }
 
-                              _widget = Icon(
-                                Icons.description_outlined,
-                                color: Theme.of(MyApp.navigatorKey.currentContext!).primaryColor,
-                                size: 30,
-                              );
-                              setState(() {});
+                          _widget = Icon(
+                            Icons.description_outlined,
+                            color: Theme.of(MyApp.navigatorKey.currentContext!).primaryColor,
+                            size: 30,
+                          );
+                          setState(() {});
 
-                              final file = File(result.files.single.path ?? '');
-                              final bytes = await file.readAsBytes();
-                              widget.controller.text = base64Encode(bytes);
-                            });
+                          final file = File(result.files.single.path ?? '');
+                          final bytes = await file.readAsBytes();
+                          widget.controller.text = base64Encode(bytes);
+                        });
                       },
                     ),
                     const SizedBox(height: 10),

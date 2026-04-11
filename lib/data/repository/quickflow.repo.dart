@@ -97,10 +97,11 @@ class QuickFlowRepo {
     required String id,
     String? qrCode,
     String? payeeId,
+    String? collectionId,
   }) async {
     final response = await _fbl.post(
       path: 'QuickFlow/formDataByFormId',
-      body: {'formId': id, 'qrCode': qrCode, 'payeeId': payeeId},
+      body: {'formId': id, 'qrCode': qrCode, 'payeeId': payeeId, 'collectionId': collectionId},
       isAuthenticated: true,
     );
 

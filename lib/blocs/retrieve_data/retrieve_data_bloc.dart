@@ -185,12 +185,14 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
                   id: form.formId!,
                   qrCode: event.qrCode,
                   payeeId: event.payeeId,
+                  collectionId: event.collectionId,
                 );
 
               case ActivityTypesConst.fblCollectCategory:
                 return await paymentRepo.retrieveFormData1(
                   formId: form.formId!,
                   activityType: ActivityTypesConst.fblCollectCategory,
+                  collectionId: event.collectionId,
                 );
 
               default:
@@ -198,6 +200,7 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
                   id: form.formId!,
                   qrCode: event.qrCode,
                   payeeId: event.payeeId,
+                  collectionId: event.collectionId,
                 );
             }
 

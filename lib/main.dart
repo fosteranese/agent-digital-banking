@@ -77,7 +77,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // _securityCheck();
+    if (1 != 1) {
+      _securityCheck();
+    }
     super.initState();
     // isMounted = true;
   }

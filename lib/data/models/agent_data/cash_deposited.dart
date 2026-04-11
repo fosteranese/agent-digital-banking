@@ -4,14 +4,14 @@ import 'package:equatable/equatable.dart';
 
 class CashDeposited extends Equatable {
   final int? count;
-  final int? value;
+  final double? value;
   final String? formatedValue;
 
   const CashDeposited({this.count, this.value, this.formatedValue});
 
   factory CashDeposited.fromMap(Map<String, dynamic> data) => CashDeposited(
     count: data['count'] as int?,
-    value: data['value'] as int?,
+    value: (data['value'] as num?) as double?,
     formatedValue: data['formatedValue'] as String?,
   );
 
@@ -29,7 +29,7 @@ class CashDeposited extends Equatable {
   /// Converts [CashDeposited] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  CashDeposited copyWith({int? count, int? value, String? formatedValue}) {
+  CashDeposited copyWith({int? count, double? value, String? formatedValue}) {
     return CashDeposited(
       count: count ?? this.count,
       value: value ?? this.value,

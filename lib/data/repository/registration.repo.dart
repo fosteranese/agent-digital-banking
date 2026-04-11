@@ -22,7 +22,7 @@ class RegistrationRepo {
         'lastName': lastName,
         'gender': gender,
         'phoneNumber': phoneNumber,
-        'emailAddress': emailAddress,
+        'email': emailAddress,
         'cardNumber': cardNumber,
       },
       isAuthenticated: true,

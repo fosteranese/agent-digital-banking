@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/collection_model.dart';
 import 'package:my_sage_agent/ui/components/history/collection_item.dart';
-import 'package:my_sage_agent/ui/pages/collections.page.dart';
+import 'package:my_sage_agent/ui/pages/collections/collections.page.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class DashboardRecentTransactions extends StatelessWidget {

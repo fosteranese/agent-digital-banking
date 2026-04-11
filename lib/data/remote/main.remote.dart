@@ -141,7 +141,8 @@ class MainRemote {
       final key = request.containsKey('key') ? (request['key'] as Key) : null;
 
       // SSL Pinned client for api calls
-      final client = await _getSSLPinningClient();
+      final client = http.Client();
+      // final client = await _getSSLPinningClient();
       var url = _postUrl(mockUp: false, path: path);
       // url = Uri.https("google.com", "");
       var rsaAv = await EncryptionUtil.encryptRSA(iv?.base64 ?? '');
@@ -187,7 +188,8 @@ class MainRemote {
       logger.i(body);
 
       // SSL Pinned client for api calls
-      final client = await _getSSLPinningClient();
+      final client = http.Client();
+      // final client = await _getSSLPinningClient();
       var url = _postUrl(mockUp: true, path: path);
       var response = await client.post(url, body: body);
 

@@ -52,15 +52,26 @@ class RetrieveForm extends RetrieveDataEvent {
     required this.activity,
     this.payeeId,
     this.qrCode,
+    this.collectionId,
   });
 
   final dynamic form;
   final String? payeeId;
   final String? qrCode;
+  final String? collectionId;
   final ActivityDatum activity;
 
   @override
-  List<Object?> get props => [id, action, skipSavedData, form, activity, payeeId, qrCode];
+  List<Object?> get props => [
+    id,
+    action,
+    skipSavedData,
+    form,
+    activity,
+    payeeId,
+    qrCode,
+    collectionId,
+  ];
 }
 
 class RetrieveScheduleForm extends RetrieveDataEvent {

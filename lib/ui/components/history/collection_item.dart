@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/data/models/collection_model.dart';
+import 'package:my_sage_agent/ui/pages/collections/collections_details.page.dart';
 import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -13,17 +15,67 @@ class CollectionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap:
+          onTap ??
+          () {
+            context.push(CollectionsDetailsPage.routeName, extra: record);
+          },
       enableFeedback: true,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_buildDetails(), _buildAmountOrStatus()],
+          children: [
+            Container(
+              alignment: .center,
+              margin: .only(right: 10),
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: _status['bg'],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(_status['icon'], color: _status['color']),
+            ),
+            _buildDetails(),
+            _buildAmountOrStatus(),
+          ],
         ),
       ),
     );
+  }
+
+  Map<String, dynamic> get _status {
+    switch (record.status) {
+      case 1:
+        return {
+          'icon': Icons.done_all_outlined,
+          'color': ThemeUtil.primaryColor,
+          'bg': ThemeUtil.primaryColor.withAlpha(50),
+        };
+      case 0:
+      case 2:
+      case 100:
+        return {
+          'icon': Icons.error_outline_outlined,
+          'color': ThemeUtil.danger,
+          'bg': ThemeUtil.danger.withAlpha(50),
+        };
+      case 3:
+      case 5:
+        return {
+          'icon': Icons.timelapse_outlined,
+          'color': ThemeUtil.secondaryColor,
+          'bg': ThemeUtil.secondaryColor.withAlpha(50),
+        };
+      default:
+        return {
+          'icon': Icons.done_all_outlined,
+          'color': ThemeUtil.black,
+          'bg': ThemeUtil.black.withAlpha(50),
+        };
+    }
   }
 
   Widget _buildDetails() {

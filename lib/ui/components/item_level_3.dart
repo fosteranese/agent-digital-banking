@@ -39,7 +39,7 @@ class ItemLevel3 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (fullIcon != null) fullIcon!,
+            ?fullIcon,
             if (icon != null) CircleAvatar(backgroundColor: const Color(0xffF4F4F4), child: icon),
             Expanded(
               child: Column(
