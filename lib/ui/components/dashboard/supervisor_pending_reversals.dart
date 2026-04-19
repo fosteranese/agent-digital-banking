@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/reversal_model/reversal_model.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
 import 'package:my_sage_agent/ui/components/history/reversal_item.dart';
+import 'package:my_sage_agent/ui/pages/request/reversal_details.page.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class SupervisorPendingReversals extends StatefulWidget {
@@ -81,7 +83,9 @@ class _SupervisorPendingReversalsState extends State<SupervisorPendingReversals>
                     return ReversalItem(
                       key: ValueKey('reversal-item-$index'),
                       record: record,
-                      onTap: null,
+                      onTap: () {
+                        context.push(ReversalDetailsPage.routeName, extra: record);
+                      },
                     );
                   },
                   separatorBuilder: (_, _) =>

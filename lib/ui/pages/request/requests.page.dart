@@ -165,12 +165,12 @@ class _RequestsPageState extends State<RequestsPage> {
             children: [
               SvgPicture.asset('assets/img/empty.svg', width: 100),
               Text(
-                'No collections found',
+                'No requests found',
                 textAlign: .center,
                 style: PrimaryTextStyle(color: ThemeUtil.black, fontSize: 18, fontWeight: .bold),
               ),
               Text(
-                'No team member matches the search phrase ${_filterBy.value}.',
+                'No request matches the search phrase ${_filterBy.value}.',
                 textAlign: TextAlign.center,
                 style: PrimaryTextStyle(
                   color: ThemeUtil.flat,
