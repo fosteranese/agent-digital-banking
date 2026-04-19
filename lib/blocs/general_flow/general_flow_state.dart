@@ -418,3 +418,42 @@ class CompleteGhanaCardVerification extends GeneralFlowState {
   @override
   List<Object> get props => [data, id, event];
 }
+
+class ApprovingReversalRequest extends GeneralFlowState {
+  const ApprovingReversalRequest({required this.id});
+
+  final String id;
+
+  @override
+  List<Object> get props => [id];
+}
+
+class ReversalRequestApproved extends GeneralFlowState {
+  const ReversalRequestApproved({required this.id, required this.result});
+
+  final String id;
+  final Response result;
+
+  @override
+  List<Object> get props => [id, result];
+}
+
+class ReversalRequestDeclined extends GeneralFlowState {
+  const ReversalRequestDeclined({required this.id, required this.result});
+
+  final String id;
+  final Response result;
+
+  @override
+  List<Object> get props => [id, result];
+}
+
+class ApproveReversalRequestError extends GeneralFlowState {
+  const ApproveReversalRequestError({required this.id, required this.error});
+
+  final String id;
+  final Response error;
+
+  @override
+  List<Object> get props => [id, error];
+}

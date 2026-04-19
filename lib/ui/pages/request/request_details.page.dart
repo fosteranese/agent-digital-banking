@@ -22,7 +22,6 @@ class RequestDetailsPage extends StatefulWidget {
 
 class _RequestDetailsPageState extends State<RequestDetailsPage> {
   final _refreshController = GlobalKey<RefreshIndicatorState>();
-  String _id = '';
   final _filterBy = ValueNotifier('collections');
 
   @override
@@ -159,9 +158,5 @@ class _RequestDetailsPageState extends State<RequestDetailsPage> {
         ),
       ),
     );
-  }
-
-  Widget get _divider {
-    return Divider(color: ThemeUtil.border, indent: 40);
   }
 }

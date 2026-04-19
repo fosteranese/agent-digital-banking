@@ -32,7 +32,7 @@ import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 import 'package:my_sage_agent/ui/pages/request/request_details.page.dart';
 import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
-import 'package:my_sage_agent/ui/pages/request/reversa._details.page.dart';
+import 'package:my_sage_agent/ui/pages/request/reversal_details.page.dart';
 import 'package:my_sage_agent/ui/pages/team/agent_details.page.dart';
 import 'package:my_sage_agent/ui/pages/team/team_members.page.dart';
 import 'package:my_sage_agent/ui/pages/update.page.dart';

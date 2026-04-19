@@ -22,7 +22,7 @@ import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/collections/collections_details.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
-import 'package:my_sage_agent/ui/pages/request/reversa._details.page.dart';
+import 'package:my_sage_agent/ui/pages/request/reversal_details.page.dart';
 import 'package:my_sage_agent/ui/pages/team/supervisor_agent_collections.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 

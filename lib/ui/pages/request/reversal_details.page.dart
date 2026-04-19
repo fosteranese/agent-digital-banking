@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/authentication.util.dart';
+import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
-import 'package:my_sage_agent/data/models/user_response/activity.dart';
-import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
@@ -17,9 +19,7 @@ import 'package:my_sage_agent/ui/components/tab_header_2.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/confirmation_form.page.dart';
-import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/utils/formatter.util.dart';
-import 'package:my_sage_agent/utils/process_flow.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 enum ReversalDetailsTypes { details, customerInfo, agentInfo }
@@ -39,6 +39,8 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
   _controllers = {};
   final ValueNotifier<String> _displayAmount = ValueNotifier('');
   final _filterBy = ValueNotifier(ReversalDetailsTypes.details.name);
+  String _id = '';
+  late final _record = ValueNotifier(widget.record);
 
   @override
   void dispose() {
@@ -57,14 +59,92 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
       showNavBarOnPop: false,
       title: '',
       sliver: _buildSlivers(),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          // bottom: 20,
-          // vertical: 10,
+      bottomNavigationBar: BlocListener<GeneralFlowBloc, GeneralFlowState>(
+        listener: (context, state) {
+          if (state is ApprovingReversalRequest && state.id == _id) {
+            MessageUtil.displayLoading(context);
+            return;
+          } else {
+            MessageUtil.stopLoading(context);
+          }
+
+          if (state is ReversalRequestApproved && state.id == _id) {
+            _record.value = _record.value.copyWith(status: 1, statusLabel: 'Approved');
+            context.read<RetrieveDataBloc>().add(
+              RetrieveSupervisorAgentReversalsEvent(
+                id: Uuid().v4(),
+                action: 'RetrieveSupervisorAgentReversalsEvent',
+                skipSavedData: true,
+                agentCode: _record.value.agentCode!.toString(),
+              ),
+            );
+            context.read<RetrieveDataBloc>().add(
+              RetrievePendingReversalsEvent(
+                id: Uuid().v4(),
+                action: 'RetrievePendingReversalsEvent',
+                skipSavedData: true,
+              ),
+            );
+            MessageUtil.displaySuccessDialog(
+              context,
+              title: 'Reversal Approved!',
+              message: state.result.message,
+            );
+            return;
+          }
+
+          if (state is ReversalRequestDeclined && state.id == _id) {
+            _record.value = _record.value.copyWith(status: 0, statusLabel: 'Declined');
+            context.read<RetrieveDataBloc>().add(
+              RetrieveSupervisorAgentReversalsEvent(
+                id: Uuid().v4(),
+                action: 'RetrieveSupervisorAgentReversalsEvent',
+                skipSavedData: true,
+                agentCode: _record.value.agentCode!.toString(),
+              ),
+            );
+            context.read<RetrieveDataBloc>().add(
+              RetrievePendingReversalsEvent(
+                id: Uuid().v4(),
+                action: 'RetrievePendingReversalsEvent',
+                skipSavedData: true,
+              ),
+            );
+            MessageUtil.displaySuccessDialog(
+              context,
+              title: 'Reversal Declined!',
+              message: state.result.message,
+            );
+            return;
+          }
+
+          if (state is ApproveReversalRequestError && state.id == _id) {
+            MessageUtil.displayErrorDialog(
+              context,
+              title: 'Processing Failed',
+              message: state.error.message,
+            );
+            return;
+          }
+        },
+        child: ValueListenableBuilder(
+          valueListenable: _record,
+          builder: (context, record, child) {
+            if (record.status != 3) {
+              return const SizedBox.shrink();
+            }
+
+            return Padding(
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                // bottom: 20,
+                // vertical: 10,
+              ),
+              child: _buildBottomAction(),
+            );
+          },
         ),
-        child: widget.record.status == 3 ? _buildBottomAction() : const SizedBox.shrink(),
       ),
     );
   }
@@ -82,37 +162,43 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
               crossAxisAlignment: .start,
               children: [
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Reversal Request',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-
-                    if (widget.record.status != 3)
-                      Container(
-                        padding: .symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: _status['bg'],
-                          borderRadius: .circular(20),
-                          border: .all(color: _status['border'], width: 1),
-                        ),
-                        child: Text(
-                          widget.record.statusLabel ?? '',
-                          style: PrimaryTextStyle(
-                            fontSize: 14,
-                            fontWeight: .w400,
-                            color: _status['color'],
+                ValueListenableBuilder(
+                  valueListenable: _record,
+                  builder: (context, record, child) {
+                    final status = _status(record);
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Reversal Request',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                  ],
+
+                        if (_record.value.status != 3)
+                          Container(
+                            padding: .symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: status['bg'],
+                              borderRadius: .circular(20),
+                              border: .all(color: status['border'], width: 1),
+                            ),
+                            child: Text(
+                              record.statusLabel ?? '',
+                              style: PrimaryTextStyle(
+                                fontSize: 14,
+                                fontWeight: .w400,
+                                color: status['color'],
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
               ],
             ),
@@ -228,23 +314,23 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
     return [
       SummaryTile(
         label: 'Amount',
-        value: 'GHS ${FormatterUtil.currency(widget.record.collection?.amount)}',
+        value: 'GHS ${FormatterUtil.currency(_record.value.collection?.amount)}',
         verticalPadding: _controllers.isEmpty ? 8 : 5,
       ),
       SummaryTile(
         label: 'Client name',
-        value: widget.record.collection?.agentName ?? '',
+        value: _record.value.collection?.agentName ?? '',
         verticalPadding: _controllers.isEmpty ? 8 : 5,
       ),
       SummaryTile(
         label: 'Payment Method',
         value:
-            '${widget.record.collection?.collectionMode} (${widget.record.collection?.customerAccountNumber})',
+            '${_record.value.collection?.collectionMode} (${_record.value.collection?.customerAccountNumber})',
         verticalPadding: _controllers.isEmpty ? 8 : 5,
       ),
       SummaryTile(
         label: 'Reason',
-        value: widget.record.reason ?? 'N/A',
+        value: _record.value.reason ?? 'N/A',
         verticalPadding: _controllers.isEmpty ? 8 : 5,
       ),
     ];
@@ -256,15 +342,15 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
         leading: CircleAvatar(
           radius: 23,
           backgroundColor: ThemeUtil.iconBg,
-          child: Text(FormatterUtil.getInitials(widget.record.collection?.customerName ?? '')),
+          child: Text(FormatterUtil.getInitials(_record.value.collection?.customerName ?? '')),
         ),
         contentPadding: .zero,
         title: Text(
-          widget.record.collection?.customerName ?? '',
+          _record.value.collection?.customerName ?? '',
           style: PrimaryTextStyle(fontSize: 16, fontWeight: .w700, color: ThemeUtil.black),
         ),
         subtitle: Text(
-          'Customer Code: ${widget.record.collection?.customerId ?? 'N/A'}',
+          'Customer Code: ${_record.value.collection?.customerId ?? 'N/A'}',
           style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
         ),
       ),
@@ -272,13 +358,13 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
       ReceiptItem(
         label: 'Phone Number',
         icon: 'assets/img/call-us.svg',
-        name: widget.record.collection?.customerPhoneNumber ?? 'N/A',
+        name: _record.value.collection?.customerPhoneNumber ?? 'N/A',
       ),
       _divider,
       ReceiptItem(
         label: 'Account Number',
         icon: 'assets/img/id-card.svg',
-        name: widget.record.collection?.customerAccountNumber ?? 'N/A',
+        name: _record.value.collection?.customerAccountNumber ?? 'N/A',
       ),
       _divider,
     ];
@@ -294,15 +380,15 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
         leading: CircleAvatar(
           radius: 23,
           backgroundColor: ThemeUtil.iconBg,
-          child: Text(FormatterUtil.getInitials(widget.record.collection?.agentName ?? '')),
+          child: Text(FormatterUtil.getInitials(_record.value.collection?.agentName ?? '')),
         ),
         contentPadding: .zero,
         title: Text(
-          widget.record.collection?.agentName ?? '',
+          _record.value.collection?.agentName ?? '',
           style: PrimaryTextStyle(fontSize: 16, fontWeight: .w700, color: ThemeUtil.black),
         ),
         subtitle: Text(
-          'Agent Code: ${widget.record.agentCode ?? 'N/A'}',
+          'Agent Code: ${_record.value.agentCode ?? 'N/A'}',
           style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
         ),
       ),
@@ -310,13 +396,13 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
       ReceiptItem(
         label: 'Phone Number',
         icon: 'assets/img/call-us.svg',
-        name: widget.record.collection?.agentPhoneNumber ?? 'N/A',
+        name: _record.value.collection?.agentPhoneNumber ?? 'N/A',
       ),
       _divider,
       ReceiptItem(
         label: 'Account Number',
         icon: 'assets/img/id-card.svg',
-        name: widget.record.collection?.agentAccountNumber ?? 'N/A',
+        name: _record.value.collection?.agentAccountNumber ?? 'N/A',
       ),
       _divider,
     ];
@@ -360,7 +446,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
                       ),
                     ),
                     TextSpan(
-                      text: widget.record.collection?.agentName ?? 'N/A',
+                      text: _record.value.collection?.agentName ?? 'N/A',
 
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -376,7 +462,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
                 FormButton(
                   onPressed: () {
                     context.pop();
-                    _reverse();
+                    _approve();
                   },
                   text: 'Yes, approve',
                 ),
@@ -387,7 +473,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
                   borderColor: ThemeUtil.danger200,
                   onPressed: () {
                     context.pop();
-                    _reverse();
+                    _decline();
                   },
                   text: 'Yes, approve',
                 ),
@@ -406,32 +492,44 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
   }
 
   /// Trigger confirmation
-  void _reverse() {
-    ProcessFlowUtil.activityDatum = ActivityDatum(
-      activity: Activity(
-        activityType: ActivityTypesConst.fblOnline,
-        activityName: 'Reverse Transaction',
-      ),
-    );
-
-    ProcessFlowUtil.loadFormData(
-      context,
-      skipSavedData: true,
-      amDoing: AmDoing.transaction,
-      id: const Uuid().v4(),
-      form: GeneralFlowForm(
-        formId: 'b6bdf056-ee54-4643-9c56-681f5a090fec',
-        activityType: ActivityTypesConst.fblOnline,
-      ),
-      activity: ActivityDatum(),
-      collectionId: (widget.record.collectionId?.isNotEmpty ?? false)
-          ? widget.record.collectionId
-          : null,
+  void _approve() {
+    AuthenticationUtil.pin(
+      onSuccess: (pin) {
+        _id = Uuid().v4();
+        context.read<GeneralFlowBloc>().add(
+          ApproveReversalRequestEvent(
+            id: _id,
+            pin: pin,
+            requestId: _record.value.id ?? '',
+            comment: _record.value.comment ?? '',
+            username: AppUtil.currentUser!.user!.userCode ?? '',
+            status: 1,
+          ),
+        );
+      },
     );
   }
 
-  Map<String, dynamic> get _status {
-    switch (widget.record.status) {
+  void _decline() {
+    AuthenticationUtil.pin(
+      onSuccess: (pin) {
+        _id = Uuid().v4();
+        context.read<GeneralFlowBloc>().add(
+          ApproveReversalRequestEvent(
+            id: _id,
+            pin: pin,
+            requestId: _record.value.id ?? '',
+            comment: _record.value.comment ?? '',
+            username: AppUtil.currentUser!.user!.userCode ?? '',
+            status: 0,
+          ),
+        );
+      },
+    );
+  }
+
+  Map<String, dynamic> _status(AgentReversalRequestModel record) {
+    switch (record.status) {
       case 1:
         return {
           'icon': Icons.published_with_changes_outlined,

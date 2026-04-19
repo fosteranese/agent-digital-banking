@@ -36,6 +36,8 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
     on(_onSilentEnquiryFlow);
     on(_onSubEnquiryGeneralFlow);
     on(_onSilentSubEnquiryFlow);
+
+    on(_onApproveReversalRequest);
   }
 
   final _fblOnlineRepo = FblOnlineRepo();
@@ -810,6 +812,33 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
           ),
         );
       }
+    }
+  }
+
+  Future<void> _onApproveReversalRequest(
+    ApproveReversalRequestEvent event,
+    Emitter<GeneralFlowState> emit,
+  ) async {
+    try {
+      emit(ApprovingReversalRequest(id: event.id));
+
+      final result = await _quickflow.approveRequest(
+        comment: event.comment,
+        pin: event.pin,
+        requestId: event.requestId,
+        status: event.status,
+        username: event.username,
+      );
+      if (event.status == 1) {
+        emit(ReversalRequestApproved(id: event.id, result: result));
+      } else {
+        emit(ReversalRequestDeclined(id: event.id, result: result));
+      }
+    } catch (ex) {
+      ResponseUtil.handleException(
+        ex,
+        (error) => emit(ApproveReversalRequestError(id: event.id, error: error)),
+      );
     }
   }
 }

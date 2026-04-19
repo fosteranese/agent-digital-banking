@@ -62,9 +62,10 @@ class _DashboardPageState extends State<DashboardPage> {
         ],
         child: Builder(
           builder: (context) {
-            if (AppUtil.currentUser!.userType?.name != 'SUPERVISOR') {
+            if (AppUtil.currentUser!.userType == 'SUPERVISOR') {
               return const SupervisorDashboard();
             }
+
             return const AgentDashboard();
           },
         ),

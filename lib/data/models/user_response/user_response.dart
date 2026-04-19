@@ -14,7 +14,7 @@ import 'user.dart';
 enum UserType { customer, nonCustomer }
 
 class UserResponse extends Equatable {
-  final UserType? userType;
+  final String? userType;
   final String? sessionId;
   final User? user;
   final List<RecentActivity>? recentActivity;
@@ -47,9 +47,7 @@ class UserResponse extends Equatable {
   });
 
   factory UserResponse.fromMap(Map<String, dynamic> data) => UserResponse(
-    userType: (data['userType'] as String?) == 'CUSTOMER'
-        ? UserType.customer
-        : UserType.nonCustomer,
+    userType: data['userType'] as String?,
     sessionId: data['sessionId'] as String?,
     user: data['user'] == null ? null : User.fromMap(data['user'] as Map<String, dynamic>),
     recentActivity: (data['recentActivity'] as List<dynamic>?)
@@ -113,7 +111,7 @@ class UserResponse extends Equatable {
   String toJson() => json.encode(toMap());
 
   UserResponse copyWith({
-    UserType? userType,
+    String? userType,
     String? sessionId,
     User? user,
     List<RecentActivity>? recentActivity,

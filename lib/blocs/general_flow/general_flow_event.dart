@@ -209,3 +209,26 @@ class PrepareScheduler extends GeneralFlowEvent {
   @override
   List<Object?> get props => [routeName, receiptId, payeeId];
 }
+
+// prepare scheduler
+
+class ApproveReversalRequestEvent extends GeneralFlowEvent {
+  const ApproveReversalRequestEvent({
+    required this.id,
+    required this.pin,
+    required this.requestId,
+    required this.comment,
+    required this.username,
+    required this.status,
+  });
+
+  final String id;
+  final String pin;
+  final String username;
+  final String requestId;
+  final String comment;
+  final int status;
+
+  @override
+  List<Object?> get props => [id, pin, username, requestId, comment, status];
+}

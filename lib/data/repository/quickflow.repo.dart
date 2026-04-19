@@ -274,4 +274,30 @@ class QuickFlowRepo {
       timeStamp: response.timeStamp,
     );
   }
+
+  Future<Response> approveRequest({
+    required String pin,
+    required String requestId,
+    required int status,
+    required String comment,
+    required String username,
+  }) async {
+    final response = await _fbl.post(
+      path: 'FieldExecutive/approvedSupervisorAgentCollectionsReversal',
+      body: {
+        "pin": pin,
+        "requestId": requestId,
+        "status": status,
+        "comment": comment,
+        "username": username,
+      },
+      isAuthenticated: true,
+    );
+
+    if (response.status != StatusConstants.success) {
+      return Future.error(response);
+    }
+
+    return response;
+  }
 }

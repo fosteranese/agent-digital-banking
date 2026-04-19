@@ -331,15 +331,15 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       event: event,
       emit: emit,
       retrieveFunc: () async {
-        return AppUtil.currentUser?.userType?.name == 'SUPERVISOR'
-            ? await historyRepo.loadCollections()
-            : await historyRepo.loadSupervisorCollections();
+        return AppUtil.currentUser?.userType == 'SUPERVISOR'
+            ? await historyRepo.loadSupervisorCollections()
+            : await historyRepo.loadCollections();
       },
       saveCurrent: true,
       getStoredFunc: () async {
-        return AppUtil.currentUser?.userType?.name == 'SUPERVISOR'
-            ? await historyRepo.getStoredCollections()
-            : await historyRepo.getStoredSupervisorCollections();
+        return AppUtil.currentUser?.userType == 'SUPERVISOR'
+            ? await historyRepo.getStoredSupervisorCollections()
+            : await historyRepo.getStoredCollections();
       },
       storeFunc: (data) async {
         // await repo.saveWallets(data);
