@@ -12,6 +12,9 @@ import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
 import 'package:my_sage_agent/data/repository/history.repo.dart';
 import 'package:my_sage_agent/data/repository/payment.repo.dart';
 import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
+import 'package:my_sage_agent/data/repository/reversal.repo.dart';
+import 'package:my_sage_agent/data/repository/team.repo.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/response.util.dart';
 
 part 'retrieve_data_event.dart';
@@ -23,6 +26,8 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     required this.quickflow,
     required this.paymentRepo,
     required this.historyRepo,
+    required this.teamRepo,
+    required this.reversalRepo,
   }) : super(RetrieveDataInitial(id: '', action: '')) {
     on(_onRetrieveCategories);
     on(_onRetrievePaymentCategories);
@@ -32,6 +37,12 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     on(_onRetrieveActivities);
     on(_onRetrieveCollection);
     on(_onRetrieveCommissions);
+    on(_onRetrieveTeamMembers);
+    on(_onRetrieveReversals);
+    on(_onRetrieveSupervisorAgentCollections);
+    on(_onRetrieveSupervisorAgentActivities);
+    on(_onRetrieveSupervisorAgentReversals);
+    on(_onRetrieveSupervisorAgentCommissions);
   }
 
   final Map<String, dynamic> data = {};
@@ -40,6 +51,8 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
   final QuickFlowRepo quickflow;
   final PaymentRepo paymentRepo;
   final HistoryRepo historyRepo;
+  final TeamRepo teamRepo;
+  final ReversalRepo reversalRepo;
 
   Future<void> _onRetrieveData<T>({
     required RetrieveDataEvent event,
@@ -318,11 +331,15 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       event: event,
       emit: emit,
       retrieveFunc: () async {
-        return await historyRepo.loadCollections();
+        return AppUtil.currentUser?.userType?.name == 'SUPERVISOR'
+            ? await historyRepo.loadCollections()
+            : await historyRepo.loadSupervisorCollections();
       },
       saveCurrent: true,
       getStoredFunc: () async {
-        return await historyRepo.getStoredCollections();
+        return AppUtil.currentUser?.userType?.name == 'SUPERVISOR'
+            ? await historyRepo.getStoredCollections()
+            : await historyRepo.getStoredSupervisorCollections();
       },
       storeFunc: (data) async {
         // await repo.saveWallets(data);
@@ -371,6 +388,122 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       storeFunc: (data) async {
         // await repo.saveWallets(data);
       },
+    );
+  }
+
+  Future<void> _onRetrieveTeamMembers(
+    RetrieveTeamMembersEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await teamRepo.loadTeamMembers(name: event.name, code: event.code);
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return await teamRepo.getStoredTeamMembers();
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveReversals(
+    RetrievePendingReversalsEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await reversalRepo.loadReversals();
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return await reversalRepo.getStoredReversals();
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveSupervisorAgentCollections(
+    RetrieveSupervisorAgentCollectionsEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await historyRepo.loadSupervisorAgentCollections(agentCode: event.agentCode);
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return [];
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveSupervisorAgentReversals(
+    RetrieveSupervisorAgentReversalsEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await reversalRepo.loadSupervisorAgentReversals(agentCode: event.agentCode);
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return [];
+      },
+      storeFunc: (data) async {},
+    );
+  }
+
+  Future<void> _onRetrieveSupervisorAgentActivities(
+    RetrieveSupervisorAgentActivitiesEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await historyRepo.loadSupervisorAgentActivities(agentCode: event.agentCode);
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return [];
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveSupervisorAgentCommissions(
+    RetrieveSupervisorAgentCommissionsEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await historyRepo.loadSupervisorAgentCommissions(agentCode: event.agentCode);
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return [];
+      },
+      storeFunc: (data) async {},
     );
   }
 }

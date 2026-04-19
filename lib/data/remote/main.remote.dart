@@ -48,7 +48,7 @@ class MainRemote {
     }
 
     if (isAuthenticated) {
-      data['meta']['sessionId'] = AppUtil.currentUser.sessionId;
+      data['meta']['sessionId'] = AppUtil.currentUser!.sessionId;
     }
 
     if (encrypt) {

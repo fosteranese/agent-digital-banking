@@ -10,7 +10,10 @@ class ThemeUtil {
   // static const primaryColor = Color(0xffF9C500);
   static const primaryColor = Color(0xff007469);
   static const primaryColorList = Color(0xff919195);
+
   static const secondaryColor = Color(0xffF9C500);
+  static const secondaryColor100 = Color(0xffFFF0C9);
+  static const secondaryColor700 = Color(0xffE57A37);
 
   static const Color flat = Color(0xff54534A);
   static const Color black = Color(0xff010203);
@@ -22,7 +25,6 @@ class ThemeUtil {
   static const Color highlight = Color(0xffF1F8FF);
   static const Color border = Color(0xffF0F0F0);
   static const Color inactiveBorder = Color(0xffE0E0E0);
-  static const Color danger = Color(0xffE10303);
   static const Color offWhite = Color(0xffF1F1F1);
   static const Color grey = Color(0xff7D7D7D);
   static const Color success = Color(0xff007E13);
@@ -30,6 +32,12 @@ class ThemeUtil {
   static const Color inactivate = Color(0xffA9B6D5);
   static const Color inactiveState = Color(0xffFFF2D2);
   static const Color iconBg = Color(0xffF5F2EB);
+  static const Color color3 = Color(0xff003F37);
+
+  static const Color danger100 = Color(0xffFFE4E4);
+  static const Color danger200 = Color(0xffF8C4C4);
+  static const Color danger500 = Color(0xffDF0D0D);
+  static const Color danger = Color(0xffE10303);
 }
 
 class PrimaryTextStyle extends TextStyle {

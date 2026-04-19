@@ -7,6 +7,8 @@ import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/utils/navigator.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
+enum MainLayoutThemes { main, whiteHeader }
+
 class MainLayout extends StatelessWidget {
   const MainLayout({
     super.key,
@@ -39,6 +41,7 @@ class MainLayout extends StatelessWidget {
     this.bottomNavigationBar,
     this.flexibleSpace,
     this.useSafeArea = true,
+    this.theme = MainLayoutThemes.main,
   });
 
   final NavigatorState? nav;
@@ -70,6 +73,7 @@ class MainLayout extends StatelessWidget {
   final ScrollController? scrollController;
   final Widget? flexibleSpace;
   final bool useSafeArea;
+  final MainLayoutThemes theme;
 
   bool get _hasAppBar => title != null || showBackBtn || bottom != null;
 
@@ -149,10 +153,16 @@ class MainLayout extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: ThemeUtil.primaryColor,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: theme == MainLayoutThemes.whiteHeader
+          ? Colors.white
+          : ThemeUtil.primaryColor,
       automaticallyImplyLeading: false,
       leading: showBackBtn
           ? IconButton(
+              style: theme == MainLayoutThemes.whiteHeader
+                  ? IconButton.styleFrom(backgroundColor: ThemeUtil.offWhite)
+                  : null,
               onPressed:
                   onBackPressed ??
                   () {
@@ -162,7 +172,10 @@ class MainLayout extends StatelessWidget {
                       showNavBar: showNavBarOnPop,
                     );
                   },
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(
+                Icons.arrow_back,
+                color: theme == MainLayoutThemes.whiteHeader ? ThemeUtil.black : Colors.white,
+              ),
             )
           : null,
       title: Text(

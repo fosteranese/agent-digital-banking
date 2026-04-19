@@ -110,7 +110,7 @@ class _ExistingDeviceLoginPageState extends State<ExistingDeviceLoginPage> {
   }
 
   Widget _buildWelcomeText() {
-    final name = AppUtil.currentUser.user?.shortName ?? 'Boss';
+    final name = AppUtil.currentUser?.user?.shortName ?? 'Boss';
     return Row(
       children: [
         SvgPicture.asset('assets/img/welcome-user.svg'),

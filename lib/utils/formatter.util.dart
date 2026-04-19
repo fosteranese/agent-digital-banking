@@ -41,6 +41,11 @@ class FormatterUtil {
     return formatter.format(date);
   }
 
+  static String fullDateAlt(DateTime date) {
+    final DateFormat formatter = DateFormat('EEEE, d MMMM, yyyy');
+    return formatter.format(date);
+  }
+
   static String shortDateOnly(DateTime date) {
     final DateFormat formatter = DateFormat('MMM dd yyyy');
     return formatter.format(date);

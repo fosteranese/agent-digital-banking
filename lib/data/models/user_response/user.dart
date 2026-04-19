@@ -13,6 +13,8 @@ class User extends Equatable {
   final int? walletNumber;
   final String? qrCode;
   final List<PreviewDatum>? previewData;
+  final String? userCode;
+  final String? agentCode;
 
   const User({
     this.picture,
@@ -23,6 +25,8 @@ class User extends Equatable {
     this.walletNumber,
     this.qrCode,
     this.previewData,
+    this.userCode,
+    this.agentCode,
   });
 
   factory User.fromMap(Map<String, dynamic> data) => User(
@@ -36,6 +40,8 @@ class User extends Equatable {
     previewData: (data['previewData'] as List<dynamic>?)
         ?.map((e) => PreviewDatum.fromMap(e as Map<String, dynamic>))
         .toList(),
+    userCode: data['userCode'] as String?,
+    agentCode: data['agentCode'] as String?,
   );
 
   Map<String, dynamic> toMap() => {
@@ -47,6 +53,8 @@ class User extends Equatable {
     'walletNumber': walletNumber,
     'qrCode': qrCode,
     'previewData': previewData?.map((e) => e.toMap()).toList(),
+    'userCode': userCode,
+    'agentCode': agentCode,
   };
 
   /// `dart:convert`
@@ -70,6 +78,8 @@ class User extends Equatable {
     int? walletNumber,
     String? qrCode,
     List<PreviewDatum>? previewData,
+    String? userCode,
+    String? agentCode,
   }) {
     return User(
       picture: picture ?? this.picture,
@@ -80,6 +90,8 @@ class User extends Equatable {
       walletNumber: walletNumber ?? this.walletNumber,
       qrCode: qrCode ?? this.qrCode,
       previewData: previewData ?? this.previewData,
+      userCode: userCode ?? this.userCode,
+      agentCode: agentCode ?? this.agentCode,
     );
   }
 
@@ -88,6 +100,16 @@ class User extends Equatable {
 
   @override
   List<Object?> get props {
-    return [picture, name, verified, lastLogin, walletNumber, qrCode, previewData];
+    return [
+      picture,
+      name,
+      verified,
+      lastLogin,
+      walletNumber,
+      qrCode,
+      previewData,
+      userCode,
+      agentCode,
+    ];
   }
 }

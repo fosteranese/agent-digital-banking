@@ -32,6 +32,8 @@ import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
 import 'package:my_sage_agent/data/repository/history.repo.dart';
 import 'package:my_sage_agent/data/repository/payment.repo.dart';
 import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
+import 'package:my_sage_agent/data/repository/reversal.repo.dart';
+import 'package:my_sage_agent/data/repository/team.repo.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/router/app_router.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
@@ -40,6 +42,7 @@ import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/update.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   runZonedGuarded(
@@ -64,7 +67,8 @@ void main() {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
   static final navigatorKey = GlobalKey<NavigatorState>();
-  // static final dashboardNav = GlobalKey<NavigatorState>();
+
+  static final routerRefreshNotifier = ValueNotifier('');
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -101,6 +105,8 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(create: (_) => QuickFlowRepo()),
         RepositoryProvider(create: (_) => PaymentRepo()),
         RepositoryProvider(create: (_) => HistoryRepo()),
+        RepositoryProvider(create: (_) => TeamRepo()),
+        RepositoryProvider(create: (_) => ReversalRepo()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -116,6 +122,8 @@ class _MyAppState extends State<MyApp> {
               quickflow: context.read<QuickFlowRepo>(),
               paymentRepo: context.read<PaymentRepo>(),
               historyRepo: context.read<HistoryRepo>(),
+              teamRepo: context.read<TeamRepo>(),
+              reversalRepo: context.read<ReversalRepo>(),
             ),
           ),
           BlocProvider(create: (context) => AccountBloc()),
@@ -229,6 +237,8 @@ class _MyAppState extends State<MyApp> {
       listeners: [
         BlocListener<AppBloc, AppState>(
           listener: (context, state) {
+            MyApp.routerRefreshNotifier.value = Uuid().v4();
+
             if (_threadDetected || state is AppError) {
               final error = state is AppError ? state.result : _error;
               MyApp.navigatorKey.currentContext!.go(AppErrorPage.routeName, extra: error);
@@ -267,6 +277,8 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
+            MyApp.routerRefreshNotifier.value = Uuid().v4();
+
             if (state is LoggedOut) {
               MyApp.navigatorKey.currentContext!.go(
                 ExistingDeviceLoginPage.routeName,

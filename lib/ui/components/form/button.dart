@@ -23,6 +23,7 @@ class FormButton extends StatelessWidget {
     this.svgIcon,
     this.fontWeight,
     this.borderRadius,
+    this.borderColor,
   });
 
   final void Function() onPressed;
@@ -41,6 +42,7 @@ class FormButton extends StatelessWidget {
   final String? svgIcon;
   final FontWeight? fontWeight;
   final BorderRadius? borderRadius;
+  final Color? borderColor;
 
   bool get _enabled {
     return !loading && !disabled;
@@ -55,7 +57,12 @@ class FormButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           backgroundColor: _enabled ? backgroundColor : ThemeUtil.inactiveState,
           padding: .symmetric(horizontal: 8, vertical: 8),
-          shape: RoundedRectangleBorder(borderRadius: borderRadius ?? .circular(height)),
+          shape: RoundedRectangleBorder(
+            borderRadius: borderRadius ?? .circular(height),
+            side: borderColor != null
+                ? BorderSide(color: _enabled ? borderColor! : ThemeUtil.inactiveState)
+                : BorderSide.none,
+          ),
           fixedSize: Size(double.maxFinite, height),
         ),
         onPressed: () {

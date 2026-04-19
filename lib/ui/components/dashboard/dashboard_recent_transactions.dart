@@ -60,7 +60,7 @@ class DashboardRecentTransactions extends StatelessWidget {
               SliverList.separated(
                 itemCount: list.length > 10 ? 10 : list.length,
                 itemBuilder: (_, index) {
-                  return CollectionItem(record: list[index]);
+                  return CollectionItem(record: list[index].agent!);
                 },
                 separatorBuilder: (_, _) {
                   return Divider(color: ThemeUtil.headerBackground, thickness: 1, height: 0);

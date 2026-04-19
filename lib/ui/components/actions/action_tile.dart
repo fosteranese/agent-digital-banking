@@ -74,7 +74,7 @@ class _ActionTileState extends State<ActionTile> {
 
   @override
   Widget build(BuildContext context) {
-    final user = AppUtil.currentUser;
+    final user = AppUtil.currentUser!;
 
     return MultiBlocListener(
       listeners: [
@@ -262,7 +262,7 @@ class DoneState extends StatelessWidget {
   final AmDoing amDoing;
 
   String getImage(String icon) {
-    final user = AppUtil.currentUser;
+    final user = AppUtil.currentUser!;
 
     if (result != null) {
       return '${result!.imageBaseUrl}${result!.imageDirectory}/$icon';

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/collection_model.dart';
-
 import 'package:my_sage_agent/ui/components/tab_header.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
-import 'package:string_validator/string_validator.dart';
 
 class CollectionHeader extends StatelessWidget {
   const CollectionHeader({super.key, required this.filterBy, this.onFilter});
@@ -77,7 +76,13 @@ class CollectionHeader extends StatelessWidget {
     filter = filter.toLowerCase();
     final count = filter.isEmpty
         ? list.length
-        : list.where((item) => item.collectionMode?.toLowerCase().equals(filter) ?? false).length;
+        : list.where((item) {
+            if (item.supervisor != null) {
+              return item.supervisor?.collection?.collectionMode?.toLowerCase() == filter;
+            }
+
+            return item.agent?.collectionMode?.toLowerCase() == filter;
+          }).length;
 
     if (count > 100) {
       return '$title ($count+)';

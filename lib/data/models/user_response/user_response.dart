@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:my_sage_agent/data/models/agent_data/agent_data.dart';
+import 'package:my_sage_agent/data/models/supervisor_data.dart';
 
 import '../account/account.dart';
 import '../general_flow/general_flow_form.dart';
@@ -26,6 +27,7 @@ class UserResponse extends Equatable {
   final String? imageDirectory;
   final String? profilePicture;
   final AgentData? agentData;
+  final SupervisorData? supervisorData;
 
   const UserResponse({
     this.userType,
@@ -41,6 +43,7 @@ class UserResponse extends Equatable {
     this.imageDirectory,
     this.profilePicture,
     this.agentData,
+    this.supervisorData,
   });
 
   factory UserResponse.fromMap(Map<String, dynamic> data) => UserResponse(
@@ -74,6 +77,11 @@ class UserResponse extends Equatable {
         : (data['agentData'] is String
               ? AgentData.fromJson(data['agentData'])
               : AgentData.fromMap(data['agentData'] as Map<String, dynamic>)),
+    supervisorData: data['supervisorData'] == null
+        ? null
+        : (data['supervisorData'] is String
+              ? SupervisorData.fromJson(data['supervisorData'])
+              : SupervisorData.fromMap(data['supervisorData'] as Map<String, dynamic>)),
   );
 
   Map<String, dynamic> toMap() => {

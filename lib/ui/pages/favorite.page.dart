@@ -27,7 +27,7 @@ class _FavoritePageState extends State<FavoritePage> {
 
   @override
   void initState() {
-    _activities = AppUtil.currentUser.recentActivity ?? [];
+    _activities = AppUtil.currentUser?.recentActivity ?? [];
     super.initState();
   }
 
@@ -59,7 +59,7 @@ class _FavoritePageState extends State<FavoritePage> {
             title: 'Pay again',
             bottom: SearchBox(
               controller: _controller,
-              onSearch: (value) => _search(value, AppUtil.currentUser.recentActivity!),
+              onSearch: (value) => _search(value, AppUtil.currentUser!.recentActivity!),
             ),
             sliver: (state is LoggedIn)
                 ? SliverFillRemaining(

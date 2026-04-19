@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/collection_model.dart';
+import 'package:my_sage_agent/data/models/agent_collection_model.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
 import 'package:my_sage_agent/data/models/user_response/activity.dart';
@@ -22,7 +22,7 @@ class CollectionsDetailsPage extends StatefulWidget {
   const CollectionsDetailsPage({super.key, required this.record});
 
   static const routeName = '/collections/details';
-  final CollectionModel record;
+  final AgentCollectionModel record;
 
   @override
   State<CollectionsDetailsPage> createState() => _CollectionsDetailsPageState();

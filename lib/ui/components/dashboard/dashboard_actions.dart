@@ -39,7 +39,7 @@ class _DashboardActionsState extends State<DashboardActions> {
                   crossAxisSpacing: 16,
                   childAspectRatio: 1.2,
                 ),
-                children: AppUtil.currentUser.activities!.map((item) {
+                children: AppUtil.currentUser!.activities!.map((item) {
                   return DashboardButton(category: DashboardPage.category, item: item);
                 }).toList(),
               ),

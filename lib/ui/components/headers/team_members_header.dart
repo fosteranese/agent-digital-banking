@@ -1,0 +1,122 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_sage_agent/ui/components/form/input.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
+
+class TeamMembersSearchBox extends StatefulWidget {
+  const TeamMembersSearchBox({
+    super.key,
+    required this.filterBy,
+    required this.controller,
+    required this.onSearch,
+    this.onFilter,
+  });
+
+  final ValueNotifier<String> filterBy;
+  final TextEditingController controller;
+  final void Function(String value) onSearch;
+  final void Function()? onFilter;
+
+  @override
+  State<TeamMembersSearchBox> createState() => _TeamMembersSearchBoxState();
+}
+
+class _TeamMembersSearchBoxState extends State<TeamMembersSearchBox> {
+  late final _search = ValueNotifier(widget.controller.text.trim());
+
+  @override
+  initState() {
+    super.initState();
+    widget.controller.addListener(_onSearchTextChange);
+  }
+
+  void _onSearchTextChange() {
+    _search.value = widget.controller.text.trim();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size(double.maxFinite, 50),
+      child: Container(
+        color: Colors.white,
+        padding: const .only(top: 0, left: 20, right: 20, bottom: 20),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: .spaceAround,
+                crossAxisAlignment: .center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Team Members',
+                      style: const PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: widget.onFilter,
+                    child: Row(
+                      children: [
+                        Icon(Icons.filter_list_outlined),
+                        const SizedBox(width: 2),
+                        Text(
+                          'Filter',
+                          style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            FormInput(
+              inputHeight: 40,
+              zeroLeftPadding: false,
+              borderRadius: 4,
+              controller: widget.controller,
+              bottomSpace: 0,
+              onChange: (value) {
+                _search.value = value;
+                widget.onSearch(value);
+              },
+              placeholder: 'Search ${widget.filterBy.value}',
+              suffix: ValueListenableBuilder(
+                valueListenable: _search,
+                builder: (context, value, child) {
+                  if (value.isNotEmpty) {
+                    return IconButton(
+                      onPressed: () {
+                        widget.controller.text = '';
+                        widget.onSearch(widget.controller.text);
+                      },
+                      icon: const Icon(Icons.close),
+                    );
+                  }
+
+                  if (widget.onFilter != null) {
+                    return Padding(
+                      padding: const .symmetric(vertical: 10),
+                      child: InkWell(
+                        onTap: widget.onFilter!,
+                        child: SvgPicture.asset('assets/img/search.svg', width: 20),
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  dispose() {
+    widget.controller.removeListener(_onSearchTextChange);
+    super.dispose();
+  }
+}

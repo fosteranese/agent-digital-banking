@@ -118,10 +118,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       final result = await _authRepo.getProfilePicture();
 
-      AppUtil.currentUser = AppUtil.currentUser.copyWith(profilePicture: result);
-      _authRepo.saveJustLoggedUser(AppUtil.currentUser);
+      AppUtil.currentUser = AppUtil.currentUser!.copyWith(profilePicture: result);
+      _authRepo.saveJustLoggedUser(AppUtil.currentUser!);
 
-      emit(LoggedIn(AppUtil.currentUser));
+      emit(LoggedIn(AppUtil.currentUser!));
     } catch (error) {
       if (event.tryCount > 5) return;
 
@@ -514,12 +514,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       emit(ChangingProfilePicture(event.routeName));
       final result = await _authRepo.changeProfilePicture(event.picture);
-      AppUtil.currentUser = AppUtil.currentUser.copyWith(profilePicture: result);
+      AppUtil.currentUser = AppUtil.currentUser!.copyWith(profilePicture: result);
 
       emit(ProfilePictureChanged(event.routeName));
-      _authRepo.saveJustLoggedUser(AppUtil.currentUser);
+      _authRepo.saveJustLoggedUser(AppUtil.currentUser!);
 
-      emit(LoggedIn(AppUtil.currentUser));
+      emit(LoggedIn(AppUtil.currentUser!));
     } catch (error) {
       ResponseUtil.handleException(
         error,

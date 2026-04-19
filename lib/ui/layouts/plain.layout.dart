@@ -12,13 +12,14 @@ class PlainLayout extends StatelessWidget {
     this.title,
     this.subtitle,
     this.miniTitle,
-    required this.children,
+    this.children = const [],
     this.useCloseIcon = false,
     this.onBackPressed,
     this.centerTitle = false,
     this.centerSubtitle = false,
     this.titleTextColor = Colors.black,
     this.noHelp = false,
+    this.slivers = const [],
   });
 
   final Widget? backIcon;
@@ -33,6 +34,7 @@ class PlainLayout extends StatelessWidget {
   final bool centerSubtitle;
   final Color titleTextColor;
   final bool noHelp;
+  final List<Widget> slivers;
 
   @override
   Widget build(BuildContext context) {
@@ -66,65 +68,73 @@ class PlainLayout extends StatelessWidget {
               ),
               centerTitle: true,
               automaticallyImplyLeading: false,
-              actions: [
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: ThemeUtil.offWhite,
-                    foregroundColor: ThemeUtil.black,
-                    padding: .symmetric(horizontal: 15),
-                  ),
-                  onPressed: () {
-                    HelpUtil.show(onCancelled: () {});
-                  },
-                  child: Text('Help', style: PrimaryTextStyle(fontSize: 13, fontWeight: .w400)),
-                ),
-                const SizedBox(width: 5),
-              ],
-            ),
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (title != null)
-                      Align(
-                        alignment: centerTitle ? Alignment.topCenter : Alignment.topLeft,
+              actions: noHelp
+                  ? null
+                  : [
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: ThemeUtil.offWhite,
+                          foregroundColor: ThemeUtil.black,
+                          padding: .symmetric(horizontal: 15),
+                        ),
+                        onPressed: () {
+                          HelpUtil.show(onCancelled: () {});
+                        },
                         child: Text(
-                          title!,
-                          textAlign: centerTitle ? TextAlign.center : TextAlign.start,
-                          style: const PrimaryTextStyle(
-                            fontWeight: .w600,
-                            fontSize: 24,
-                            color: ThemeUtil.sikaBlack,
-                          ),
+                          'Help',
+                          style: PrimaryTextStyle(fontSize: 13, fontWeight: .w400),
                         ),
                       ),
-                    if (subtitle != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Align(
+                      const SizedBox(width: 5),
+                    ],
+            ),
+            if (slivers.isNotEmpty)
+              ...slivers
+            else
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (title != null)
+                        Align(
                           alignment: centerTitle ? Alignment.topCenter : Alignment.topLeft,
                           child: Text(
-                            subtitle!,
+                            title!,
                             textAlign: centerTitle ? TextAlign.center : TextAlign.start,
                             style: const PrimaryTextStyle(
-                              color: ThemeUtil.flat,
-                              fontWeight: .w400,
-                              fontSize: 16,
+                              fontWeight: .w600,
+                              fontSize: 24,
+                              color: ThemeUtil.sikaBlack,
                             ),
                           ),
                         ),
-                      ),
-                    if (title != null) const SizedBox(height: 10),
-                    ...children,
-                  ],
+                      if (subtitle != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: Align(
+                            alignment: centerTitle ? Alignment.topCenter : Alignment.topLeft,
+                            child: Text(
+                              subtitle!,
+                              textAlign: centerTitle ? TextAlign.center : TextAlign.start,
+                              style: const PrimaryTextStyle(
+                                color: ThemeUtil.flat,
+                                fontWeight: .w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (title != null) const SizedBox(height: 10),
+                      ...children,
+                    ],
+                  ),
                 ),
               ),
-            ),
             const SliverPadding(padding: EdgeInsets.only(bottom: 10)),
           ],
         ),

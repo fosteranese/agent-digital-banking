@@ -7,16 +7,18 @@ import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.da
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/dashboard/process_category.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/supervisor.dashboard.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/process_flow.util.dart';
 
-import '../../../blocs/collection/collection_bloc.dart';
-import '../../../blocs/general_flow/general_flow_bloc.dart';
-import '../../../utils/service.util.dart';
-import '../../components/session_tracker.dart';
-import '../quick_actions.page.dart';
-import 'full_app_mode.dart';
+import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
+import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/utils/service.util.dart';
+import 'package:my_sage_agent/ui/components/session_tracker.dart';
+import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/agent.dashboard.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -58,7 +60,14 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           BlocListener<RetrieveDataBloc, RetrieveDataState>(listener: _handleRetrieveDataState),
         ],
-        child: const FullAppMode(),
+        child: Builder(
+          builder: (context) {
+            if (AppUtil.currentUser!.userType?.name != 'SUPERVISOR') {
+              return const SupervisorDashboard();
+            }
+            return const AgentDashboard();
+          },
+        ),
       ),
     );
   }

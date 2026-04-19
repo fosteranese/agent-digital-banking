@@ -32,8 +32,8 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
       );
 
       final status = result ? 1 : 0;
-      AppUtil.currentUser = AppUtil.currentUser.copyWith(
-        activities: AppUtil.currentUser.activities!.map((e) {
+      AppUtil.currentUser = AppUtil.currentUser!.copyWith(
+        activities: AppUtil.currentUser!.activities!.map((e) {
           if (e.activity!.activityId != event.activityId) {
             return e;
           }
@@ -41,10 +41,10 @@ class CustomizeBloc extends Bloc<CustomizeEvent, CustomizeState> {
         }).toList(),
       );
 
-      if (AppUtil.currentUser.scanToPay!.activity!.activityId == event.activityId) {
-        AppUtil.currentUser = AppUtil.currentUser.copyWith(
-          scanToPay: AppUtil.currentUser.scanToPay!.copyWith(
-            activity: AppUtil.currentUser.scanToPay!.activity!.copyWith(showOnDashboard: status),
+      if (AppUtil.currentUser!.scanToPay!.activity!.activityId == event.activityId) {
+        AppUtil.currentUser = AppUtil.currentUser!.copyWith(
+          scanToPay: AppUtil.currentUser!.scanToPay!.copyWith(
+            activity: AppUtil.currentUser!.scanToPay!.activity!.copyWith(showOnDashboard: status),
           ),
         );
         // AppUtil.currentUser.scanToPay!.activity!.copyWith(

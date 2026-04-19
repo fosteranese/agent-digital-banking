@@ -15,7 +15,7 @@ class DashboardStats extends StatelessWidget {
       'title': '',
       'caption': 'Cash Collected',
       'value': () {
-        return AppUtil.currentUser.agentData?.cashCollected?.formatedValue ?? 'GHS 0.00';
+        return AppUtil.currentUser!.agentData?.cashCollected?.formatedValue ?? 'GHS 0.00';
       },
     },
     {
@@ -25,7 +25,7 @@ class DashboardStats extends StatelessWidget {
       'title': '',
       'caption': 'MoMo Collected',
       'value': () {
-        return AppUtil.currentUser.agentData?.moMoCollected?.formatedValue ?? 'GHS 0.00';
+        return AppUtil.currentUser!.agentData?.moMoCollected?.formatedValue ?? 'GHS 0.00';
       },
     },
     {
@@ -35,7 +35,7 @@ class DashboardStats extends StatelessWidget {
       'title': '',
       'caption': 'Cash at Hand',
       'value': () {
-        return AppUtil.currentUser.agentData?.cashAtHand?.formatedValue ?? 'GHS 0.00';
+        return AppUtil.currentUser!.agentData?.cashAtHand?.formatedValue ?? 'GHS 0.00';
       },
     },
     {
@@ -45,7 +45,7 @@ class DashboardStats extends StatelessWidget {
       'title': '',
       'caption': 'Cash Deposited',
       'value': () {
-        return AppUtil.currentUser.agentData?.cashDeposited?.formatedValue ?? 'GHS 0.00';
+        return AppUtil.currentUser!.agentData?.cashDeposited?.formatedValue ?? 'GHS 0.00';
       },
     },
   ];

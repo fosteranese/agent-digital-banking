@@ -7,9 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/collection_model.dart';
 import 'package:my_sage_agent/logger.dart';
-import 'package:my_sage_agent/ui/components/form/collection_header.dart';
+import 'package:my_sage_agent/ui/components/headers/collection_header.dart';
 import 'package:my_sage_agent/ui/components/history/collection_item.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
+import 'package:my_sage_agent/ui/components/history/supervisor_collection_item.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
@@ -47,7 +48,11 @@ class _CollectionsPageState extends State<CollectionsPage> {
     return _list.where((e) {
       if (filter.isEmpty) return true;
 
-      return e.collectionMode?.toLowerCase() == filter;
+      if (e.supervisor != null) {
+        return e.supervisor?.collection?.collectionMode?.toLowerCase() == filter;
+      }
+
+      return e.agent?.collectionMode?.toLowerCase() == filter;
     }).toList();
   }
 
@@ -125,12 +130,17 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 }
 
                 return SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const .symmetric(horizontal: 15),
                   sliver: SliverList.separated(
                     itemCount: collections.length,
                     itemBuilder: (_, index) {
                       final record = collections[index];
-                      return CollectionItem(record: record, onTap: null);
+
+                      if (record.supervisor != null) {
+                        return SupervisorCollectionItem(record: record.supervisor!, onTap: null);
+                      }
+
+                      return CollectionItem(record: record.agent!, onTap: null);
                     },
                     separatorBuilder: (_, _) =>
                         Divider(thickness: 1, color: ThemeUtil.headerBackground, height: 0),
@@ -173,9 +183,13 @@ class _CollectionsPageState extends State<CollectionsPage> {
   void _search(String value, List<CollectionModel> requests, {bool shouldSetState = true}) {
     logger.i(value);
     final search = value.trim().toLowerCase();
-    _list = requests
-        .where((e) => e.collectionMode?.toLowerCase().contains(search) ?? false)
-        .toList();
+    _list = requests.where((e) {
+      if (e.supervisor != null) {
+        return e.supervisor?.collection?.collectionMode?.toLowerCase().contains(search) ?? false;
+      }
+
+      return e.agent?.collectionMode?.toLowerCase().contains(search) ?? false;
+    }).toList();
     if (shouldSetState) setState(() {});
   }
 

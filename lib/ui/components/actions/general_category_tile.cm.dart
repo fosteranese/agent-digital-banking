@@ -111,7 +111,7 @@ class _GeneralCategoryTileState extends State<GeneralCategoryTile> {
   }
 
   String getImage(String icon) {
-    final user = AppUtil.currentUser;
+    final user = AppUtil.currentUser!;
     return '${user.imageBaseUrl}${user.imageDirectory}/$icon';
   }
 }

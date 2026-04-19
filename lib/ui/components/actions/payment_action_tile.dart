@@ -68,7 +68,7 @@ class _PaymentActionTileState extends State<PaymentActionTile> {
 
   @override
   Widget build(BuildContext context) {
-    final user = AppUtil.currentUser;
+    final user = AppUtil.currentUser!;
 
     return MultiBlocListener(
       listeners: [

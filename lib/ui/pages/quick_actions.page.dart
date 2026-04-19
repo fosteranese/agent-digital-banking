@@ -40,7 +40,7 @@ class _QuickActionsPageState extends State<QuickActionsPage> {
 
   @override
   void initState() {
-    _activities = _getActivities(AppUtil.currentUser.activities ?? []);
+    _activities = _getActivities(AppUtil.currentUser!.activities ?? []);
     super.initState();
   }
 

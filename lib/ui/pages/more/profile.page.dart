@@ -21,7 +21,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final details = (AppUtil.currentUser.user!.previewData ?? []).where((element) {
+    final details = (AppUtil.currentUser!.user!.previewData ?? []).where((element) {
       return element.key != null &&
           element.value != null &&
           element.value!.isNotEmpty &&
@@ -46,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ProfilePicture(),
                     const SizedBox(height: 10),
                     Text(
-                      AppUtil.currentUser.user?.name ?? '',
+                      AppUtil.currentUser!.user?.name ?? '',
                       textAlign: .center,
                       style: PrimaryTextStyle(
                         fontSize: 16,
@@ -56,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     // const SizedBox(height: 2),
                     Text(
-                      'Agent Code: ${AppUtil.currentUser.user?.walletNumber}',
+                      'Agent Code: ${AppUtil.currentUser!.user?.userCode}',
                       textAlign: .center,
                       style: PrimaryTextStyle(
                         fontSize: 14,
@@ -117,7 +117,7 @@ class ProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (AppUtil.currentUser.profilePicture?.isEmpty ?? true) {
+    if (AppUtil.currentUser!.profilePicture?.isEmpty ?? true) {
       return CircleAvatar(
         backgroundColor: Colors.white,
         radius: radius,
@@ -137,7 +137,7 @@ class ProfilePicture extends StatelessWidget {
       child: CircleAvatar(
         radius: radius,
         backgroundColor: Color(0xffD9D9D9),
-        backgroundImage: MemoryImage(base64Decode(AppUtil.currentUser.profilePicture!)),
+        backgroundImage: MemoryImage(base64Decode(AppUtil.currentUser!.profilePicture!)),
       ),
     );
   }

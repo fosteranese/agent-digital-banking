@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:my_sage_agent/data/models/collection_model.dart';
+import 'package:my_sage_agent/data/models/agent_collection_model.dart';
 import 'package:my_sage_agent/ui/pages/collections/collections_details.page.dart';
 import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class CollectionItem extends StatelessWidget {
-  final CollectionModel record;
+  final AgentCollectionModel record;
   final VoidCallback? onTap;
 
   const CollectionItem({super.key, required this.record, this.onTap});

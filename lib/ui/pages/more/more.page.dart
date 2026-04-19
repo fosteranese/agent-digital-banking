@@ -96,11 +96,11 @@ class _MorePageState extends State<MorePage> {
               },
               leading: ProfilePicture(radius: 20, margin: 3),
               title: Text(
-                AppUtil.currentUser.user?.name ?? 'Agent Name',
+                AppUtil.currentUser?.user?.name ?? 'Agent Name',
                 style: PrimaryTextStyle(fontSize: 16, fontWeight: .w500, color: ThemeUtil.black),
               ),
               subtitle: Text(
-                'Agent Code: ${AppUtil.currentUser.user?.walletNumber ?? 'N/A'}',
+                'Agent Code: ${AppUtil.currentUser?.user?.userCode ?? 'N/A'}',
                 style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
               ),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Color(0xffC4C4C4)),

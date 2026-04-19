@@ -1,31 +1,31 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:my_sage_agent/ui/components/dashboard/dashboard_actions.dart';
-import 'package:my_sage_agent/ui/components/dashboard/dashboard_recent_transactions.dart';
-import 'package:my_sage_agent/ui/components/dashboard/dashboard_stats.dart';
+import 'package:my_sage_agent/ui/components/dashboard/supervisor_dashboard_actions.dart';
+import 'package:my_sage_agent/ui/components/dashboard/supervisor_dashboard_recent_transactions.dart';
+import 'package:my_sage_agent/ui/components/form/outline_button.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
+import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:uuid/uuid.dart';
 
-class FullAppMode extends StatefulWidget {
-  const FullAppMode({super.key});
+class SupervisorDashboard extends StatefulWidget {
+  const SupervisorDashboard({super.key});
 
   @override
-  State<FullAppMode> createState() => _FullAppModeState();
+  State<SupervisorDashboard> createState() => _SupervisorDashboardState();
 }
 
-class _FullAppModeState extends State<FullAppMode> {
+class _SupervisorDashboardState extends State<SupervisorDashboard> {
   final _controller = ScrollController();
   final _refreshController = GlobalKey<RefreshIndicatorState>();
   static bool isRefreshing = false;
@@ -48,6 +48,14 @@ class _FullAppModeState extends State<FullAppMode> {
       ),
     );
 
+    context.read<RetrieveDataBloc>().add(
+      RetrievePendingReversalsEvent(
+        id: Uuid().v4(),
+        action: 'RetrievePendingReversalsEvent',
+        skipSavedData: false,
+      ),
+    );
+
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       if (!isRefreshing) {
         timer.cancel();
@@ -61,6 +69,14 @@ class _FullAppModeState extends State<FullAppMode> {
   @override
   void initState() {
     context.read<PushNotificationBloc>().add(const LoadPushNotification());
+
+    context.read<RetrieveDataBloc>().add(
+      RetrievePendingReversalsEvent(
+        id: Uuid().v4(),
+        action: 'RetrievePendingReversalsEvent',
+        skipSavedData: false,
+      ),
+    );
 
     super.initState();
   }
@@ -91,56 +107,64 @@ class _FullAppModeState extends State<FullAppMode> {
                 backgroundColor: Colors.white,
                 shadowColor: Colors.white,
                 surfaceTintColor: Colors.transparent,
-                titleSpacing: 10,
                 title: InkWell(
                   enableFeedback: true,
                   onTap: () {
                     context.push(ProfilePage.routeName);
                   },
-                  child: Row(
-                    mainAxisAlignment: .start,
-                    children: [
-                      Builder(
-                        builder: (context) {
-                          if (AppUtil.currentUser.profilePicture?.isNotEmpty ?? false) {
-                            return CircleAvatar(
-                              backgroundColor: Colors.white,
-                              backgroundImage: MemoryImage(
-                                base64Decode(AppUtil.currentUser.profilePicture!),
-                              ),
-                            );
-                          }
-
-                          return CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: SvgPicture.asset('assets/img/user.svg', width: double.maxFinite),
-                          );
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(text: "Welcome\n"),
-                              TextSpan(
-                                text: AppUtil.currentUser.user?.shortName ?? 'Sage Agent',
-                                style: PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                              ),
-                            ],
-                            style: PrimaryTextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13,
-                              color: Colors.black,
-                            ),
-                          ),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        const TextSpan(text: "Welcome\n"),
+                        TextSpan(
+                          text: AppUtil.currentUser!.user?.shortName ?? 'Sage Agent',
+                          style: PrimaryTextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                         ),
+                      ],
+                      style: PrimaryTextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 13,
+                        color: Colors.black,
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 centerTitle: false,
                 actions: [AppUtil.notificationIcon],
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(60),
+                  child: Padding(
+                    padding: const .symmetric(vertical: 10, horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: .center,
+                      crossAxisAlignment: .center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            FormatterUtil.fullDateAlt(DateTime.now()),
+                            style: PrimaryTextStyle(
+                              fontSize: 14,
+                              fontWeight: .w400,
+                              color: ThemeUtil.flat,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 110,
+                          height: 30,
+                          child: FormOutlineButton(
+                            padding: .symmetric(horizontal: 12, vertical: 6),
+                            onPressed: () {
+                              context.push(RequestsPage.routeName);
+                            },
+                            shape: RoundedRectangleBorder(borderRadius: .circular(8)),
+                            text: 'View Requests',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               body: EasyRefresh(
                 header: MaterialHeader(
@@ -152,7 +176,7 @@ class _FullAppModeState extends State<FullAppMode> {
                 triggerAxis: Axis.vertical,
                 child: CustomScrollView(
                   controller: _controller,
-                  slivers: [DashboardStats(), DashboardActions(), DashboardRecentTransactions()],
+                  slivers: [SupervisorDashboardActions(), SupervisorDashboardRecentTransactions()],
                 ),
               ),
               extendBody: false,

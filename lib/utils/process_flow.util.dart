@@ -11,6 +11,7 @@ import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/register_client.page.dart';
+import 'package:my_sage_agent/ui/pages/team/team_members.page.dart';
 
 final class ProcessFlowUtil {
   static String id = '';
@@ -38,6 +39,11 @@ final class ProcessFlowUtil {
     //   );
     //   return;
     // }
+
+    if (activityDatum.activity?.activityId == '4e38a9c6-37b0-4454-b025-a9df5adb3a49') {
+      context.push(TeamMembersPage.routeName);
+      return;
+    }
 
     switch (activityDatum.activity?.activityType) {
       case ActivityTypesConst.fblOnline:

@@ -10,7 +10,11 @@ final authRouter = StatefulShellRoute.indexedStack(
   builder: (context, state, navigationShell) {
     return BottomNavBar(state: state, navigationShell: navigationShell);
   },
-  branches: [
+  branches: generateBranches(),
+);
+
+List<StatefulShellBranch> generateBranches() {
+  final branches = [
     StatefulShellBranch(
       routes: [
         GoRoute(path: DashboardPage.routeName, builder: (context, state) => const DashboardPage()),
@@ -35,5 +39,7 @@ final authRouter = StatefulShellRoute.indexedStack(
     StatefulShellBranch(
       routes: [GoRoute(path: MorePage.routeName, builder: (context, state) => const MorePage())],
     ),
-  ],
-);
+  ];
+
+  return branches;
+}

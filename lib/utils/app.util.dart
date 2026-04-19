@@ -52,7 +52,7 @@ class AppUtil {
   static String? fcmToken;
 
   static late InitializationResponse data;
-  static late UserResponse currentUser;
+  static UserResponse? currentUser;
   static Response deviceStatus = const Response(
     code: StatusConstants.pending,
     status: StatusConstants.pending,

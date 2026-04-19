@@ -564,7 +564,7 @@ class PaymentRepo {
     String? payeeId,
     String? collectionId,
   }) async {
-    final activity = AppUtil.currentUser.activities!.firstWhere(
+    final activity = AppUtil.currentUser!.activities!.firstWhere(
       (item) => item.activity!.activityType == activityType,
     );
 
@@ -643,7 +643,7 @@ class PaymentRepo {
     required String formId,
     String? payeeId,
   }) async {
-    final activity = AppUtil.currentUser.activities!.firstWhere(
+    final activity = AppUtil.currentUser!.activities!.firstWhere(
       (item) => item.activity!.activityType == activityType,
     );
 
