@@ -167,6 +167,8 @@ class ReceiptItem extends StatelessWidget {
       return 'assets/img/call-us.svg';
     } else if (labelLowerCase.contains('email')) {
       return 'assets/img/mail.svg';
+    } else if (labelLowerCase.contains('ghana') && labelLowerCase.contains('card')) {
+      return 'assets/img/id-card.svg';
     }
 
     return '';

@@ -18,6 +18,7 @@ import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/otp_login.page.dart';
 import 'package:my_sage_agent/ui/pages/login/set_secret_answer_login.page.dart';
+import 'package:my_sage_agent/ui/pages/more/agent_profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/commissions.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
@@ -220,6 +221,10 @@ GoRouter createRouter() {
         path: ReversalDetailsPage.routeName,
         builder: (context, state) =>
             ReversalDetailsPage(record: state.extra as AgentReversalRequestModel),
+      ),
+      GoRoute(
+        path: AgentProfilePage.routeName,
+        builder: (context, state) => AgentProfilePage(agent: state.extra as Agent),
       ),
     ],
   );

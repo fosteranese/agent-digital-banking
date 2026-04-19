@@ -21,7 +21,7 @@ import 'package:my_sage_agent/ui/components/tab_header_2.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/collections/collections_details.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
-import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
+import 'package:my_sage_agent/ui/pages/more/agent_profile.page.dart';
 import 'package:my_sage_agent/ui/pages/request/reversal_details.page.dart';
 import 'package:my_sage_agent/ui/pages/team/supervisor_agent_collections.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -139,9 +139,13 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
             ),
             child: ListTile(
               onTap: () {
-                context.push(ProfilePage.routeName);
+                context.push(AgentProfilePage.routeName, extra: widget.agent);
               },
-              leading: ProfilePicture(radius: 20, margin: 3),
+              leading: AgentProfilePicture(
+                radius: 20,
+                margin: 3,
+                name: widget.agent.fullName ?? 'N/A',
+              ),
               title: Text(
                 widget.agent.fullName ?? 'Agent Name',
                 style: PrimaryTextStyle(fontSize: 16, fontWeight: .w500, color: ThemeUtil.black),

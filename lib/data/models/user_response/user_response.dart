@@ -83,7 +83,7 @@ class UserResponse extends Equatable {
   );
 
   Map<String, dynamic> toMap() => {
-    'userType': userType == UserType.customer ? 'CUSTOMER' : 'NONCUSTOMER',
+    'userType': userType,
     'sessionId': sessionId,
     'user': user?.toMap(),
     'recentActivity': recentActivity?.map((e) => e.toMap()).toList(),

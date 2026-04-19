@@ -118,7 +118,7 @@ final class MessageUtil {
                     },
                     text: okButtonText,
                   ),
-                  if (customButton != null) customButton,
+                  ?customButton,
                 ],
               ),
             ),
