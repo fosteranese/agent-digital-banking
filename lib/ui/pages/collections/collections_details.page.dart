@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/constants/activity_type.const.dart';
@@ -50,15 +51,17 @@ class _CollectionsDetailsPageState extends State<CollectionsDetailsPage> {
       showNavBarOnPop: false,
       title: '',
       sliver: _buildSlivers(),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 20,
-          right: 20,
-          // bottom: 20,
-          // vertical: 10,
-        ),
-        child: widget.record.status == 1 ? _buildBottomAction() : const SizedBox.shrink(),
-      ),
+      bottomNavigationBar: widget.record.status == 1 && AppUtil.currentUser?.userType == 'AGENT'
+          ? Padding(
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                // bottom: 20,
+                // vertical: 10,
+              ),
+              child: _buildBottomAction(),
+            )
+          : const SizedBox.shrink(),
     );
   }
 
