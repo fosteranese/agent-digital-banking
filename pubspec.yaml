@@ -39,7 +39,7 @@ dependencies:
   sliver_tools: ^0.2.12
   persistent_bottom_nav_bar_v2: ^6.2.0
   go_router: ^17.1.0
-  animate_do: ^4.2.0
+  animate_do: ^5.1.0
   hive_ce: ^2.15.1
   hive_ce_flutter: ^2.3.3
   flutter_native_contact_picker: ^0.0.11
