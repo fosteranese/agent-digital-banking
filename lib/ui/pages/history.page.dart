@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/data/models/activity_history_model.dart';
+import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
+import 'package:my_sage_agent/ui/components/history/supervisor_history_list_item.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/history/activity.dart';
-import 'package:my_sage_agent/data/models/history/history.response.dart';
-import 'package:my_sage_agent/data/models/request_response.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/activity_search_box.dart';
 import 'package:my_sage_agent/ui/components/history/history_filter_sheet.dart';
@@ -19,7 +21,6 @@ import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
-import 'package:uuid/uuid.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key, this.showBackBtn = false});
@@ -33,8 +34,8 @@ class HistoryPage extends StatefulWidget {
 class _HistoryPageState extends State<HistoryPage> {
   final _filterBy = ValueNotifier<Activity?>(null);
   final _controller = TextEditingController();
-  HistoryResponse? _sourceList;
-  final _list = ValueNotifier<List<RequestResponse>>([]);
+  ActivityHistoryModel? _sourceList;
+  final _list = ValueNotifier<dynamic>([]);
   final _fToast = FToast();
   final scrollController = ScrollController();
 
@@ -44,10 +45,22 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     _sourceList = context.read<RetrieveDataBloc>().data['RetrieveActivitiesEvent'];
-    _list.value = _sourceList?.request ?? [];
+    _setList();
 
     _fToast.init(context);
     super.initState();
+  }
+
+  void _setList() {
+    if (_sourceList?.agent != null) {
+      _list.value = _sourceList?.agent?.request ?? [];
+      return;
+    } else if (_sourceList?.supervisor != null) {
+      _list.value = _sourceList?.supervisor?.serviceRequests ?? [];
+      return;
+    }
+
+    _list.value = [];
   }
 
   @override
@@ -100,7 +113,7 @@ class _HistoryPageState extends State<HistoryPage> {
                     filterBy: _filterBy,
                     controller: _controller,
                     onSearch: (value) {
-                      _search(value, _sourceList?.request ?? []);
+                      _search(value);
                     },
                     onFilter: _onShowFilterDialog,
                   );
@@ -116,7 +129,7 @@ class _HistoryPageState extends State<HistoryPage> {
               listener: (context, state) => _handleBlocListener(state),
               buildWhen: (previous, current) => current.event is RetrieveActivitiesEvent,
               builder: (context, state) {
-                if (list.isEmpty && state is RetrievingData) {
+                if ((list as List<dynamic>).isEmpty && state is RetrievingData) {
                   return const HistoryShimmerList();
                 }
 
@@ -130,6 +143,11 @@ class _HistoryPageState extends State<HistoryPage> {
                     itemCount: list.length,
                     itemBuilder: (_, index) {
                       final record = list[index];
+
+                      if (record is ServiceRequest) {
+                        return SupervisorHistoryListItem(record: record, onTap: null);
+                      }
+
                       return HistoryListItem(record: record, onTap: null);
                     },
                     separatorBuilder: (_, _) =>
@@ -160,7 +178,7 @@ class _HistoryPageState extends State<HistoryPage> {
     if (state is DataRetrieved) {
       _sourceList = state.data ?? [];
 
-      _search('', _sourceList?.request ?? []);
+      _search('');
       _fToast.removeCustomToast();
       MainLayout.stopRefresh(context);
       return;
@@ -173,12 +191,34 @@ class _HistoryPageState extends State<HistoryPage> {
     }
   }
 
-  void _search(String value, List<RequestResponse> requests) {
+  void _search(String value) {
     final search = value.trim().toLowerCase();
-    _list.value = requests.where((e) {
-      return (e.formName?.toLowerCase().contains(search) ?? false) ||
-          (e.activityName?.toLowerCase().contains(search) ?? false);
-    }).toList();
+    _list.value =
+        _sourceList?.agent?.request?.where((e) {
+          return (e.formName?.toLowerCase().contains(search) ?? false) ||
+              (e.activityName?.toLowerCase().contains(search) ?? false);
+        }).toList() ??
+        [];
+
+    if (_sourceList?.agent != null) {
+      _list.value =
+          _sourceList?.agent?.request?.where((e) {
+            return (e.formName?.toLowerCase().contains(search) ?? false) ||
+                (e.activityName?.toLowerCase().contains(search) ?? false);
+          }).toList() ??
+          [];
+      return;
+    } else if (_sourceList?.supervisor != null) {
+      _list.value =
+          _sourceList?.supervisor?.serviceRequests?.where((e) {
+            return (e.agentName?.toLowerCase().contains(search) ?? false) ||
+                (e.request?.serviceName?.toLowerCase().contains(search) ?? false);
+          }).toList() ??
+          [];
+      return;
+    }
+
+    _list.value = [];
   }
 
   Widget _buildEmptyState(BuildContext context) {
@@ -230,7 +270,7 @@ class _HistoryPageState extends State<HistoryPage> {
       useSafeArea: true,
       backgroundColor: Colors.white,
       builder: (_) => HistoryFilterSheet(
-        sourceList: _sourceList!,
+        sourceList: _sourceList,
         filterBy: _filterBy,
         dateFrom: _dateFrom,
         dateTo: _dateTo,

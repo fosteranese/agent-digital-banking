@@ -5,6 +5,7 @@ import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_rev
 
 import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
 import 'package:my_sage_agent/data/models/team_members_model/agent.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/router/auth.router.dart';
@@ -109,13 +110,7 @@ GoRouter createRouter() {
           GoRoute(
             path: ReceiptPage.routeName,
             builder: (context, state) {
-              final extra = state.extra as Map<String, dynamic>;
-              return ReceiptPage(
-                request: extra['request'],
-                fblLogo: extra['fblLogo'],
-                imageBaseUrl: extra['imageBaseUrl'],
-                imageDirectory: extra['imageDirectory'],
-              );
+              return ReceiptPage(request: state.extra as ServiceRequest);
             },
           ),
           GoRoute(

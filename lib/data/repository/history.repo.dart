@@ -1,5 +1,8 @@
+import 'package:string_validator/string_validator.dart';
+
 import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/data/database/db.dart';
+import 'package:my_sage_agent/data/models/activity_history_model.dart';
 import 'package:my_sage_agent/data/models/activity_service_request_model/activity_service_request_model.dart';
 import 'package:my_sage_agent/data/models/activity_service_request_model/record.dart';
 import 'package:my_sage_agent/data/models/agent_collection_model.dart';
@@ -7,10 +10,10 @@ import 'package:my_sage_agent/data/models/collection_model.dart';
 import 'package:my_sage_agent/data/models/commission_model.dart';
 import 'package:my_sage_agent/data/models/history/activity.dart';
 import 'package:my_sage_agent/data/models/history/history.response.dart';
+import 'package:my_sage_agent/data/models/supervisor_activity_model/supervisor_activity_model.dart';
 import 'package:my_sage_agent/data/models/supervisor_collection_data/supervisor_collection.dart';
 import 'package:my_sage_agent/data/models/supervisor_collection_data/supervisor_collection_data.dart';
 import 'package:my_sage_agent/data/remote/main.remote.dart';
-import 'package:string_validator/string_validator.dart';
 
 class HistoryRepo {
   final _db = Database();
@@ -204,7 +207,7 @@ class HistoryRepo {
     return list;
   }
 
-  Future<HistoryResponse?> getStoredHistory({Activity? activity}) async {
+  Future<ActivityHistoryModel?> getStoredHistory({Activity? activity}) async {
     final result = await _db.read('history');
 
     if (result == null || result['data'] == null) {
@@ -220,10 +223,29 @@ class HistoryRepo {
             }).toList(),
           );
 
-    return filtered;
+    return ActivityHistoryModel(agent: filtered);
   }
 
-  Future<HistoryResponse> loadHistory({
+  Future<ActivityHistoryModel?> getStoredSupervisorHistory({Activity? activity}) async {
+    final result = await _db.read('supervisor-history');
+
+    if (result == null || result['data'] == null) {
+      return null;
+    }
+
+    final data = SupervisorActivityModel.fromMap(result['data'] as Map<String, dynamic>);
+    final filtered = (activity == null)
+        ? data
+        : data.copyWith(
+            serviceRequests: data.serviceRequests?.where((item) {
+              return item.request?.serviceName == activity.activityName;
+            }).toList(),
+          );
+
+    return ActivityHistoryModel(supervisor: filtered);
+  }
+
+  Future<ActivityHistoryModel> loadHistory({
     Activity? activity,
     String? dateFrom,
     String? dateTo,
@@ -243,10 +265,37 @@ class HistoryRepo {
     final data = HistoryResponse.fromMap(response.data as Map<String, dynamic>);
     storeHistory(data);
 
-    return data;
+    return ActivityHistoryModel(agent: data);
+  }
+
+  Future<ActivityHistoryModel> loadSupervisorHistory({
+    Activity? activity,
+    String? dateFrom,
+    String? dateTo,
+  }) async {
+    dateFrom = (dateFrom?.isNotEmpty ?? false) ? dateFrom : null;
+    dateTo = (dateTo?.isNotEmpty ?? false) ? dateTo : null;
+
+    final response = await _fbl.post(
+      path: 'FieldExecutive/AllSupervisorAgentsServiceRequests',
+      body: {'activityId': activity?.activityId, 'dateFrom': dateFrom, 'dateTo': dateTo},
+      isAuthenticated: true,
+    );
+
+    if (response.status != StatusConstants.success) {
+      return Future.error(response);
+    }
+    final data = SupervisorActivityModel.fromMap(response.data as Map<String, dynamic>);
+    storeSupervisorHistory(data);
+
+    return ActivityHistoryModel(supervisor: data);
   }
 
   void storeHistory(HistoryResponse response) {
     _db.add(key: 'history', payload: response);
+  }
+
+  void storeSupervisorHistory(SupervisorActivityModel response) {
+    _db.add(key: 'supervisor-history', payload: response);
   }
 }

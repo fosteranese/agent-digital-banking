@@ -477,3 +477,151 @@ class SummaryTile extends StatelessWidget {
     );
   }
 }
+
+class SummaryMinimalTile extends StatelessWidget {
+  const SummaryMinimalTile({
+    super.key,
+    required this.label,
+    required this.value,
+    this.allBold = false,
+    this.verticalPadding = 10,
+    this.margin = 10,
+  });
+
+  final String label;
+  final String value;
+  final bool allBold;
+  final double verticalPadding;
+  final double margin;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: .only(bottom: margin),
+      padding: .all(verticalPadding),
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: .all(color: ThemeUtil.border),
+        boxShadow: [
+          // BoxShadow(
+          //   color: Color(0x0F000000),
+          //   spreadRadius: 0,
+          //   blurRadius: 10,
+          //   offset: Offset(0, 4),
+          // ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: .min,
+        mainAxisAlignment: .spaceBetween,
+        crossAxisAlignment: .center,
+        children: [
+          Text(
+            label,
+            textAlign: .left,
+            style: PrimaryTextStyle(
+              color: allBold ? null : ThemeUtil.black,
+              fontSize: 14,
+              fontWeight: allBold ? .bold : .normal,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            value,
+            textAlign: .right,
+            style: PrimaryTextStyle(
+              color: ThemeUtil.black,
+              fontSize: 14,
+              fontWeight: allBold ? .bold : .w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SummaryExtraTile extends StatelessWidget {
+  const SummaryExtraTile({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.value2,
+    this.allBold = false,
+    this.verticalPadding = 10,
+    this.margin = 10,
+    this.onPressed,
+  });
+
+  final String label;
+  final String value;
+  final String value2;
+  final bool allBold;
+  final double verticalPadding;
+  final double margin;
+  final void Function()? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: .only(bottom: margin),
+      padding: .all(verticalPadding),
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: .all(color: ThemeUtil.border),
+        boxShadow: [
+          // BoxShadow(
+          //   color: Color(0x0F000000),
+          //   spreadRadius: 0,
+          //   blurRadius: 10,
+          //   offset: Offset(0, 4),
+          // ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisSize: .min,
+              mainAxisAlignment: .start,
+              crossAxisAlignment: .start,
+              children: [
+                Text(
+                  label,
+                  textAlign: .left,
+                  style: PrimaryTextStyle(
+                    color: allBold ? null : ThemeUtil.flat,
+                    fontSize: 14,
+                    fontWeight: allBold ? .bold : .normal,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  value,
+                  textAlign: .right,
+                  style: PrimaryTextStyle(fontSize: 16, fontWeight: allBold ? .bold : .w500),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  value2,
+                  textAlign: .left,
+                  style: PrimaryTextStyle(color: ThemeUtil.flat, fontSize: 14, fontWeight: .normal),
+                ),
+              ],
+            ),
+          ),
+          IconButton.outlined(
+            onPressed: onPressed,
+            color: ThemeUtil.black,
+            style: IconButton.styleFrom(side: BorderSide(color: ThemeUtil.fade, width: 1)),
+            icon: Icon(Icons.phone_outlined),
+          ),
+        ],
+      ),
+    );
+  }
+}

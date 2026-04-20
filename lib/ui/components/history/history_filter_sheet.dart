@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/data/models/activity_history_model.dart';
 
 import 'package:my_sage_agent/data/models/history/activity.dart';
-import 'package:my_sage_agent/data/models/history/history.response.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/date_picker.dart';
 import 'package:my_sage_agent/ui/components/form/select.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class HistoryFilterSheet extends StatefulWidget {
-  final HistoryResponse sourceList;
+  final ActivityHistoryModel? sourceList;
   final ValueNotifier<Activity?> filterBy;
   final TextEditingController dateFrom;
   final TextEditingController dateTo;
@@ -18,7 +18,7 @@ class HistoryFilterSheet extends StatefulWidget {
 
   const HistoryFilterSheet({
     super.key,
-    required this.sourceList,
+    this.sourceList,
     required this.filterBy,
     required this.dateFrom,
     required this.dateTo,
@@ -69,27 +69,28 @@ class _HistoryFilterSheetState extends State<HistoryFilterSheet> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          FormSelect(
-            title: 'Select service',
-            label: 'Service',
-            selectedOption: widget.filterBy.value != null
-                ? FormSelectOption(
-                    value: widget.filterBy.value!.activityId ?? '',
-                    text: widget.filterBy.value!.activityName ?? '',
-                    data: widget.filterBy.value!,
-                  )
-                : null,
-            options: (widget.sourceList.activity ?? []).map((e) {
-              return FormSelectOption(
-                value: e.activityId ?? '',
-                text: e.activityName ?? '',
-                data: e,
-              );
-            }).toList(),
-            onSelectedOption: (option) {
-              _filterBy = option.data;
-            },
-          ),
+          if (widget.sourceList?.agent != null)
+            FormSelect(
+              title: 'Select service',
+              label: 'Service',
+              selectedOption: widget.filterBy.value != null
+                  ? FormSelectOption(
+                      value: widget.filterBy.value!.activityId ?? '',
+                      text: widget.filterBy.value!.activityName ?? '',
+                      data: widget.filterBy.value!,
+                    )
+                  : null,
+              options: (widget.sourceList?.agent?.activity ?? []).map((e) {
+                return FormSelectOption(
+                  value: e.activityId ?? '',
+                  text: e.activityName ?? '',
+                  data: e,
+                );
+              }).toList(),
+              onSelectedOption: (option) {
+                _filterBy = option.data;
+              },
+            ),
           FormDatePicker(
             label: 'Date From',
             placeholder: 'DD/MM/YYYY',

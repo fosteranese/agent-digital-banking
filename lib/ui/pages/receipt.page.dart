@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/ui/layouts/main.layout.dart';
+import 'package:my_sage_agent/ui/pages/process_flow/confirmation_form.page.dart';
+import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:my_sage_agent/constants/field.const.dart';
-import 'package:my_sage_agent/data/models/request_response.dart';
+import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ReceiptPage extends StatefulWidget {
-  const ReceiptPage({
-    super.key,
-    required this.request,
-    required this.imageBaseUrl,
-    required this.imageDirectory,
-    required this.fblLogo,
-  });
+  const ReceiptPage({super.key, required this.request});
   static const routeName = '/history/receipt';
-  final RequestResponse request;
-  final String imageBaseUrl;
-  final String imageDirectory;
-  final String fblLogo;
+  final ServiceRequest request;
 
   @override
   State<ReceiptPage> createState() => _ReceiptPageState();
@@ -32,142 +25,54 @@ class _ReceiptPageState extends State<ReceiptPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffF8F8F8),
-      // spaceAllowed:
-      body: SafeArea(
-        bottom: false,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Expanded(child: Container(color: Color(0xffF8F8F8))),
-                Expanded(child: Container(color: Colors.white)),
-              ],
-            ),
-            SingleChildScrollView(
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 70),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 30),
-                        if (widget.request.amount?.isNotEmpty ?? false)
-                          Column(
-                            children: [
-                              Text(
-                                'Total Amount',
-                                style: PrimaryTextStyle(
-                                  color: Color(0xff4F4F4F),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Text(
-                                widget.request.amount ?? '',
-                                style: PrimaryTextStyle(
-                                  color: Color(0xff010101),
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        _divider,
-                        ReceiptItem(label: 'Service', name: widget.request.formName ?? ''),
-                        _divider,
-                        ...widget.request.previewData
-                                ?.map((e) {
-                                  List<Widget> list = [];
-                                  list.add(
-                                    ReceiptItem(
-                                      label: e.key ?? '',
-                                      name: e.value ?? '',
-                                      dataType: e.dataType ?? FieldDataTypesConst.string,
-                                    ),
-                                  );
-
-                                  if (e != widget.request.previewData!.last) {
-                                    list.add(_divider);
-                                  }
-
-                                  return list;
-                                })
-                                .expand((element) => element)
-                                .toList() ??
-                            [],
-                        _divider,
-                        ReceiptItem(
-                          label: 'Transaction Type',
-                          name: widget.request.activityName ?? '',
-                        ),
-                        _divider,
-                        ReceiptItem(label: 'Status', name: widget.request.statusLabel ?? ''),
-                        _divider,
-                        ReceiptItem(label: 'Message', name: widget.request.comment ?? ''),
-                        _divider,
-                        ReceiptItem(label: 'Reference', name: widget.request.reference ?? ''),
-                      ],
-                    ),
-                  ),
-
-                  if (widget.request.status != 0)
-                    Padding(
-                      padding: EdgeInsets.only(top: 35),
-                      child: CircleAvatar(
-                        radius: 34,
-                        backgroundColor: Color(0xffCEFFCE),
-                        child: Icon(Icons.task_alt_outlined, color: Color(0xff067335), size: 34),
-                      ),
-                    )
-                  else
-                    Padding(
-                      padding: EdgeInsets.only(top: 35),
-                      child: const CircleAvatar(
-                        radius: 34,
-                        backgroundColor: Color(0xffFFE0DF),
-                        child: Icon(
-                          Icons.error_outline_outlined,
-                          color: Color(0xffF10404),
-                          size: 34,
-                        ),
-                      ),
-                    ),
-                ],
+    return MainLayout(
+      backgroundColor: Colors.white,
+      showBackBtn: true,
+      showNavBarOnPop: false,
+      title: 'Transaction Details',
+      sliver: SliverFillRemaining(
+        hasScrollBody: false,
+        child: Container(
+          color: Colors.white,
+          padding: .all(20),
+          child: Column(
+            mainAxisAlignment: .start,
+            crossAxisAlignment: .start,
+            children: [
+              SummaryMinimalTile(
+                label: widget.request.request?.serviceName ?? 'N/A',
+                value: widget.request.request?.transDate ?? '',
               ),
-            ),
-
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: IconButton(
-                  style: IconButton.styleFrom(
-                    fixedSize: const Size(35, 35),
-                    backgroundColor: const Color(0x91F7C15A),
-                  ),
-                  onPressed: () {
-                    context.pop();
-                  },
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+              SummaryTile(
+                label: 'Client Name',
+                value: widget.request.request?.customerName ?? 'John Doe',
+                verticalPadding: 8,
+              ),
+              SummaryExtraTile(
+                label: 'Agent Details',
+                value: widget.request.request?.agentName ?? 'John Doe',
+                value2: 'Agent Code: ${widget.request.agentCode}',
+                verticalPadding: 8,
+                onPressed: () {},
+              ),
+              if (widget.request.request?.collectionMode != null)
+                SummaryTile(
+                  label: 'Payment Method',
+                  value:
+                      '${widget.request.request?.collectionMode} (${widget.request.request?.customerAccountNumber})',
+                  verticalPadding: 8,
                 ),
-              ),
-            ),
-          ],
+              if (widget.request.request?.amount != null)
+                SummaryTile(
+                  label: 'Amount',
+                  value: 'GHS ${FormatterUtil.currency(widget.request.request?.amount ?? 0)}',
+                  verticalPadding: 8,
+                ),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  Widget get _divider {
-    return Divider(color: Color(0xffF8F8F8), height: 25);
   }
 }
 

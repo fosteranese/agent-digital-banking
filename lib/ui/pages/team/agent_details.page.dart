@@ -14,7 +14,7 @@ import 'package:my_sage_agent/ui/components/history/agent_details_filter_sheet.d
 import 'package:my_sage_agent/ui/components/history/collection_item.dart';
 import 'package:my_sage_agent/ui/components/history/commission_list_item.dart';
 import 'package:my_sage_agent/ui/components/history/supervisor_agent_reversal_item.dart';
-import 'package:my_sage_agent/ui/components/history/supervisor_history_list_item.dart';
+import 'package:my_sage_agent/ui/components/history/supervisor_agent_history_list_item.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/tab_header.dart';
 import 'package:my_sage_agent/ui/components/tab_header_2.dart';
@@ -251,7 +251,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                       sourceList: _activitySourceList,
                       filter: _onShowCollectionsFilterDialog,
                       itemFunc: (record) {
-                        return SupervisorHistoryListItem(
+                        return SupervisorAgentHistoryListItem(
                           record: record,
                           onTap: () {
                             context.push(CollectionsDetailsPage.routeName, extra: record);

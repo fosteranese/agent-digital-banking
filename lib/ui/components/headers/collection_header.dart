@@ -5,6 +5,7 @@ import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/collection_model.dart';
 import 'package:my_sage_agent/ui/components/tab_header.dart';
+import 'package:my_sage_agent/ui/components/tab_header_2.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class CollectionHeader extends StatelessWidget {
@@ -18,6 +19,7 @@ class CollectionHeader extends StatelessWidget {
     return Container(
       color: Colors.white,
       padding: const .all(20),
+      width: .maxFinite,
       child: Column(
         children: [
           Expanded(
@@ -28,7 +30,7 @@ class CollectionHeader extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'Collections',
-                    style: const PrimaryTextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    style: const PrimaryTextStyle(fontSize: 20, fontWeight: .w600),
                   ),
                 ),
                 InkWell(
@@ -37,10 +39,7 @@ class CollectionHeader extends StatelessWidget {
                     children: [
                       Icon(Icons.filter_list_outlined),
                       const SizedBox(width: 2),
-                      Text(
-                        'Filter',
-                        style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                      ),
+                      Text('Filter', style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400)),
                     ],
                   ),
                 ),
@@ -51,19 +50,24 @@ class CollectionHeader extends StatelessWidget {
             builder: (context, state) {
               final List<CollectionModel> list =
                   context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
-              return MyTabHeader(
-                controller: filterBy,
-                tabItems: [
-                  TabItem(title: getTitle(list, '', 'All')),
-                  TabItem(
-                    title: getTitle(list, FormsConst.mobileMoney.name, 'MoMo'),
-                    id: FormsConst.mobileMoney.name,
-                  ),
-                  TabItem(
-                    title: getTitle(list, FormsConst.cashDeposit.name, 'Cash'),
-                    id: FormsConst.cashDeposit.name,
-                  ),
-                ],
+              return SizedBox(
+                width: .maxFinite,
+                height: 55,
+                child: MyTabHeader2(
+                  controller: filterBy,
+                  scrollable: false,
+                  tabItems: [
+                    TabItem(title: getTitle(list, '', 'All')),
+                    TabItem(
+                      title: getTitle(list, FormsConst.mobileMoney.name, 'MoMo'),
+                      id: FormsConst.mobileMoney.name,
+                    ),
+                    TabItem(
+                      title: getTitle(list, FormsConst.cashDeposit.name, 'Cash'),
+                      id: FormsConst.cashDeposit.name,
+                    ),
+                  ],
+                ),
               );
             },
           ),

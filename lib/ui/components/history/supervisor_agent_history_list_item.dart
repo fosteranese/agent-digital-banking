@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/constants/status.const.dart';
-import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
-import 'package:my_sage_agent/ui/pages/receipt.page.dart';
+import 'package:my_sage_agent/data/models/activity_service_request_model/record.dart';
 import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
-class SupervisorHistoryListItem extends StatelessWidget {
-  final ServiceRequest record;
+class SupervisorAgentHistoryListItem extends StatelessWidget {
+  final ActivityRecordModel record;
   final VoidCallback? onTap;
 
-  const SupervisorHistoryListItem({super.key, required this.record, this.onTap});
+  const SupervisorAgentHistoryListItem({super.key, required this.record, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:
-          onTap ??
-          () {
-            context.push(ReceiptPage.routeName, extra: record);
-          },
+      onTap: onTap,
       enableFeedback: true,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
@@ -39,14 +33,14 @@ class SupervisorHistoryListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            record.request?.customerName ?? 'John Doe',
+            record.customerName ?? 'John Doe',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 5),
           Text(
-            record.request?.serviceName ?? '',
+            record.serviceName ?? '',
             style: PrimaryTextStyle(
               color: ThemeUtil.flora,
               fontSize: 13,
@@ -59,7 +53,7 @@ class SupervisorHistoryListItem extends StatelessWidget {
   }
 
   Widget _buildAmountOrStatus() {
-    if (record.request?.amount == null) {
+    if (record.amount == null) {
       return _statusBadge();
     }
 
@@ -67,7 +61,7 @@ class SupervisorHistoryListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          'GHS ${FormatterUtil.currency(record.request?.amount)}',
+          FormatterUtil.currency(record.amount ?? 0),
           style: PrimaryTextStyle(
             color: ThemeUtil.black,
             fontSize: 14,
@@ -76,7 +70,7 @@ class SupervisorHistoryListItem extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Text(
-          record.request?.transDate ?? '',
+          record.transDate ?? '',
           style: PrimaryTextStyle(
             color: const Color(0xff919195),
             fontSize: 13,
@@ -88,14 +82,14 @@ class SupervisorHistoryListItem extends StatelessWidget {
   }
 
   Widget _statusBadge() {
-    final label = (record.request?.status == 1)
+    final label = (record.status == 1)
         ? 'Sent'
-        : (record.request?.status == 0)
+        : (record.status == 0)
         ? 'Failed'
         : 'Pending';
-    final icon = (record.request?.status == 1)
+    final icon = (record.status == 1)
         ? Icons.check
-        : (record.request?.status == 0)
+        : (record.status == 0)
         ? Icons.close
         : Icons.hourglass_bottom_outlined;
 
@@ -120,7 +114,7 @@ class SupervisorHistoryListItem extends StatelessWidget {
   }
 
   Color _statusColor() {
-    switch (record.request?.statusLabel?.toUpperCase()) {
+    switch (record.statusLabel?.toUpperCase()) {
       case StatusConstants.success:
         return const Color(0xff219653);
       case StatusConstants.pending:

@@ -100,7 +100,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
               pinned: true,
               delegate: MyHeaderDelegate(
                 maxHeight: 140,
-                minHeight: 84,
+                minHeight: 95,
                 builder: (context, shrinkOffset, overlapsContent) {
                   return CollectionHeader(filterBy: _filterBy);
                 },
