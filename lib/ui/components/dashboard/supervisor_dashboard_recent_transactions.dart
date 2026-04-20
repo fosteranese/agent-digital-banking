@@ -8,6 +8,7 @@ import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/tab_header.dart';
 import 'package:my_sage_agent/ui/components/tab_header_2.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class SupervisorDashboardRecentTransactions extends StatefulWidget {
@@ -83,7 +84,7 @@ class _SupervisorDashboardRecentTransactionsState
                               ),
                             ),
                             Text(
-                              'as @ 12:45 PM',
+                              'as @ ${FormatterUtil.timeOnly(DateTime.now())}',
                               style: const PrimaryTextStyle(
                                 fontSize: 14,
                                 fontWeight: .w400,
