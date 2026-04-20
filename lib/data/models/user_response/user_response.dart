@@ -124,6 +124,7 @@ class UserResponse extends Equatable {
     String? imageDirectory,
     String? profilePicture,
     AgentData? agentData,
+    SupervisorData? supervisorData,
   }) {
     return UserResponse(
       userType: userType ?? this.userType,
@@ -139,6 +140,7 @@ class UserResponse extends Equatable {
       imageDirectory: imageDirectory ?? this.imageDirectory,
       profilePicture: profilePicture ?? this.profilePicture,
       agentData: agentData ?? this.agentData,
+      supervisorData: supervisorData ?? this.supervisorData,
     );
   }
 

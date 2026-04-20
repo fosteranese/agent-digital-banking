@@ -94,7 +94,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
           }
 
           if (state is ReversalRequestDeclined && state.id == _id) {
-            _record.value = _record.value.copyWith(status: 0, statusLabel: 'Declined');
+            _record.value = _record.value.copyWith(status: 6, statusLabel: 'Declined');
             context.read<RetrieveDataBloc>().add(
               RetrieveSupervisorAgentReversalsEvent(
                 id: Uuid().v4(),
@@ -521,7 +521,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
             requestId: _record.value.id ?? '',
             comment: _record.value.comment ?? '',
             username: AppUtil.currentUser!.user!.userCode ?? '',
-            status: 0,
+            status: 6,
           ),
         );
       },
@@ -539,6 +539,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
         };
       case 0:
       case 2:
+      case 6:
       case 100:
         return {
           'color': ThemeUtil.danger500,
