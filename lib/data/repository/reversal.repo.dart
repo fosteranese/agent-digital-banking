@@ -2,7 +2,6 @@ import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/data/database/db.dart';
 import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
 import 'package:my_sage_agent/data/models/history/activity.dart';
-import 'package:my_sage_agent/data/models/reversal_model/reversal_model.dart';
 import 'package:my_sage_agent/data/remote/main.remote.dart';
 import 'package:string_validator/string_validator.dart';
 
@@ -10,11 +9,11 @@ class ReversalRepo {
   final _db = Database();
   final _fbl = MainRemote();
 
-  void storeReversals(List<ReversalModel> list, int? status) {
+  void storeReversals(List<AgentReversalRequestModel> list, int? status) {
     _db.add(key: 'reversals-$status', payload: {'list': list});
   }
 
-  Future<List<ReversalModel>?> getStoredReversals({Activity? activity}) async {
+  Future<List<AgentReversalRequestModel>?> getStoredReversals({Activity? activity}) async {
     final result = await _db.read('reversals');
 
     if (result == null || result['list'] == null) {
@@ -23,16 +22,16 @@ class ReversalRepo {
 
     final list = (result['list'] as List<dynamic>).map((item) {
       if (item is String) {
-        return ReversalModel.fromJson(item);
+        return AgentReversalRequestModel.fromJson(item);
       }
 
-      return ReversalModel.fromMap(item as Map<String, dynamic>);
+      return AgentReversalRequestModel.fromMap(item as Map<String, dynamic>);
     }).toList();
 
     return list;
   }
 
-  Future<List<ReversalModel>> loadReversals({
+  Future<List<AgentReversalRequestModel>> loadReversals({
     int? status,
     DateTime? startDate,
     DateTime? endDate,
@@ -56,7 +55,7 @@ class ReversalRepo {
     }
 
     final list = (response.data['list'] as List<dynamic>).map((item) {
-      return ReversalModel.fromMap(item as Map<String, dynamic>);
+      return AgentReversalRequestModel.fromMap(item as Map<String, dynamic>);
     }).toList();
 
     storeReversals(list, status);

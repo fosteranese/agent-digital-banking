@@ -12,7 +12,6 @@ import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/icon.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
-import 'package:my_sage_agent/ui/pages/more/commissions.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
@@ -118,14 +117,6 @@ class _MorePageState extends State<MorePage> {
             ),
             child: Column(
               children: [
-                MoreTitle(
-                  title: 'My Commission',
-                  icon: 'assets/img/commissions.svg',
-                  onTap: () {
-                    context.push(CommissionsPage.routeName);
-                  },
-                ),
-                _divider,
                 MoreTitle(
                   icon: 'assets/img/security.svg',
                   title: 'Security',

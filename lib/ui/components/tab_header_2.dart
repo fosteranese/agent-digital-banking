@@ -47,7 +47,7 @@ class _MyTabHeader2State extends State<MyTabHeader2> with SingleTickerProviderSt
         ),
         indicatorPadding: .zero,
         labelPadding: .zero,
-        tabAlignment: widget.scrollable ? TabAlignment.start : TabAlignment.center,
+        tabAlignment: widget.scrollable ? TabAlignment.start : TabAlignment.fill,
         onTap: (index) {
           _selectedTab.value = index;
           widget.controller.value = widget.tabItems[index].id ?? '';

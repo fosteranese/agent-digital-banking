@@ -82,7 +82,7 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      title: widget.title ?? 'Authorize Transaction',
+      title: 'Authorize',
       showBackBtn: true,
       bottomNavigationBar: Padding(
         padding: const .only(top: 20, left: 20, right: 20),
@@ -90,12 +90,24 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
           mainAxisSize: .min,
           children: [
             if (_enableBiometric)
-              Padding(
-                padding: const .only(bottom: 10),
-                child: IconButton(
-                  icon: Icon(Icons.fingerprint, color: _accentColor),
-                  onPressed: _biometricAuthentication,
-                ),
+              FutureBuilder(
+                initialData: false,
+                future: BiometricUtil.isDeviceSupported(),
+                builder: (context, asyncSnapshot) {
+                  if (!asyncSnapshot.hasData ||
+                      !(asyncSnapshot.data ?? false) ||
+                      asyncSnapshot.hasError) {
+                    return SizedBox.shrink();
+                  }
+
+                  return Padding(
+                    padding: const .only(bottom: 40),
+                    child: IconButton(
+                      icon: Icon(Icons.fingerprint, color: _accentColor, size: 40),
+                      onPressed: _biometricAuthentication,
+                    ),
+                  );
+                },
               ),
             FormButton(
               onPressed: () {
@@ -129,12 +141,12 @@ class _PinAuthenticatorState extends State<PinAuthenticator> {
           children: [
             const SizedBox(height: 20),
             Text(
-              'Authorize Collection',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.black),
+              widget.title ?? 'Authorize Collection',
+              style: PrimaryTextStyle(fontSize: 24, fontWeight: .w600, color: Colors.black),
             ),
             Text(
-              'Enter your Agent ID to complete the collection',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: ThemeUtil.flat),
+              'Enter your Authorization PIN to complete to proceed',
+              style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
             ),
             const SizedBox(height: 20),
             FormPasswordInput(

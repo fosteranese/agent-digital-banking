@@ -52,6 +52,7 @@ class _SupervisorDashboardRecentTransactionsState
 
                     return MyTabHeader2(
                       controller: _filterBy,
+                      scrollable: false,
                       tabItems: [
                         TabItem(title: 'Collection Summary', id: 'collections'),
                         TabItem(title: 'Reversals$reversalCount', id: 'requests'),

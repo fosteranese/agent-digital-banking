@@ -132,7 +132,7 @@ class BiometricBloc extends Bloc<BiometricEvent, BiometricState> {
       isTransactionEnabled = result.data ?? false;
       isAutoTransactionEnabled = result1.data ?? false;
 
-      emit(BiometricLoginStatusChanged(isLoginEnabled));
+      emit(BiometricLoginStatusChanged(isTransactionEnabled));
     } catch (error) {
       ResponseUtil.handleException(error, (error) => emit(ChangeBiometricLoginStatusError(error)));
     }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/utils/authentication.util.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
@@ -19,7 +21,6 @@ import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
-import 'package:uuid/uuid.dart';
 
 class SecuritySettingsPage extends StatefulWidget {
   const SecuritySettingsPage({super.key});
@@ -170,8 +171,51 @@ class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
                             inactiveTrackColor: Color(0xffD9DADB),
                             activeTrackColor: ThemeUtil.primaryColor,
                             value: bloc.isLoginEnabled,
-                            onChanged: (status) {
-                              context.read<BiometricBloc>().add(BiometricLoginStatusChange(''));
+                            onChanged: (_) {
+                              AuthenticationUtil.pin(
+                                title: 'Authorize Login Bio',
+                                allowBiometric: false,
+                                onSuccess: (pin) {
+                                  context.read<BiometricBloc>().add(
+                                    BiometricLoginStatusChange(pin),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    _divider,
+                    Item(
+                      padding: EdgeInsets.zero,
+                      title: 'Biometric Authorization',
+                      icon: MyIcon(icon: 'assets/img/biometric.svg'),
+                      trailing: SizedBox(
+                        width: 45,
+                        child: FittedBox(
+                          fit: BoxFit.fill,
+                          child: Switch(
+                            trackOutlineWidth: WidgetStateProperty.resolveWith<double>(
+                              (states) => 0,
+                            ),
+                            trackOutlineColor: WidgetStateProperty.resolveWith<Color>(
+                              (states) => Color(0xffD9DADB),
+                            ),
+                            inactiveThumbColor: Colors.white,
+                            inactiveTrackColor: Color(0xffD9DADB),
+                            activeTrackColor: ThemeUtil.primaryColor,
+                            value: bloc.isTransactionEnabled,
+                            onChanged: (_) {
+                              AuthenticationUtil.pin(
+                                title: 'Authorize Transaction Bio',
+                                allowBiometric: false,
+                                onSuccess: (pin) {
+                                  context.read<BiometricBloc>().add(
+                                    BiometricTransactionStatusChange(pin),
+                                  );
+                                },
+                              );
                             },
                           ),
                         ),
