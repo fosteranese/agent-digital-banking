@@ -7,6 +7,7 @@ import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/reversal_model/reversal_model.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
 import 'package:my_sage_agent/ui/components/history/reversal_item.dart';
+import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
 import 'package:my_sage_agent/ui/pages/request/reversal_details.page.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -47,7 +48,9 @@ class _SupervisorPendingReversalsState extends State<SupervisorPendingReversals>
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    context.push(RequestsPage.routeName);
+                  },
                   child: Text(
                     'See all',
                     style: PrimaryTextStyle(
