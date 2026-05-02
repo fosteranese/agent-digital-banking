@@ -230,6 +230,22 @@ class RetrieveSupervisorAgentReversalsEvent extends RetrieveDataEvent {
   List<Object?> get props => [id, action, skipSavedData, agentCode, startDate, endDate];
 }
 
+class RetrieveSupervisorReversalsEvent extends RetrieveDataEvent {
+  const RetrieveSupervisorReversalsEvent({
+    required super.id,
+    required super.action,
+    required super.skipSavedData,
+    this.startDate,
+    this.endDate,
+  });
+
+  final DateTime? startDate;
+  final DateTime? endDate;
+
+  @override
+  List<Object?> get props => [id, action, skipSavedData, startDate, endDate];
+}
+
 class RetrieveSupervisorAgentCommissionsEvent extends RetrieveDataEvent {
   const RetrieveSupervisorAgentCommissionsEvent({
     required super.id,

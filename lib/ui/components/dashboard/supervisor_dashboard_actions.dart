@@ -23,7 +23,7 @@ class _SupervisorDashboardActionsState extends State<SupervisorDashboardActions>
           crossAxisAlignment: .start,
           children: [
             SizedBox(
-              height: 160,
+              height: 140,
               child: GridView(
                 padding: .zero,
                 physics: NeverScrollableScrollPhysics(),

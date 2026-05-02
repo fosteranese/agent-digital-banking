@@ -4,6 +4,7 @@ import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
@@ -16,7 +17,6 @@ import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
-import 'package:uuid/uuid.dart';
 
 class SupervisorDashboard extends StatefulWidget {
   const SupervisorDashboard({super.key});
@@ -132,7 +132,7 @@ class _SupervisorDashboardState extends State<SupervisorDashboard> {
                 centerTitle: false,
                 actions: [AppUtil.notificationIcon],
                 bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(60),
+                  preferredSize: const Size.fromHeight(40),
                   child: Padding(
                     padding: const .symmetric(vertical: 10, horizontal: 20),
                     child: Row(

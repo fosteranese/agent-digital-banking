@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/ui/components/dashboard/supervisor_pending_reversals.dart';
 import 'package:my_sage_agent/ui/components/history/collection_summary_item.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';

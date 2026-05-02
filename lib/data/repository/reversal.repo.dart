@@ -86,4 +86,27 @@ class ReversalRepo {
 
     return list;
   }
+
+  Future<List<AgentReversalRequestModel>> loadSupervisorReversals({
+    DateTime? startDate,
+    DateTime? endDate,
+  }) async {
+    final sDate = startDate?.toIso8601String();
+    final eDate = endDate?.toIso8601String();
+    final response = await _fbl.post(
+      path: 'FieldExecutive/getSupervisorAgentCollectionsReversal',
+      body: {"startDate": sDate, "endDate": eDate},
+      isAuthenticated: true,
+    );
+
+    if (response.status != StatusConstants.success) {
+      return Future.error(response);
+    }
+
+    final list = (response.data['list'] as List<dynamic>).map((item) {
+      return AgentReversalRequestModel.fromMap(item as Map<String, dynamic>);
+    }).toList();
+
+    return list;
+  }
 }

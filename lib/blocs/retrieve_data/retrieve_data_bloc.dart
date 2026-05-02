@@ -43,6 +43,7 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     on(_onRetrieveSupervisorAgentActivities);
     on(_onRetrieveSupervisorAgentReversals);
     on(_onRetrieveSupervisorAgentCommissions);
+    on(_onRetrieveSupervisorReversals);
   }
 
   final Map<String, dynamic> data = {};
@@ -506,6 +507,27 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       emit: emit,
       retrieveFunc: () async {
         return await historyRepo.loadSupervisorAgentCommissions(agentCode: event.agentCode);
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return [];
+      },
+      storeFunc: (data) async {},
+    );
+  }
+
+  Future<void> _onRetrieveSupervisorReversals(
+    RetrieveSupervisorReversalsEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await reversalRepo.loadSupervisorReversals(
+          endDate: event.endDate,
+          startDate: event.startDate,
+        );
       },
       saveCurrent: true,
       getStoredFunc: () async {

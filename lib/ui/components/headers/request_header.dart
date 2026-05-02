@@ -12,7 +12,7 @@ class RequestsSearchBox extends StatefulWidget {
     this.onFilter,
   });
 
-  final ValueNotifier<String> filterBy;
+  final ValueNotifier<String?> filterBy;
   final TextEditingController controller;
   final void Function(String value) onSearch;
   final void Function()? onFilter;

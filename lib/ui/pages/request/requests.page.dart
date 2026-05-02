@@ -3,19 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:my_sage_agent/data/models/history/history.response.dart';
-import 'package:my_sage_agent/data/models/request_response.dart';
+import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
+import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/headers/request_header.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
-import 'package:my_sage_agent/ui/components/history/request_item.dart';
+import 'package:my_sage_agent/ui/components/history/request_filter_sheet.dart';
+import 'package:my_sage_agent/ui/components/history/reversal_item.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/request/request_details.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 class RequestsPage extends StatefulWidget {
   const RequestsPage({super.key});
@@ -26,10 +29,10 @@ class RequestsPage extends StatefulWidget {
 }
 
 class _RequestsPageState extends State<RequestsPage> {
-  final _filterBy = ValueNotifier('');
+  final _filterBy = ValueNotifier<String?>('');
   final _controller = TextEditingController();
-  HistoryResponse? _sourceList;
-  final _list = ValueNotifier<List<RequestResponse>>([]);
+  List<AgentReversalRequestModel>? _sourceList;
+  final _list = ValueNotifier<List<AgentReversalRequestModel>>([]);
   final _fToast = FToast();
   final scrollController = ScrollController();
 
@@ -38,11 +41,36 @@ class _RequestsPageState extends State<RequestsPage> {
 
   @override
   void initState() {
-    _sourceList = context.read<RetrieveDataBloc>().data['RetrieveActivitiesEvent'];
-    _list.value = _sourceList?.request ?? [];
+    _load(false);
+    _sourceList = context.read<RetrieveDataBloc>().data['RetrieveSupervisorReversalsEvent'];
+    _list.value = _sourceList ?? [];
 
     _fToast.init(context);
     super.initState();
+  }
+
+  void _load(bool skipSavedData) {
+    DateTime? startDate;
+    var dateFrom = _dateFrom.text.trim();
+    if (dateFrom.isNotEmpty) {
+      startDate = DateFormat("dd MMM yyyy").parse(dateFrom);
+    }
+
+    DateTime? endDate;
+    var dateTo = _dateTo.text.trim();
+    if (dateTo.isNotEmpty) {
+      endDate = DateFormat("dd MMM yyyy").parse(dateTo);
+    }
+
+    context.read<RetrieveDataBloc>().add(
+      RetrieveSupervisorReversalsEvent(
+        id: Uuid().v4(),
+        action: 'RetrieveSupervisorReversalsEvent',
+        skipSavedData: skipSavedData,
+        startDate: startDate,
+        endDate: endDate,
+      ),
+    );
   }
 
   @override
@@ -51,6 +79,9 @@ class _RequestsPageState extends State<RequestsPage> {
       showBackBtn: true,
       backgroundColor: Colors.white,
       title: 'Requests',
+      onRefresh: () async {
+        _load(true);
+      },
       slivers: [
         BlocBuilder<RetrieveDataBloc, RetrieveDataState>(
           builder: (context, state) {
@@ -68,7 +99,7 @@ class _RequestsPageState extends State<RequestsPage> {
                     filterBy: _filterBy,
                     controller: TextEditingController(),
                     onSearch: (value) {},
-                    onFilter: () {},
+                    onFilter: _onShowFilterDialog,
                   );
                 },
               ),
@@ -80,7 +111,7 @@ class _RequestsPageState extends State<RequestsPage> {
           builder: (context, list, child) {
             return BlocConsumer<RetrieveDataBloc, RetrieveDataState>(
               listener: (context, state) => _handleBlocListener(state),
-              buildWhen: (previous, current) => current.event is RetrieveActivitiesEvent,
+              buildWhen: (previous, current) => current.event is RetrieveSupervisorReversalsEvent,
               builder: (context, state) {
                 if (list.isEmpty && state is RetrievingData) {
                   return const HistoryShimmerList();
@@ -96,7 +127,7 @@ class _RequestsPageState extends State<RequestsPage> {
                     itemCount: list.length,
                     itemBuilder: (_, index) {
                       final record = list[index];
-                      return RequestItem(
+                      return ReversalItem(
                         record: record,
                         onTap: () {
                           context.push(RequestDetailsPage.routeName, extra: record);
@@ -116,14 +147,14 @@ class _RequestsPageState extends State<RequestsPage> {
   }
 
   void _handleBlocListener(RetrieveDataState state) {
-    if (state.event is! RetrieveActivitiesEvent) {
+    if (state.event is! RetrieveSupervisorReversalsEvent) {
       return;
     }
 
     if (state is DataRetrieved && state.stillLoading) {
       _fToast.showToast(
-        child: const Toaster('Loading members'),
-        toastDuration: const Duration(hours: 1),
+        child: const Toaster('Loading ...'),
+        toastDuration: const Duration(hours: 5),
       );
       return;
     }
@@ -131,7 +162,7 @@ class _RequestsPageState extends State<RequestsPage> {
     if (state is DataRetrieved) {
       _sourceList = state.data ?? [];
 
-      _search('', _sourceList?.request ?? []);
+      _search('', _sourceList ?? []);
       _fToast.removeCustomToast();
       MainLayout.stopRefresh(context);
       return;
@@ -144,11 +175,11 @@ class _RequestsPageState extends State<RequestsPage> {
     }
   }
 
-  void _search(String value, List<RequestResponse> requests) {
+  void _search(String value, List<AgentReversalRequestModel> requests) {
     final search = value.trim().toLowerCase();
     _list.value = requests.where((e) {
-      return (e.formName?.toLowerCase().contains(search) ?? false) ||
-          (e.activityName?.toLowerCase().contains(search) ?? false);
+      return (e.collection?.agentName?.toLowerCase().contains(search) ?? false) ||
+          (e.collection?.customerName?.toLowerCase().contains(search) ?? false);
     }).toList();
   }
 
@@ -190,10 +221,33 @@ class _RequestsPageState extends State<RequestsPage> {
     if (_sourceList == null) {
       MessageUtil.displayErrorDialog(
         context,
-        message: 'There are currently no activities to filter',
+        message: 'There are currently no reversals to filter',
       );
       return;
     }
+
+    showModalBottomSheet(
+      context: MyApp.navigatorKey.currentContext!,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.white,
+      builder: (_) => ReversalRequestFilterSheet(
+        dateFrom: _dateFrom,
+        dateTo: _dateTo,
+        onFilterSelected: (dateFrom, dateTo) {
+          _list.value = [];
+
+          // _filterBy.value = '';
+          _load(false);
+        },
+        onClearFilter: () {
+          _filterBy.value = null;
+          _dateFrom.text = '';
+          _dateTo.text = '';
+          _load(false);
+        },
+      ),
+    );
   }
 
   @override
