@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/data/models/agent_collection_model.dart';
-import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
 
+import 'package:my_sage_agent/data/models/agent_collection_model.dart';
 import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
+import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
 import 'package:my_sage_agent/data/models/team_members_model/agent.dart';
 import 'package:my_sage_agent/main.dart';
@@ -215,7 +215,7 @@ GoRouter createRouter() {
       GoRoute(
         path: ReversalDetailsPage.routeName,
         builder: (context, state) =>
-            ReversalDetailsPage(record: state.extra as AgentReversalRequestModel),
+            ReversalDetailsPage(record: state.extra as ReversalRequestModel),
       ),
       GoRoute(
         path: AgentProfilePage.routeName,

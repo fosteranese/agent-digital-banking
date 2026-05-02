@@ -13,7 +13,6 @@ import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/team/agent_details.page.dart';
-import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:uuid/uuid.dart';
 
@@ -199,15 +198,15 @@ class _TeamMembersPageState extends State<TeamMembersPage> {
     );
   }
 
-  void _onShowFilterDialog() {
-    if (_sourceList == null) {
-      MessageUtil.displayErrorDialog(
-        context,
-        message: 'There are currently no activities to filter',
-      );
-      return;
-    }
-  }
+  // void _onShowFilterDialog() {
+  //   if (_sourceList == null) {
+  //     MessageUtil.displayErrorDialog(
+  //       context,
+  //       message: 'There are currently no activities to filter',
+  //     );
+  //     return;
+  //   }
+  // }
 
   @override
   void dispose() {

@@ -12,11 +12,13 @@ import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/icon.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/more/commissions.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,6 +44,10 @@ class _MorePageState extends State<MorePage> {
   void initState() {
     _load(skipSavedData: false);
     super.initState();
+  }
+
+  bool get _isAgent {
+    return AppUtil.currentUser?.userType == 'AGENT';
   }
 
   void _load({required bool skipSavedData}) {
@@ -117,6 +123,15 @@ class _MorePageState extends State<MorePage> {
             ),
             child: Column(
               children: [
+                if (_isAgent)
+                  MoreTitle(
+                    icon: 'assets/img/commissions.svg',
+                    title: 'My Commissions',
+                    onTap: () {
+                      context.push(CommissionsPage.routeName);
+                    },
+                  ),
+                if (_isAgent) _divider,
                 MoreTitle(
                   icon: 'assets/img/security.svg',
                   title: 'Security',
@@ -124,6 +139,15 @@ class _MorePageState extends State<MorePage> {
                     context.push(SecuritySettingsPage.routeName);
                   },
                 ),
+                if (_isAgent) _divider,
+                if (_isAgent)
+                  MoreTitle(
+                    icon: 'assets/img/reversal.svg',
+                    title: 'Reversal Requests',
+                    onTap: () {
+                      context.push(RequestsPage.routeName);
+                    },
+                  ),
               ],
             ),
           ),

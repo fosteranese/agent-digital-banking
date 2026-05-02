@@ -15,6 +15,7 @@ class SavePersonalInfo extends RegistrationEvent {
     required this.phoneNumber,
     required this.emailAddress,
     required this.cardNumber,
+    required this.maritalStatus,
   });
 
   final String firstName;
@@ -23,9 +24,18 @@ class SavePersonalInfo extends RegistrationEvent {
   final String phoneNumber;
   final String emailAddress;
   final String cardNumber;
+  final String maritalStatus;
 
   @override
-  List<Object> get props => [firstName, lastName, gender, phoneNumber, emailAddress, cardNumber];
+  List<Object> get props => [
+    firstName,
+    lastName,
+    gender,
+    phoneNumber,
+    emailAddress,
+    cardNumber,
+    maritalStatus,
+  ];
 }
 
 class SaveResidentialAddress extends RegistrationEvent {
@@ -34,15 +44,30 @@ class SaveResidentialAddress extends RegistrationEvent {
     this.address2,
     required this.region,
     required this.cityOrTown,
+    required this.emergencyContact,
+    required this.withdrawalOption,
+    required this.transactionNotification,
   });
 
   final String address1;
   final String? address2;
   final String region;
   final String cityOrTown;
+  final String emergencyContact;
+
+  final String withdrawalOption;
+  final String transactionNotification;
 
   @override
-  List<Object?> get props => [address1, address2, region, cityOrTown];
+  List<Object?> get props => [
+    address1,
+    address2,
+    region,
+    cityOrTown,
+    emergencyContact,
+    withdrawalOption,
+    transactionNotification,
+  ];
 }
 
 class VerifyPicture extends RegistrationEvent {
@@ -63,4 +88,19 @@ class ManualVerification extends RegistrationEvent {
 
   @override
   List<Object?> get props => [id, cardFront, cardBack];
+}
+
+class SaveNextOfKinInfoEvent extends RegistrationEvent {
+  const SaveNextOfKinInfoEvent({
+    required this.fullName,
+    required this.phoneNumber,
+    required this.emailAddress,
+  });
+
+  final String fullName;
+  final String phoneNumber;
+  final String emailAddress;
+
+  @override
+  List<Object> get props => [fullName, phoneNumber, emailAddress];
 }

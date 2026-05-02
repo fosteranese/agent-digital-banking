@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 
-import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
 import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class SupervisorAgentReversalItem extends StatelessWidget {
-  final AgentReversalRequestModel record;
+  final ReversalRequestModel record;
   final VoidCallback? onTap;
 
   const SupervisorAgentReversalItem({super.key, required this.record, this.onTap});
@@ -45,14 +45,14 @@ class SupervisorAgentReversalItem extends StatelessWidget {
 
               Expanded(
                 child: Text(
-                  record.reason ?? 'No reason provided',
+                  record.reversal?.reason ?? 'N/A',
                   style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
                 ),
               ),
             ],
           ),
           Text(
-            record.requestDate ?? '',
+            record.reversal?.requestDate ?? '',
             style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
           ),
         ],
@@ -62,7 +62,7 @@ class SupervisorAgentReversalItem extends StatelessWidget {
   }
 
   Map<String, dynamic> get _status {
-    switch (record.status) {
+    switch (record.reversal?.status) {
       case 1:
         return {
           'icon': Icons.published_with_changes_outlined,

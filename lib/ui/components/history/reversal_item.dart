@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
+import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ReversalItem extends StatelessWidget {
-  final AgentReversalRequestModel record;
+  final ReversalRequestModel record;
   final VoidCallback? onTap;
 
   const ReversalItem({super.key, required this.record, this.onTap});
@@ -29,7 +29,7 @@ class ReversalItem extends StatelessWidget {
         style: PrimaryTextStyle(fontSize: 16, fontWeight: .w600, color: ThemeUtil.black),
       ),
       subtitle: Text(
-        'Agent - ${record.collection?.agentName ?? 'N/A'}',
+        'Agent - ${record.reversal?.agentCode ?? 'N/A'}',
         style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
       ),
 

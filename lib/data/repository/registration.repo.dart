@@ -14,6 +14,7 @@ class RegistrationRepo {
     required String phoneNumber,
     required String emailAddress,
     required String cardNumber,
+    required String maritalStatus,
   }) async {
     final response = await _fbl.post(
       path: 'FieldExecutive/initiateAccountOpening',
@@ -24,6 +25,7 @@ class RegistrationRepo {
         'phoneNumber': phoneNumber,
         'email': emailAddress,
         'cardNumber': cardNumber,
+        'maritalStatus': maritalStatus,
       },
       isAuthenticated: true,
     );
@@ -41,6 +43,9 @@ class RegistrationRepo {
     required String cityOrTown,
     required String region,
     required String token,
+    required String withdrawalOption,
+    required String transactionNotification,
+    required String emergencyContact,
   }) async {
     final response = await _fbl.post(
       path: 'FieldExecutive/AccountOpeningAddress',
@@ -50,6 +55,9 @@ class RegistrationRepo {
         'address2': address2,
         'region': region,
         'cityOrTown': cityOrTown,
+        'emergencyContact': emergencyContact,
+        'withdrawalOption': withdrawalOption,
+        'transactionNotification': transactionNotification,
       },
       isAuthenticated: true,
     );
@@ -91,5 +99,24 @@ class RegistrationRepo {
     }
 
     return response;
+  }
+
+  Future<String> saveNextOfKinInfo({
+    required String token,
+    required String fullName,
+    required String phoneNumber,
+    required String emailAddress,
+  }) async {
+    final response = await _fbl.post(
+      path: 'FieldExecutive/AccountOpeningNextOfKin',
+      body: {'id': token, 'fullName': fullName, 'phoneNumber': phoneNumber, 'email': emailAddress},
+      isAuthenticated: true,
+    );
+
+    if (response.status != StatusConstants.success) {
+      return Future.error(response);
+    }
+
+    return response.data;
   }
 }

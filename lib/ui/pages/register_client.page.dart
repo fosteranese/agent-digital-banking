@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/ui/components/register/register_client_step_3.cm.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:string_validator/string_validator.dart';
 import 'package:uuid/uuid.dart';
@@ -12,7 +13,7 @@ import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/register/ghana_card_verification_notice.dart';
 import 'package:my_sage_agent/ui/components/register/register_client_step_1.cm.dart';
 import 'package:my_sage_agent/ui/components/register/register_client_step_2.cm.dart';
-import 'package:my_sage_agent/ui/components/register/register_client_step_3.cm.dart';
+import 'package:my_sage_agent/ui/components/register/register_client_step_4.cm.dart';
 import 'package:my_sage_agent/ui/components/step_indicator.cm.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/verification_modes/ghana_card_verification.dart';
@@ -20,7 +21,7 @@ import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 
-enum RegisterStep { personalInfo, residentialAddress, identityVerification }
+enum RegisterStep { personalInfo, contactDetails, nextOfKin, identityVerification }
 
 class RegisterClientPage extends StatefulWidget {
   const RegisterClientPage({super.key});
@@ -40,11 +41,20 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   final phoneNumberController = TextEditingController();
   final emailAddressController = TextEditingController();
   final cardNumberController = TextEditingController();
+  final maritalStatusController = TextEditingController();
+  final emergencyContactController = TextEditingController();
 
   final address1Controller = TextEditingController();
   final address2Controller = TextEditingController();
   final regionController = TextEditingController();
   final cityOrTownController = TextEditingController();
+
+  final transactionNotificationController = TextEditingController();
+  final withdrawalOptionController = TextEditingController();
+
+  final kinFullNameController = TextEditingController();
+  final kinPhoneNumberController = TextEditingController();
+  final kinEmailAddressController = TextEditingController();
 
   final _isCameraAvailable = ValueNotifier(true);
 
@@ -54,7 +64,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     _pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
   }
 
-  final stageTitles = ['Personal Info', 'Residential Address', 'Identity Verification'];
+  final stageTitles = ['Personal Info', 'Contact Details', 'Next of KIN', 'Identity Verification'];
 
   void _onStartGhanaCardVerification(BuildContext mainContext) async {
     context.pop();
@@ -160,14 +170,23 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                           gender: genderController,
                           phoneNumber: phoneNumberController,
                           cardNumber: cardNumberController,
+                          maritalStatus: maritalStatusController,
                         ),
                         RegisterClientStep2(
                           address1: address1Controller,
                           address2: address2Controller,
                           region: regionController,
                           cityOrTown: cityOrTownController,
+                          emergencyContact: emergencyContactController,
+                          transactionNotification: transactionNotificationController,
+                          withdrawalOption: withdrawalOptionController,
                         ),
                         RegisterClientStep3(
+                          kinFullName: kinFullNameController,
+                          kinPhoneNumber: kinPhoneNumberController,
+                          kinEmailAddress: kinEmailAddressController,
+                        ),
+                        RegisterClientStep4(
                           isCameraAvailable: _isCameraAvailable,
                           onVerify: (cardFront, cardBack) {
                             context.read<RegistrationBloc>().add(
@@ -204,8 +223,12 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                             _savePersonalDetails(context);
                             return;
 
-                          case RegisterStep.residentialAddress:
+                          case RegisterStep.contactDetails:
                             _saveResidentialAddress(context);
+                            return;
+
+                          case RegisterStep.nextOfKin:
+                            _saveNextOfKin(context);
                             return;
 
                           default:
@@ -227,6 +250,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   void _registrationListener(BuildContext mainContext, RegistrationState state) {
     if (state is SavingPersonalInfo ||
         state is SavingResidentialAddress ||
+        state is SavingNextOfKinInfo ||
         state is VerifyingPicture ||
         state is VerifyingManually) {
       MessageUtil.displayLoading(mainContext);
@@ -238,13 +262,21 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     switch (state) {
       case PersonalInfoSaved _:
         _pageController.animateToPage(
-          1,
+          RegisterStep.contactDetails.index,
           duration: Duration(milliseconds: 300),
           curve: Curves.easeIn,
         );
         return;
 
       case ResidentialAddressSaved _:
+        _pageController.animateToPage(
+          RegisterStep.nextOfKin.index,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
+        return;
+
+      case NextOfKinInfoSaved _:
         _startVerification(mainContext);
         return;
 
@@ -275,6 +307,10 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         return;
 
       case ManualVerificationError state:
+        _onVerifiedFailed(state.error);
+        return;
+
+      case SaveNextOfKinInfoError state:
         _onVerifiedFailed(state.error);
         return;
     }
@@ -384,6 +420,16 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
+    final maritalStatus = maritalStatusController.text.trim();
+    if (maritalStatus.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Marital Status is required.\nEnter the marital status to proceed.',
+      );
+      return;
+    }
+
     context.read<RegistrationBloc>().add(
       SavePersonalInfo(
         firstName: fullName,
@@ -392,6 +438,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         phoneNumber: phoneNumber,
         emailAddress: emailAddress,
         cardNumber: cardNumber,
+        maritalStatus: maritalStatus,
       ),
     );
   }
@@ -427,12 +474,107 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
+    final emergencyContact = emergencyContactController.text.trim();
+    if (emergencyContact.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Emergency Contact is required.\nEnter the emergency contact to proceed.',
+      );
+      return;
+    }
+
+    final withdrawalOption = withdrawalOptionController.text.trim();
+    if (withdrawalOption.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message:
+            'Transaction Notification is required.\nEnter the transaction notification to proceed.',
+      );
+      return;
+    }
+
+    final transactionNotification = transactionNotificationController.text.trim();
+    if (transactionNotification.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message:
+            'Transaction Notification is required.\nEnter the transaction notification to proceed.',
+      );
+      return;
+    }
+
     context.read<RegistrationBloc>().add(
       SaveResidentialAddress(
-        address1: address1Controller.text,
+        address1: address1,
         address2: address2Controller.text,
-        region: regionController.text,
-        cityOrTown: cityOrTownController.text,
+        region: region,
+        cityOrTown: cityOrTown,
+        emergencyContact: emergencyContact,
+        withdrawalOption: withdrawalOption,
+        transactionNotification: transactionNotification,
+      ),
+    );
+  }
+
+  void _saveNextOfKin(BuildContext context) {
+    final fullName = kinFullNameController.text.trim();
+    if (fullName.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Next of KIN full name is required.\nEnter Next of KIN full name to proceed.',
+      );
+      return;
+    }
+
+    final phoneNumber = kinPhoneNumberController.text
+        .trim()
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
+        .replaceAll('(', '')
+        .replaceAll(')', '');
+    if (phoneNumber.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Next of KIN Phone number is required.\nEnter phone number to proceed.',
+      );
+      return;
+    } else if (!phoneNumber.isNumeric || (phoneNumber.length != 10 && phoneNumber.length != 12)) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message:
+            'Invalid Next of KIN phone number.\nEnter a correct phone number to proceed.\nExample: 0244123654',
+      );
+      return;
+    }
+
+    final emailAddress = emailAddressController.text.trim();
+    if (emailAddress.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Next of KIN Email Address is required.\nEnter email address to proceed.',
+      );
+      return;
+    } else if (!emailAddress.isEmail) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Invalid Next of KIN Email Address.\nEnter a valid email address to proceed.',
+      );
+      return;
+    }
+
+    context.read<RegistrationBloc>().add(
+      SaveNextOfKinInfoEvent(
+        fullName: kinFullNameController.text,
+        phoneNumber: kinPhoneNumberController.text,
+        emailAddress: kinEmailAddressController.text,
       ),
     );
   }

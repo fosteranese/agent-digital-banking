@@ -14,11 +14,13 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     on(_onSaveResidentialAddress);
     on(_onVerifyPicture);
     on(_onManualVerification);
+    on(_onSaveNextOfKinInfo);
   }
 
   final _repo = RegistrationRepo();
   String? personalInfoToken;
   String? residentialAddressToken;
+  String? nextOfKinInfoToken;
 
   Future<void> _onSavePersonalInfo(SavePersonalInfo event, Emitter<RegistrationState> emit) async {
     try {
@@ -31,6 +33,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         phoneNumber: event.phoneNumber,
         emailAddress: event.emailAddress,
         cardNumber: event.cardNumber,
+        maritalStatus: event.maritalStatus,
       );
       personalInfoToken = result;
 
@@ -53,6 +56,9 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         address2: event.address2,
         region: event.region,
         cityOrTown: event.cityOrTown,
+        emergencyContact: event.emergencyContact,
+        withdrawalOption: event.withdrawalOption,
+        transactionNotification: event.transactionNotification,
       );
       residentialAddressToken = result;
 
@@ -66,10 +72,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
     try {
       emit(VerifyingPicture());
 
-      final result = await _repo.verifyPicture(
-        token: residentialAddressToken!,
-        picture: event.picture,
-      );
+      final result = await _repo.verifyPicture(token: nextOfKinInfoToken!, picture: event.picture);
 
       emit(PictureVerified(response: result));
     } catch (ex) {
@@ -85,7 +88,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       emit(VerifyingManually());
 
       final result = await _repo.manualVerification(
-        token: residentialAddressToken!,
+        token: nextOfKinInfoToken!,
         cardFront: event.cardFront,
         cardBack: event.cardBack,
       );
@@ -93,6 +96,27 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       emit(ManuallyVerified(response: result));
     } catch (ex) {
       ResponseUtil.handleException(ex, (error) => emit(ManualVerificationError(error: error)));
+    }
+  }
+
+  Future<void> _onSaveNextOfKinInfo(
+    SaveNextOfKinInfoEvent event,
+    Emitter<RegistrationState> emit,
+  ) async {
+    try {
+      emit(SavingNextOfKinInfo());
+
+      final result = await _repo.saveNextOfKinInfo(
+        token: residentialAddressToken!,
+        fullName: event.fullName,
+        phoneNumber: event.phoneNumber,
+        emailAddress: event.emailAddress,
+      );
+      nextOfKinInfoToken = result;
+
+      emit(NextOfKinInfoSaved(token: nextOfKinInfoToken!));
+    } catch (ex) {
+      ResponseUtil.handleException(ex, (error) => emit(SaveNextOfKinInfoError(error: error)));
     }
   }
 }

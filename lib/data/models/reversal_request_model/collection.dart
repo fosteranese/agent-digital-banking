@@ -15,7 +15,7 @@ class Collection extends Equatable {
   final String? customerAccountNumber;
   final String? serviceId;
   final String? serviceName;
-  final int? amount;
+  final double? amount;
   final int? status;
   final String? statusLabel;
   final String? createdBy;
@@ -70,7 +70,7 @@ class Collection extends Equatable {
     customerAccountNumber: data['customerAccountNumber'] as String?,
     serviceId: data['serviceId'] as String?,
     serviceName: data['serviceName'] as String?,
-    amount: data['amount'] as int?,
+    amount: (data['amount'] as num?)?.toDouble(),
     status: data['status'] as int?,
     statusLabel: data['statusLabel'] as String?,
     createdBy: data['createdBy'] as String?,
@@ -140,7 +140,7 @@ class Collection extends Equatable {
     String? customerAccountNumber,
     String? serviceId,
     String? serviceName,
-    int? amount,
+    double? amount,
     int? status,
     String? statusLabel,
     String? createdBy,

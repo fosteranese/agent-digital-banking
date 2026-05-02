@@ -105,3 +105,27 @@ class ManualVerificationError extends RegistrationState {
   @override
   List<Object> get props => [error];
 }
+
+class SavingNextOfKinInfo extends RegistrationState {
+  const SavingNextOfKinInfo();
+  @override
+  List<Object> get props => [];
+}
+
+class NextOfKinInfoSaved extends RegistrationState {
+  const NextOfKinInfoSaved({required this.token});
+
+  final String token;
+
+  @override
+  List<Object> get props => [token];
+}
+
+class SaveNextOfKinInfoError extends RegistrationState {
+  const SaveNextOfKinInfoError({required this.error});
+
+  final Response<dynamic> error;
+
+  @override
+  List<Object> get props => [error];
+}

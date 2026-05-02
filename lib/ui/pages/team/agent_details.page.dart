@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/activity_service_request_model/record.dart';
 import 'package:my_sage_agent/data/models/agent_collection_model.dart';
-import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
 import 'package:my_sage_agent/data/models/commission_model.dart';
+import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 import 'package:my_sage_agent/data/models/team_members_model/agent.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/history/agent_details_filter_sheet.dart';
@@ -45,8 +45,8 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
   final _endDateCollectionDate = TextEditingController();
   final _collectionSourceList = ValueNotifier<List<AgentCollectionModel>>([]);
   final _collectionList = ValueNotifier<List<AgentCollectionModel>>([]);
-  final _reversalSourceList = ValueNotifier<List<AgentReversalRequestModel>>([]);
-  final _reversalList = ValueNotifier<List<AgentReversalRequestModel>>([]);
+  final _reversalSourceList = ValueNotifier<List<ReversalRequestModel>>([]);
+  final _reversalList = ValueNotifier<List<ReversalRequestModel>>([]);
   final _activitySourceList = ValueNotifier<List<ActivityRecordModel>>([]);
   final _activityList = ValueNotifier<List<ActivityRecordModel>>([]);
   final _commissionSourceList = ValueNotifier<List<CommissionModel>>([]);
@@ -219,7 +219,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                   }
 
                   if (value == SupervisorAgentListTypes.reversals.name) {
-                    return SupervisorAgentCollections<AgentReversalRequestModel>(
+                    return SupervisorAgentCollections<ReversalRequestModel>(
                       key: ValueKey(SupervisorAgentListTypes.reversals.name),
                       agent: widget.agent,
                       list: _reversalList,
@@ -236,7 +236,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
                       emptyListMessageTitle: 'No reversals found',
                       emptyListMessageFunc: (filter) =>
                           'No reversals match the search phrase "$filter".',
-                      search: (String value, List<AgentReversalRequestModel> requests) {
+                      search: (String value, List<ReversalRequestModel> requests) {
                         _reversalList.value = _reversalSourceList.value;
                       },
                       conditionFunc: (event) => event is RetrieveSupervisorAgentReversalsEvent,

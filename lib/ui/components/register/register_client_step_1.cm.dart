@@ -14,6 +14,7 @@ class RegisterClientStep1 extends StatelessWidget {
     required this.phoneNumber,
     required this.emailAddress,
     required this.cardNumber,
+    required this.maritalStatus,
   });
   final TextEditingController firstName;
   final TextEditingController lastName;
@@ -21,6 +22,7 @@ class RegisterClientStep1 extends StatelessWidget {
   final TextEditingController phoneNumber;
   final TextEditingController emailAddress;
   final TextEditingController cardNumber;
+  final TextEditingController maritalStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class RegisterClientStep1 extends StatelessWidget {
             FormSelect(
               controller: gender,
               label: 'Gender *',
-              title: 'Enter gender',
+              title: 'Select gender',
               options: [
                 FormSelectOption(value: 'male', text: 'Male'),
                 FormSelectOption(value: 'female', text: 'Female'),
@@ -66,6 +68,15 @@ class RegisterClientStep1 extends StatelessWidget {
               keyboardType: .emailAddress,
             ),
             GhanaCardInput(controller: cardNumber, isRequired: true),
+            FormSelect(
+              controller: maritalStatus,
+              label: 'Marital Status *',
+              title: 'Select marital status',
+              options: [
+                FormSelectOption(value: 'single', text: 'Single'),
+                FormSelectOption(value: 'married', text: 'Married'),
+              ],
+            ),
           ],
         ),
       ),

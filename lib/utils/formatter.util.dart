@@ -4,6 +4,9 @@ class FormatterUtil {
   static final currencyFormatter = NumberFormat("#,##0.00", "en_US");
 
   static String currency(dynamic amount) {
+    if (amount == null) {
+      return '0.00';
+    }
     return currencyFormatter.format(amount);
   }
 

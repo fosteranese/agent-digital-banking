@@ -524,10 +524,15 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       event: event,
       emit: emit,
       retrieveFunc: () async {
-        return await reversalRepo.loadSupervisorReversals(
-          endDate: event.endDate,
-          startDate: event.startDate,
-        );
+        return AppUtil.currentUser?.userType == 'SUPERVISOR'
+            ? await reversalRepo.loadSupervisorReversals(
+                endDate: event.endDate,
+                startDate: event.startDate,
+              )
+            : await reversalRepo.loadAgentReversals(
+                endDate: event.endDate,
+                startDate: event.startDate,
+              );
       },
       saveCurrent: true,
       getStoredFunc: () async {

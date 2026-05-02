@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
+import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
 import 'package:my_sage_agent/ui/components/history/reversal_item.dart';
 import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
@@ -19,7 +19,7 @@ class SupervisorPendingReversals extends StatefulWidget {
 }
 
 class _SupervisorPendingReversalsState extends State<SupervisorPendingReversals> {
-  final _list = ValueNotifier(<AgentReversalRequestModel>[]);
+  final _list = ValueNotifier(<ReversalRequestModel>[]);
   late final _bloc = context.read<RetrieveDataBloc>();
 
   @override

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:encrypt/encrypt.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
+// import 'package:http/io_client.dart';
 
 import '../../env/env.dart';
 import '../../logger.dart';
@@ -14,19 +14,19 @@ import '../models/response.modal.dart';
 import '../responses/general.responses.dart';
 
 class MainRemote {
-  Future<SecurityContext> get _globalContext async {
-    final sslCert = await rootBundle.load('assets/certificate.pem');
-    SecurityContext securityContext = SecurityContext();
-    securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
-    return securityContext;
-  }
+  // Future<SecurityContext> get _globalContext async {
+  //   final sslCert = await rootBundle.load('assets/certificate.pem');
+  //   SecurityContext securityContext = SecurityContext();
+  //   securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
+  //   return securityContext;
+  // }
 
-  Future<http.Client> _getSSLPinningClient() async {
-    HttpClient client = HttpClient(context: await _globalContext);
-    client.badCertificateCallback = (X509Certificate cert, String host, int port) => false;
-    IOClient ioClient = IOClient(client);
-    return ioClient;
-  }
+  // Future<http.Client> _getSSLPinningClient() async {
+  //   HttpClient client = HttpClient(context: await _globalContext);
+  //   client.badCertificateCallback = (X509Certificate cert, String host, int port) => false;
+  //   IOClient ioClient = IOClient(client);
+  //   return ioClient;
+  // }
 
   Future<Map<String, dynamic>> _formatRequestPayload({
     required String path,

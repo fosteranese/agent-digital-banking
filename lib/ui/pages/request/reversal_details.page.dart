@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
@@ -28,7 +28,7 @@ class ReversalDetailsPage extends StatefulWidget {
   const ReversalDetailsPage({super.key, required this.record});
 
   static const routeName = '/request/reversal/details';
-  final AgentReversalRequestModel record;
+  final ReversalRequestModel record;
 
   @override
   State<ReversalDetailsPage> createState() => _ReversalDetailsPageState();
@@ -69,13 +69,15 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
           }
 
           if (state is ReversalRequestApproved && state.id == _id) {
-            _record.value = _record.value.copyWith(status: 1, statusLabel: 'Approved');
+            _record.value = _record.value.copyWith(
+              reversal: _record.value.reversal?.copyWith(status: 1, statusLabel: 'Approved'),
+            );
             context.read<RetrieveDataBloc>().add(
               RetrieveSupervisorAgentReversalsEvent(
                 id: Uuid().v4(),
                 action: 'RetrieveSupervisorAgentReversalsEvent',
                 skipSavedData: true,
-                agentCode: _record.value.agentCode!.toString(),
+                agentCode: _record.value.agent?.agentCode?.toString() ?? 'N/A',
               ),
             );
             context.read<RetrieveDataBloc>().add(
@@ -94,13 +96,15 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
           }
 
           if (state is ReversalRequestDeclined && state.id == _id) {
-            _record.value = _record.value.copyWith(status: 6, statusLabel: 'Declined');
+            _record.value = _record.value.copyWith(
+              reversal: _record.value.reversal?.copyWith(status: 6, statusLabel: 'Declined'),
+            );
             context.read<RetrieveDataBloc>().add(
               RetrieveSupervisorAgentReversalsEvent(
                 id: Uuid().v4(),
                 action: 'RetrieveSupervisorAgentReversalsEvent',
                 skipSavedData: true,
-                agentCode: _record.value.agentCode!.toString(),
+                agentCode: _record.value.agent?.agentCode?.toString() ?? 'N/A',
               ),
             );
             context.read<RetrieveDataBloc>().add(
@@ -130,7 +134,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
         child: ValueListenableBuilder(
           valueListenable: _record,
           builder: (context, record, child) {
-            if (record.status != 3) {
+            if (record.reversal?.status != 3) {
               return const SizedBox.shrink();
             }
 
@@ -179,7 +183,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
                           ),
                         ),
 
-                        if (_record.value.status != 3)
+                        if (_record.value.reversal?.status != 3)
                           Container(
                             padding: .symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
@@ -188,7 +192,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
                               border: .all(color: status['border'], width: 1),
                             ),
                             child: Text(
-                              record.statusLabel ?? '',
+                              record.reversal?.statusLabel ?? '',
                               style: PrimaryTextStyle(
                                 fontSize: 14,
                                 fontWeight: .w400,
@@ -330,7 +334,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
       ),
       SummaryTile(
         label: 'Reason',
-        value: _record.value.reason ?? 'N/A',
+        value: _record.value.reversal?.reason ?? 'N/A',
         verticalPadding: _controllers.isEmpty ? 8 : 5,
       ),
     ];
@@ -388,7 +392,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
           style: PrimaryTextStyle(fontSize: 16, fontWeight: .w700, color: ThemeUtil.black),
         ),
         subtitle: Text(
-          'Agent Code: ${_record.value.agentCode ?? 'N/A'}',
+          'Agent Code: ${_record.value.agent?.agentCode ?? 'N/A'}',
           style: PrimaryTextStyle(fontSize: 14, fontWeight: .w400, color: ThemeUtil.flat),
         ),
       ),
@@ -500,8 +504,8 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
           ApproveReversalRequestEvent(
             id: _id,
             pin: pin,
-            requestId: _record.value.id ?? '',
-            comment: _record.value.comment ?? '',
+            requestId: _record.value.reversal?.id ?? '',
+            comment: _record.value.reversal?.comment ?? '',
             username: AppUtil.currentUser!.user!.userCode ?? '',
             status: 1,
           ),
@@ -518,8 +522,8 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
           ApproveReversalRequestEvent(
             id: _id,
             pin: pin,
-            requestId: _record.value.id ?? '',
-            comment: _record.value.comment ?? '',
+            requestId: _record.value.reversal?.id ?? '',
+            comment: _record.value.reversal?.comment ?? '',
             username: AppUtil.currentUser!.user!.userCode ?? '',
             status: 6,
           ),
@@ -528,8 +532,8 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
     );
   }
 
-  Map<String, dynamic> _status(AgentReversalRequestModel record) {
-    switch (record.status) {
+  Map<String, dynamic> _status(ReversalRequestModel record) {
+    switch (record.reversal?.status) {
       case 1:
         return {
           'icon': Icons.published_with_changes_outlined,

@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:my_sage_agent/data/models/agent_reversal_request_model/agent_reversal_request_model.dart';
+import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/headers/request_header.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
@@ -15,7 +15,7 @@ import 'package:my_sage_agent/ui/components/history/reversal_item.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
-import 'package:my_sage_agent/ui/pages/request/request_details.page.dart';
+import 'package:my_sage_agent/ui/pages/request/reversal_details.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:uuid/uuid.dart';
@@ -31,8 +31,8 @@ class RequestsPage extends StatefulWidget {
 class _RequestsPageState extends State<RequestsPage> {
   final _filterBy = ValueNotifier<String?>('');
   final _controller = TextEditingController();
-  List<AgentReversalRequestModel>? _sourceList;
-  final _list = ValueNotifier<List<AgentReversalRequestModel>>([]);
+  List<ReversalRequestModel>? _sourceList;
+  final _list = ValueNotifier<List<ReversalRequestModel>>([]);
   final _fToast = FToast();
   final scrollController = ScrollController();
 
@@ -130,7 +130,7 @@ class _RequestsPageState extends State<RequestsPage> {
                       return ReversalItem(
                         record: record,
                         onTap: () {
-                          context.push(RequestDetailsPage.routeName, extra: record);
+                          context.push(ReversalDetailsPage.routeName, extra: record);
                         },
                       );
                     },
@@ -175,12 +175,19 @@ class _RequestsPageState extends State<RequestsPage> {
     }
   }
 
-  void _search(String value, List<AgentReversalRequestModel> requests) {
+  void _search(String value, List<ReversalRequestModel> requests) {
     final search = value.trim().toLowerCase();
-    _list.value = requests.where((e) {
+    if (search.isEmpty) {
+      _list.value = requests;
+      return;
+    }
+
+    final list = requests.where((e) {
       return (e.collection?.agentName?.toLowerCase().contains(search) ?? false) ||
           (e.collection?.customerName?.toLowerCase().contains(search) ?? false);
     }).toList();
+
+    _list.value = list;
   }
 
   Widget _buildEmptyState(BuildContext context) {
