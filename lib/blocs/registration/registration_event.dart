@@ -9,6 +9,7 @@ abstract class RegistrationEvent extends Equatable {
 
 class SavePersonalInfo extends RegistrationEvent {
   const SavePersonalInfo({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.gender,
@@ -18,6 +19,7 @@ class SavePersonalInfo extends RegistrationEvent {
     required this.maritalStatus,
   });
 
+  final String id;
   final String firstName;
   final String lastName;
   final String gender;
@@ -28,6 +30,7 @@ class SavePersonalInfo extends RegistrationEvent {
 
   @override
   List<Object> get props => [
+    id,
     firstName,
     lastName,
     gender,
@@ -40,6 +43,7 @@ class SavePersonalInfo extends RegistrationEvent {
 
 class SaveResidentialAddress extends RegistrationEvent {
   const SaveResidentialAddress({
+    required this.id,
     required this.address1,
     this.address2,
     required this.region,
@@ -49,6 +53,7 @@ class SaveResidentialAddress extends RegistrationEvent {
     required this.transactionNotification,
   });
 
+  final String id;
   final String address1;
   final String? address2;
   final String region;
@@ -60,6 +65,7 @@ class SaveResidentialAddress extends RegistrationEvent {
 
   @override
   List<Object?> get props => [
+    id,
     address1,
     address2,
     region,
@@ -71,12 +77,13 @@ class SaveResidentialAddress extends RegistrationEvent {
 }
 
 class VerifyPicture extends RegistrationEvent {
-  const VerifyPicture({required this.picture});
+  const VerifyPicture({required this.id, required this.picture});
 
+  final String id;
   final String picture;
 
   @override
-  List<Object?> get props => [picture];
+  List<Object?> get props => [id, picture];
 }
 
 class ManualVerification extends RegistrationEvent {
@@ -92,15 +99,17 @@ class ManualVerification extends RegistrationEvent {
 
 class SaveNextOfKinInfoEvent extends RegistrationEvent {
   const SaveNextOfKinInfoEvent({
+    required this.id,
     required this.fullName,
     required this.phoneNumber,
     required this.emailAddress,
   });
 
+  final String id;
   final String fullName;
   final String phoneNumber;
   final String emailAddress;
 
   @override
-  List<Object> get props => [fullName, phoneNumber, emailAddress];
+  List<Object> get props => [id, fullName, phoneNumber, emailAddress];
 }

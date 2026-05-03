@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
@@ -17,9 +15,10 @@ import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/icon.dart';
 import 'package:my_sage_agent/ui/components/item.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
-import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/process_flow.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class SecuritySettingsPage extends StatefulWidget {
@@ -119,20 +118,22 @@ class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
                                     Item(
                                       padding: EdgeInsets.zero,
                                       onPressed: () {
-                                        context.push(
-                                          ProcessFormPage.routeName,
-                                          extra: {
-                                            'form': form,
-                                            'amDoing': AmDoing.transaction,
-                                            'activity': ActivityDatum(
-                                              activity: Activity(
-                                                activityId: _category?.activityId,
-                                                // _action,
-                                                activityType: form.activityType,
-                                              ),
-                                              imageDirectory: _imageDirectory,
-                                            ),
-                                          },
+                                        ProcessFlowUtil.activityDatum = ActivityDatum(
+                                          activity: Activity(
+                                            activityId: _category?.activityId,
+                                            activityName: _category?.catName,
+
+                                            activityType: form.activityType,
+                                          ),
+                                          imageDirectory: _imageDirectory,
+                                        );
+                                        ProcessFlowUtil.loadFormData(
+                                          context,
+                                          skipSavedData: true,
+                                          amDoing: AmDoing.transaction,
+                                          id: Uuid().v4(),
+                                          form: form,
+                                          activity: ProcessFlowUtil.activityDatum,
                                         );
                                       },
                                       title: form.formName ?? '',

@@ -76,7 +76,9 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
             extra: GhanaCardVerification(
               mainContext: mainContext,
               onVerify: (picture, _) {
-                mainContext.read<RegistrationBloc>().add(VerifyPicture(picture: picture));
+                mainContext.read<RegistrationBloc>().add(
+                  VerifyPicture(id: Uuid().v4(), picture: picture),
+                );
               },
               onManualVerification: () {
                 _pageController.animateToPage(
@@ -432,6 +434,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
 
     context.read<RegistrationBloc>().add(
       SavePersonalInfo(
+        id: Uuid().v4(),
         firstName: fullName,
         lastName: lastNameController.text,
         gender: gender,
@@ -508,6 +511,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
 
     context.read<RegistrationBloc>().add(
       SaveResidentialAddress(
+        id: Uuid().v4(),
         address1: address1,
         address2: address2Controller.text,
         region: region,
@@ -572,6 +576,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
 
     context.read<RegistrationBloc>().add(
       SaveNextOfKinInfoEvent(
+        id: Uuid().v4(),
         fullName: kinFullNameController.text,
         phoneNumber: kinPhoneNumberController.text,
         emailAddress: kinEmailAddressController.text,

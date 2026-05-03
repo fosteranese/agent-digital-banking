@@ -15,11 +15,10 @@ import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/more/commissions.page.dart';
 import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
-import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
-import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
+import 'package:my_sage_agent/utils/process_flow.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -238,31 +237,21 @@ class _MorePageState extends State<MorePage> {
                                     title: form.formName ?? '',
                                     icon: '$_imageBaseUrl$_imageDirectory/${form.icon}',
                                     onTap: () {
-                                      switch (form.activityType) {
-                                        case ActivityTypesConst.enquiry:
-                                          context.push(
-                                            EnquiryFlowPage.routeName,
-                                            extra: {'form': form},
-                                          );
-                                          break;
-
-                                        default:
-                                          context.push(
-                                            ProcessFormPage.routeName,
-                                            extra: {
-                                              'form': form,
-                                              'amDoing': AmDoing.transaction,
-                                              'activity': ActivityDatum(
-                                                activity: Activity(
-                                                  activityId: _action,
-                                                  activityType: form.activityType,
-                                                ),
-                                                imageDirectory: _imageDirectory,
-                                              ),
-                                            },
-                                          );
-                                          break;
-                                      }
+                                      ProcessFlowUtil.activityDatum = ActivityDatum(
+                                        activity: Activity(
+                                          activityId: _action,
+                                          activityType: form.activityType,
+                                        ),
+                                        imageDirectory: _imageDirectory,
+                                      );
+                                      ProcessFlowUtil.loadFormData(
+                                        context,
+                                        skipSavedData: true,
+                                        amDoing: AmDoing.transaction,
+                                        id: Uuid().v4(),
+                                        form: form,
+                                        activity: ProcessFlowUtil.activityDatum,
+                                      );
                                     },
                                   ),
                                 );
