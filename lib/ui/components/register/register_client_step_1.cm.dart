@@ -75,6 +75,11 @@ class RegisterClientStep1 extends StatelessWidget {
               options: [
                 FormSelectOption(value: 'single', text: 'Single'),
                 FormSelectOption(value: 'married', text: 'Married'),
+                FormSelectOption(value: 'cohabiting', text: 'Cohabiting'),
+                FormSelectOption(value: 'separated', text: 'Separated'),
+                FormSelectOption(value: 'divorced', text: 'Divorced'),
+                FormSelectOption(value: 'widowed', text: 'Widowed'),
+                FormSelectOption(value: 'unknown', text: 'Unknown'),
               ],
             ),
           ],

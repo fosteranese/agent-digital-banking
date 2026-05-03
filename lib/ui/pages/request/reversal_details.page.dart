@@ -283,6 +283,10 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
 
   /// Build bottom button
   Widget _buildBottomAction() {
+    if (AppUtil.currentUser?.userType == 'AGENT') {
+      return SizedBox.shrink();
+    }
+
     return Container(
       color: Colors.white,
       child: Column(
