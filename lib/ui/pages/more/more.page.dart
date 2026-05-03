@@ -112,18 +112,18 @@ class _MorePageState extends State<MorePage> {
             ),
           ),
         ),
-        SliverToBoxAdapter(
-          child: Container(
-            width: double.maxFinite,
-            margin: const .symmetric(horizontal: 20),
-            padding: const .symmetric(vertical: 10, horizontal: 15),
-            decoration: BoxDecoration(
-              borderRadius: .circular(12),
-              border: .all(color: ThemeUtil.border),
-            ),
-            child: Column(
-              children: [
-                if (_isAgent)
+        if (_isAgent)
+          SliverToBoxAdapter(
+            child: Container(
+              width: double.maxFinite,
+              margin: const .symmetric(horizontal: 20),
+              padding: const .symmetric(vertical: 10, horizontal: 15),
+              decoration: BoxDecoration(
+                borderRadius: .circular(12),
+                border: .all(color: ThemeUtil.border),
+              ),
+              child: Column(
+                children: [
                   MoreTitle(
                     icon: 'assets/img/commissions.svg',
                     title: 'My Commissions',
@@ -131,16 +131,7 @@ class _MorePageState extends State<MorePage> {
                       context.push(CommissionsPage.routeName);
                     },
                   ),
-                if (_isAgent) _divider,
-                MoreTitle(
-                  icon: 'assets/img/security.svg',
-                  title: 'Security',
-                  onTap: () {
-                    context.push(SecuritySettingsPage.routeName);
-                  },
-                ),
-                if (_isAgent) _divider,
-                if (_isAgent)
+                  _divider,
                   MoreTitle(
                     icon: 'assets/img/reversal.svg',
                     title: 'Reversal Requests',
@@ -148,6 +139,28 @@ class _MorePageState extends State<MorePage> {
                       context.push(RequestsPage.routeName);
                     },
                   ),
+                ],
+              ),
+            ),
+          ),
+        SliverToBoxAdapter(
+          child: Container(
+            width: double.maxFinite,
+            margin: const .only(left: 20, right: 20, top: 20),
+            padding: const .symmetric(vertical: 10, horizontal: 15),
+            decoration: BoxDecoration(
+              borderRadius: .circular(12),
+              border: .all(color: ThemeUtil.border),
+            ),
+            child: Column(
+              children: [
+                MoreTitle(
+                  icon: 'assets/img/security.svg',
+                  title: 'Security',
+                  onTap: () {
+                    context.push(SecuritySettingsPage.routeName);
+                  },
+                ),
               ],
             ),
           ),
