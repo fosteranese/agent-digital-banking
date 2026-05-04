@@ -45,7 +45,7 @@ class RegisterClientStep3 extends StatelessWidget {
               keyboardType: .phone,
             ),
             FormInput(
-              label: 'Email Address *',
+              label: 'Email Address',
               placeholder: 'Enter email address',
               controller: kinEmailAddress,
               keyboardType: .emailAddress,

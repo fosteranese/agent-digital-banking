@@ -71,9 +71,11 @@ class RegisterClientStep2 extends StatelessWidget {
               title: 'Select the withdrawal option',
               controller: withdrawalOption,
               options: [
+                FormSelectOption(value: 'passbook', text: 'Passbook'),
                 FormSelectOption(value: 'checkbook', text: 'CheckBook'),
-                FormSelectOption(value: 'withdrawal-slip', text: 'Withdrawal Slip'),
-                FormSelectOption(value: 'none', text: 'None'),
+                FormSelectOption(value: 'withdrawal-book', text: 'Withdrawal Book'),
+                FormSelectOption(value: 'security-focus', text: 'Security Focus'),
+                FormSelectOption(value: 'daily-thrift-withdrawal', text: 'Daily Thrift Withdrawal'),
               ],
             ),
 

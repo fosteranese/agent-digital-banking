@@ -32,6 +32,7 @@ class RegisterClientPage extends StatefulWidget {
 }
 
 class _RegisterClientPageState extends State<RegisterClientPage> {
+  var _alreadyPopped = false;
   final _stage = ValueNotifier(RegisterStep.personalInfo);
   final _pageController = PageController(initialPage: 0);
 
@@ -99,153 +100,193 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
 
   @override
   Widget build(BuildContext mainContext) {
-    return BlocProvider(
-      create: (context) => RegistrationBloc(),
-      child: Builder(
-        builder: (context) {
-          return MainLayout(
-            showBackBtn: true,
-            useSafeArea: false,
-            title: 'Register Client',
-            slivers: [
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: MyHeaderDelegate(
-                  maxHeight: 80,
-                  minHeight: 80,
-                  builder: (context, shrinkOffset, overlapsContent) {
-                    return Container(
-                      color: Colors.white,
-                      child: Container(
-                        margin: const .symmetric(vertical: 20),
-                        color: Color(0xffF1F4FB),
-                        child: ValueListenableBuilder(
-                          valueListenable: _stage,
-                          builder: (context, stage, child) {
-                            return ListView(
-                              padding: const .only(left: 20),
-                              scrollDirection: .horizontal,
-                              children: [
-                                for (var i = 0; i < stageTitles.length; i++)
-                                  StepIndicator(
-                                    index: i,
-                                    currentIndex: stage.index,
-                                    title: stageTitles[i],
-                                    onPressed: () {
-                                      _pageController.animateToPage(
-                                        i,
-                                        duration: Duration(milliseconds: 300),
-                                        curve: Curves.easeIn,
-                                      );
-                                      _stage.value = RegisterStep.values[i];
-                                    },
-                                  ),
-                              ],
-                            );
-                          },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (_alreadyPopped) {
+          return;
+        }
+
+        if (didPop) {
+          return;
+        }
+        _onBackPressed();
+      },
+      child: BlocProvider(
+        create: (context) => RegistrationBloc(),
+        child: Builder(
+          builder: (context) {
+            return MainLayout(
+              onBackPressed: _onBackPressed,
+              showBackBtn: true,
+              useSafeArea: false,
+              title: 'Register Client',
+              slivers: [
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: MyHeaderDelegate(
+                    maxHeight: 80,
+                    minHeight: 80,
+                    builder: (context, shrinkOffset, overlapsContent) {
+                      return Container(
+                        color: Colors.white,
+                        child: Container(
+                          margin: const .symmetric(vertical: 20),
+                          color: Color(0xffF1F4FB),
+                          child: ValueListenableBuilder(
+                            valueListenable: _stage,
+                            builder: (context, stage, child) {
+                              return ListView(
+                                padding: const .only(left: 20),
+                                scrollDirection: .horizontal,
+                                children: [
+                                  for (var i = 0; i < stageTitles.length; i++)
+                                    StepIndicator(
+                                      index: i,
+                                      currentIndex: stage.index,
+                                      title: stageTitles[i],
+                                      onPressed: () {
+                                        _pageController.animateToPage(
+                                          i,
+                                          duration: Duration(milliseconds: 300),
+                                          curve: Curves.easeIn,
+                                        );
+                                        _stage.value = RegisterStep.values[i];
+                                      },
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
                         ),
+                      );
+                    },
+                  ),
+                ),
+
+                SliverFillRemaining(
+                  fillOverscroll: true,
+                  hasScrollBody: false,
+                  child: Scaffold(
+                    backgroundColor: Colors.transparent,
+                    primary: false,
+                    body: BlocListener<RegistrationBloc, RegistrationState>(
+                      listener: (_, state) => _registrationListener(context, state),
+                      child: PageView(
+                        controller: _pageController,
+                        physics: NeverScrollableScrollPhysics(),
+                        onPageChanged: (index) {
+                          _stage.value = RegisterStep.values[index];
+                        },
+                        children: [
+                          RegisterClientStep1(
+                            emailAddress: emailAddressController,
+                            firstName: firstNameController,
+                            lastName: lastNameController,
+                            gender: genderController,
+                            phoneNumber: phoneNumberController,
+                            cardNumber: cardNumberController,
+                            maritalStatus: maritalStatusController,
+                          ),
+                          RegisterClientStep2(
+                            address1: address1Controller,
+                            address2: address2Controller,
+                            region: regionController,
+                            cityOrTown: cityOrTownController,
+                            emergencyContact: emergencyContactController,
+                            transactionNotification: transactionNotificationController,
+                            withdrawalOption: withdrawalOptionController,
+                          ),
+                          RegisterClientStep3(
+                            kinFullName: kinFullNameController,
+                            kinPhoneNumber: kinPhoneNumberController,
+                            kinEmailAddress: kinEmailAddressController,
+                          ),
+                          RegisterClientStep4(
+                            isCameraAvailable: _isCameraAvailable,
+                            onVerify: (cardFront, cardBack) {
+                              context.read<RegistrationBloc>().add(
+                                ManualVerification(
+                                  id: Uuid().v4(),
+                                  cardFront: cardFront,
+                                  cardBack: cardBack,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ),
-              ),
-
-              SliverFillRemaining(
-                fillOverscroll: true,
-                hasScrollBody: false,
-                child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  primary: false,
-                  body: BlocListener<RegistrationBloc, RegistrationState>(
-                    listener: (_, state) => _registrationListener(context, state),
-                    child: PageView(
-                      controller: _pageController,
-                      physics: NeverScrollableScrollPhysics(),
-                      onPageChanged: (index) {
-                        _stage.value = RegisterStep.values[index];
-                      },
-                      children: [
-                        RegisterClientStep1(
-                          emailAddress: emailAddressController,
-                          firstName: firstNameController,
-                          lastName: lastNameController,
-                          gender: genderController,
-                          phoneNumber: phoneNumberController,
-                          cardNumber: cardNumberController,
-                          maritalStatus: maritalStatusController,
-                        ),
-                        RegisterClientStep2(
-                          address1: address1Controller,
-                          address2: address2Controller,
-                          region: regionController,
-                          cityOrTown: cityOrTownController,
-                          emergencyContact: emergencyContactController,
-                          transactionNotification: transactionNotificationController,
-                          withdrawalOption: withdrawalOptionController,
-                        ),
-                        RegisterClientStep3(
-                          kinFullName: kinFullNameController,
-                          kinPhoneNumber: kinPhoneNumberController,
-                          kinEmailAddress: kinEmailAddressController,
-                        ),
-                        RegisterClientStep4(
-                          isCameraAvailable: _isCameraAvailable,
-                          onVerify: (cardFront, cardBack) {
-                            context.read<RegistrationBloc>().add(
-                              ManualVerification(
-                                id: Uuid().v4(),
-                                cardFront: cardFront,
-                                cardBack: cardBack,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
-            bottomNavigationBar: ValueListenableBuilder(
-              valueListenable: _stage,
-              builder: (context, value, child) {
-                if (value == RegisterStep.identityVerification) {
-                  return SizedBox.shrink();
-                }
+              ],
+              bottomNavigationBar: ValueListenableBuilder(
+                valueListenable: _stage,
+                builder: (context, value, child) {
+                  if (value == RegisterStep.identityVerification) {
+                    return SizedBox.shrink();
+                  }
 
-                return SafeArea(
-                  top: false,
-                  bottom: true,
-                  child: Container(
-                    padding: .only(left: 20, right: 20, top: 20),
-                    child: FormButton(
-                      onPressed: () {
-                        switch (_stage.value) {
-                          case RegisterStep.personalInfo:
-                            _savePersonalDetails(context);
-                            return;
+                  return SafeArea(
+                    top: false,
+                    bottom: true,
+                    child: Container(
+                      padding: .only(left: 20, right: 20, top: 20),
+                      child: FormButton(
+                        onPressed: () {
+                          switch (_stage.value) {
+                            case RegisterStep.personalInfo:
+                              _savePersonalDetails(context);
+                              return;
 
-                          case RegisterStep.contactDetails:
-                            _saveResidentialAddress(context);
-                            return;
+                            case RegisterStep.contactDetails:
+                              _saveResidentialAddress(context);
+                              return;
 
-                          case RegisterStep.nextOfKin:
-                            _saveNextOfKin(context);
-                            return;
+                            case RegisterStep.nextOfKin:
+                              _saveNextOfKin(context);
+                              return;
 
-                          default:
-                            return;
-                        }
-                      },
-                      text: 'Continue',
+                            default:
+                              return;
+                          }
+                        },
+                        text: 'Continue',
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-          );
-        },
+                  );
+                },
+              ),
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  void _onBackPressed() {
+    switch (_stage.value) {
+      case RegisterStep.personalInfo:
+        _alreadyPopped = true;
+        context.pop();
+        return;
+      case RegisterStep.contactDetails:
+        _stage.value = RegisterStep.personalInfo;
+        break;
+      case RegisterStep.nextOfKin:
+        _stage.value = RegisterStep.contactDetails;
+        break;
+      case RegisterStep.identityVerification:
+        _stage.value = RegisterStep.nextOfKin;
+        break;
+    }
+
+    _alreadyPopped = false;
+
+    _pageController.animateToPage(
+      _stage.value.index,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
     );
   }
 
@@ -396,14 +437,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     }
 
     final emailAddress = emailAddressController.text.trim();
-    if (emailAddress.isEmpty) {
-      MessageUtil.displayErrorDialog(
-        context,
-        title: 'Validation Failed',
-        message: 'Email Address is required.\nEnter email address to proceed.',
-      );
-      return;
-    } else if (!emailAddress.isEmail) {
+    if (emailAddress.isNotEmpty && !emailAddress.isEmail) {
       MessageUtil.displayErrorDialog(
         context,
         title: 'Validation Failed',
@@ -558,14 +592,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     }
 
     final emailAddress = emailAddressController.text.trim();
-    if (emailAddress.isEmpty) {
-      MessageUtil.displayErrorDialog(
-        context,
-        title: 'Validation Failed',
-        message: 'Next of KIN Email Address is required.\nEnter email address to proceed.',
-      );
-      return;
-    } else if (!emailAddress.isEmail) {
+    if (emailAddress.isNotEmpty && !emailAddress.isEmail) {
       MessageUtil.displayErrorDialog(
         context,
         title: 'Validation Failed',
@@ -582,5 +609,33 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         emailAddress: kinEmailAddressController.text,
       ),
     );
+  }
+
+  @override
+  dispose() {
+    _stage.dispose();
+    _pageController.dispose();
+
+    firstNameController.dispose();
+    lastNameController.dispose();
+    genderController.dispose();
+    phoneNumberController.dispose();
+    emailAddressController.dispose();
+    cardNumberController.dispose();
+    maritalStatusController.dispose();
+    emergencyContactController.dispose();
+
+    address1Controller.dispose();
+    address2Controller.dispose();
+    regionController.dispose();
+    cityOrTownController.dispose();
+
+    transactionNotificationController.dispose();
+    withdrawalOptionController.dispose();
+
+    kinFullNameController.dispose();
+    kinPhoneNumberController.dispose();
+    kinEmailAddressController.dispose();
+    super.dispose();
   }
 }
