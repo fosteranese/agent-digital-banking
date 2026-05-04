@@ -165,15 +165,7 @@ class FormSubmitButton extends StatelessWidget {
         );
       },
       onShowReceipt: () async {
-        context.push(
-          ReceiptPage.routeName,
-          extra: {
-            'request': state.result.data,
-            'fblLogo': state.result.data?.fblLogo ?? '',
-            'imageBaseUrl': state.result.imageBaseUrl,
-            'imageDirectory': state.result.imageDirectory,
-          },
-        );
+        context.push(ReceiptPage.routeName, extra: state.result.data);
       },
     );
   }

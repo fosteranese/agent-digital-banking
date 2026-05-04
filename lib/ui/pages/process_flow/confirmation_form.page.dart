@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/constants/status.const.dart';
+import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
@@ -25,7 +27,6 @@ import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
-import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
@@ -394,15 +395,7 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
         }
       },
       onShowReceipt: () async {
-        context.push(
-          ReceiptPage.routeName,
-          extra: {
-            'request': result.data,
-            'fblLogo': result.data?.fblLogo ?? '',
-            'imageBaseUrl': result.imageBaseUrl,
-            'imageDirectory': result.imageDirectory,
-          },
-        );
+        context.push(ReceiptPage.routeName, extra: result.data);
       },
     );
   }
@@ -435,10 +428,10 @@ class SummaryTile extends StatelessWidget {
     return Container(
       margin: .only(bottom: margin),
       padding: .all(verticalPadding),
-      width: double.maxFinite,
+      width: .maxFinite,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: .circular(8),
         border: .all(color: ThemeUtil.border),
         boxShadow: [
           // BoxShadow(
@@ -456,21 +449,18 @@ class SummaryTile extends StatelessWidget {
         children: [
           Text(
             label,
-            textAlign: TextAlign.left,
+            textAlign: .left,
             style: PrimaryTextStyle(
               color: allBold ? null : ThemeUtil.flat,
               fontSize: 14,
-              fontWeight: allBold ? FontWeight.bold : FontWeight.normal,
+              fontWeight: allBold ? .bold : .normal,
             ),
           ),
           const SizedBox(height: 10),
           Text(
             value,
-            textAlign: TextAlign.right,
-            style: PrimaryTextStyle(
-              fontSize: 16,
-              fontWeight: allBold ? FontWeight.bold : FontWeight.w500,
-            ),
+            textAlign: .left,
+            style: PrimaryTextStyle(fontSize: 16, fontWeight: allBold ? .bold : .w500),
           ),
         ],
       ),
@@ -540,6 +530,119 @@ class SummaryMinimalTile extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class SummaryStatusTile extends StatelessWidget {
+  const SummaryStatusTile({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.code,
+    this.allBold = false,
+    this.verticalPadding = 10,
+    this.margin = 10,
+    this.useValue = false,
+  });
+
+  final String label;
+  final String value;
+  final int code;
+  final bool allBold;
+  final double verticalPadding;
+  final double margin;
+  final bool useValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: .only(bottom: margin),
+      padding: .all(verticalPadding),
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: .all(color: ThemeUtil.border),
+        boxShadow: [
+          // BoxShadow(
+          //   color: Color(0x0F000000),
+          //   spreadRadius: 0,
+          //   blurRadius: 10,
+          //   offset: Offset(0, 4),
+          // ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: .min,
+        mainAxisAlignment: .spaceBetween,
+        crossAxisAlignment: .center,
+        children: [
+          Text(
+            label,
+            textAlign: .left,
+            style: PrimaryTextStyle(
+              color: allBold ? null : ThemeUtil.black,
+              fontSize: 14,
+              fontWeight: allBold ? .bold : .normal,
+            ),
+          ),
+          const SizedBox(height: 10),
+          _statusBadge(),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusBadge() {
+    late final label;
+    if (useValue) {
+      label = value;
+    } else {
+      label = (code == 1)
+          ? 'Sent'
+          : (code == 0)
+          ? 'Failed'
+          : 'Pending';
+    }
+
+    final icon = (code == 1)
+        ? Icons.check
+        : (code == 0)
+        ? Icons.close
+        : Icons.hourglass_bottom_outlined;
+
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: const Color(0xffF8F8F8),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 9,
+            backgroundColor: _statusColor(),
+            child: Icon(icon, color: Colors.white, size: 14),
+          ),
+          const SizedBox(width: 5),
+          Text(label, style: PrimaryTextStyle(color: const Color(0xff4F4F4F), fontSize: 13)),
+        ],
+      ),
+    );
+  }
+
+  Color _statusColor() {
+    switch (value.toUpperCase()) {
+      case StatusConstants.success:
+        return const Color(0xff219653);
+      case StatusConstants.pending:
+        return Colors.amber;
+      case StatusConstants.failed:
+      case StatusConstants.error:
+        return const Color(0xffFF0600);
+      default:
+        return Colors.blueGrey;
+    }
   }
 }
 

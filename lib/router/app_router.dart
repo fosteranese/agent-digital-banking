@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/data/models/agent_collection_model.dart';
 import 'package:my_sage_agent/data/models/login/verify_id_response.dart';
+import 'package:my_sage_agent/data/models/request_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
@@ -31,6 +32,7 @@ import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
+import 'package:my_sage_agent/ui/pages/supervisor_receipt.page.dart';
 import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 import 'package:my_sage_agent/ui/pages/request/request_details.page.dart';
 import 'package:my_sage_agent/ui/pages/request/requests.page.dart';
@@ -108,9 +110,15 @@ GoRouter createRouter() {
             },
           ),
           GoRoute(
+            path: SupervisorReceiptPage.routeName,
+            builder: (context, state) {
+              return SupervisorReceiptPage(request: state.extra as ServiceRequest);
+            },
+          ),
+          GoRoute(
             path: ReceiptPage.routeName,
             builder: (context, state) {
-              return ReceiptPage(request: state.extra as ServiceRequest);
+              return ReceiptPage(request: state.extra as RequestResponse);
             },
           ),
           GoRoute(

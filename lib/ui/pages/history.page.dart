@@ -3,22 +3,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/data/models/activity_history_model.dart';
-import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
-import 'package:my_sage_agent/ui/components/history/supervisor_history_list_item.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/data/models/activity_history_model.dart';
 import 'package:my_sage_agent/data/models/history/activity.dart';
+import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/activity_search_box.dart';
 import 'package:my_sage_agent/ui/components/history/history_filter_sheet.dart';
 import 'package:my_sage_agent/ui/components/history/history_list_item.dart';
 import 'package:my_sage_agent/ui/components/history/history_shimmer.dart';
+import 'package:my_sage_agent/ui/components/history/supervisor_history_list_item.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
 import 'package:my_sage_agent/ui/components/toaster.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -145,10 +146,20 @@ class _HistoryPageState extends State<HistoryPage> {
                       final record = list[index];
 
                       if (record is ServiceRequest) {
-                        return SupervisorHistoryListItem(record: record, onTap: null);
+                        return SupervisorHistoryListItem(
+                          record: record,
+                          onTap: () {
+                            context.push(ReceiptPage.routeName, extra: record);
+                          },
+                        );
                       }
 
-                      return HistoryListItem(record: record, onTap: null);
+                      return HistoryListItem(
+                        record: record,
+                        onTap: () {
+                          context.push(ReceiptPage.routeName, extra: record);
+                        },
+                      );
                     },
                     separatorBuilder: (_, _) =>
                         Divider(thickness: 1, color: ThemeUtil.headerBackground, height: 0),

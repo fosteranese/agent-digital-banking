@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/data/models/supervisor_activity_model/service_request.dart';
-import 'package:my_sage_agent/ui/pages/receipt.page.dart';
+import 'package:my_sage_agent/ui/pages/supervisor_receipt.page.dart';
 import 'package:my_sage_agent/utils/formatter.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -19,7 +19,7 @@ class SupervisorHistoryListItem extends StatelessWidget {
       onTap:
           onTap ??
           () {
-            context.push(ReceiptPage.routeName, extra: record);
+            context.push(SupervisorReceiptPage.routeName, extra: record);
           },
       enableFeedback: true,
       child: Container(
