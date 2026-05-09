@@ -9,6 +9,10 @@ import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
 import 'package:my_sage_agent/data/models/schedule/schedules.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
+import 'package:my_sage_agent/ui/pages/collections/collections.page.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
+import 'package:my_sage_agent/ui/pages/history.page.dart';
+import 'package:my_sage_agent/ui/pages/more/more.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/register_client.page.dart';
 import 'package:my_sage_agent/ui/pages/team/team_members.page.dart';
@@ -125,5 +129,22 @@ final class ProcessFlowUtil {
         collectionId: collectionId,
       ),
     );
+  }
+
+  static void goBackToPageBeforeProcessFlow() {
+    final destinations = [
+      '/',
+      DashboardPage.routeName,
+      CollectionsPage.routeName,
+      HistoryPage.routeName,
+      MorePage.routeName,
+    ];
+
+    final parentContext = MyApp.navigatorKey.currentContext!;
+    var currentPath = GoRouter.of(parentContext).state.path;
+    while (!destinations.contains(currentPath)) {
+      parentContext.pop();
+      currentPath = GoRouter.of(parentContext).state.path;
+    }
   }
 }

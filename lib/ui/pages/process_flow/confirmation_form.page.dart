@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/constants/status.const.dart';
-import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
@@ -10,6 +8,7 @@ import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
 import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
 import 'package:my_sage_agent/constants/field.const.dart';
+import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/data/models/collection/form_verification_response.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
@@ -22,14 +21,12 @@ import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/multiple_input_plus.dart';
 import 'package:my_sage_agent/ui/components/form/schedule.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
-import 'package:my_sage_agent/ui/pages/collections/collections.page.dart';
-import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
-import 'package:my_sage_agent/ui/pages/history.page.dart';
-import 'package:my_sage_agent/ui/pages/more/more.page.dart';
 import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
+import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/process_flow.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ConfirmationFormPage extends StatefulWidget {
@@ -381,19 +378,7 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
     _loader.successTransaction(
       title: 'Success',
       result: result,
-      onClose: () {
-        final destinations = [
-          '/',
-          DashboardPage.routeName,
-          CollectionsPage.routeName,
-          HistoryPage.routeName,
-          MorePage.routeName,
-        ];
-
-        while (!destinations.contains(GoRouter.of(context).state.path)) {
-          context.pop();
-        }
-      },
+      onClose: ProcessFlowUtil.goBackToPageBeforeProcessFlow,
       onShowReceipt: () async {
         context.push(ReceiptPage.routeName, extra: result.data);
       },
