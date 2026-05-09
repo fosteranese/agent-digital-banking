@@ -32,6 +32,7 @@ class RegisterClientPage extends StatefulWidget {
 }
 
 class _RegisterClientPageState extends State<RegisterClientPage> {
+  final _registrationBloc = RegistrationBloc();
   var _alreadyPopped = false;
   final _stage = ValueNotifier(RegisterStep.personalInfo);
   final _pageController = PageController(initialPage: 0);
@@ -62,7 +63,11 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   void _onManual() {
     // context.pop();
     _isCameraAvailable.value = false;
-    _pageController.animateToPage(2, duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+    _pageController.animateToPage(
+      RegisterStep.identityVerification.index,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
   }
 
   final stageTitles = ['Personal Info', 'Contact Details', 'Next of KIN', 'Identity Verification'];
@@ -77,17 +82,9 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
             extra: GhanaCardVerification(
               mainContext: mainContext,
               onVerify: (picture, _) {
-                mainContext.read<RegistrationBloc>().add(
-                  VerifyPicture(id: Uuid().v4(), picture: picture),
-                );
+                _registrationBloc.add(VerifyPicture(id: Uuid().v4(), picture: picture));
               },
-              onManualVerification: () {
-                _pageController.animateToPage(
-                  2,
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeIn,
-                );
-              },
+              onManualVerification: _onManual,
             ),
           );
         })
@@ -112,8 +109,8 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         }
         _onBackPressed();
       },
-      child: BlocProvider(
-        create: (context) => RegistrationBloc(),
+      child: BlocProvider.value(
+        value: _registrationBloc,
         child: Builder(
           builder: (context) {
             return MainLayout(
@@ -171,6 +168,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                     backgroundColor: Colors.transparent,
                     primary: false,
                     body: BlocListener<RegistrationBloc, RegistrationState>(
+                      bloc: _registrationBloc,
                       listener: (_, state) => _registrationListener(context, state),
                       child: PageView(
                         controller: _pageController,
@@ -205,7 +203,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                           RegisterClientStep4(
                             isCameraAvailable: _isCameraAvailable,
                             onVerify: (cardFront, cardBack) {
-                              context.read<RegistrationBloc>().add(
+                              _registrationBloc.add(
                                 ManualVerification(
                                   id: Uuid().v4(),
                                   cardFront: cardFront,
@@ -466,7 +464,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
-    context.read<RegistrationBloc>().add(
+    _registrationBloc.add(
       SavePersonalInfo(
         id: Uuid().v4(),
         firstName: fullName,
@@ -543,7 +541,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
-    context.read<RegistrationBloc>().add(
+    _registrationBloc.add(
       SaveResidentialAddress(
         id: Uuid().v4(),
         address1: address1,
@@ -601,7 +599,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
-    context.read<RegistrationBloc>().add(
+    _registrationBloc.add(
       SaveNextOfKinInfoEvent(
         id: Uuid().v4(),
         fullName: kinFullNameController.text,
@@ -636,6 +634,8 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     kinFullNameController.dispose();
     kinPhoneNumberController.dispose();
     kinEmailAddressController.dispose();
+
+    _registrationBloc.close();
     super.dispose();
   }
 }

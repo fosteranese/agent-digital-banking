@@ -120,7 +120,7 @@ class HistoryRepo {
 
   Future<List<CollectionModel>> loadSupervisorCollections() async {
     final response = await _fbl.post(
-      path: 'FieldExecutive/AllSupervisorAgentsCollections',
+      path: 'FieldExecutive/AllSupervisorAgentsCollectionSummary',
       body: {},
       isAuthenticated: true,
     );

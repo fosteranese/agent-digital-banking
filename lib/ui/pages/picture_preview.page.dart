@@ -45,8 +45,8 @@ class _PicturePreviewPageState extends State<PicturePreviewPage> {
   @override
   Widget build(BuildContext context) {
     final padding = 15.0;
-    return BlocProvider(
-      create: (context) => widget.mainContext.read<RegistrationBloc>(),
+    return BlocProvider.value(
+      value: widget.mainContext.read<RegistrationBloc>(),
       child: FutureBuilder(
         future: () async {
           var bytes = await widget.image.readAsBytes();
