@@ -29,7 +29,7 @@ class _DashboardActionsState extends State<DashboardActions> {
             ),
             SizedBox(height: 10),
             SizedBox(
-              height: 320,
+              height: 280,
               child: GridView(
                 padding: .zero,
                 physics: NeverScrollableScrollPhysics(),

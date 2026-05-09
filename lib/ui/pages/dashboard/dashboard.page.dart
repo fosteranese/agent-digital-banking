@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
+import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/dashboard/process_category.dart';
+import 'package:my_sage_agent/ui/components/session_tracker.dart';
+import 'package:my_sage_agent/ui/pages/dashboard/agent.dashboard.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/supervisor.dashboard.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:my_sage_agent/utils/process_flow.util.dart';
-
-import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
 import 'package:my_sage_agent/utils/service.util.dart';
-import 'package:my_sage_agent/ui/components/session_tracker.dart';
-import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
-import 'package:my_sage_agent/ui/pages/dashboard/agent.dashboard.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -170,6 +170,15 @@ class _DashboardPageState extends State<DashboardPage> {
 
         _stopLoading();
         if (_formData == null || (state.event?.skipSavedData ?? false)) {
+          if (formData.form == null) {
+            MessageUtil.displayErrorDialog(
+              context,
+              title: 'Currently Unavailable',
+              message: 'Sorry! this Service is currently unavailable.',
+            );
+            return;
+          }
+
           context.push(
             ProcessFormPage.routeName,
             extra: ProcessFormPage(

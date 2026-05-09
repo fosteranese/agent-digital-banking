@@ -25,3 +25,12 @@ class FormType {
   final String id;
   final String name;
 }
+
+enum AmDoing {
+  transaction,
+  addPayee,
+  payeeTransaction,
+  createBulkPaymentGroup,
+  createSchedule,
+  createScheduleFromPayee,
+}

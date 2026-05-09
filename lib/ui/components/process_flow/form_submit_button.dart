@@ -17,12 +17,12 @@ import 'package:my_sage_agent/ui/pages/collections/collections.page.dart';
 import 'package:my_sage_agent/ui/pages/dashboard/dashboard.page.dart';
 import 'package:my_sage_agent/ui/pages/history.page.dart';
 import 'package:my_sage_agent/ui/pages/more/more.page.dart';
-import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
-import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
+import 'package:my_sage_agent/utils/process_flow.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 class FormSubmitButton extends StatelessWidget {
   const FormSubmitButton({
@@ -37,7 +37,7 @@ class FormSubmitButton extends StatelessWidget {
     required this.activity,
   });
 
-  final String id;
+  final ValueNotifier<String> id;
   final GeneralFlowFormData formData;
   final AmDoing amDoing;
   final Map<String, (TextEditingController, GeneralFlowFieldsDatum)> controllers;
@@ -47,10 +47,11 @@ class FormSubmitButton extends StatelessWidget {
   final ActivityDatum activity;
 
   @override
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<GeneralFlowBloc, GeneralFlowState>(
       listener: (context, state) {
-        if ((state as dynamic).routeName != id) {
+        if ((state as dynamic).routeName != id.value) {
           return;
         }
 
@@ -86,7 +87,7 @@ class FormSubmitButton extends StatelessWidget {
               MessageUtil.stopLoading(context);
             }
 
-            if (state1 is AddPayeeError && state1.routeName == id) {
+            if (state1 is AddPayeeError && state1.routeName == id.value) {
               MessageUtil.displayErrorDialog(context, message: state1.result.message);
               return;
             }
@@ -104,15 +105,19 @@ class FormSubmitButton extends StatelessWidget {
   }
 
   String get _submitText {
-    if (formData.form!.requireVerification != 1 && amDoing == AmDoing.createSchedule) {
+    if (formData.form == null) {
+      return 'Submit';
+    }
+
+    if (formData.form?.requireVerification != 1 && amDoing == AmDoing.createSchedule) {
       return 'Schedule';
     }
 
-    if (formData.form!.requireVerification != 1 && amDoing == AmDoing.addPayee) {
+    if (formData.form?.requireVerification != 1 && amDoing == AmDoing.addPayee) {
       return 'Save';
     }
 
-    if (formData.form!.requireVerification == 1) {
+    if (formData.form?.requireVerification == 1) {
       return 'Continue';
     }
 
@@ -124,7 +129,7 @@ class FormSubmitButton extends StatelessWidget {
       context: context,
       formData: formData,
       amDoing: amDoing,
-      id: id,
+      id: id.value,
       controllers: controllers,
       loader: loader,
       activity: activity,
@@ -153,7 +158,7 @@ class FormSubmitButton extends StatelessWidget {
       },
       onSaveBeneficiary: () {
         context.read<GeneralFlowBloc>().add(
-          SaveBeneficiary(routeName: id, payload: state.result.data!),
+          SaveBeneficiary(routeName: id.value, payload: state.result.data!),
         );
       },
       onScheduleTransaction: () {
@@ -170,9 +175,9 @@ class FormSubmitButton extends StatelessWidget {
     );
   }
 
-  void _showProcessRequestError(BuildContext context, ProcessRequestError state) {
+  void _showProcessRequestError(BuildContext parentContext, ProcessRequestError state) {
     showModalBottomSheet(
-      context: context,
+      context: parentContext,
       backgroundColor: Colors.white,
       builder: (context) {
         return Padding(
@@ -209,8 +214,9 @@ class FormSubmitButton extends StatelessWidget {
               if (formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
                 FormButton(
                   onPressed: () {
+                    id.value = Uuid().v4();
                     context.pop();
-                    _confirm(context);
+                    _confirm(parentContext);
                   },
                   text: 'Try Again',
                 )
@@ -226,24 +232,24 @@ class FormSubmitButton extends StatelessWidget {
               if (formData.form?.formId != '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a')
                 FormOutlineButton(
                   onPressed: () {
-                    context.push(
-                      ProcessFormPage.routeName,
-                      extra: {
-                        'form': GeneralFlowForm(
+                    ProcessFlowUtil.loadFormData(
+                      context,
+                      skipSavedData: true,
+                      amDoing: AmDoing.transaction,
+                      id: Uuid().v4(),
+                      activity: ActivityDatum(
+                        activity: Activity(
+                          activityId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
                           activityType: ActivityTypesConst.quickFlow,
-                          formName: 'Submit a complaint',
-                          categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
-                          formId: '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a',
+                          accessType: 'CUSTOMER',
                         ),
-                        'amDoing': AmDoing.transaction,
-                        'activity': ActivityDatum(
-                          activity: Activity(
-                            activityId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
-                            activityType: ActivityTypesConst.quickFlow,
-                            accessType: 'CUSTOMER',
-                          ),
-                        ),
-                      },
+                      ),
+                      form: GeneralFlowForm(
+                        activityType: ActivityTypesConst.quickFlow,
+                        formName: 'Submit a complaint',
+                        categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc',
+                        formId: '6b3aeefc-34c7-4bf4-a321-24d05dd2d63a',
+                      ),
                     );
                   },
                   text: 'Submit a Complaint',

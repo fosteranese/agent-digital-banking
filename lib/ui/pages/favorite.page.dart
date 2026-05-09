@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/collection/collection_bloc.dart';
@@ -11,7 +12,6 @@ import '../../utils/service.util.dart';
 import '../components/form/search_box.dart';
 import '../components/item.dart';
 import '../layouts/main.layout.dart';
-import 'quick_actions.page.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key});

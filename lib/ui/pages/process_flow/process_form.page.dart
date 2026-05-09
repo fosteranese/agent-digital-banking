@@ -2,11 +2,11 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:my_sage_agent/utils/theme.util.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
 import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/payee/payees_response.dart';
@@ -16,9 +16,9 @@ import 'package:my_sage_agent/ui/components/process_flow/form_fields_list.dart';
 import 'package:my_sage_agent/ui/components/process_flow/form_submit_button.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/confirmation_form.page.dart';
-import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
 import 'package:my_sage_agent/utils/string.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ProcessFormPage extends StatefulWidget {
   const ProcessFormPage({
@@ -44,7 +44,7 @@ class ProcessFormPage extends StatefulWidget {
 
 class _ProcessFormPageState extends State<ProcessFormPage> {
   final _loader = Loader();
-  late final String _id;
+  late final _id = ValueNotifier(const Uuid().v4());
   late GeneralFlowFormData _formData = widget.formData;
   final _controllers = <String, (TextEditingController, GeneralFlowFieldsDatum)>{};
   final _scheduleType = TextEditingController();
@@ -53,7 +53,7 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
   @override
   void initState() {
     super.initState();
-    _id = const Uuid().v4();
+    _id.value = const Uuid().v4();
     _generateField(false);
   }
 
@@ -61,7 +61,7 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
     final visibleFields = _formData.fieldsDatum!.where((f) {
       final status = f.field?.fieldVisible == 1;
 
-      if (_formData.form!.requireVerification != 1) {
+      if (_formData.form?.requireVerification != 1) {
         return status;
       }
 
@@ -113,7 +113,7 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
       listeners: [
         BlocListener<RetrieveDataBloc, RetrieveDataState>(
           listener: (context, state) {
-            if (state is DataRetrieved) {
+            if (state is DataRetrieved && state.data.data.form != null) {
               _formData = state.data.data;
               _generateField(true);
               return;
@@ -181,7 +181,7 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
                   ),
                 ),
 
-                if (_formData.form!.requireVerification != 1 &&
+                if (_formData.form?.requireVerification != 1 &&
                     widget.amDoing == AmDoing.createSchedule)
                   FormSchedule(
                     onInput: (type, date) {

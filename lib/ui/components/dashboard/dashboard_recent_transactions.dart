@@ -27,6 +27,7 @@ class DashboardRecentTransactions extends StatelessWidget {
             slivers: [
               SliverToBoxAdapter(
                 child: Column(
+                  mainAxisSize: .min,
                   mainAxisAlignment: .start,
                   crossAxisAlignment: .start,
                   children: [

@@ -26,11 +26,9 @@ import 'package:my_sage_agent/ui/pages/more/profile.page.dart';
 import 'package:my_sage_agent/ui/pages/more/security_settings.page.dart';
 import 'package:my_sage_agent/ui/pages/notifications.page.dart';
 import 'package:my_sage_agent/ui/pages/picture_preview.page.dart';
-import 'package:my_sage_agent/ui/pages/process_flow/actions.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/confirmation_form.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/enquiry_flow.page.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/process_form.page.dart';
-import 'package:my_sage_agent/ui/pages/quick_actions.page.dart';
 import 'package:my_sage_agent/ui/pages/receipt.page.dart';
 import 'package:my_sage_agent/ui/pages/supervisor_receipt.page.dart';
 import 'package:my_sage_agent/ui/pages/register_client.page.dart';
@@ -68,26 +66,7 @@ GoRouter createRouter() {
               return UpdatePage(state.extra as Response);
             },
           ),
-          GoRoute(
-            path: ActionsPage.routeName,
-            builder: (context, state) {
-              final extra = state.extra as Map<String, dynamic>;
-              return ActionsPage(
-                action: extra['action'] ?? extra['activity'],
-                amDoing: extra['amDoing'],
-                payment: extra['payment'],
-              );
-            },
-          ),
           GoRoute(path: ProfilePage.routeName, builder: (context, state) => ProfilePage()),
-          GoRoute(
-            path: QuickActionsPage.routeName,
-            builder: (context, state) {
-              return QuickActionsPage(
-                amDoing: state.extra != null ? state.extra as AmDoing : AmDoing.transaction,
-              );
-            },
-          ),
           GoRoute(
             path: ProcessFormPage.routeName,
             builder: (context, state) {
