@@ -12,7 +12,6 @@ import 'package:my_sage_agent/data/models/history/activity.dart';
 import 'package:my_sage_agent/data/models/history/history.response.dart';
 import 'package:my_sage_agent/data/models/supervisor_activity_model/supervisor_activity_model.dart';
 import 'package:my_sage_agent/data/models/supervisor_collection_data/supervisor_collection.dart';
-import 'package:my_sage_agent/data/models/supervisor_collection_data/supervisor_collection_data.dart';
 import 'package:my_sage_agent/data/remote/main.remote.dart';
 
 class HistoryRepo {
@@ -64,8 +63,8 @@ class HistoryRepo {
     _db.add(key: 'collections', payload: {'list': list});
   }
 
-  void storeSupervisorCollections(List<CollectionModel> list) {
-    _db.add(key: 'supervisor_collections', payload: {'list': list});
+  void storeSupervisorCollections(SupervisorCollectionModel data) {
+    _db.add(key: 'supervisor_collections', payload: data);
   }
 
   Future<List<CollectionModel>?> getStoredCollections({Activity? activity}) async {
@@ -82,20 +81,15 @@ class HistoryRepo {
     return list;
   }
 
-  Future<List<CollectionModel>?> getStoredSupervisorCollections({Activity? activity}) async {
+  Future<SupervisorCollectionModel?> getStoredSupervisorCollections() async {
     final result = await _db.read('supervisor_collections');
 
-    if (result == null || result['list'] == null) {
+    if (result == null) {
       return null;
     }
 
-    final list = (result['list'] as List<dynamic>).map((item) {
-      return CollectionModel(
-        supervisor: SupervisorCollectionModel.fromMap(item as Map<String, dynamic>),
-      );
-    }).toList();
-
-    return list;
+    final data = SupervisorCollectionModel.fromMap(result);
+    return data;
   }
 
   Future<List<CollectionModel>> loadCollections() async {
@@ -118,9 +112,9 @@ class HistoryRepo {
     return list;
   }
 
-  Future<List<CollectionModel>> loadSupervisorCollections() async {
+  Future<SupervisorCollectionModel> loadSupervisorCollections() async {
     final response = await _fbl.post(
-      path: 'FieldExecutive/AllSupervisorAgentsCollectionSummary',
+      path: 'FieldExecutive/AllSupervisorAgentsCollectionDataSummary',
       body: {},
       isAuthenticated: true,
     );
@@ -129,13 +123,11 @@ class HistoryRepo {
       return Future.error(response);
     }
 
-    final result = SupervisorCollectionData.fromMap(response.data as Map<String, dynamic>);
-    final list =
-        result.agentCollections?.map((item) => CollectionModel(supervisor: item)).toList() ?? [];
+    final result = SupervisorCollectionModel.fromMap(response.data as Map<String, dynamic>);
 
-    storeSupervisorCollections(list);
+    storeSupervisorCollections(result);
 
-    return list;
+    return result;
   }
 
   Future<List<AgentCollectionModel>> loadSupervisorAgentCollections({
