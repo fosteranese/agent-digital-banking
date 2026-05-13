@@ -15,8 +15,10 @@ class ActivityTypesConst {
 }
 
 class FormsConst {
-  static const cashDeposit = FormType(id: '4495b4cf-b688-499a-9d43-fbfac3cfa58d', name: 'Cash');
-  static const mobileMoney = FormType(id: '95448ead-9bf2-48fd-a215-e36602cd018c', name: 'MoMo');
+  static const cashAtHand = FormType(id: 'cash-at-hand', name: 'Cash At hand');
+  static const deposit = FormType(id: 'deposit', name: 'Deposit');
+  static const cash = FormType(id: 'cash', name: 'Cash');
+  static const mobileMoney = FormType(id: 'momo', name: 'MoMo');
 }
 
 class FormType {

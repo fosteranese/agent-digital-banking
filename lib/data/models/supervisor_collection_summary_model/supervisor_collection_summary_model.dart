@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'collection_summary.dart';
 import 'supervisor.dart';
 
-class SupervisorCollectionModel extends Equatable {
+class SupervisorCollectionSummaryModel extends Equatable {
   final Supervisor? supervisor;
   final List<CollectionSummary>? collectionSummary;
   final List<CollectionSummary>? cashAtHand;
@@ -13,7 +13,7 @@ class SupervisorCollectionModel extends Equatable {
   final List<CollectionSummary>? summaryCash;
   final List<CollectionSummary>? summaryMomo;
 
-  const SupervisorCollectionModel({
+  const SupervisorCollectionSummaryModel({
     this.supervisor,
     this.collectionSummary,
     this.cashAtHand,
@@ -22,8 +22,8 @@ class SupervisorCollectionModel extends Equatable {
     this.summaryMomo,
   });
 
-  factory SupervisorCollectionModel.fromMap(Map<String, dynamic> data) {
-    return SupervisorCollectionModel(
+  factory SupervisorCollectionSummaryModel.fromMap(Map<String, dynamic> data) {
+    return SupervisorCollectionSummaryModel(
       supervisor: data['supervisor'] == null
           ? null
           : Supervisor.fromMap(data['supervisor'] as Map<String, dynamic>),
@@ -56,17 +56,17 @@ class SupervisorCollectionModel extends Equatable {
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [SupervisorCollectionModel].
-  factory SupervisorCollectionModel.fromJson(String data) {
-    return SupervisorCollectionModel.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [SupervisorCollectionSummaryModel].
+  factory SupervisorCollectionSummaryModel.fromJson(String data) {
+    return SupervisorCollectionSummaryModel.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [SupervisorCollectionModel] to a JSON string.
+  /// Converts [SupervisorCollectionSummaryModel] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  SupervisorCollectionModel copyWith({
+  SupervisorCollectionSummaryModel copyWith({
     Supervisor? supervisor,
     List<CollectionSummary>? collectionSummary,
     List<CollectionSummary>? cashAtHand,
@@ -74,7 +74,7 @@ class SupervisorCollectionModel extends Equatable {
     List<CollectionSummary>? summaryCash,
     List<CollectionSummary>? summaryMomo,
   }) {
-    return SupervisorCollectionModel(
+    return SupervisorCollectionSummaryModel(
       supervisor: supervisor ?? this.supervisor,
       collectionSummary: collectionSummary ?? this.collectionSummary,
       cashAtHand: cashAtHand ?? this.cashAtHand,

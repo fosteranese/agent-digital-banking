@@ -1,5 +1,6 @@
 import 'package:string_validator/string_validator.dart';
 
+import 'package:my_sage_agent/data/models/supervisor_collection_summary_model/supervisor_collection_summary_model.dart';
 import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/data/database/db.dart';
 import 'package:my_sage_agent/data/models/activity_history_model.dart';
@@ -11,7 +12,6 @@ import 'package:my_sage_agent/data/models/commission_model.dart';
 import 'package:my_sage_agent/data/models/history/activity.dart';
 import 'package:my_sage_agent/data/models/history/history.response.dart';
 import 'package:my_sage_agent/data/models/supervisor_activity_model/supervisor_activity_model.dart';
-import 'package:my_sage_agent/data/models/supervisor_collection_data/supervisor_collection.dart';
 import 'package:my_sage_agent/data/remote/main.remote.dart';
 
 class HistoryRepo {
@@ -63,7 +63,7 @@ class HistoryRepo {
     _db.add(key: 'collections', payload: {'list': list});
   }
 
-  void storeSupervisorCollections(SupervisorCollectionModel data) {
+  void storeSupervisorCollections(SupervisorCollectionSummaryModel data) {
     _db.add(key: 'supervisor_collections', payload: data);
   }
 
@@ -81,14 +81,14 @@ class HistoryRepo {
     return list;
   }
 
-  Future<SupervisorCollectionModel?> getStoredSupervisorCollections() async {
+  Future<SupervisorCollectionSummaryModel?> getStoredSupervisorCollections() async {
     final result = await _db.read('supervisor_collections');
 
     if (result == null) {
       return null;
     }
 
-    final data = SupervisorCollectionModel.fromMap(result);
+    final data = SupervisorCollectionSummaryModel.fromMap(result);
     return data;
   }
 
@@ -112,7 +112,7 @@ class HistoryRepo {
     return list;
   }
 
-  Future<SupervisorCollectionModel> loadSupervisorCollections() async {
+  Future<SupervisorCollectionSummaryModel> loadSupervisorCollections() async {
     final response = await _fbl.post(
       path: 'FieldExecutive/AllSupervisorAgentsCollectionDataSummary',
       body: {},
@@ -123,7 +123,7 @@ class HistoryRepo {
       return Future.error(response);
     }
 
-    final result = SupervisorCollectionModel.fromMap(response.data as Map<String, dynamic>);
+    final result = SupervisorCollectionSummaryModel.fromMap(response.data as Map<String, dynamic>);
 
     storeSupervisorCollections(result);
 

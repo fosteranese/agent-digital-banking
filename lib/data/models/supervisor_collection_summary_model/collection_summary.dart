@@ -6,7 +6,7 @@ class CollectionSummary extends Equatable {
   final String? supId;
   final int? agentCode;
   final String? agentName;
-  final int? totalCollections;
+  final double? totalCollections;
   final String? endDate;
   final String? startDate;
 
@@ -24,7 +24,7 @@ class CollectionSummary extends Equatable {
       supId: data['supId'] as String?,
       agentCode: data['agentCode'] as int?,
       agentName: data['agentName'] as String?,
-      totalCollections: data['totalCollections'] as int?,
+      totalCollections: (data['totalCollections'] as num?)?.toDouble(),
       endDate: data['endDate'] as String?,
       startDate: data['startDate'] as String?,
     );
@@ -55,7 +55,7 @@ class CollectionSummary extends Equatable {
     String? supId,
     int? agentCode,
     String? agentName,
-    int? totalCollections,
+    double? totalCollections,
     String? endDate,
     String? startDate,
   }) {

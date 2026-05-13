@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/collection_model.dart';
+import 'package:my_sage_agent/data/models/supervisor_collection_summary_model/collection_summary.dart';
+import 'package:my_sage_agent/data/models/supervisor_collection_summary_model/supervisor_collection_summary_model.dart';
 import 'package:my_sage_agent/ui/components/tab_header.dart';
 import 'package:my_sage_agent/ui/components/tab_header_2.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -48,23 +50,51 @@ class CollectionHeader extends StatelessWidget {
           ),
           BlocBuilder<RetrieveDataBloc, RetrieveDataState>(
             builder: (context, state) {
-              final List<CollectionModel> list =
-                  context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
+              final source = context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
+
+              SupervisorCollectionSummaryModel? list;
+              if (source is SupervisorCollectionSummaryModel) {
+                list = source;
+              }
+
               return SizedBox(
                 width: .maxFinite,
                 height: 55,
                 child: MyTabHeader2(
                   controller: filterBy,
-                  scrollable: false,
+                  scrollable: true,
                   tabItems: [
-                    TabItem(title: getTitle(list, '', 'All')),
                     TabItem(
-                      title: getTitle(list, FormsConst.mobileMoney.name, 'MoMo'),
-                      id: FormsConst.mobileMoney.name,
+                      title: getTitle(
+                        list?.cashAtHand ?? source,
+                        FormsConst.cashAtHand.id,
+                        FormsConst.cashAtHand.name,
+                      ),
+                      id: FormsConst.cashAtHand.id,
                     ),
                     TabItem(
-                      title: getTitle(list, FormsConst.cashDeposit.name, 'Cash'),
-                      id: FormsConst.cashDeposit.name,
+                      title: getTitle(
+                        list?.summaryDeposited ?? source,
+                        FormsConst.deposit.id,
+                        FormsConst.deposit.name,
+                      ),
+                      id: FormsConst.deposit.id,
+                    ),
+                    TabItem(
+                      title: getTitle(
+                        list?.summaryMomo ?? source,
+                        FormsConst.mobileMoney.id,
+                        FormsConst.mobileMoney.name,
+                      ),
+                      id: FormsConst.mobileMoney.id,
+                    ),
+                    TabItem(
+                      title: getTitle(
+                        list?.summaryCash ?? source,
+                        FormsConst.cash.id,
+                        FormsConst.cash.name,
+                      ),
+                      id: FormsConst.cash.id,
                     ),
                   ],
                 ),
@@ -76,7 +106,15 @@ class CollectionHeader extends StatelessWidget {
     );
   }
 
-  String getTitle(List<CollectionModel> list, String filter, title) {
+  String getTitle(dynamic list, String filter, title) {
+    if (list is List<CollectionSummary>) {
+      return getSupervisorTitle(list, title);
+    }
+
+    return getGeneralTitle(list, filter, title);
+  }
+
+  String getGeneralTitle(List<CollectionModel> list, String filter, title) {
     filter = filter.toLowerCase();
     final count = filter.isEmpty
         ? list.length
@@ -87,6 +125,18 @@ class CollectionHeader extends StatelessWidget {
 
             return item.agent?.collectionMode?.toLowerCase() == filter;
           }).length;
+
+    if (count > 100) {
+      return '$title ($count+)';
+    } else if (count > 0) {
+      return '$title ($count)';
+    }
+
+    return title;
+  }
+
+  String getSupervisorTitle(List<CollectionSummary> list, title) {
+    final count = list.length;
 
     if (count > 100) {
       return '$title ($count+)';
