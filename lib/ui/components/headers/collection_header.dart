@@ -55,7 +55,7 @@ class CollectionHeader extends StatelessWidget {
                   ? context
                         .read<RetrieveDataBloc>()
                         .data['RetrieveSupervisorCollectionSummaryEvent']
-                  : context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
+                  : (context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? []);
 
               var cashAtHand = source;
               var summaryDeposited = source;
