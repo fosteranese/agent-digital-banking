@@ -122,7 +122,7 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
         ),
         BlocListener<GeneralFlowBloc, GeneralFlowState>(
           listener: (context, state) {
-            if (state is RequestVerified && state.routeName == _id) {
+            if (state is RequestVerified && state.routeName == _id.value) {
               context.push(
                 ConfirmationFormPage.routeName,
                 extra: {
@@ -137,7 +137,7 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
               return;
             }
 
-            if (state is RequestProcessed && state.routeName == _id) {
+            if (state is RequestProcessed && state.routeName == _id.value) {
               return;
             }
           },

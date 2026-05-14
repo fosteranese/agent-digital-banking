@@ -25,6 +25,7 @@ import 'package:my_sage_agent/ui/pages/more/agent_profile.page.dart';
 import 'package:my_sage_agent/ui/pages/request/reversal_details.page.dart';
 import 'package:my_sage_agent/ui/pages/team/supervisor_agent_collections.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 enum SupervisorAgentListTypes { collections, reversals, activities, commissions }
 
@@ -65,7 +66,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
   void _loadCollectionsData() {
     context.read<RetrieveDataBloc>().add(
       RetrieveSupervisorAgentCollectionsEvent(
-        id: '',
+        id: Uuid().v4(),
         action: 'RetrieveSupervisorAgentCollectionsEvent',
         skipSavedData: true,
         agentCode: widget.agent.agentCode.toString(),
@@ -76,7 +77,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
   void _loadReversalsData() {
     context.read<RetrieveDataBloc>().add(
       RetrieveSupervisorAgentReversalsEvent(
-        id: '',
+        id: Uuid().v4(),
         action: 'RetrieveSupervisorAgentReversalsEvent',
         skipSavedData: true,
         agentCode: widget.agent.agentCode.toString(),
@@ -87,7 +88,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
   void _loadCommissionsData() {
     context.read<RetrieveDataBloc>().add(
       RetrieveSupervisorAgentCommissionsEvent(
-        id: '',
+        id: Uuid().v4(),
         action: 'RetrieveSupervisorAgentCommissionsEvent',
         skipSavedData: true,
         agentCode: widget.agent.agentCode.toString(),
@@ -98,7 +99,7 @@ class _AgentDetailsPageState extends State<AgentDetailsPage> {
   void _loadActivitiesData() {
     context.read<RetrieveDataBloc>().add(
       RetrieveSupervisorAgentActivitiesEvent(
-        id: '',
+        id: Uuid().v4(),
         action: 'RetrieveSupervisorAgentActivitiesEvent',
         skipSavedData: true,
         agentCode: widget.agent.agentCode.toString(),

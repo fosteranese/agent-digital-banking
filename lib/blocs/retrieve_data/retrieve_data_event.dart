@@ -135,6 +135,17 @@ class RetrieveCollectionEvent extends RetrieveDataEvent {
   List<Object?> get props => [id, action, skipSavedData];
 }
 
+class RetrieveSupervisorCollectionSummaryEvent extends RetrieveDataEvent {
+  const RetrieveSupervisorCollectionSummaryEvent({
+    required super.id,
+    required super.action,
+    required super.skipSavedData,
+  });
+
+  @override
+  List<Object?> get props => [id, action, skipSavedData];
+}
+
 class RetrieveCommissionsEvent extends RetrieveDataEvent {
   const RetrieveCommissionsEvent({
     required super.id,

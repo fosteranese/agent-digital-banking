@@ -11,6 +11,8 @@ class InitializationResponse {
   Social1? social;
   List<Advert>? adverts;
   List<KeyValueModel>? regions;
+  List<KeyValueModel>? occupations;
+  List<KeyValueModel>? sectors;
   String? imageBaseUrl;
   String? imageDirectory;
 
@@ -25,6 +27,8 @@ class InitializationResponse {
     this.social,
     this.adverts,
     this.regions,
+    this.occupations,
+    this.sectors,
     this.imageBaseUrl,
     this.imageDirectory,
   });
@@ -73,6 +77,26 @@ class InitializationResponse {
               return KeyValueModel.fromMap(e);
             }).toList();
     }
+    if (json["occupations"] is List) {
+      occupations = json["occupations"] == null
+          ? null
+          : (json["occupations"] as List).map((e) {
+              if (e is String) {
+                return KeyValueModel.fromJson(e);
+              }
+              return KeyValueModel.fromMap(e);
+            }).toList();
+    }
+    if (json["sectors"] is List) {
+      sectors = json["sectors"] == null
+          ? null
+          : (json["sectors"] as List).map((e) {
+              if (e is String) {
+                return KeyValueModel.fromJson(e);
+              }
+              return KeyValueModel.fromMap(e);
+            }).toList();
+    }
     if (json["imageBaseUrl"] is String) {
       imageBaseUrl = json["imageBaseUrl"];
     }
@@ -107,6 +131,12 @@ class InitializationResponse {
     if (regions != null) {
       data["regions"] = regions?.map((e) => e.toJson()).toList();
     }
+    if (occupations != null) {
+      data["occupations"] = regions?.map((e) => e.toJson()).toList();
+    }
+    if (sectors != null) {
+      data["sectors"] = regions?.map((e) => e.toJson()).toList();
+    }
     data["imageBaseUrl"] = imageBaseUrl;
     data["imageDirectory"] = imageDirectory;
     return data;
@@ -123,6 +153,8 @@ class InitializationResponse {
     Social1? social,
     List<Advert>? adverts,
     List<KeyValueModel>? regions,
+    List<KeyValueModel>? occupations,
+    List<KeyValueModel>? sectors,
     String? imageBaseUrl,
     String? imageDirectory,
   }) {
@@ -137,6 +169,8 @@ class InitializationResponse {
       social: social ?? this.social,
       adverts: adverts ?? this.adverts,
       regions: regions ?? this.regions,
+      occupations: occupations ?? this.occupations,
+      sectors: sectors ?? this.sectors,
       imageBaseUrl: imageBaseUrl ?? this.imageBaseUrl,
       imageDirectory: imageDirectory ?? this.imageDirectory,
     );

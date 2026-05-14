@@ -8,6 +8,7 @@ import 'package:my_sage_agent/data/models/supervisor_collection_summary_model/co
 import 'package:my_sage_agent/data/models/supervisor_collection_summary_model/supervisor_collection_summary_model.dart';
 import 'package:my_sage_agent/ui/components/tab_header.dart';
 import 'package:my_sage_agent/ui/components/tab_header_2.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class CollectionHeader extends StatelessWidget {
@@ -50,11 +51,21 @@ class CollectionHeader extends StatelessWidget {
           ),
           BlocBuilder<RetrieveDataBloc, RetrieveDataState>(
             builder: (context, state) {
-              final source = context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
+              final source = AppUtil.currentUser?.userType == 'SUPERVISOR'
+                  ? context
+                        .read<RetrieveDataBloc>()
+                        .data['RetrieveSupervisorCollectionSummaryEvent']
+                  : context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
 
-              SupervisorCollectionSummaryModel? list;
+              var cashAtHand = source;
+              var summaryDeposited = source;
+              var summaryMomo = source;
+              var summaryCash = source;
               if (source is SupervisorCollectionSummaryModel) {
-                list = source;
+                cashAtHand = source.cashAtHand;
+                summaryDeposited = source.summaryDeposited;
+                summaryMomo = source.summaryMomo;
+                summaryCash = source.summaryCash;
               }
 
               return SizedBox(
@@ -66,7 +77,7 @@ class CollectionHeader extends StatelessWidget {
                   tabItems: [
                     TabItem(
                       title: getTitle(
-                        list?.cashAtHand ?? source,
+                        cashAtHand,
                         FormsConst.cashAtHand.id,
                         FormsConst.cashAtHand.name,
                       ),
@@ -74,7 +85,7 @@ class CollectionHeader extends StatelessWidget {
                     ),
                     TabItem(
                       title: getTitle(
-                        list?.summaryDeposited ?? source,
+                        summaryDeposited,
                         FormsConst.deposit.id,
                         FormsConst.deposit.name,
                       ),
@@ -82,18 +93,14 @@ class CollectionHeader extends StatelessWidget {
                     ),
                     TabItem(
                       title: getTitle(
-                        list?.summaryMomo ?? source,
+                        summaryMomo,
                         FormsConst.mobileMoney.id,
                         FormsConst.mobileMoney.name,
                       ),
                       id: FormsConst.mobileMoney.id,
                     ),
                     TabItem(
-                      title: getTitle(
-                        list?.summaryCash ?? source,
-                        FormsConst.cash.id,
-                        FormsConst.cash.name,
-                      ),
+                      title: getTitle(summaryCash, FormsConst.cash.id, FormsConst.cash.name),
                       id: FormsConst.cash.id,
                     ),
                   ],
@@ -107,8 +114,8 @@ class CollectionHeader extends StatelessWidget {
   }
 
   String getTitle(dynamic list, String filter, title) {
-    if (list is List<CollectionSummary>) {
-      return getSupervisorTitle(list, title);
+    if (AppUtil.currentUser?.userType == 'SUPERVISOR') {
+      return getSupervisorTitle(list ?? [], title);
     }
 
     return getGeneralTitle(list, filter, title);

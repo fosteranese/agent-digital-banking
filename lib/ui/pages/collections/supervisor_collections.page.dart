@@ -34,7 +34,7 @@ class _SupervisorCollectionsPageState extends State<SupervisorCollectionsPage> {
 
   @override
   void initState() {
-    _sourceList = context.read<RetrieveDataBloc>().data['RetrieveCollectionEvent'] ?? [];
+    _sourceList = context.read<RetrieveDataBloc>().data['RetrieveSupervisorCollectionSummaryEvent'];
 
     _fToast.init(context);
     super.initState();
@@ -76,9 +76,9 @@ class _SupervisorCollectionsPageState extends State<SupervisorCollectionsPage> {
       backgroundColor: Colors.white,
       onRefresh: () async {
         context.read<RetrieveDataBloc>().add(
-          RetrieveCollectionEvent(
+          RetrieveSupervisorCollectionSummaryEvent(
             id: Uuid().v4(),
-            action: 'RetrieveCollectionEvent',
+            action: 'RetrieveSupervisorCollectionSummaryEvent',
             skipSavedData: true,
           ),
         );
@@ -116,7 +116,8 @@ class _SupervisorCollectionsPageState extends State<SupervisorCollectionsPage> {
         ),
         BlocConsumer<RetrieveDataBloc, RetrieveDataState>(
           listener: (context, state) => _handleBlocListener(state),
-          buildWhen: (previous, current) => current.event is RetrieveCollectionEvent,
+          buildWhen: (previous, current) =>
+              current.event is RetrieveSupervisorCollectionSummaryEvent,
           builder: (context, state) {
             if (_list.isEmpty && state is RetrievingData) {
               return const HistoryShimmerList();
@@ -154,7 +155,7 @@ class _SupervisorCollectionsPageState extends State<SupervisorCollectionsPage> {
   }
 
   void _handleBlocListener(RetrieveDataState state) {
-    if (state.event is! RetrieveCollectionEvent) {
+    if (state.event is! RetrieveSupervisorCollectionSummaryEvent) {
       return;
     }
 

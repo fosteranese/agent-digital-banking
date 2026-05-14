@@ -92,11 +92,8 @@ class RegisterClientStep1 extends StatelessWidget {
               label: 'Occupation *',
               title: 'Select occupation',
               options:
-                  AppUtil.currentUser?.occupations
-                      ?.map(
-                        (item) =>
-                            FormSelectOption(value: item.lovValue ?? 'N/A', text: item.lovTitle),
-                      )
+                  AppUtil.data.occupations
+                      ?.map((item) => FormSelectOption(value: item.key ?? 'N/A', text: item.value))
                       .toList() ??
                   [],
             ),
@@ -105,11 +102,8 @@ class RegisterClientStep1 extends StatelessWidget {
               label: 'Sector *',
               title: 'Select sector',
               options:
-                  AppUtil.currentUser?.sectors
-                      ?.map(
-                        (item) =>
-                            FormSelectOption(value: item.lovValue ?? 'N/A', text: item.lovTitle),
-                      )
+                  AppUtil.data.sectors
+                      ?.map((item) => FormSelectOption(value: item.key ?? 'N/A', text: item.value))
                       .toList() ??
                   [],
             ),

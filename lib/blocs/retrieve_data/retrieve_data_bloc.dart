@@ -42,6 +42,7 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     on(_onRetrieveEnquiry);
     on(_onRetrieveActivities);
     on(_onRetrieveCollection);
+    on(_onRetrieveSupervisorCollectionSummary);
     on(_onRetrieveCommissions);
     on(_onRetrieveTeamMembers);
     on(_onRetrieveReversals);
@@ -339,15 +340,31 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       event: event,
       emit: emit,
       retrieveFunc: () async {
-        return AppUtil.currentUser?.userType == 'SUPERVISOR'
-            ? await historyRepo.loadSupervisorCollections()
-            : await historyRepo.loadCollections();
+        return await historyRepo.loadCollections();
       },
       saveCurrent: true,
       getStoredFunc: () async {
-        return AppUtil.currentUser?.userType == 'SUPERVISOR'
-            ? await historyRepo.getStoredSupervisorCollections()
-            : await historyRepo.getStoredCollections();
+        return await historyRepo.getStoredCollections();
+      },
+      storeFunc: (data) async {
+        // await repo.saveWallets(data);
+      },
+    );
+  }
+
+  Future<void> _onRetrieveSupervisorCollectionSummary(
+    RetrieveSupervisorCollectionSummaryEvent event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        return await historyRepo.loadSupervisorCollections();
+      },
+      saveCurrent: true,
+      getStoredFunc: () async {
+        return await historyRepo.getStoredSupervisorCollections();
       },
       storeFunc: (data) async {
         // await repo.saveWallets(data);
