@@ -43,6 +43,7 @@ class FormInput extends StatelessWidget {
     this.tooltip,
     this.maxLines,
     this.minLines,
+    this.onTap,
   });
 
   final String label;
@@ -82,11 +83,14 @@ class FormInput extends StatelessWidget {
   final String? tooltip;
   final int? minLines;
   final int? maxLines;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final currentColor = readOnly ? Colors.blueGrey.shade100 : color;
+    // final currentColor = readOnly ? Colors.blueGrey.shade100 : color;
+    final currentColor = color;
     return BaseFormInput(
+      onTap: onTap,
       bottomSpace: bottomSpace,
       controller: controller,
       inputFormatters: inputFormatters,

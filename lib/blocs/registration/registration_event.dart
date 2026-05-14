@@ -17,6 +17,8 @@ class SavePersonalInfo extends RegistrationEvent {
     required this.emailAddress,
     required this.cardNumber,
     required this.maritalStatus,
+    required this.occupation,
+    required this.sector,
   });
 
   final String id;
@@ -27,6 +29,8 @@ class SavePersonalInfo extends RegistrationEvent {
   final String emailAddress;
   final String cardNumber;
   final String maritalStatus;
+  final String occupation;
+  final String sector;
 
   @override
   List<Object> get props => [
@@ -38,6 +42,8 @@ class SavePersonalInfo extends RegistrationEvent {
     emailAddress,
     cardNumber,
     maritalStatus,
+    occupation,
+    sector,
   ];
 }
 
@@ -45,7 +51,7 @@ class SaveResidentialAddress extends RegistrationEvent {
   const SaveResidentialAddress({
     required this.id,
     required this.address1,
-    this.address2,
+    required this.location,
     required this.region,
     required this.cityOrTown,
     required this.emergencyContact,
@@ -55,7 +61,7 @@ class SaveResidentialAddress extends RegistrationEvent {
 
   final String id;
   final String address1;
-  final String? address2;
+  final PlaceAutocomplete location;
   final String region;
   final String cityOrTown;
   final String emergencyContact;
@@ -67,7 +73,7 @@ class SaveResidentialAddress extends RegistrationEvent {
   List<Object?> get props => [
     id,
     address1,
-    address2,
+    location,
     region,
     cityOrTown,
     emergencyContact,
@@ -98,18 +104,11 @@ class ManualVerification extends RegistrationEvent {
 }
 
 class SaveNextOfKinInfoEvent extends RegistrationEvent {
-  const SaveNextOfKinInfoEvent({
-    required this.id,
-    required this.fullName,
-    required this.phoneNumber,
-    required this.emailAddress,
-  });
+  const SaveNextOfKinInfoEvent({required this.id, required this.list});
 
   final String id;
-  final String fullName;
-  final String phoneNumber;
-  final String emailAddress;
+  final List<NextOfKinModel> list;
 
   @override
-  List<Object> get props => [id, fullName, phoneNumber, emailAddress];
+  List<Object> get props => [id, list];
 }

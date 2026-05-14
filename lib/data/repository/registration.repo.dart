@@ -1,6 +1,8 @@
 import 'dart:core';
 
 import 'package:my_sage_agent/constants/status.const.dart';
+import 'package:my_sage_agent/data/models/next_of_kin_model.dart';
+import 'package:my_sage_agent/data/models/place_autocomplete.modal.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/remote/main.remote.dart';
 
@@ -15,6 +17,8 @@ class RegistrationRepo {
     required String emailAddress,
     required String cardNumber,
     required String maritalStatus,
+    required String occupation,
+    required String sector,
   }) async {
     final response = await _fbl.post(
       path: 'FieldExecutive/initiateAccountOpening',
@@ -26,6 +30,8 @@ class RegistrationRepo {
         'email': emailAddress,
         'cardNumber': cardNumber,
         'maritalStatus': maritalStatus,
+        'occupation': occupation,
+        'sector': sector,
       },
       isAuthenticated: true,
     );
@@ -39,7 +45,7 @@ class RegistrationRepo {
 
   Future<String> saveResidentialAddress({
     required String address1,
-    required String? address2,
+    required PlaceAutocomplete location,
     required String cityOrTown,
     required String region,
     required String token,
@@ -52,7 +58,10 @@ class RegistrationRepo {
       body: {
         'id': token,
         'address1': address1,
-        'address2': address2,
+        'location': location.description,
+        'placeId': location.placeId,
+        'latitude': location.location?.latitude,
+        'longitude': location.location?.longitude,
         'region': region,
         'cityOrTown': cityOrTown,
         'emergencyContact': emergencyContact,
@@ -103,13 +112,21 @@ class RegistrationRepo {
 
   Future<String> saveNextOfKinInfo({
     required String token,
-    required String fullName,
-    required String phoneNumber,
-    required String emailAddress,
+    required List<NextOfKinModel> list,
   }) async {
     final response = await _fbl.post(
       path: 'FieldExecutive/AccountOpeningNextOfKin',
-      body: {'id': token, 'fullName': fullName, 'phoneNumber': phoneNumber, 'email': emailAddress},
+      body: {
+        'id': token,
+        'kins': list.map((item) {
+          return {
+            'id': item.id,
+            'fullName': item.fullName,
+            'phoneNumber': item.phoneNumber,
+            'emailAddress': item.emailAddress,
+          };
+        }).toList(),
+      },
       isAuthenticated: true,
     );
 

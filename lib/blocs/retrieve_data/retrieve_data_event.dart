@@ -263,3 +263,44 @@ class RetrieveSupervisorAgentCommissionsEvent extends RetrieveDataEvent {
   @override
   List<Object?> get props => [id, action, skipSavedData, agentCode, startDate, endDate];
 }
+
+final class RetrieveLocationFromLatLng extends RetrieveDataEvent {
+  const RetrieveLocationFromLatLng({
+    super.action,
+    required super.id,
+    required this.latitude,
+    required this.longitude,
+  });
+
+  final double latitude;
+  final double longitude;
+
+  @override
+  List<Object?> get props => [id, action, latitude, longitude];
+}
+
+final class RetrievePlaces extends RetrieveDataEvent {
+  const RetrievePlaces({
+    super.action,
+    required super.id,
+    required this.latitude,
+    required this.longitude,
+    required this.search,
+  });
+
+  final double latitude;
+  final double longitude;
+  final String search;
+
+  @override
+  List<Object?> get props => [id, action, latitude, longitude, search];
+}
+
+final class RetrievePlaceDetails extends RetrieveDataEvent {
+  const RetrievePlaceDetails({super.action, required super.id, required this.placeId});
+
+  final String placeId;
+
+  @override
+  List<Object?> get props => [id, action, placeId];
+}

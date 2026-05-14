@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:my_sage_agent/data/models/agent_data/agent_data.dart';
+import 'package:my_sage_agent/data/models/collection/lov.dart';
 import 'package:my_sage_agent/data/models/supervisor_data.dart';
 
 import '../account/account.dart';
@@ -28,6 +29,8 @@ class UserResponse extends Equatable {
   final String? profilePicture;
   final AgentData? agentData;
   final SupervisorData? supervisorData;
+  final List<Lov>? occupations;
+  final List<Lov>? sectors;
 
   const UserResponse({
     this.userType,
@@ -44,6 +47,8 @@ class UserResponse extends Equatable {
     this.profilePicture,
     this.agentData,
     this.supervisorData,
+    this.occupations,
+    this.sectors,
   });
 
   factory UserResponse.fromMap(Map<String, dynamic> data) => UserResponse(
@@ -80,6 +85,16 @@ class UserResponse extends Equatable {
         : (data['supervisorData'] is String
               ? SupervisorData.fromJson(data['supervisorData'])
               : SupervisorData.fromMap(data['supervisorData'] as Map<String, dynamic>)),
+    occupations:
+        (data['occupations'] as List<dynamic>?)
+            ?.map((e) => Lov.fromMap(e as Map<String, dynamic>))
+            .toList() ??
+        [Lov(lovTitle: 'Miscellaneous', lovValue: 'miscellaneous')],
+    sectors:
+        (data['sectors'] as List<dynamic>?)
+            ?.map((e) => Lov.fromMap(e as Map<String, dynamic>))
+            .toList() ??
+        [Lov(lovTitle: 'General', lovValue: 'general')],
   );
 
   Map<String, dynamic> toMap() => {
@@ -96,6 +111,8 @@ class UserResponse extends Equatable {
     'imageDirectory': imageDirectory,
     'profilePicture': profilePicture,
     'agentData': agentData,
+    'occupations': occupations?.map((e) => e.toMap()).toList(),
+    'sectors': sectors?.map((e) => e.toMap()).toList(),
   };
 
   /// `dart:convert`
@@ -125,6 +142,8 @@ class UserResponse extends Equatable {
     String? profilePicture,
     AgentData? agentData,
     SupervisorData? supervisorData,
+    List<Lov>? occupations,
+    List<Lov>? sectors,
   }) {
     return UserResponse(
       userType: userType ?? this.userType,
@@ -141,6 +160,8 @@ class UserResponse extends Equatable {
       profilePicture: profilePicture ?? this.profilePicture,
       agentData: agentData ?? this.agentData,
       supervisorData: supervisorData ?? this.supervisorData,
+      occupations: occupations ?? this.occupations,
+      sectors: sectors ?? this.sectors,
     );
   }
 
@@ -163,6 +184,8 @@ class UserResponse extends Equatable {
       imageDirectory,
       profilePicture,
       agentData,
+      occupations,
+      sectors,
     ];
   }
 }

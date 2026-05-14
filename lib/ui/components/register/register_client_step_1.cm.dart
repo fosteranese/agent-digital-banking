@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:my_sage_agent/ui/components/form/ghana_card_input.dart';
 import 'package:my_sage_agent/ui/components/form/input.dart';
 import 'package:my_sage_agent/ui/components/form/select.dart';
+import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class RegisterClientStep1 extends StatelessWidget {
@@ -15,6 +16,8 @@ class RegisterClientStep1 extends StatelessWidget {
     required this.emailAddress,
     required this.cardNumber,
     required this.maritalStatus,
+    required this.occupation,
+    required this.sector,
   });
   final TextEditingController firstName;
   final TextEditingController lastName;
@@ -23,6 +26,8 @@ class RegisterClientStep1 extends StatelessWidget {
   final TextEditingController emailAddress;
   final TextEditingController cardNumber;
   final TextEditingController maritalStatus;
+  final TextEditingController occupation;
+  final TextEditingController sector;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +86,32 @@ class RegisterClientStep1 extends StatelessWidget {
                 FormSelectOption(value: 'widowed', text: 'Widowed'),
                 FormSelectOption(value: 'unknown', text: 'Unknown'),
               ],
+            ),
+            FormSelect(
+              controller: occupation,
+              label: 'Occupation *',
+              title: 'Select occupation',
+              options:
+                  AppUtil.currentUser?.occupations
+                      ?.map(
+                        (item) =>
+                            FormSelectOption(value: item.lovValue ?? 'N/A', text: item.lovTitle),
+                      )
+                      .toList() ??
+                  [],
+            ),
+            FormSelect(
+              controller: sector,
+              label: 'Sector *',
+              title: 'Select sector',
+              options:
+                  AppUtil.currentUser?.sectors
+                      ?.map(
+                        (item) =>
+                            FormSelectOption(value: item.lovValue ?? 'N/A', text: item.lovTitle),
+                      )
+                      .toList() ??
+                  [],
             ),
           ],
         ),

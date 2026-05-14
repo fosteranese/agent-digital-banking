@@ -29,6 +29,7 @@ import 'package:my_sage_agent/blocs/setup/setup_bloc.dart';
 import 'package:my_sage_agent/data/database/db.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
+import 'package:my_sage_agent/data/repository/google_map.repo.dart';
 import 'package:my_sage_agent/data/repository/history.repo.dart';
 import 'package:my_sage_agent/data/repository/payment.repo.dart';
 import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
@@ -107,6 +108,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(create: (_) => HistoryRepo()),
         RepositoryProvider(create: (_) => TeamRepo()),
         RepositoryProvider(create: (_) => ReversalRepo()),
+        RepositoryProvider(create: (_) => GoogleMapRepo()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -124,6 +126,7 @@ class _MyAppState extends State<MyApp> {
               historyRepo: context.read<HistoryRepo>(),
               teamRepo: context.read<TeamRepo>(),
               reversalRepo: context.read<ReversalRepo>(),
+              mapRepo: context.read<GoogleMapRepo>(),
             ),
           ),
           BlocProvider(create: (context) => AccountBloc()),

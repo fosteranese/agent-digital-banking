@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_sage_agent/data/models/place_autocomplete.modal.dart';
 import 'package:my_sage_agent/ui/components/form/input.dart';
+import 'package:my_sage_agent/ui/components/form/location_picker.dart';
 import 'package:my_sage_agent/ui/components/form/select.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -15,6 +17,7 @@ class RegisterClientStep2 extends StatelessWidget {
     required this.emergencyContact,
     required this.withdrawalOption,
     required this.transactionNotification,
+    required this.location,
   });
 
   final TextEditingController address1;
@@ -24,6 +27,7 @@ class RegisterClientStep2 extends StatelessWidget {
   final TextEditingController emergencyContact;
   final TextEditingController withdrawalOption;
   final TextEditingController transactionNotification;
+  final ValueNotifier<PlaceAutocomplete?> location;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +46,13 @@ class RegisterClientStep2 extends StatelessWidget {
             const SizedBox(height: 30),
 
             FormInput(label: 'Address Line 1 *', controller: address1),
-
-            FormInput(label: 'Address Line 2', controller: address2),
+            LocationPicker(
+              label: 'Business GPS *',
+              controller: address2,
+              onSelected: (loc) {
+                location.value = loc;
+              },
+            ),
 
             FormSelect(
               label: 'Region *',

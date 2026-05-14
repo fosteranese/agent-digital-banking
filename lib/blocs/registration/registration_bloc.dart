@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:my_sage_agent/data/models/next_of_kin_model.dart';
+import 'package:my_sage_agent/data/models/place_autocomplete.modal.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/repository/registration.repo.dart';
 import 'package:my_sage_agent/utils/response.util.dart';
@@ -34,6 +36,8 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         emailAddress: event.emailAddress,
         cardNumber: event.cardNumber,
         maritalStatus: event.maritalStatus,
+        occupation: event.occupation,
+        sector: event.sector,
       );
       personalInfoToken = result;
 
@@ -53,7 +57,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
       final result = await _repo.saveResidentialAddress(
         token: personalInfoToken!,
         address1: event.address1,
-        address2: event.address2,
+        location: event.location,
         region: event.region,
         cityOrTown: event.cityOrTown,
         emergencyContact: event.emergencyContact,
@@ -108,9 +112,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
 
       final result = await _repo.saveNextOfKinInfo(
         token: residentialAddressToken!,
-        fullName: event.fullName,
-        phoneNumber: event.phoneNumber,
-        emailAddress: event.emailAddress,
+        list: event.list,
       );
       nextOfKinInfoToken = result;
 

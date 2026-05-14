@@ -713,3 +713,85 @@ class SummaryExtraTile extends StatelessWidget {
     );
   }
 }
+
+class KinTile extends StatelessWidget {
+  const KinTile({
+    super.key,
+    required this.name,
+    required this.phoneNumber,
+    required this.onEdit,
+    required this.onDelete,
+    this.allBold = false,
+    this.verticalPadding = 10,
+    this.margin = 10,
+  });
+
+  final String name;
+  final String phoneNumber;
+  final bool allBold;
+  final double verticalPadding;
+  final double margin;
+  final void Function()? onEdit;
+  final void Function()? onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: .only(bottom: margin),
+      padding: .all(verticalPadding),
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: .circular(8),
+        border: .all(color: ThemeUtil.border),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisSize: .min,
+              mainAxisAlignment: .start,
+              crossAxisAlignment: .start,
+              children: [
+                Text(
+                  name,
+                  textAlign: .right,
+                  style: PrimaryTextStyle(fontSize: 16, fontWeight: allBold ? .bold : .w500),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  phoneNumber,
+                  textAlign: .left,
+                  style: PrimaryTextStyle(color: ThemeUtil.flat, fontSize: 14, fontWeight: .normal),
+                ),
+              ],
+            ),
+          ),
+          IconButton.outlined(
+            onPressed: onEdit,
+            color: ThemeUtil.flat,
+            iconSize: 18,
+            style: IconButton.styleFrom(
+              side: BorderSide(color: ThemeUtil.fade, width: 1),
+              minimumSize: Size(20, 20),
+              tapTargetSize: .shrinkWrap,
+            ),
+            icon: Icon(Icons.edit_outlined),
+          ),
+          const SizedBox(width: 5),
+          IconButton.outlined(
+            onPressed: onDelete,
+            color: ThemeUtil.danger500,
+            iconSize: 18,
+            style: IconButton.styleFrom(
+              side: BorderSide(color: ThemeUtil.danger200, width: 1),
+              minimumSize: Size(20, 20),
+              tapTargetSize: .shrinkWrap,
+            ),
+            icon: Icon(Icons.delete_outline),
+          ),
+        ],
+      ),
+    );
+  }
+}

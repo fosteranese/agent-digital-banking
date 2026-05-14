@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_sage_agent/data/models/next_of_kin_model.dart';
+import 'package:my_sage_agent/data/models/place_autocomplete.modal.dart';
 import 'package:my_sage_agent/ui/components/register/register_client_step_3.cm.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:string_validator/string_validator.dart';
@@ -44,19 +46,25 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   final emailAddressController = TextEditingController();
   final cardNumberController = TextEditingController();
   final maritalStatusController = TextEditingController();
-  final emergencyContactController = TextEditingController();
+  final occupationController = TextEditingController();
+  final sectorController = TextEditingController();
 
   final address1Controller = TextEditingController();
   final address2Controller = TextEditingController();
   final regionController = TextEditingController();
   final cityOrTownController = TextEditingController();
+  final emergencyContactController = TextEditingController();
 
   final transactionNotificationController = TextEditingController();
   final withdrawalOptionController = TextEditingController();
+  final locationNotifier = ValueNotifier<PlaceAutocomplete?>(null);
 
+  final kinIdController = TextEditingController();
   final kinFullNameController = TextEditingController();
   final kinPhoneNumberController = TextEditingController();
   final kinEmailAddressController = TextEditingController();
+  final operationNotifier = ValueNotifier(NextOfKinOperation.list);
+  final listOfKinsNotifier = ValueNotifier<List<NextOfKinModel>>([]);
 
   final _isCameraAvailable = ValueNotifier(true);
 
@@ -185,6 +193,8 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                             phoneNumber: phoneNumberController,
                             cardNumber: cardNumberController,
                             maritalStatus: maritalStatusController,
+                            occupation: occupationController,
+                            sector: sectorController,
                           ),
                           RegisterClientStep2(
                             address1: address1Controller,
@@ -194,11 +204,15 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                             emergencyContact: emergencyContactController,
                             transactionNotification: transactionNotificationController,
                             withdrawalOption: withdrawalOptionController,
+                            location: locationNotifier,
                           ),
                           RegisterClientStep3(
+                            kinId: kinIdController,
                             kinFullName: kinFullNameController,
                             kinPhoneNumber: kinPhoneNumberController,
                             kinEmailAddress: kinEmailAddressController,
+                            operationNotifier: operationNotifier,
+                            listOfKinsNotifier: listOfKinsNotifier,
                           ),
                           RegisterClientStep4(
                             isCameraAvailable: _isCameraAvailable,
@@ -464,6 +478,26 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
+    final occupation = occupationController.text.trim();
+    if (occupation.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Occupation is required.\nEnter the occupation to proceed.',
+      );
+      return;
+    }
+
+    final sector = sectorController.text.trim();
+    if (sector.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Sector is required.\nEnter the sector to proceed.',
+      );
+      return;
+    }
+
     _registrationBloc.add(
       SavePersonalInfo(
         id: Uuid().v4(),
@@ -474,6 +508,8 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         emailAddress: emailAddress,
         cardNumber: cardNumber,
         maritalStatus: maritalStatus,
+        occupation: occupation,
+        sector: sector,
       ),
     );
   }
@@ -485,6 +521,15 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         context,
         title: 'Validation Failed',
         message: 'Address Line 1 is required.\nEnter Address Line 1 to proceed.',
+      );
+      return;
+    }
+    final address2 = address2Controller.text.trim();
+    if (address2.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Business GPS is required.\nEnter Business GPS to proceed.',
       );
       return;
     }
@@ -545,7 +590,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       SaveResidentialAddress(
         id: Uuid().v4(),
         address1: address1,
-        address2: address2Controller.text,
+        location: locationNotifier.value!,
         region: region,
         cityOrTown: cityOrTown,
         emergencyContact: emergencyContact,
@@ -556,6 +601,22 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   }
 
   void _saveNextOfKin(BuildContext context) {
+    if (operationNotifier.value == NextOfKinOperation.list) {
+      if (listOfKinsNotifier.value.isEmpty) {
+        MessageUtil.displayErrorDialog(
+          context,
+          title: 'Validation Failed',
+          message: 'No Next of KIN added.\nAdd a Next of KIN to proceed.',
+        );
+        return;
+      }
+
+      _registrationBloc.add(
+        SaveNextOfKinInfoEvent(id: Uuid().v4(), list: listOfKinsNotifier.value),
+      );
+      return;
+    }
+
     final fullName = kinFullNameController.text.trim();
     if (fullName.isEmpty) {
       MessageUtil.displayErrorDialog(
@@ -589,7 +650,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
-    final emailAddress = emailAddressController.text.trim();
+    final emailAddress = kinEmailAddressController.text.trim();
     if (emailAddress.isNotEmpty && !emailAddress.isEmail) {
       MessageUtil.displayErrorDialog(
         context,
@@ -599,14 +660,31 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
-    _registrationBloc.add(
-      SaveNextOfKinInfoEvent(
-        id: Uuid().v4(),
-        fullName: kinFullNameController.text,
-        phoneNumber: kinPhoneNumberController.text,
-        emailAddress: kinEmailAddressController.text,
-      ),
-    );
+    if (operationNotifier.value == NextOfKinOperation.edit) {
+      listOfKinsNotifier.value = listOfKinsNotifier.value.map((item) {
+        if (item.id == kinIdController.text) {
+          return NextOfKinModel(
+            id: item.id,
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+            emailAddress: emailAddress,
+          );
+        }
+        return item;
+      }).toList();
+    } else {
+      listOfKinsNotifier.value = [
+        ...listOfKinsNotifier.value,
+        NextOfKinModel(
+          id: Uuid().v4(),
+          fullName: fullName,
+          phoneNumber: phoneNumber,
+          emailAddress: emailAddress,
+        ),
+      ];
+    }
+
+    operationNotifier.value = NextOfKinOperation.list;
   }
 
   @override
@@ -621,12 +699,14 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     emailAddressController.dispose();
     cardNumberController.dispose();
     maritalStatusController.dispose();
-    emergencyContactController.dispose();
+    occupationController.dispose();
+    sectorController.dispose();
 
     address1Controller.dispose();
     address2Controller.dispose();
     regionController.dispose();
     cityOrTownController.dispose();
+    emergencyContactController.dispose();
 
     transactionNotificationController.dispose();
     withdrawalOptionController.dispose();
@@ -634,7 +714,11 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     kinFullNameController.dispose();
     kinPhoneNumberController.dispose();
     kinEmailAddressController.dispose();
+    kinIdController.dispose();
+    listOfKinsNotifier.dispose();
+    operationNotifier.dispose();
 
+    _isCameraAvailable.dispose();
     _registrationBloc.close();
     super.dispose();
   }

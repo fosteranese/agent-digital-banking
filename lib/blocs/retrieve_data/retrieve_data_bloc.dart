@@ -9,6 +9,7 @@ import 'package:my_sage_agent/data/models/history/activity.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
+import 'package:my_sage_agent/data/repository/google_map.repo.dart';
 import 'package:my_sage_agent/data/repository/history.repo.dart';
 import 'package:my_sage_agent/data/repository/payment.repo.dart';
 import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
@@ -28,7 +29,12 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
     required this.historyRepo,
     required this.teamRepo,
     required this.reversalRepo,
+    required this.mapRepo,
   }) : super(RetrieveDataInitial(id: '', action: '')) {
+    on(_onRetrieveLocationFromLatLng);
+    on(_onRetrievePlaces);
+    on(_onRetrievePlaceDetails);
+
     on(_onRetrieveCategories);
     on(_onRetrievePaymentCategories);
     on(_onRetrieveForm);
@@ -54,6 +60,7 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
   final HistoryRepo historyRepo;
   final TeamRepo teamRepo;
   final ReversalRepo reversalRepo;
+  final GoogleMapRepo mapRepo;
 
   Future<void> _onRetrieveData<T>({
     required RetrieveDataEvent event,
@@ -539,6 +546,57 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
         return [];
       },
       storeFunc: (data) async {},
+    );
+  }
+
+  Future<void> _onRetrieveLocationFromLatLng(
+    RetrieveLocationFromLatLng event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        final result = await mapRepo.getLocationFromLatLng(
+          latitude: event.latitude,
+          longitude: event.longitude,
+        );
+        return result.data;
+      },
+      storeFunc: null,
+      getStoredFunc: null,
+      saveCurrent: false,
+    );
+  }
+
+  Future<void> _onRetrievePlaces(RetrievePlaces event, Emitter<RetrieveDataState> emit) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        final result = await mapRepo.getPlaces(
+          latitude: event.latitude,
+          longitude: event.longitude,
+          search: event.search,
+        );
+        return result.data;
+      },
+      saveCurrent: false,
+    );
+  }
+
+  Future<void> _onRetrievePlaceDetails(
+    RetrievePlaceDetails event,
+    Emitter<RetrieveDataState> emit,
+  ) async {
+    await _onRetrieveData(
+      event: event,
+      emit: emit,
+      retrieveFunc: () async {
+        final result = await mapRepo.getPlaceDetails(event.placeId);
+        return result.data;
+      },
+      saveCurrent: false,
     );
   }
 }
