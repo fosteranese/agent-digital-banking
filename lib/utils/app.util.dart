@@ -29,7 +29,6 @@ import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/user_response/user_response.dart';
 import 'package:my_sage_agent/data/repository/auth.repo.dart';
 import 'package:my_sage_agent/env/env.dart';
-import 'package:my_sage_agent/firebase_options.bak.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
