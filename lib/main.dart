@@ -10,6 +10,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
+import 'package:my_sage_agent/config/app_navigation_listener.dart';
 import 'package:my_sage_agent/config/app_providers.dart';
 import 'package:my_sage_agent/config/app_theme.dart';
 import 'package:my_sage_agent/data/database/db.dart';
@@ -17,11 +18,7 @@ import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/router/app_router.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
-import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
-import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
-import 'package:my_sage_agent/ui/pages/update.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
-import 'package:uuid/uuid.dart';
 
 void main() {
   runZonedGuarded(
@@ -119,70 +116,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget _buildApp(BuildContext context, Widget? child) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<AppBloc, AppState>(
-          listener: (context, state) {
-            MyApp.routerRefreshNotifier.value = Uuid().v4();
-
-            if (_threadDetected || state is AppError) {
-              final error = state is AppError ? state.result : _error;
-              MyApp.navigatorKey.currentContext!.go(AppErrorPage.routeName, extra: error);
-
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            context.read<BiometricBloc>().add(const RetrieveBiometricSettings());
-
-            if (state is NewDevice) {
-              MyApp.navigatorKey.currentContext!.go(NewDeviceLoginPage.routeName);
-
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            if (state is UserExistOnDevice) {
-              MyApp.navigatorKey.currentContext!.go(ExistingDeviceLoginPage.routeName, extra: true);
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            if (state is ExistingDevice) {
-              MyApp.navigatorKey.currentContext!.go(NewDeviceLoginPage.routeName);
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            if (state is AppError) {
-              MyApp.navigatorKey.currentContext!.go(AppErrorPage.routeName, extra: state.result);
-              FlutterNativeSplash.remove();
-              return;
-            }
-          },
-        ),
-        BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            MyApp.routerRefreshNotifier.value = Uuid().v4();
-
-            if (state is LoggedOut) {
-              MyApp.navigatorKey.currentContext!.go(
-                ExistingDeviceLoginPage.routeName,
-                extra: false,
-              );
-              return;
-            }
-
-            if (state is UpdateForced) {
-              FlutterNativeSplash.remove();
-              MyApp.navigatorKey.currentContext!.go(UpdatePage.routeName, extra: state.result);
-              return;
-            }
-          },
-        ),
-      ],
-      child: child!,
-    );
+    return AppNavigationListener(child: child!);
   }
 
   @override
