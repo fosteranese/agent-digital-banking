@@ -36,10 +36,6 @@ class ServiceUtil {
 
       return;
     }
-    if (state is RetrievingPayments && state.routeName == routeName) {
-      MessageUtil.displayLoading(context);
-      return;
-    }
 
     if (state is StopLoadingPayments && state.routeName == routeName) {
       context.pop();
@@ -53,12 +49,6 @@ class ServiceUtil {
         MessageUtil.displayErrorDialog(context, message: 'Currently not available');
       }
 
-      return;
-    }
-
-    if (state is RetrievePaymentsError && state.routeName == routeName) {
-      context.pop();
-      MessageUtil.displayErrorDialog(context, message: state.result.message);
       return;
     }
 
