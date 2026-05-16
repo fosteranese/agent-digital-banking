@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_sage_agent/constants/app_assets.const.dart';
 import 'package:my_sage_agent/constants/app_colors.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
@@ -12,7 +13,7 @@ class DashboardStats extends StatelessWidget {
     {
       'color': ThemeUtil.primaryColor,
       'iconColor': AppColors.dashboardCardIconOverlay,
-      'icon': 'assets/img/cash-collected.svg',
+      'icon': AppAssets.iconCashCollected,
       'title': '',
       'caption': 'Cash Collected',
       'value': () {
@@ -22,7 +23,7 @@ class DashboardStats extends StatelessWidget {
     {
       'color': AppColors.dashboardMoMoCollected,
       'iconColor': AppColors.dashboardCardIconOverlay,
-      'icon': 'assets/img/wallet.svg',
+      'icon': AppAssets.iconWallet,
       'title': '',
       'caption': 'MoMo Collected',
       'value': () {
@@ -32,7 +33,7 @@ class DashboardStats extends StatelessWidget {
     {
       'color': AppColors.dashboardCashAtHand,
       'iconColor': AppColors.dashboardCardIconOverlay,
-      'icon': 'assets/img/cash-collected.svg',
+      'icon': AppAssets.iconCashCollected,
       'title': '',
       'caption': 'Cash at Hand',
       'value': () {
@@ -42,7 +43,7 @@ class DashboardStats extends StatelessWidget {
     {
       'color': AppColors.dashboardCashDeposited,
       'iconColor': AppColors.dashboardCardIconOverlay,
-      'icon': 'assets/img/money.svg',
+      'icon': AppAssets.iconMoney,
       'title': '',
       'caption': 'Cash Deposited',
       'value': () {
