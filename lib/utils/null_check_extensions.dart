@@ -1,7 +1,7 @@
-/// Extension methods for improved null-safety and null-checking patterns.
-/// 
-/// These extensions provide consistent, readable ways to check for null and empty values
-/// throughout the codebase.
+// Extension methods for improved null-safety and null-checking patterns.
+// 
+// These extensions provide consistent, readable ways to check for null and empty values
+// throughout the codebase.
 
 extension NullCheckExtension<T> on T? {
   /// Returns true if value is not null

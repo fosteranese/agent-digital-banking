@@ -38,8 +38,6 @@ class CardDetectionOverlay extends StatefulWidget {
 class _CardDetectionOverlayState extends State<CardDetectionOverlay> {
   CameraController? _camController;
   // late ObjectDetector _objectDetector;
-  bool _canProcess = true;
-  bool _isBusy = false;
   String whichSide = 'back';
   late var _camera = widget.camera;
 
@@ -192,7 +190,6 @@ class _CardDetectionOverlayState extends State<CardDetectionOverlay> {
   @override
   void dispose() {
     _stopRecording();
-    _canProcess = false;
     // _objectDetector.close();
     super.dispose();
   }

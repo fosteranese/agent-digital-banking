@@ -52,7 +52,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Timer? _timer;
-  var _threadDetected = false;
   Response<dynamic>? _error;
 
   @override
@@ -63,7 +62,6 @@ class _MyAppState extends State<MyApp> {
 
   void _securityCheck() {
     AppUtil.checkSecurity((threat, error) {
-      _threadDetected = true;
       _error = error;
       logger.e(threat);
       MyApp.navigatorKey.currentContext!.go(AppErrorPage.routeName, extra: _error);

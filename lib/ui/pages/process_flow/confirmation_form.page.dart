@@ -579,7 +579,7 @@ class SummaryStatusTile extends StatelessWidget {
   }
 
   Widget _statusBadge() {
-    late final label;
+    late final String label;
     if (useValue) {
       label = value;
     } else {
