@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
-import 'package:my_sage_agent/data/models/payee/payees_response.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
 import 'package:my_sage_agent/data/models/user_response/activity.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/data/models/user_response/recent_activity.dart';
@@ -113,19 +112,19 @@ class ServiceUtil {
 
   static void generalFlowListener({
     required BuildContext context,
-    required GeneralFlowState state,
+    required ProcessFlowState state,
     required String routeName,
     String categoryPageRouteName = '',
     String formVerificationPageRouteName = '',
     String formPageRouteName = '',
     required AmDoing amDoing,
   }) {
-    if (state is RetrievingGeneralFlowCategories && state.routeName == routeName) {
+    if (state is RetrievingProcessFlowCategories && state.routeName == routeName) {
       _loader.start('Loading');
       return;
     }
 
-    if (state is GeneralFlowCategoriesRetrieved && state.routeName == routeName) {
+    if (state is ProcessFlowCategoriesRetrieved && state.routeName == routeName) {
       context.pop();
       context.push(
         categoryPageRouteName,
@@ -140,18 +139,18 @@ class ServiceUtil {
       return;
     }
 
-    if (state is RetrieveGeneralFlowCategoriesError && state.routeName == routeName) {
+    if (state is RetrieveProcessFlowCategoriesError && state.routeName == routeName) {
       context.pop();
       MessageUtil.displayErrorDialog(context, message: state.result.message);
       return;
     }
 
-    if (state is RetrievingGeneralFlowFormData && state.routeName == routeName) {
+    if (state is RetrievingProcessFlowFormData && state.routeName == routeName) {
       MessageUtil.displayLoading(context);
       return;
     }
 
-    if (state is GeneralFlowFormDataRetrieved && state.routeName == routeName) {
+    if (state is ProcessFlowFormDataRetrieved && state.routeName == routeName) {
       context.pop();
       if (state.fblOnlineFormData.data?.fieldsDatum?.isEmpty ?? true) {
         MessageUtil.displayErrorDialog(context, message: 'Currently not available');
@@ -180,7 +179,7 @@ class ServiceUtil {
       return;
     }
 
-    if (state is RetrieveGeneralFlowFormDataError && state.routeName == routeName) {
+    if (state is RetrieveProcessFlowFormDataError && state.routeName == routeName) {
       context.pop();
       MessageUtil.displayErrorDialog(context, message: state.result.message);
       return;
@@ -248,8 +247,8 @@ class ServiceUtil {
         break;
       case ActivityTypesConst.fblOnline:
         activityType = ActivityTypesConst.fblOnline;
-        context.read<GeneralFlowBloc>().add(
-          RetrieveGeneralFlowCategories(
+        context.read<ProcessFlowBloc>().add(
+          RetrieveProcessFlowCategories(
             activityId: action.activity?.activityId ?? '',
             endpoint: action.activity?.endpoint ?? '',
             routeName: id ?? routeName,
@@ -260,8 +259,8 @@ class ServiceUtil {
       case ActivityTypesConst.quickFlow:
       case ActivityTypesConst.quickFlowAlt:
         activityType = ActivityTypesConst.quickFlow;
-        context.read<GeneralFlowBloc>().add(
-          RetrieveGeneralFlowCategories(
+        context.read<ProcessFlowBloc>().add(
+          RetrieveProcessFlowCategories(
             activityId: action.activity?.activityId ?? '',
             endpoint: action.activity?.endpoint ?? '',
             routeName: routeName,
@@ -282,7 +281,6 @@ class ServiceUtil {
     required BuildContext context,
     required RecentActivity activity,
     required String routeName,
-    Payees? payee,
   }) {
     logger.i("${activity.activityName} => ${activity.activityId}");
 
@@ -295,20 +293,20 @@ class ServiceUtil {
             activityId: activity.activityId ?? '',
             formId: activity.formId ?? '',
             routeName: '${routeName}fav',
-            payeeId: payee?.payeeId,
+            payeeId: null,
           ),
         );
         return;
 
       case ActivityTypesConst.fblOnline:
         activityType = ActivityTypesConst.fblOnline;
-        context.read<GeneralFlowBloc>().activityId = activity.activityId ?? '';
-        context.read<GeneralFlowBloc>().add(
-          RetrieveGeneralFlowFormData(
+        context.read<ProcessFlowBloc>().activityId = activity.activityId ?? '';
+        context.read<ProcessFlowBloc>().add(
+          RetrieveProcessFlowFormData(
             routeName: '${routeName}fav',
             activityType: ActivityTypesConst.fblOnline,
             formId: activity.formId ?? '',
-            payeeId: payee?.payeeId,
+            payeeId: null,
           ),
         );
         return;
@@ -316,13 +314,13 @@ class ServiceUtil {
       case ActivityTypesConst.quickFlow:
       case ActivityTypesConst.quickFlowAlt:
         activityType = ActivityTypesConst.quickFlow;
-        context.read<GeneralFlowBloc>().activityId = activity.activityId ?? '';
-        context.read<GeneralFlowBloc>().add(
-          RetrieveGeneralFlowFormData(
+        context.read<ProcessFlowBloc>().activityId = activity.activityId ?? '';
+        context.read<ProcessFlowBloc>().add(
+          RetrieveProcessFlowFormData(
             routeName: '${routeName}fav',
             activityType: ActivityTypesConst.quickFlow,
             formId: activity.formId ?? '',
-            payeeId: payee?.payeeId,
+            payeeId: null,
           ),
         );
         return;
@@ -344,7 +342,7 @@ class ServiceUtil {
     routeName += 'fav';
 
     return [
-      BlocListener<GeneralFlowBloc, GeneralFlowState>(
+      BlocListener<ProcessFlowBloc, ProcessFlowState>(
         listener: (context, state) {
           generalFlowListener(
             context: context,
@@ -367,8 +365,8 @@ class ServiceUtil {
     switch (activity.activityType) {
       case ActivityTypesConst.fblOnline:
         activityType = ActivityTypesConst.fblOnline;
-        context.read<GeneralFlowBloc>().add(
-          RetrieveGeneralFlowCategories(
+        context.read<ProcessFlowBloc>().add(
+          RetrieveProcessFlowCategories(
             activityId: activity.activityId ?? '',
             endpoint: activity.endpoint ?? '',
             routeName: routeName,
@@ -385,21 +383,21 @@ class ServiceUtil {
     }
   }
 
-  static void onGeneralFlowFormPressed({
+  static void onProcessFlowFormModelPressed({
     required BuildContext context,
-    required GeneralFlowForm form,
+    required ProcessFlowFormModel form,
     required String activityType,
     String routeName = '',
   }) {
     switch (form.activityType) {
       case ActivityTypesConst.enquiry:
-        context.read<GeneralFlowBloc>().add(
+        context.read<ProcessFlowBloc>().add(
           GeneralFlowEnquiry(form: form, routeName: routeName, activityType: activityType),
         );
         break;
       default:
-        context.read<GeneralFlowBloc>().add(
-          RetrieveGeneralFlowFormData(
+        context.read<ProcessFlowBloc>().add(
+          RetrieveProcessFlowFormData(
             formId: form.formId ?? '',
             routeName: routeName,
             activityType: activityType,

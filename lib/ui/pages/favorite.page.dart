@@ -5,7 +5,7 @@ import 'package:my_sage_agent/constants/activity_type.const.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/collection/collection_bloc.dart';
-import '../../blocs/general_flow/general_flow_bloc.dart';
+import '../../blocs/process_flow/process_flow_bloc.dart';
 import '../../data/models/user_response/recent_activity.dart';
 import '../../utils/app.util.dart';
 import '../../utils/service.util.dart';
@@ -43,7 +43,7 @@ class _FavoritePageState extends State<FavoritePage> {
             amDoing: AmDoing.transaction,
           ),
         ),
-        BlocListener<GeneralFlowBloc, GeneralFlowState>(
+        BlocListener<ProcessFlowBloc, ProcessFlowState>(
           listener: (context, state) => ServiceUtil.generalFlowListener(
             context: context,
             state: state,

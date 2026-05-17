@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_category.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/dashboard/process_category.dart';
@@ -23,7 +23,7 @@ import 'package:my_sage_agent/utils/service.util.dart';
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
   static const routeName = '/dashboard';
-  static final category = ValueNotifier<GeneralFlowCategory?>(null);
+  static final category = ValueNotifier<ProcessFlowCategory?>(null);
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -33,7 +33,7 @@ class _DashboardPageState extends State<DashboardPage> {
   bool _loading = false;
   bool _isFormListOpened = false;
   late Response _response;
-  GeneralFlowFormData? _formData;
+  ProcessFlowFormData? _formData;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
               amDoing: AmDoing.transaction,
             ),
           ),
-          BlocListener<GeneralFlowBloc, GeneralFlowState>(
+          BlocListener<ProcessFlowBloc, ProcessFlowState>(
             listener: (context, state) {
               ServiceUtil.generalFlowListener(
                 context: context,
@@ -92,7 +92,7 @@ class _DashboardPageState extends State<DashboardPage> {
       context: MyApp.navigatorKey.currentContext!,
       useSafeArea: true,
       builder: (context) {
-        return ProcessFlowCategory(
+        return ProcessFlowCategoryForm(
           category: DashboardPage.category,
           onClose: () {
             _isFormListOpened = false;
@@ -117,8 +117,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
     if (state is DataRetrieved) {
       _response = state.data!;
-      if (_response.data is GeneralFlowCategory) {
-        final GeneralFlowCategory category = _response.data;
+      if (_response.data is ProcessFlowCategory) {
+        final ProcessFlowCategory category = _response.data;
         var isEmpty = category.forms?.isEmpty ?? true;
         if (isEmpty) {
           isEmpty = DashboardPage.category.value?.forms?.isEmpty ?? true;
@@ -146,8 +146,8 @@ class _DashboardPageState extends State<DashboardPage> {
           _openFormList();
         }
         return;
-      } else if (_response.data is GeneralFlowFormData) {
-        final GeneralFlowFormData formData = _response.data;
+      } else if (_response.data is ProcessFlowFormData) {
+        final ProcessFlowFormData formData = _response.data;
         var isEmpty = formData.fieldsDatum?.isEmpty ?? true;
         if (isEmpty) {
           isEmpty = _formData?.fieldsDatum?.isEmpty ?? true;

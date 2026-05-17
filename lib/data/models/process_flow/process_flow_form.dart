@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class GeneralFlowForm extends Equatable {
+class ProcessFlowFormModel extends Equatable {
   final String? formId;
   final String? categoryId;
   final String? accessType;
@@ -30,7 +30,7 @@ class GeneralFlowForm extends Equatable {
   final int? allowBeneficiary;
   final int? allowSchedule;
 
-  const GeneralFlowForm({
+  const ProcessFlowFormModel({
     this.formId,
     this.categoryId,
     this.accessType,
@@ -59,7 +59,7 @@ class GeneralFlowForm extends Equatable {
     this.allowSchedule,
   });
 
-  factory GeneralFlowForm.fromMap(Map<String, dynamic> data) => GeneralFlowForm(
+  factory ProcessFlowFormModel.fromMap(Map<String, dynamic> data) => ProcessFlowFormModel(
     formId: data['formId'] as String?,
     categoryId: data['categoryId'] as String?,
     accessType: data['accessType'] as String?,
@@ -122,8 +122,8 @@ class GeneralFlowForm extends Equatable {
   /// `dart:convert`
   ///
   /// Parses the string and returns the resulting Json object as [Form].
-  factory GeneralFlowForm.fromJson(String data) {
-    return GeneralFlowForm.fromMap(json.decode(data) as Map<String, dynamic>);
+  factory ProcessFlowFormModel.fromJson(String data) {
+    return ProcessFlowFormModel.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
@@ -131,7 +131,7 @@ class GeneralFlowForm extends Equatable {
   /// Converts [Form] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  GeneralFlowForm copyWith({
+  ProcessFlowFormModel copyWith({
     String? formId,
     String? categoryId,
     String? accessType,
@@ -159,7 +159,7 @@ class GeneralFlowForm extends Equatable {
     int? allowBeneficiary,
     int? allowSchedule,
   }) {
-    return GeneralFlowForm(
+    return ProcessFlowFormModel(
       formId: formId ?? this.formId,
       categoryId: categoryId ?? this.categoryId,
       accessType: accessType ?? this.accessType,

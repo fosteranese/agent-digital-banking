@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/reversal_request_model/reversal_request_model.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
@@ -9,7 +9,7 @@ import 'package:my_sage_agent/utils/authentication.util.dart';
 import 'package:my_sage_agent/utils/message.util.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
 import 'package:my_sage_agent/ui/components/form/outline_button.dart';
@@ -35,7 +35,7 @@ class ReversalDetailsPage extends StatefulWidget {
 }
 
 class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
-  final Map<String, (TextEditingController controller, GeneralFlowFieldsDatum fieldData)>
+  final Map<String, (TextEditingController controller, ProcessFlowFieldsDatum fieldData)>
   _controllers = {};
   final ValueNotifier<String> _displayAmount = ValueNotifier('');
   final _filterBy = ValueNotifier(ReversalDetailsTypes.details.name);
@@ -59,7 +59,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
       showNavBarOnPop: false,
       title: '',
       sliver: _buildSlivers(),
-      bottomNavigationBar: BlocListener<GeneralFlowBloc, GeneralFlowState>(
+      bottomNavigationBar: BlocListener<ProcessFlowBloc, ProcessFlowState>(
         listener: (context, state) {
           if (state is ApprovingReversalRequest && state.id == _id) {
             MessageUtil.displayLoading(context);
@@ -504,7 +504,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
     AuthenticationUtil.pin(
       onSuccess: (pin) {
         _id = Uuid().v4();
-        context.read<GeneralFlowBloc>().add(
+        context.read<ProcessFlowBloc>().add(
           ApproveReversalRequestEvent(
             id: _id,
             pin: pin,
@@ -522,7 +522,7 @@ class _ReversalDetailsPageState extends State<ReversalDetailsPage> {
     AuthenticationUtil.pin(
       onSuccess: (pin) {
         _id = Uuid().v4();
-        context.read<GeneralFlowBloc>().add(
+        context.read<ProcessFlowBloc>().add(
           ApproveReversalRequestEvent(
             id: _id,
             pin: pin,

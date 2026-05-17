@@ -16,13 +16,11 @@ import 'package:my_sage_agent/blocs/app/app_bloc.dart';
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
 import 'package:my_sage_agent/blocs/bottom_nav_bar/bottom_nav_bar_bloc.dart';
-import 'package:my_sage_agent/blocs/bulk_payment/bulk_payment_bloc.dart';
 import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/infra/infra_bloc.dart';
 import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
-import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/blocs/security_settings/security_settings_bloc.dart';
 import 'package:my_sage_agent/blocs/setup/setup_bloc.dart';
@@ -117,7 +115,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => SecuritySettingsBloc()),
           BlocProvider(create: (context) => PaymentsBloc()),
-          BlocProvider(create: (context) => GeneralFlowBloc()),
+          BlocProvider(create: (context) => ProcessFlowBloc()),
           BlocProvider(
             create: (context) => RetrieveDataBloc(
               fblOnlineRepo: context.read<FblOnlineRepo>(),
@@ -130,13 +128,11 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
           BlocProvider(create: (context) => AccountBloc()),
-          BlocProvider(create: (context) => PayeeBloc()),
           BlocProvider(
             create: (context) => PushNotificationBloc()..add(const LoadPushNotification()),
           ),
           BlocProvider(create: (context) => BiometricBloc()),
           BlocProvider(create: (context) => ActivityBloc()),
-          BlocProvider(create: (context) => BulkPaymentBloc()),
           BlocProvider(create: (context) => InfraBloc()),
           BlocProvider(create: (context) => SetupBloc()),
           BlocProvider(create: (context) => OtpBloc()),
@@ -309,10 +305,3 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 }
-
-// class MyHttpOverrides extends HttpOverrides {
-//   @override
-//   HttpClient createHttpClient(SecurityContext? context) {
-//     return super.createHttpClient(context)..badCertificateCallback = (cert, host, port) => true;
-//   }
-// }

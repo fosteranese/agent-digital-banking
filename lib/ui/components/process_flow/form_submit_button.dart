@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
-import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/user_response/activity.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/form/button.dart';
@@ -38,9 +37,9 @@ class FormSubmitButton extends StatelessWidget {
   });
 
   final ValueNotifier<String> id;
-  final GeneralFlowFormData formData;
+  final ProcessFlowFormData formData;
   final AmDoing amDoing;
-  final Map<String, (TextEditingController, GeneralFlowFieldsDatum)> controllers;
+  final Map<String, (TextEditingController, ProcessFlowFieldsDatum)> controllers;
   final Loader loader;
   final TextEditingController scheduleType;
   final TextEditingController scheduleDate;
@@ -49,7 +48,7 @@ class FormSubmitButton extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<GeneralFlowBloc, GeneralFlowState>(
+    return BlocConsumer<ProcessFlowBloc, ProcessFlowState>(
       listener: (context, state) {
         if ((state as dynamic).routeName != id.value) {
           return;
@@ -78,28 +77,7 @@ class FormSubmitButton extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return BlocConsumer<PayeeBloc, PayeeState>(
-          listener: (context, state1) {
-            if (state1 is AddingPayee) {
-              MessageUtil.displayLoading(context);
-              return;
-            } else {
-              MessageUtil.stopLoading(context);
-            }
-
-            if (state1 is AddPayeeError && state1.routeName == id.value) {
-              MessageUtil.displayErrorDialog(context, message: state1.result.message);
-              return;
-            }
-          },
-          builder: (context, state1) {
-            return FormButton(
-              loading: state1 is AddingPayee,
-              text: _submitText,
-              onPressed: () => _confirm(context),
-            );
-          },
-        );
+        return FormButton(text: _submitText, onPressed: () => _confirm(context));
       },
     );
   }
@@ -157,12 +135,12 @@ class FormSubmitButton extends StatelessWidget {
         }
       },
       onSaveBeneficiary: () {
-        context.read<GeneralFlowBloc>().add(
+        context.read<ProcessFlowBloc>().add(
           SaveBeneficiary(routeName: id.value, payload: state.result.data!),
         );
       },
       onScheduleTransaction: () {
-        context.read<GeneralFlowBloc>().add(
+        context.read<ProcessFlowBloc>().add(
           PrepareScheduler(
             routeName: DashboardPage.routeName,
             receiptId: state.result.data!.receiptId,
@@ -244,7 +222,7 @@ class FormSubmitButton extends StatelessWidget {
                           accessType: 'CUSTOMER',
                         ),
                       ),
-                      form: GeneralFlowForm(
+                      form: ProcessFlowFormModel(
                         activityType: ActivityTypesConst.quickFlow,
                         formName: 'Submit a complaint',
                         categoryId: '0fdc593e-89f2-4950-a491-75c66749bbcc',

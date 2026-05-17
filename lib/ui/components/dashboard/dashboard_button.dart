@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_category.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/icon.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
@@ -12,7 +12,7 @@ class DashboardButton extends StatelessWidget {
   const DashboardButton({super.key, required this.item, required this.category});
 
   final ActivityDatum item;
-  final ValueNotifier<GeneralFlowCategory?> category;
+  final ValueNotifier<ProcessFlowCategory?> category;
 
   void _onTap({required ActivityDatum activityDatum, required bool skipSavedData}) {
     category.value = null;

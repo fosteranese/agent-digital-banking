@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
-import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/process_request.model.dart';
 import 'package:my_sage_agent/data/models/transaction_auth.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
@@ -27,9 +26,9 @@ class ProcessFormController {
   });
 
   final BuildContext context;
-  final GeneralFlowFormData formData;
+  final ProcessFlowFormData formData;
   final AmDoing amDoing;
-  final Map<String, (TextEditingController, GeneralFlowFieldsDatum)> controllers;
+  final Map<String, (TextEditingController, ProcessFlowFieldsDatum)> controllers;
   final Loader loader;
   final String id;
   final ActivityDatum activity;
@@ -55,7 +54,7 @@ class ProcessFormController {
     }
 
     if (formData.form!.requireVerification == 1) {
-      context.read<GeneralFlowBloc>().add(
+      context.read<ProcessFlowBloc>().add(
         VerifyRequest(
           routeName: id,
           formData: formData,
@@ -85,23 +84,14 @@ class ProcessFormController {
               auth: TransactionAuth(otp: otp, pin: pin, secretAnswer: secretAnswer),
             );
 
-            switch (amDoing) {
-              case AmDoing.addPayee:
-                context.read<PayeeBloc>().add(
-                  AddPayee(routeName: id, payment: request, payload: payload),
-                );
-                break;
-
-              default:
-                context.read<GeneralFlowBloc>().add(
-                  ProcessRequest(
-                    routeName: id,
-                    activityType: formData.form?.activityType ?? '',
-                    request: request,
-                    payload: payload,
-                  ),
-                );
-            }
+            context.read<ProcessFlowBloc>().add(
+              ProcessRequest(
+                routeName: id,
+                activityType: formData.form?.activityType ?? '',
+                request: request,
+                payload: payload,
+              ),
+            );
           },
     );
   }

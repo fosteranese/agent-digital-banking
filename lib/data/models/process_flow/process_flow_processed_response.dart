@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 import 'preview_datum.dart';
 
-class GeneralFlowProcessedResponse extends Equatable {
+class ProcessFlowProcessedModel extends Equatable {
   final String? receiptId;
   final String? reference;
   final String? amount;
@@ -21,7 +21,7 @@ class GeneralFlowProcessedResponse extends Equatable {
   final dynamic scheduleForm;
   final String? benficiaryEndpoint;
 
-  const GeneralFlowProcessedResponse({
+  const ProcessFlowProcessedModel({
     this.receiptId,
     this.reference,
     this.amount,
@@ -39,8 +39,8 @@ class GeneralFlowProcessedResponse extends Equatable {
     this.benficiaryEndpoint,
   });
 
-  factory GeneralFlowProcessedResponse.fromMap(Map<String, dynamic> data) {
-    return GeneralFlowProcessedResponse(
+  factory ProcessFlowProcessedModel.fromMap(Map<String, dynamic> data) {
+    return ProcessFlowProcessedModel(
       receiptId: data['receiptId'] as String?,
       reference: data['reference'] as String?,
       amount: data['amount'] as String?,
@@ -81,17 +81,17 @@ class GeneralFlowProcessedResponse extends Equatable {
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [GeneralFlowProcessedResponse].
-  factory GeneralFlowProcessedResponse.fromJson(String data) {
-    return GeneralFlowProcessedResponse.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [ProcessFlowProcessedModel].
+  factory ProcessFlowProcessedModel.fromJson(String data) {
+    return ProcessFlowProcessedModel.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [GeneralFlowProcessedResponse] to a JSON string.
+  /// Converts [ProcessFlowProcessedModel] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  GeneralFlowProcessedResponse copyWith({
+  ProcessFlowProcessedModel copyWith({
     String? receiptId,
     String? reference,
     String? amount,
@@ -108,7 +108,7 @@ class GeneralFlowProcessedResponse extends Equatable {
     dynamic scheduleForm,
     String? benficiaryEndpoint,
   }) {
-    return GeneralFlowProcessedResponse(
+    return ProcessFlowProcessedModel(
       receiptId: receiptId ?? this.receiptId,
       reference: reference ?? this.reference,
       amount: amount ?? this.amount,

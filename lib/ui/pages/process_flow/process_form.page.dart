@@ -4,12 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
-import 'package:my_sage_agent/data/models/payee/payees_response.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/ui/components/form/schedule.dart';
 import 'package:my_sage_agent/ui/components/process_flow/form_fields_list.dart';
@@ -17,7 +16,6 @@ import 'package:my_sage_agent/ui/components/process_flow/form_submit_button.dart
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
 import 'package:my_sage_agent/ui/pages/process_flow/confirmation_form.page.dart';
 import 'package:my_sage_agent/utils/loader.util.dart';
-import 'package:my_sage_agent/utils/string.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ProcessFormPage extends StatefulWidget {
@@ -26,16 +24,14 @@ class ProcessFormPage extends StatefulWidget {
     required this.formData,
     required this.amDoing,
     required this.activity,
-    this.payee,
     this.receiptId,
   });
 
   static const routeName = '/process-flow/form';
 
-  final GeneralFlowFormData formData;
+  final ProcessFlowFormData formData;
   final AmDoing amDoing;
   final ActivityDatum activity;
-  final Payees? payee;
   final String? receiptId;
 
   @override
@@ -45,8 +41,8 @@ class ProcessFormPage extends StatefulWidget {
 class _ProcessFormPageState extends State<ProcessFormPage> {
   final _loader = Loader();
   late final _id = ValueNotifier(const Uuid().v4());
-  late GeneralFlowFormData _formData = widget.formData;
-  final _controllers = <String, (TextEditingController, GeneralFlowFieldsDatum)>{};
+  late ProcessFlowFormData _formData = widget.formData;
+  final _controllers = <String, (TextEditingController, ProcessFlowFieldsDatum)>{};
   final _scheduleType = TextEditingController();
   final _scheduleDate = TextEditingController();
 
@@ -73,14 +69,10 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
       if (controller == null) {
         String? text = '';
 
-        if (widget.payee != null) {
-          text = widget.payee!.formData?[item.field!.fieldName!.unCapitalize()];
-        }
-
         if ((widget.amDoing == AmDoing.payeeTransaction && item.field!.isAmount == 1) ||
             (item.field!.fieldName?.toLowerCase().contains('narration') ?? false)) {
           text = '';
-        } else if (text?.isEmpty ?? true) {
+        } else if (text.isEmpty) {
           text = item.field!.defaultValue ?? '';
         }
 
@@ -120,7 +112,7 @@ class _ProcessFormPageState extends State<ProcessFormPage> {
             }
           },
         ),
-        BlocListener<GeneralFlowBloc, GeneralFlowState>(
+        BlocListener<ProcessFlowBloc, ProcessFlowState>(
           listener: (context, state) {
             if (state is RequestVerified && state.routeName == _id.value) {
               context.push(

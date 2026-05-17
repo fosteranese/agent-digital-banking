@@ -5,8 +5,8 @@ import 'package:my_sage_agent/data/database/db.dart';
 import 'package:my_sage_agent/data/models/collection/form_verification_response.dart';
 import 'package:my_sage_agent/data/models/collection/forms_datum.dart';
 import 'package:my_sage_agent/data/models/enquiry.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_category.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/process_request.model.dart';
 import 'package:my_sage_agent/data/models/request_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
@@ -16,14 +16,14 @@ class FblOnlineRepo {
   final _db = Database();
   final _fbl = MainRemote();
 
-  Future<Response<GeneralFlowCategory>?> getStoredCategories(String endpoint) async {
+  Future<Response<ProcessFlowCategory>?> getStoredCategories(String endpoint) async {
     final result = await _db.read(endpoint);
 
     if (result == null || result['data'] == null) {
       return null;
     }
 
-    final data = GeneralFlowCategory.fromMap(result['data'] as Map<String, dynamic>);
+    final data = ProcessFlowCategory.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -35,14 +35,14 @@ class FblOnlineRepo {
     );
   }
 
-  Future<Response<GeneralFlowCategory>> retrieveCategories(String endpoint) async {
+  Future<Response<ProcessFlowCategory>> retrieveCategories(String endpoint) async {
     final response = await _fbl.post(path: endpoint, body: {}, isAuthenticated: true);
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
 
-    final data = GeneralFlowCategory.fromMap(response.data as Map<String, dynamic>);
+    final data = ProcessFlowCategory.fromMap(response.data as Map<String, dynamic>);
 
     if (data.forms?.isNotEmpty ?? false) {
       _db.add(
@@ -70,7 +70,7 @@ class FblOnlineRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>?> getStoredFormData({
+  Future<Response<ProcessFlowFormData>?> getStoredFormData({
     required String id,
     String? qrCode,
     String? payeeId,
@@ -82,7 +82,7 @@ class FblOnlineRepo {
       return null;
     }
 
-    final data = GeneralFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
+    final data = ProcessFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -94,7 +94,7 @@ class FblOnlineRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>> retrieveFormData({
+  Future<Response<ProcessFlowFormData>> retrieveFormData({
     required String id,
     String? qrCode,
     String? payeeId,
@@ -109,7 +109,7 @@ class FblOnlineRepo {
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = GeneralFlowFormData.fromMap(response.data as Map<String, dynamic>);
+    final data = ProcessFlowFormData.fromMap(response.data as Map<String, dynamic>);
 
     if (data.fieldsDatum?.isNotEmpty ?? false) {
       final qrCodeBase64 = (qrCode?.isNotEmpty ?? false) ? base64.encode(utf8.encode(qrCode!)) : '';
@@ -198,7 +198,7 @@ class FblOnlineRepo {
   }
 
   Future<Response<FormVerificationResponse>> verifyRequest({
-    required GeneralFlowFormData formData,
+    required ProcessFlowFormData formData,
     required Map<String, dynamic> payload,
   }) async {
     final response = await _fbl.post(
@@ -389,7 +389,7 @@ class FblOnlineRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>> prepareScheduler({
+  Future<Response<ProcessFlowFormData>> prepareScheduler({
     String? receiptId,
     String? payeeId,
   }) async {
@@ -402,7 +402,7 @@ class FblOnlineRepo {
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = GeneralFlowFormData.fromMap(response.data as Map<String, dynamic>);
+    final data = ProcessFlowFormData.fromMap(response.data as Map<String, dynamic>);
 
     if (data.fieldsDatum?.isNotEmpty ?? false) {
       final key = 'prepare-schedule/$receiptId/$payeeId';
@@ -432,7 +432,7 @@ class FblOnlineRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>?> getStoredPreparedSchedule({
+  Future<Response<ProcessFlowFormData>?> getStoredPreparedSchedule({
     required String? receiptId,
     required String? payeeId,
   }) async {
@@ -442,7 +442,7 @@ class FblOnlineRepo {
       return null;
     }
 
-    final data = GeneralFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
+    final data = ProcessFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class GeneralFlowField extends Equatable {
+class ProcessFlowField extends Equatable {
   final String? fieldId;
   final String? formId;
   final String? fieldName;
@@ -31,7 +31,7 @@ class GeneralFlowField extends Equatable {
   final String? lovEndpoint;
   final double? trasactionLimitAmount;
 
-  const GeneralFlowField({
+  const ProcessFlowField({
     this.fieldId,
     this.formId,
     this.fieldName,
@@ -61,8 +61,8 @@ class GeneralFlowField extends Equatable {
     this.trasactionLimitAmount,
   });
 
-  factory GeneralFlowField.fromMap(Map<String, dynamic> data) {
-    return GeneralFlowField(
+  factory ProcessFlowField.fromMap(Map<String, dynamic> data) {
+    return ProcessFlowField(
       fieldId: data['fieldId'] as String?,
       formId: data['formId'] as String?,
       fieldName: data['fieldName'] as String?,
@@ -129,17 +129,17 @@ class GeneralFlowField extends Equatable {
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [GeneralFlowField].
-  factory GeneralFlowField.fromJson(String data) {
-    return GeneralFlowField.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [ProcessFlowField].
+  factory ProcessFlowField.fromJson(String data) {
+    return ProcessFlowField.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [GeneralFlowField] to a JSON string.
+  /// Converts [ProcessFlowField] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  GeneralFlowField copyWith({
+  ProcessFlowField copyWith({
     String? fieldId,
     String? formId,
     String? fieldName,
@@ -168,7 +168,7 @@ class GeneralFlowField extends Equatable {
     String? lovEndpoint,
     double? trasactionLimitAmount,
   }) {
-    return GeneralFlowField(
+    return ProcessFlowField(
       fieldId: fieldId ?? this.fieldId,
       formId: formId ?? this.formId,
       fieldName: fieldName ?? this.fieldName,

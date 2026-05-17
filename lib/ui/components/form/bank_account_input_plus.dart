@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/data/models/collection/lov.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
 import 'package:my_sage_agent/ui/components/form/multiple_input_plus.dart';
 import 'package:my_sage_agent/ui/components/form/select.dart';
 
@@ -30,7 +30,7 @@ class BankAccountInputPlus extends StatefulWidget {
   final List<Lov> lov;
   final bool _readOnly;
   final String flowType;
-  final (TextEditingController, GeneralFlowFieldsDatum)? sourceAccount;
+  final (TextEditingController, ProcessFlowFieldsDatum)? sourceAccount;
 
   @override
   State<BankAccountInputPlus> createState() => BankAccountInputPlusState();
@@ -57,7 +57,7 @@ class BankAccountInputPlusState extends State<BankAccountInputPlus> {
     super.initState();
   }
 
-  void reloadLov(GeneralFlowFormDataRetrievedSilently state) {
+  void reloadLov(ProcessFlowFormDataRetrievedSilently state) {
     final field = state.fblOnlineFormData.data!.fieldsDatum!.firstWhere((item) {
       return item.field!.fieldName == _fieldName;
     });
@@ -124,15 +124,15 @@ class BankAccountInputPlusState extends State<BankAccountInputPlus> {
           },
         ),
         if (!widget._readOnly && widget.flowType == 'general')
-          BlocConsumer<GeneralFlowBloc, GeneralFlowState>(
+          BlocConsumer<ProcessFlowBloc, ProcessFlowState>(
             listener: (context, state) {
-              if (state is GeneralFlowFormDataRetrievedSilently) {
+              if (state is ProcessFlowFormDataRetrievedSilently) {
                 reloadLov(state);
                 return;
               }
             },
             builder: (context, state) {
-              if (state is RetrievingGeneralFlowFormDataSilently) {
+              if (state is RetrievingProcessFlowFormDataSilently) {
                 return const Padding(
                   padding: EdgeInsets.only(left: 15, right: 0, bottom: 15 + 23),
                   child: SizedBox(width: 15, height: 15, child: CircularProgressIndicator()),
