@@ -553,16 +553,13 @@ class SummaryStatusTile extends StatelessWidget {
   }
 
   Widget _statusBadge() {
-    late final label;
-    if (useValue) {
-      label = value;
-    } else {
-      label = (code == 1)
-          ? 'Sent'
-          : (code == 0)
-          ? 'Failed'
-          : 'Pending';
-    }
+    final label = useValue
+        ? value
+        : ((code == 1)
+              ? 'Sent'
+              : (code == 0)
+              ? 'Failed'
+              : 'Pending');
 
     final icon = (code == 1)
         ? Icons.check
