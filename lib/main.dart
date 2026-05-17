@@ -10,15 +10,11 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
-import 'package:my_sage_agent/blocs/account/account_bloc.dart';
 import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
 import 'package:my_sage_agent/blocs/app/app_bloc.dart';
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
-import 'package:my_sage_agent/blocs/bottom_nav_bar/bottom_nav_bar_bloc.dart';
-import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
 import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
-import 'package:my_sage_agent/blocs/infra/infra_bloc.dart';
 import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
@@ -111,10 +107,8 @@ class _MyAppState extends State<MyApp> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AppBloc()..add(DeviceStatusCheckEvent())),
-          BlocProvider(create: (context) => BottomNavBarBloc()),
           BlocProvider(create: (context) => AuthBloc()),
           BlocProvider(create: (context) => SecuritySettingsBloc()),
-          BlocProvider(create: (context) => PaymentsBloc()),
           BlocProvider(create: (context) => ProcessFlowBloc()),
           BlocProvider(
             create: (context) => RetrieveDataBloc(
@@ -127,13 +121,11 @@ class _MyAppState extends State<MyApp> {
               mapRepo: context.read<GoogleMapRepo>(),
             ),
           ),
-          BlocProvider(create: (context) => AccountBloc()),
           BlocProvider(
             create: (context) => PushNotificationBloc()..add(const LoadPushNotification()),
           ),
           BlocProvider(create: (context) => BiometricBloc()),
           BlocProvider(create: (context) => ActivityBloc()),
-          BlocProvider(create: (context) => InfraBloc()),
           BlocProvider(create: (context) => SetupBloc()),
           BlocProvider(create: (context) => OtpBloc()),
         ],

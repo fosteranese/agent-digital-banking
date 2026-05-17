@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
 import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
@@ -17,98 +16,6 @@ import 'package:my_sage_agent/utils/message.util.dart';
 class ServiceUtil {
   static final _loader = Loader();
   static String activityType = '';
-
-  static Future<void> paymentsListener({
-    required BuildContext context,
-    required PaymentsState state,
-    required String routeName,
-    required AmDoing amDoing,
-  }) async {
-    if (state is RetrievingPayments && state.routeName == routeName) {
-      MessageUtil.displayLoading(context);
-      return;
-    }
-
-    if (state is RetrievePaymentsError && state.routeName == routeName) {
-      context.pop();
-      MessageUtil.displayErrorDialog(context, message: state.result.message);
-
-      return;
-    }
-    if (state is RetrievingPayments && state.routeName == routeName) {
-      MessageUtil.displayLoading(context);
-      return;
-    }
-
-    if (state is StopLoadingPayments && state.routeName == routeName) {
-      context.pop();
-      return;
-    }
-
-    if (state is PaymentsRetrieved && state.routeName == routeName) {
-      context.pop();
-
-      if (state.payments.data?.isEmpty ?? true) {
-        MessageUtil.displayErrorDialog(context, message: 'Currently not available');
-      }
-
-      return;
-    }
-
-    if (state is RetrievePaymentsError && state.routeName == routeName) {
-      context.pop();
-      MessageUtil.displayErrorDialog(context, message: state.result.message);
-      return;
-    }
-
-    if (state is RetrievingPaymentCategories && state.routeName == routeName) {
-      MessageUtil.displayLoading(context);
-      return;
-    }
-
-    if (state is PaymentCategoriesRetrieved && state.routeName == routeName) {
-      context.pop();
-
-      if (state.paymentCategories.data?.institution?.isEmpty ?? true) {
-        MessageUtil.displayErrorDialog(context, message: 'Currently not available');
-      }
-
-      return;
-    }
-
-    if (state is RetrievePaymentCategoriesError && state.routeName == routeName) {
-      context.pop();
-      MessageUtil.displayErrorDialog(context, message: state.result.message);
-      return;
-    }
-
-    if (state is RetrievingInstitutionForms && state.routeName == routeName) {
-      MessageUtil.displayLoading(context);
-      return;
-    }
-
-    if (state is InstitutionFormsRetrieved && state.routeName == routeName) {
-      context.pop();
-
-      if (state.result.data?.institutionData?.formsData?.isEmpty ?? true) {
-        MessageUtil.displayErrorDialog(context, message: 'Currently not available');
-      }
-
-      return;
-    }
-
-    if (state is RetrieveInstitutionFormsError && state.routeName == routeName) {
-      _loader.stop();
-
-      Future.delayed(const Duration(seconds: 0), () {
-        MessageUtil.displayErrorDialog(
-          MyApp.navigatorKey.currentContext!,
-          message: state.result.message,
-        );
-      });
-      return;
-    }
-  }
 
   static void generalFlowListener({
     required BuildContext context,
@@ -230,21 +137,6 @@ class ServiceUtil {
     logger.i("${action.activity?.activityName} => ${action.activity?.activityId}");
 
     switch (action.activity?.activityType) {
-      case ActivityTypesConst.fblCollect:
-        activityType = ActivityTypesConst.fblCollect;
-        context.read<PaymentsBloc>().add(
-          RetrievePayments(activityId: action.activity?.activityId ?? '', routeName: routeName),
-        );
-        break;
-      case ActivityTypesConst.fblCollectCategory:
-        context.read<PaymentsBloc>().add(
-          RetrievePaymentCategoriesWithEndpoint(
-            endpoint: action.activity?.endpoint ?? '',
-            routeName: routeName,
-            activityId: action.activity?.activityId ?? '',
-          ),
-        );
-        break;
       case ActivityTypesConst.fblOnline:
         activityType = ActivityTypesConst.fblOnline;
         context.read<ProcessFlowBloc>().add(
@@ -285,19 +177,6 @@ class ServiceUtil {
     logger.i("${activity.activityName} => ${activity.activityId}");
 
     switch (activity.activityType) {
-      case ActivityTypesConst.fblCollect:
-      case ActivityTypesConst.fblCollectCategory:
-        activityType = ActivityTypesConst.fblCollect;
-        context.read<PaymentsBloc>().add(
-          RetrieveCollectionForm(
-            activityId: activity.activityId ?? '',
-            formId: activity.formId ?? '',
-            routeName: '${routeName}fav',
-            payeeId: null,
-          ),
-        );
-        return;
-
       case ActivityTypesConst.fblOnline:
         activityType = ActivityTypesConst.fblOnline;
         context.read<ProcessFlowBloc>().activityId = activity.activityId ?? '';

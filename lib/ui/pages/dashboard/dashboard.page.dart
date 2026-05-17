@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
 import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
@@ -40,14 +39,6 @@ class _DashboardPageState extends State<DashboardPage> {
     return SessionTimeout(
       child: MultiBlocListener(
         listeners: [
-          BlocListener<PaymentsBloc, PaymentsState>(
-            listener: (context, state) => ServiceUtil.paymentsListener(
-              context: context,
-              state: state,
-              routeName: DashboardPage.routeName,
-              amDoing: AmDoing.transaction,
-            ),
-          ),
           BlocListener<ProcessFlowBloc, ProcessFlowState>(
             listener: (context, state) {
               ServiceUtil.generalFlowListener(

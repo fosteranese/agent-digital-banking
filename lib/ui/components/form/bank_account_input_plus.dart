@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:my_sage_agent/blocs/collection/collection_bloc.dart';
 import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/data/models/collection/lov.dart';
 import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
@@ -73,22 +72,6 @@ class BankAccountInputPlusState extends State<BankAccountInputPlus> {
     _lov.value = lovs?.toList() ?? [];
   }
 
-  void reloadPaymentLov(CollectionFormRetrievedSilently state) {
-    final field = state.result.fieldsData!.firstWhere((item) {
-      return item.field!.fieldName == _fieldName;
-    });
-    if (widget.sourceAccount?.$1.text.isEmpty ?? true) {
-      _lov.value = field.lov ?? [];
-      return;
-    }
-
-    final lovs = field.lov?.where((item) {
-      return item.lovValue != (widget.sourceAccount!.$1.text);
-    });
-
-    _lov.value = lovs?.toList() ?? [];
-  }
-
   String get _fieldName {
     return widget.formMultipleInput.controller.$2.field!.fieldName!;
   }
@@ -133,25 +116,6 @@ class BankAccountInputPlusState extends State<BankAccountInputPlus> {
             },
             builder: (context, state) {
               if (state is RetrievingProcessFlowFormDataSilently) {
-                return const Padding(
-                  padding: EdgeInsets.only(left: 15, right: 0, bottom: 15 + 23),
-                  child: SizedBox(width: 15, height: 15, child: CircularProgressIndicator()),
-                );
-              }
-
-              return const SizedBox();
-            },
-          ),
-        if (!widget._readOnly && widget.flowType == 'payment')
-          BlocConsumer<PaymentsBloc, PaymentsState>(
-            listener: (context, state) {
-              if (state is CollectionFormRetrievedSilently) {
-                reloadPaymentLov(state);
-                return;
-              }
-            },
-            builder: (context, state) {
-              if (state is SilentRetrievingCollectionForm) {
                 return const Padding(
                   padding: EdgeInsets.only(left: 15, right: 0, bottom: 15 + 23),
                   child: SizedBox(width: 15, height: 15, child: CircularProgressIndicator()),
