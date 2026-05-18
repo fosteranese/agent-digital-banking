@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
-import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
-import 'package:my_sage_agent/constants/field.const.dart';
+import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/data/models/collection/form_verification_response.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/process_request.model.dart';
 import 'package:my_sage_agent/data/models/request_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
@@ -43,7 +41,7 @@ class ConfirmationFormPage extends StatefulWidget {
   static const routeName = '/process-flow/confirmation-form';
 
   final Response<FormVerificationResponse> verifyData;
-  final GeneralFlowFormData formData;
+  final ProcessFlowFormData formData;
   final Map<String, dynamic> payload;
   final String activityType;
   final AmDoing amDoing;
@@ -54,8 +52,8 @@ class ConfirmationFormPage extends StatefulWidget {
 }
 
 class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
-  late List<GeneralFlowFieldsDatum> _fieldData;
-  final Map<String, (TextEditingController controller, GeneralFlowFieldsDatum fieldData)>
+  late List<ProcessFlowFieldsDatum> _fieldData;
+  final Map<String, (TextEditingController controller, ProcessFlowFieldsDatum fieldData)>
   _controllers = {};
   final ValueNotifier<String> _displayAmount = ValueNotifier('');
   final Loader _loader = Loader();
@@ -83,7 +81,7 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
   }
 
   /// Initialize field data
-  void _setupFormData([List<GeneralFlowFieldsDatum>? fieldsDatum]) {
+  void _setupFormData([List<ProcessFlowFieldsDatum>? fieldsDatum]) {
     _fieldData = (fieldsDatum ?? widget.formData.fieldsDatum ?? [])
         .where(
           (e) =>
@@ -124,7 +122,7 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
     _previewData = _generatePreviewData();
     return MultiBlocListener(
       listeners: [
-        BlocListener<GeneralFlowBloc, GeneralFlowState>(listener: _handleGeneralFlowState),
+        BlocListener<ProcessFlowBloc, ProcessFlowState>(listener: _handleProcessFlowState),
       ],
       child: MainLayout(
         backgroundColor: Colors.white,
@@ -203,24 +201,6 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
               controllers: _controllers,
               controller: entry.value,
               fieldData: widget.verifyData.data?.formData?[entry.value.$2.field?.fieldName ?? ''],
-              onPayeeSelectedOption: (payee) {
-                for (final item in _fieldData) {
-                  if (item.field?.fieldDataType == FieldDataTypesConst.sourceAccount) {
-                    continue;
-                  }
-
-                  final fieldName = item.field!.fieldName!.replaceRange(
-                    0,
-                    1,
-                    item.field!.fieldName![0].toLowerCase(),
-                  );
-                  if (payee.formData?.containsKey(fieldName) ?? false) {
-                    entry.value.$1.text =
-                        '${FormMultipleInputPlus.autoFill}${payee.formData![fieldName]}';
-                  }
-                }
-                setState(() {});
-              },
             );
           }),
         ],
@@ -335,24 +315,18 @@ class _ConfirmationFormPageState extends State<ConfirmationFormPage> {
 
     _id = const Uuid().v4();
 
-    switch (widget.amDoing) {
-      case AmDoing.addPayee:
-        context.read<PayeeBloc>().add(AddPayee(routeName: _id, payment: request, payload: payload));
-        break;
-      default:
-        context.read<GeneralFlowBloc>().add(
-          ProcessRequest(
-            routeName: _id,
-            activityType: widget.activityType,
-            request: request,
-            payload: payload,
-          ),
-        );
-    }
+    context.read<ProcessFlowBloc>().add(
+      ProcessRequest(
+        routeName: _id,
+        activityType: widget.activityType,
+        request: request,
+        payload: payload,
+      ),
+    );
   }
 
-  /// Handle state updates for GeneralFlowBloc
-  void _handleGeneralFlowState(BuildContext context, GeneralFlowState state) {
+  /// Handle state updates for ProcessFlowBloc
+  void _handleProcessFlowState(BuildContext context, ProcessFlowState state) {
     if ((state as dynamic).routeName != _id) return;
 
     switch (state) {
@@ -579,16 +553,13 @@ class SummaryStatusTile extends StatelessWidget {
   }
 
   Widget _statusBadge() {
-    late final String label;
-    if (useValue) {
-      label = value;
-    } else {
-      label = (code == 1)
-          ? 'Sent'
-          : (code == 0)
-          ? 'Failed'
-          : 'Pending';
-    }
+    final label = useValue
+        ? value
+        : ((code == 1)
+              ? 'Sent'
+              : (code == 0)
+              ? 'Failed'
+              : 'Pending');
 
     final icon = (code == 1)
         ? Icons.check
