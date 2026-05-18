@@ -5,8 +5,8 @@ import 'package:uuid/uuid.dart';
 
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/agent_collection_model.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
 import 'package:my_sage_agent/data/models/user_response/activity.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
@@ -29,7 +29,7 @@ class CollectionsDetailsPage extends StatefulWidget {
 }
 
 class _CollectionsDetailsPageState extends State<CollectionsDetailsPage> {
-  final Map<String, (TextEditingController controller, GeneralFlowFieldsDatum fieldData)>
+  final Map<String, (TextEditingController controller, ProcessFlowFieldsDatum fieldData)>
   _controllers = {};
   final ValueNotifier<String> _displayAmount = ValueNotifier('');
 
@@ -227,7 +227,7 @@ class _CollectionsDetailsPageState extends State<CollectionsDetailsPage> {
       skipSavedData: true,
       amDoing: AmDoing.transaction,
       id: const Uuid().v4(),
-      form: GeneralFlowForm(
+      form: ProcessFlowFormModel(
         formId: 'b6bdf056-ee54-4643-9c56-681f5a090fec',
         activityType: ActivityTypesConst.fblOnline,
       ),

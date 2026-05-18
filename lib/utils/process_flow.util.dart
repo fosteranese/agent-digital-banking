@@ -5,8 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/collection/institution.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
-import 'package:my_sage_agent/data/models/schedule/schedules.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/pages/collections/collections.page.dart';
@@ -78,7 +77,6 @@ final class ProcessFlowUtil {
     BuildContext context, {
     required bool skipSavedData,
     required AmDoing amDoing,
-    Payee? payee,
     String? receiptId,
     String? collectionId,
     dynamic form,
@@ -88,23 +86,8 @@ final class ProcessFlowUtil {
     String action = '';
     ProcessFlowUtil.id = id;
 
-    if (amDoing == AmDoing.createScheduleFromPayee) {
-      action = (payee != null) ? 'p-${payee.payeeId}' : 'r-$receiptId';
-
-      context.read<RetrieveDataBloc>().add(
-        RetrieveScheduleForm(
-          id: id,
-          action: action,
-          skipSavedData: skipSavedData,
-          receiptId: receiptId,
-          payeeId: payee?.payeeId,
-        ),
-      );
-      return;
-    }
-
     switch (form) {
-      case GeneralFlowForm form:
+      case ProcessFlowFormModel form:
         action = form.formId!;
         break;
       case Institution form:
@@ -124,7 +107,7 @@ final class ProcessFlowUtil {
         skipSavedData: skipSavedData,
         form: form,
         activity: activity,
-        payeeId: payee?.payeeId,
+        payeeId: null,
         collectionId: collectionId,
       ),
     );

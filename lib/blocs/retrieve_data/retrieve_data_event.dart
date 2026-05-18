@@ -100,7 +100,7 @@ class RetrieveEnquiry extends RetrieveDataEvent {
   });
 
   final Enquiry? enquiry;
-  final GeneralFlowForm form;
+  final ProcessFlowFormModel form;
 
   @override
   List<Object?> get props => [id, action, skipSavedData, form, enquiry];

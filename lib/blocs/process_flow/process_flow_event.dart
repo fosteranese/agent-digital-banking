@@ -1,7 +1,7 @@
-part of 'general_flow_bloc.dart';
+part of 'process_flow_bloc.dart';
 
-abstract class GeneralFlowEvent extends Equatable {
-  const GeneralFlowEvent();
+abstract class ProcessFlowEvent extends Equatable {
+  const ProcessFlowEvent();
 
   @override
   List<Object?> get props => [];
@@ -9,8 +9,8 @@ abstract class GeneralFlowEvent extends Equatable {
 
 // retrieve payments
 
-class RetrieveGeneralFlowCategories extends GeneralFlowEvent {
-  const RetrieveGeneralFlowCategories({
+class RetrieveProcessFlowCategories extends ProcessFlowEvent {
+  const RetrieveProcessFlowCategories({
     required this.activityId,
     required this.endpoint,
     required this.routeName,
@@ -26,8 +26,8 @@ class RetrieveGeneralFlowCategories extends GeneralFlowEvent {
   List<Object> get props => [activityId, endpoint, routeName, activityType];
 }
 
-class SilentRetrieveGeneralFlowCategories extends GeneralFlowEvent {
-  const SilentRetrieveGeneralFlowCategories({
+class SilentRetrieveProcessFlowCategories extends ProcessFlowEvent {
+  const SilentRetrieveProcessFlowCategories({
     required this.endpoint,
     this.activityType = ActivityTypesConst.fblOnline,
     this.routeName,
@@ -43,8 +43,8 @@ class SilentRetrieveGeneralFlowCategories extends GeneralFlowEvent {
 
 // retrieve payment categories
 
-class RetrieveGeneralFlowFormData extends GeneralFlowEvent {
-  const RetrieveGeneralFlowFormData({
+class RetrieveProcessFlowFormData extends ProcessFlowEvent {
+  const RetrieveProcessFlowFormData({
     required this.routeName,
     required this.formId,
     this.activityType = ActivityTypesConst.fblOnline,
@@ -61,8 +61,8 @@ class RetrieveGeneralFlowFormData extends GeneralFlowEvent {
   List<Object?> get props => [routeName, formId, activityType, qrCode, payeeId];
 }
 
-class SilentRetrieveGeneralFlowFormData extends GeneralFlowEvent {
-  const SilentRetrieveGeneralFlowFormData({
+class SilentRetrieveProcessFlowFormData extends ProcessFlowEvent {
+  const SilentRetrieveProcessFlowFormData({
     required this.formId,
     this.activityType = ActivityTypesConst.fblOnline,
     this.qrCode,
@@ -79,7 +79,7 @@ class SilentRetrieveGeneralFlowFormData extends GeneralFlowEvent {
 
 // verify request
 
-class VerifyRequest extends GeneralFlowEvent {
+class VerifyRequest extends ProcessFlowEvent {
   const VerifyRequest({
     required this.routeName,
     required this.formData,
@@ -87,7 +87,7 @@ class VerifyRequest extends GeneralFlowEvent {
     this.activityType = ActivityTypesConst.fblOnline,
   });
   final String routeName;
-  final GeneralFlowFormData formData;
+  final ProcessFlowFormData formData;
   final Map<String, dynamic> payload;
   final String activityType;
 
@@ -97,7 +97,7 @@ class VerifyRequest extends GeneralFlowEvent {
 
 // process request
 
-class ProcessRequest extends GeneralFlowEvent {
+class ProcessRequest extends ProcessFlowEvent {
   const ProcessRequest({
     required this.routeName,
     required this.request,
@@ -116,7 +116,7 @@ class ProcessRequest extends GeneralFlowEvent {
 
 // save Beneficiaries
 
-class SaveBeneficiary extends GeneralFlowEvent {
+class SaveBeneficiary extends ProcessFlowEvent {
   const SaveBeneficiary({
     required this.routeName,
     required this.payload,
@@ -133,21 +133,21 @@ class SaveBeneficiary extends GeneralFlowEvent {
 
 // enquire general flow
 
-class GeneralFlowEnquiry extends GeneralFlowEvent {
+class GeneralFlowEnquiry extends ProcessFlowEvent {
   const GeneralFlowEnquiry({
     required this.routeName,
     required this.form,
     this.activityType = ActivityTypesConst.fblOnline,
   });
   final String routeName;
-  final GeneralFlowForm form;
+  final ProcessFlowFormModel form;
   final String activityType;
 
   @override
   List<Object> get props => [routeName, form, activityType];
 }
 
-class SilentGeneralFlowEnquiry extends GeneralFlowEvent {
+class SilentGeneralFlowEnquiry extends ProcessFlowEvent {
   const SilentGeneralFlowEnquiry({
     required this.routeName,
     required this.endpoint,
@@ -161,7 +161,7 @@ class SilentGeneralFlowEnquiry extends GeneralFlowEvent {
   List<Object> get props => [routeName, endpoint, activityType];
 }
 
-class GeneralFlowSubEnquiry extends GeneralFlowEvent {
+class GeneralFlowSubEnquiry extends ProcessFlowEvent {
   const GeneralFlowSubEnquiry({
     required this.routeName,
     required this.formId,
@@ -179,7 +179,7 @@ class GeneralFlowSubEnquiry extends GeneralFlowEvent {
   List<Object> get props => [routeName, formId, hashValue, endpoint, activityType];
 }
 
-class SilentGeneralFlowSubEnquiry extends GeneralFlowEvent {
+class SilentGeneralFlowSubEnquiry extends ProcessFlowEvent {
   const SilentGeneralFlowSubEnquiry({
     required this.routeName,
     required this.formId,
@@ -199,7 +199,7 @@ class SilentGeneralFlowSubEnquiry extends GeneralFlowEvent {
 
 // prepare scheduler
 
-class PrepareScheduler extends GeneralFlowEvent {
+class PrepareScheduler extends ProcessFlowEvent {
   const PrepareScheduler({required this.routeName, this.receiptId, this.payeeId});
 
   final String routeName;
@@ -212,7 +212,7 @@ class PrepareScheduler extends GeneralFlowEvent {
 
 // prepare scheduler
 
-class ApproveReversalRequestEvent extends GeneralFlowEvent {
+class ApproveReversalRequestEvent extends ProcessFlowEvent {
   const ApproveReversalRequestEvent({
     required this.id,
     required this.pin,

@@ -1,18 +1,18 @@
-part of 'general_flow_bloc.dart';
+part of 'process_flow_bloc.dart';
 
-abstract class GeneralFlowState extends Equatable {
-  const GeneralFlowState();
+abstract class ProcessFlowState extends Equatable {
+  const ProcessFlowState();
 
   @override
   List<Object?> get props => [];
 }
 
-class GeneralFlowInitial extends GeneralFlowState {}
+class GeneralFlowInitial extends ProcessFlowState {}
 
 // retrieve payments
 
-class RetrievingGeneralFlowCategories extends GeneralFlowState {
-  const RetrievingGeneralFlowCategories({required this.routeName, required this.activityType});
+class RetrievingProcessFlowCategories extends ProcessFlowState {
+  const RetrievingProcessFlowCategories({required this.routeName, required this.activityType});
   final String routeName;
   final String activityType;
 
@@ -20,8 +20,8 @@ class RetrievingGeneralFlowCategories extends GeneralFlowState {
   List<Object> get props => [routeName, activityType];
 }
 
-class SilentRetrievingGeneralFlowCategories extends GeneralFlowState {
-  const SilentRetrievingGeneralFlowCategories({required this.id, required this.activityType});
+class SilentRetrievingProcessFlowCategories extends ProcessFlowState {
+  const SilentRetrievingProcessFlowCategories({required this.id, required this.activityType});
 
   final String id;
   final String activityType;
@@ -30,15 +30,15 @@ class SilentRetrievingGeneralFlowCategories extends GeneralFlowState {
   List<Object> get props => [id, activityType];
 }
 
-class GeneralFlowCategoriesRetrieved extends GeneralFlowState {
-  const GeneralFlowCategoriesRetrieved({
+class ProcessFlowCategoriesRetrieved extends ProcessFlowState {
+  const ProcessFlowCategoriesRetrieved({
     required this.fblOnlineCategories,
     required this.routeName,
     required this.activityType,
     required this.endpoint,
   });
 
-  final Response<GeneralFlowCategory> fblOnlineCategories;
+  final Response<ProcessFlowCategory> fblOnlineCategories;
   final String routeName;
   final String activityType;
   final String endpoint;
@@ -47,13 +47,13 @@ class GeneralFlowCategoriesRetrieved extends GeneralFlowState {
   List<Object> get props => [fblOnlineCategories, routeName, activityType, endpoint];
 }
 
-class GeneralFlowCategoriesRetrievedSilently extends GeneralFlowState {
-  const GeneralFlowCategoriesRetrievedSilently({
+class ProcessFlowCategoriesRetrievedSilently extends ProcessFlowState {
+  const ProcessFlowCategoriesRetrievedSilently({
     required this.fblOnlineCategories,
     required this.activityType,
     this.routeName,
   });
-  final Response<GeneralFlowCategory> fblOnlineCategories;
+  final Response<ProcessFlowCategory> fblOnlineCategories;
   final String activityType;
   final String? routeName;
 
@@ -61,8 +61,8 @@ class GeneralFlowCategoriesRetrievedSilently extends GeneralFlowState {
   List<Object?> get props => [fblOnlineCategories, activityType, routeName];
 }
 
-class RetrieveGeneralFlowCategoriesError extends GeneralFlowState {
-  const RetrieveGeneralFlowCategoriesError({
+class RetrieveProcessFlowCategoriesError extends ProcessFlowState {
+  const RetrieveProcessFlowCategoriesError({
     required this.result,
     required this.routeName,
     required this.activityType,
@@ -76,8 +76,8 @@ class RetrieveGeneralFlowCategoriesError extends GeneralFlowState {
   List<Object> get props => [result, routeName, activityType];
 }
 
-class SilentRetrieveGeneralFlowError extends GeneralFlowState {
-  const SilentRetrieveGeneralFlowError({
+class SilentRetrieveProcessFlowError extends ProcessFlowState {
+  const SilentRetrieveProcessFlowError({
     required this.result,
     required this.activityType,
     this.routeName,
@@ -93,8 +93,8 @@ class SilentRetrieveGeneralFlowError extends GeneralFlowState {
 
 // retrieve form
 
-class RetrievingGeneralFlowFormData extends GeneralFlowState {
-  const RetrievingGeneralFlowFormData({required this.routeName, required this.activityType});
+class RetrievingProcessFlowFormData extends ProcessFlowState {
+  const RetrievingProcessFlowFormData({required this.routeName, required this.activityType});
   final String routeName;
   final String activityType;
 
@@ -102,8 +102,8 @@ class RetrievingGeneralFlowFormData extends GeneralFlowState {
   List<Object> get props => [routeName, activityType];
 }
 
-class RetrievingGeneralFlowFormDataSilently extends GeneralFlowState {
-  const RetrievingGeneralFlowFormDataSilently(this.activityType);
+class RetrievingProcessFlowFormDataSilently extends ProcessFlowState {
+  const RetrievingProcessFlowFormDataSilently(this.activityType);
 
   final String activityType;
 
@@ -111,13 +111,13 @@ class RetrievingGeneralFlowFormDataSilently extends GeneralFlowState {
   List<Object> get props => [activityType];
 }
 
-class GeneralFlowFormDataRetrieved extends GeneralFlowState {
-  const GeneralFlowFormDataRetrieved({
+class ProcessFlowFormDataRetrieved extends ProcessFlowState {
+  const ProcessFlowFormDataRetrieved({
     required this.fblOnlineFormData,
     required this.routeName,
     required this.activityType,
   });
-  final Response<GeneralFlowFormData> fblOnlineFormData;
+  final Response<ProcessFlowFormData> fblOnlineFormData;
   final String routeName;
   final String activityType;
 
@@ -125,20 +125,20 @@ class GeneralFlowFormDataRetrieved extends GeneralFlowState {
   List<Object> get props => [fblOnlineFormData, routeName, activityType];
 }
 
-class GeneralFlowFormDataRetrievedSilently extends GeneralFlowState {
-  const GeneralFlowFormDataRetrievedSilently({
+class ProcessFlowFormDataRetrievedSilently extends ProcessFlowState {
+  const ProcessFlowFormDataRetrievedSilently({
     required this.fblOnlineFormData,
     required this.activityType,
   });
-  final Response<GeneralFlowFormData> fblOnlineFormData;
+  final Response<ProcessFlowFormData> fblOnlineFormData;
   final String activityType;
 
   @override
   List<Object> get props => [fblOnlineFormData, activityType];
 }
 
-class RetrieveGeneralFlowFormDataError extends GeneralFlowState {
-  const RetrieveGeneralFlowFormDataError({
+class RetrieveProcessFlowFormDataError extends ProcessFlowState {
+  const RetrieveProcessFlowFormDataError({
     required this.result,
     required this.routeName,
     required this.activityType,
@@ -152,8 +152,8 @@ class RetrieveGeneralFlowFormDataError extends GeneralFlowState {
   List<Object> get props => [result, routeName, activityType];
 }
 
-class SilentRetrieveGeneralFlowFormDataError extends GeneralFlowState {
-  const SilentRetrieveGeneralFlowFormDataError({required this.result, required this.activityType});
+class SilentRetrieveProcessFlowFormDataError extends ProcessFlowState {
+  const SilentRetrieveProcessFlowFormDataError({required this.result, required this.activityType});
 
   final Response<dynamic> result;
   final String activityType;
@@ -164,7 +164,7 @@ class SilentRetrieveGeneralFlowFormDataError extends GeneralFlowState {
 
 // verify request
 
-class VerifyingRequest extends GeneralFlowState {
+class VerifyingRequest extends ProcessFlowState {
   const VerifyingRequest({required this.routeName, required this.activityType});
   final String routeName;
   final String activityType;
@@ -173,7 +173,7 @@ class VerifyingRequest extends GeneralFlowState {
   List<Object> get props => [routeName, activityType];
 }
 
-class RequestVerified extends GeneralFlowState {
+class RequestVerified extends ProcessFlowState {
   const RequestVerified({
     required this.result,
     required this.routeName,
@@ -191,7 +191,7 @@ class RequestVerified extends GeneralFlowState {
   List<Object> get props => [result, routeName, payload, formData, activityType];
 }
 
-class VerifyRequestError extends GeneralFlowState {
+class VerifyRequestError extends ProcessFlowState {
   const VerifyRequestError({
     required this.result,
     required this.routeName,
@@ -208,7 +208,7 @@ class VerifyRequestError extends GeneralFlowState {
 
 // make payment
 
-class ProcessingRequest extends GeneralFlowState {
+class ProcessingRequest extends ProcessFlowState {
   const ProcessingRequest({required this.routeName, required this.activityType});
   final String routeName;
   final String activityType;
@@ -217,7 +217,7 @@ class ProcessingRequest extends GeneralFlowState {
   List<Object> get props => [routeName, activityType];
 }
 
-class RequestProcessed extends GeneralFlowState {
+class RequestProcessed extends ProcessFlowState {
   const RequestProcessed({
     required this.result,
     required this.routeName,
@@ -231,7 +231,7 @@ class RequestProcessed extends GeneralFlowState {
   List<Object> get props => [result, routeName, activityType];
 }
 
-class ProcessRequestError extends GeneralFlowState {
+class ProcessRequestError extends ProcessFlowState {
   const ProcessRequestError({
     required this.routeName,
     required this.result,
@@ -248,7 +248,7 @@ class ProcessRequestError extends GeneralFlowState {
 
 // save Beneficiaries
 
-class SavingBeneficiary extends GeneralFlowState {
+class SavingBeneficiary extends ProcessFlowState {
   const SavingBeneficiary({required this.routeName, required this.activityType});
   final String routeName;
   final String activityType;
@@ -257,7 +257,7 @@ class SavingBeneficiary extends GeneralFlowState {
   List<Object> get props => [routeName, activityType];
 }
 
-class BeneficiarySaved extends GeneralFlowState {
+class BeneficiarySaved extends ProcessFlowState {
   const BeneficiarySaved({
     required this.result,
     required this.routeName,
@@ -271,7 +271,7 @@ class BeneficiarySaved extends GeneralFlowState {
   List<Object> get props => [result, routeName, activityType];
 }
 
-class SaveBeneficiaryError extends GeneralFlowState {
+class SaveBeneficiaryError extends ProcessFlowState {
   const SaveBeneficiaryError({
     required this.routeName,
     required this.result,
@@ -287,7 +287,7 @@ class SaveBeneficiaryError extends GeneralFlowState {
 }
 
 // enquire general flow
-class EnquiringGeneralFlow extends GeneralFlowState {
+class EnquiringGeneralFlow extends ProcessFlowState {
   const EnquiringGeneralFlow({required this.routeName, required this.activityType});
   final String routeName;
   final String activityType;
@@ -296,7 +296,7 @@ class EnquiringGeneralFlow extends GeneralFlowState {
   List<Object> get props => [routeName, activityType];
 }
 
-class SilentEnquiringGeneralFlow extends GeneralFlowState {
+class SilentEnquiringGeneralFlow extends ProcessFlowState {
   const SilentEnquiringGeneralFlow(this.activityType);
 
   final String activityType;
@@ -305,7 +305,7 @@ class SilentEnquiringGeneralFlow extends GeneralFlowState {
   List<Object> get props => [activityType];
 }
 
-class GeneralFlowEnquired extends GeneralFlowState {
+class GeneralFlowEnquired extends ProcessFlowState {
   const GeneralFlowEnquired({
     required this.result,
     required this.routeName,
@@ -325,7 +325,7 @@ class GeneralFlowEnquired extends GeneralFlowState {
   List<Object?> get props => [result, routeName, activityType, endpoint, formId, hashValue];
 }
 
-class GeneralFlowEnquiredSilently extends GeneralFlowState {
+class GeneralFlowEnquiredSilently extends ProcessFlowState {
   const GeneralFlowEnquiredSilently({
     required this.result,
     required this.activityType,
@@ -343,7 +343,7 @@ class GeneralFlowEnquiredSilently extends GeneralFlowState {
   List<Object?> get props => [result, activityType, endpoint, formId, hashValue];
 }
 
-class EnquireGeneralFlowError extends GeneralFlowState {
+class EnquireGeneralFlowError extends ProcessFlowState {
   const EnquireGeneralFlowError({
     required this.result,
     required this.routeName,
@@ -358,7 +358,7 @@ class EnquireGeneralFlowError extends GeneralFlowState {
   List<Object> get props => [result, routeName, activityType];
 }
 
-class SilentEnquireGeneralFlowError extends GeneralFlowState {
+class SilentEnquireGeneralFlowError extends ProcessFlowState {
   const SilentEnquireGeneralFlowError({required this.result, required this.activityType});
 
   final Response<dynamic> result;
@@ -370,7 +370,7 @@ class SilentEnquireGeneralFlowError extends GeneralFlowState {
 
 // schedule transaction
 
-class PreparingScheduler extends GeneralFlowState {
+class PreparingScheduler extends ProcessFlowState {
   const PreparingScheduler({required this.routeName, required this.activityType});
   final String routeName;
   final String activityType;
@@ -379,7 +379,7 @@ class PreparingScheduler extends GeneralFlowState {
   List<Object> get props => [routeName, activityType];
 }
 
-class SchedulerPrepared extends GeneralFlowState {
+class SchedulerPrepared extends ProcessFlowState {
   const SchedulerPrepared({
     required this.result,
     required this.routeName,
@@ -393,7 +393,7 @@ class SchedulerPrepared extends GeneralFlowState {
   List<Object> get props => [result, routeName, activityType];
 }
 
-class PrepareSchedulerError extends GeneralFlowState {
+class PrepareSchedulerError extends ProcessFlowState {
   const PrepareSchedulerError({
     required this.routeName,
     required this.result,
@@ -408,7 +408,7 @@ class PrepareSchedulerError extends GeneralFlowState {
   List<Object> get props => [routeName, result, activityType];
 }
 
-class CompleteGhanaCardVerification extends GeneralFlowState {
+class CompleteGhanaCardVerification extends ProcessFlowState {
   const CompleteGhanaCardVerification({required this.data, required this.id, required this.event});
 
   final VerificationResponse data;
@@ -419,7 +419,7 @@ class CompleteGhanaCardVerification extends GeneralFlowState {
   List<Object> get props => [data, id, event];
 }
 
-class ApprovingReversalRequest extends GeneralFlowState {
+class ApprovingReversalRequest extends ProcessFlowState {
   const ApprovingReversalRequest({required this.id});
 
   final String id;
@@ -428,7 +428,7 @@ class ApprovingReversalRequest extends GeneralFlowState {
   List<Object> get props => [id];
 }
 
-class ReversalRequestApproved extends GeneralFlowState {
+class ReversalRequestApproved extends ProcessFlowState {
   const ReversalRequestApproved({required this.id, required this.result});
 
   final String id;
@@ -438,7 +438,7 @@ class ReversalRequestApproved extends GeneralFlowState {
   List<Object> get props => [id, result];
 }
 
-class ReversalRequestDeclined extends GeneralFlowState {
+class ReversalRequestDeclined extends ProcessFlowState {
   const ReversalRequestDeclined({required this.id, required this.result});
 
   final String id;
@@ -448,7 +448,7 @@ class ReversalRequestDeclined extends GeneralFlowState {
   List<Object> get props => [id, result];
 }
 
-class ApproveReversalRequestError extends GeneralFlowState {
+class ApproveReversalRequestError extends ProcessFlowState {
   const ApproveReversalRequestError({required this.id, required this.error});
 
   final String id;

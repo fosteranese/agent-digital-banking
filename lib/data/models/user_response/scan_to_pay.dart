@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import '../general_flow/general_flow_form.dart';
+import '../process_flow/process_flow_form.dart';
 import 'activity.dart';
 
 class ScanToPay extends Equatable {
   final Activity? activity;
-  final List<GeneralFlowForm>? activityItems;
+  final List<ProcessFlowFormModel>? activityItems;
   final String? imageDirectory;
 
   const ScanToPay({this.activity, this.activityItems, this.imageDirectory});
@@ -17,7 +17,7 @@ class ScanToPay extends Equatable {
         ? null
         : Activity.fromMap(data['activity'] as Map<String, dynamic>),
     activityItems: (data['activityItems'] as List<dynamic>?)
-        ?.map((e) => GeneralFlowForm.fromMap(e as Map<String, dynamic>))
+        ?.map((e) => ProcessFlowFormModel.fromMap(e as Map<String, dynamic>))
         .toList(),
     imageDirectory: data['imageDirectory'] as String?,
   );
@@ -42,7 +42,7 @@ class ScanToPay extends Equatable {
 
   ScanToPay copyWith({
     Activity? activity,
-    List<GeneralFlowForm>? activityItems,
+    List<ProcessFlowFormModel>? activityItems,
     String? imageDirectory,
   }) {
     return ScanToPay(

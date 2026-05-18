@@ -6,7 +6,7 @@ import 'package:my_sage_agent/data/models/collection/lov.dart';
 import 'package:my_sage_agent/data/models/supervisor_data.dart';
 
 import '../account/account.dart';
-import '../general_flow/general_flow_form.dart';
+import '../process_flow/process_flow_form.dart';
 import 'activity_datum.dart';
 import 'recent_activity.dart';
 import 'scan_to_pay.dart';
@@ -20,7 +20,7 @@ class UserResponse extends Equatable {
   final User? user;
   final List<RecentActivity>? recentActivity;
   final List<Account>? customerData;
-  final List<GeneralFlowForm>? nonCustomerData;
+  final List<ProcessFlowFormModel>? nonCustomerData;
   final dynamic quickAction;
   final ScanToPay? scanToPay;
   final List<ActivityDatum>? activities;
@@ -63,7 +63,7 @@ class UserResponse extends Equatable {
         .toList(),
     // customerData: (data['customerData'] as List<dynamic>?)?.map((e) => CustomerDatum.fromJson(e as String)).toList(),
     nonCustomerData: (data['nonCustomerData'] as List<dynamic>?)
-        ?.map((e) => GeneralFlowForm.fromMap(e as Map<String, dynamic>))
+        ?.map((e) => ProcessFlowFormModel.fromMap(e as Map<String, dynamic>))
         .toList(),
     quickAction: data['quickAction'] as dynamic,
     scanToPay: data['scanToPay'] == null
@@ -133,7 +133,7 @@ class UserResponse extends Equatable {
     User? user,
     List<RecentActivity>? recentActivity,
     List<Account>? customerData,
-    List<GeneralFlowForm>? nonCustomerData,
+    List<ProcessFlowFormModel>? nonCustomerData,
     dynamic quickAction,
     ScanToPay? scanToPay,
     List<ActivityDatum>? activities,

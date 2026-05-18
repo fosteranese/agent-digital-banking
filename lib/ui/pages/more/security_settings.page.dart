@@ -6,9 +6,9 @@ import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/blocs/security_settings/security_settings_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
-import 'package:my_sage_agent/data/models/general_flow/category.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/process_flow/category.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_category.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/user_response/activity.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
@@ -29,8 +29,8 @@ class SecuritySettingsPage extends StatefulWidget {
 }
 
 class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
-  GeneralFlowCategory? _sourceList;
-  late List<GeneralFlowForm> _list = [];
+  ProcessFlowCategory? _sourceList;
+  late List<ProcessFlowFormModel> _list = [];
   String _imageBaseUrl = '';
   String _imageDirectory = '';
   final _refreshController = GlobalKey<RefreshIndicatorState>();
@@ -95,7 +95,7 @@ class _SecuritySettingsPageState extends State<SecuritySettingsPage> {
                       },
                       builder: (context, state) {
                         if (state is DataRetrieved &&
-                            state.data is Response<GeneralFlowCategory> &&
+                            state.data is Response<ProcessFlowCategory> &&
                             state.id == _id) {
                           final response = state.data;
 

@@ -5,13 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
 
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class AmountInput extends StatefulWidget {
   const AmountInput({super.key, required this.controller, this.focusNode});
 
-  final (TextEditingController, GeneralFlowFieldsDatum) controller;
+  final (TextEditingController, ProcessFlowFieldsDatum) controller;
   final FocusNode? focusNode;
 
   @override

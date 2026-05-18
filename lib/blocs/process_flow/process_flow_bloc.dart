@@ -5,9 +5,9 @@ import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/constants/status.const.dart';
 import 'package:my_sage_agent/data/models/collection/form_verification_response.dart';
 import 'package:my_sage_agent/data/models/enquiry.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_category.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_category.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/process_request.model.dart';
 import 'package:my_sage_agent/data/models/request_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
@@ -17,15 +17,15 @@ import 'package:my_sage_agent/data/repository/payment.repo.dart';
 import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
 import 'package:my_sage_agent/utils/response.util.dart';
 
-part 'general_flow_event.dart';
-part 'general_flow_state.dart';
+part 'process_flow_event.dart';
+part 'process_flow_state.dart';
 
-class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
-  GeneralFlowBloc() : super(GeneralFlowInitial()) {
+class ProcessFlowBloc extends Bloc<ProcessFlowEvent, ProcessFlowState> {
+  ProcessFlowBloc() : super(GeneralFlowInitial()) {
     on(_onRetrieveGeneralFlow);
-    on(_onSilentRetrieveGeneralFlow);
-    on(_onRetrieveGeneralFlowFormData);
-    on(_onSilentRetrieveGeneralFlowFormData);
+    on(_onSilentRetrieveProcessFlow);
+    on(_onRetrieveProcessFlowFormData);
+    on(_onSilentRetrieveProcessFlowFormData);
 
     on(_onVerifyRequest);
     on(_onProcessRequest);
@@ -43,33 +43,33 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
   final _fblOnlineRepo = FblOnlineRepo();
   final _quickflow = QuickFlowRepo();
   final _paymentRepo = PaymentRepo();
-  Response<GeneralFlowCategory> fblOnlineCategories = const Response(
+  Response<ProcessFlowCategory> fblOnlineCategories = const Response(
     code: '',
     status: '',
     message: '',
     data: null,
   );
-  Map<String, Response<GeneralFlowCategory>> fblOnlineCategoriesMap = {};
-  Response<GeneralFlowFormData> fblOnlineForms = const Response(
+  Map<String, Response<ProcessFlowCategory>> fblOnlineCategoriesMap = {};
+  Response<ProcessFlowFormData> fblOnlineForms = const Response(
     code: '',
     status: '',
     message: '',
     data: null,
   );
-  Map<String, Response<GeneralFlowFormData>> fblOnlineFormsMap = {};
+  Map<String, Response<ProcessFlowFormData>> fblOnlineFormsMap = {};
   Response<Enquiry> enquiry = const Response(code: '', status: '', message: '', data: null);
   Map<String, Response<Enquiry>> enquiryMap = {};
   String activityId = '';
 
   Future<void> _onRetrieveGeneralFlow(
-    RetrieveGeneralFlowCategories event,
-    Emitter<GeneralFlowState> emit,
+    RetrieveProcessFlowCategories event,
+    Emitter<ProcessFlowState> emit,
   ) async {
-    Response<GeneralFlowCategory>? stored;
+    Response<ProcessFlowCategory>? stored;
     activityId = event.activityId;
     try {
       emit(
-        RetrievingGeneralFlowCategories(
+        RetrievingProcessFlowCategories(
           routeName: event.routeName,
           activityType: event.activityType,
         ),
@@ -87,7 +87,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         fblOnlineCategoriesMap[event.endpoint] = stored;
         fblOnlineCategories = stored;
         emit(
-          GeneralFlowCategoriesRetrieved(
+          ProcessFlowCategoriesRetrieved(
             fblOnlineCategories: fblOnlineCategories,
             routeName: event.routeName,
             activityType: event.activityType,
@@ -96,7 +96,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         );
 
         emit(
-          SilentRetrievingGeneralFlowCategories(
+          SilentRetrievingProcessFlowCategories(
             id: event.routeName,
             activityType: event.activityType,
           ),
@@ -105,14 +105,14 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         fblOnlineCategories = fblOnlineCategoriesMap[event.endpoint]!;
 
         emit(
-          SilentRetrievingGeneralFlowCategories(
+          SilentRetrievingProcessFlowCategories(
             id: event.routeName,
             activityType: event.activityType,
           ),
         );
       }
 
-      late Response<GeneralFlowCategory> result;
+      late Response<ProcessFlowCategory> result;
       switch (event.activityType) {
         case ActivityTypesConst.fblOnline:
           result = await _fblOnlineRepo.retrieveCategories(event.endpoint);
@@ -127,7 +127,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
       if ((result.data?.forms?.isEmpty ?? true) || (result.data?.category == null)) {
         emit(
-          RetrieveGeneralFlowCategoriesError(
+          RetrieveProcessFlowCategoriesError(
             result: const Response(
               code: StatusConstants.error,
               status: StatusConstants.error,
@@ -142,7 +142,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
       if (stored == null || (stored.data?.forms?.isEmpty ?? false)) {
         emit(
-          GeneralFlowCategoriesRetrieved(
+          ProcessFlowCategoriesRetrieved(
             fblOnlineCategories: result,
             routeName: event.routeName,
             activityType: event.activityType,
@@ -151,7 +151,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         );
       } else {
         emit(
-          GeneralFlowCategoriesRetrievedSilently(
+          ProcessFlowCategoriesRetrievedSilently(
             fblOnlineCategories: result,
             activityType: event.activityType,
             routeName: event.routeName,
@@ -163,7 +163,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         ResponseUtil.handleException(
           ex,
           (error) => emit(
-            RetrieveGeneralFlowCategoriesError(
+            RetrieveProcessFlowCategoriesError(
               result: error,
               routeName: event.routeName,
               activityType: event.activityType,
@@ -174,24 +174,24 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         ResponseUtil.handleException(
           ex,
           (error) =>
-              emit(SilentRetrieveGeneralFlowError(result: error, activityType: event.activityType)),
+              emit(SilentRetrieveProcessFlowError(result: error, activityType: event.activityType)),
         );
       }
     }
   }
 
-  Future<void> _onSilentRetrieveGeneralFlow(
-    SilentRetrieveGeneralFlowCategories event,
-    Emitter<GeneralFlowState> emit,
+  Future<void> _onSilentRetrieveProcessFlow(
+    SilentRetrieveProcessFlowCategories event,
+    Emitter<ProcessFlowState> emit,
   ) async {
     try {
       emit(
-        SilentRetrievingGeneralFlowCategories(
+        SilentRetrievingProcessFlowCategories(
           activityType: event.activityType,
           id: event.routeName ?? '',
         ),
       );
-      late Response<GeneralFlowCategory> result;
+      late Response<ProcessFlowCategory> result;
       switch (event.activityType) {
         case ActivityTypesConst.fblOnline:
           result = await _fblOnlineRepo.retrieveCategories(event.endpoint);
@@ -202,7 +202,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
       }
       fblOnlineCategories = result;
       emit(
-        GeneralFlowCategoriesRetrievedSilently(
+        ProcessFlowCategoriesRetrievedSilently(
           fblOnlineCategories: result,
           activityType: event.activityType,
           routeName: event.routeName,
@@ -212,19 +212,19 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
       ResponseUtil.handleException(
         ex,
         (error) =>
-            emit(SilentRetrieveGeneralFlowError(result: error, activityType: event.activityType)),
+            emit(SilentRetrieveProcessFlowError(result: error, activityType: event.activityType)),
       );
     }
   }
 
-  Future<void> _onRetrieveGeneralFlowFormData(
-    RetrieveGeneralFlowFormData event,
-    Emitter<GeneralFlowState> emit,
+  Future<void> _onRetrieveProcessFlowFormData(
+    RetrieveProcessFlowFormData event,
+    Emitter<ProcessFlowState> emit,
   ) async {
-    Response<GeneralFlowFormData>? stored;
+    Response<ProcessFlowFormData>? stored;
     try {
       emit(
-        RetrievingGeneralFlowFormData(routeName: event.routeName, activityType: event.activityType),
+        RetrievingProcessFlowFormData(routeName: event.routeName, activityType: event.activityType),
       );
       switch (event.activityType) {
         case ActivityTypesConst.fblOnline:
@@ -247,19 +247,19 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         fblOnlineFormsMap[event.formId] = stored;
         fblOnlineForms = stored;
         emit(
-          GeneralFlowFormDataRetrieved(
+          ProcessFlowFormDataRetrieved(
             fblOnlineFormData: fblOnlineForms,
             routeName: event.routeName,
             activityType: event.activityType,
           ),
         );
 
-        emit(RetrievingGeneralFlowFormDataSilently(event.activityType));
+        emit(RetrievingProcessFlowFormDataSilently(event.activityType));
       } else if (fblOnlineFormsMap[event.formId] != null) {
         fblOnlineForms = fblOnlineFormsMap[event.formId]!;
       }
 
-      late Response<GeneralFlowFormData> result;
+      late Response<ProcessFlowFormData> result;
       switch (event.activityType) {
         case ActivityTypesConst.fblOnline:
           result = await _fblOnlineRepo.retrieveFormData(
@@ -288,7 +288,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
       if (stored == null || (stored.data?.fieldsDatum?.isEmpty ?? false)) {
         emit(
-          GeneralFlowFormDataRetrieved(
+          ProcessFlowFormDataRetrieved(
             fblOnlineFormData: fblOnlineForms,
             routeName: event.routeName,
             activityType: event.activityType,
@@ -296,7 +296,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         );
       } else {
         emit(
-          GeneralFlowFormDataRetrievedSilently(
+          ProcessFlowFormDataRetrievedSilently(
             fblOnlineFormData: fblOnlineForms,
             activityType: event.activityType,
           ),
@@ -307,7 +307,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         ResponseUtil.handleException(
           ex,
           (error) => emit(
-            RetrieveGeneralFlowFormDataError(
+            RetrieveProcessFlowFormDataError(
               result: error,
               routeName: event.routeName,
               activityType: event.activityType,
@@ -318,20 +318,20 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         ResponseUtil.handleException(
           ex,
           (error) => emit(
-            SilentRetrieveGeneralFlowFormDataError(result: error, activityType: event.activityType),
+            SilentRetrieveProcessFlowFormDataError(result: error, activityType: event.activityType),
           ),
         );
       }
     }
   }
 
-  Future<void> _onSilentRetrieveGeneralFlowFormData(
-    SilentRetrieveGeneralFlowFormData event,
-    Emitter<GeneralFlowState> emit,
+  Future<void> _onSilentRetrieveProcessFlowFormData(
+    SilentRetrieveProcessFlowFormData event,
+    Emitter<ProcessFlowState> emit,
   ) async {
     try {
-      emit(RetrievingGeneralFlowFormDataSilently(event.activityType));
-      late Response<GeneralFlowFormData> result;
+      emit(RetrievingProcessFlowFormDataSilently(event.activityType));
+      late Response<ProcessFlowFormData> result;
       switch (event.activityType) {
         case ActivityTypesConst.fblOnline:
           result = await _fblOnlineRepo.retrieveFormData(
@@ -351,7 +351,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
       fblOnlineForms = result;
       emit(
-        GeneralFlowFormDataRetrievedSilently(
+        ProcessFlowFormDataRetrievedSilently(
           fblOnlineFormData: result,
           activityType: event.activityType,
         ),
@@ -360,13 +360,13 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
       ResponseUtil.handleException(
         ex,
         (error) => emit(
-          SilentRetrieveGeneralFlowFormDataError(result: error, activityType: event.activityType),
+          SilentRetrieveProcessFlowFormDataError(result: error, activityType: event.activityType),
         ),
       );
     }
   }
 
-  Future<void> _onVerifyRequest(VerifyRequest event, Emitter<GeneralFlowState> emit) async {
+  Future<void> _onVerifyRequest(VerifyRequest event, Emitter<ProcessFlowState> emit) async {
     Response<FormVerificationResponse>? stored;
     try {
       emit(VerifyingRequest(routeName: event.routeName, activityType: event.activityType));
@@ -416,7 +416,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
     }
   }
 
-  Future<void> _onProcessRequest(ProcessRequest event, Emitter<GeneralFlowState> emit) async {
+  Future<void> _onProcessRequest(ProcessRequest event, Emitter<ProcessFlowState> emit) async {
     try {
       emit(ProcessingRequest(routeName: event.routeName, activityType: event.activityType));
       late Response<RequestResponse> stored;
@@ -457,7 +457,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
     }
   }
 
-  Future<void> _onSaveBeneficiary(SaveBeneficiary event, Emitter<GeneralFlowState> emit) async {
+  Future<void> _onSaveBeneficiary(SaveBeneficiary event, Emitter<ProcessFlowState> emit) async {
     try {
       emit(SavingBeneficiary(routeName: event.routeName, activityType: event.activityType));
 
@@ -494,7 +494,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
   Future<void> _onEnquiryGeneralFlow(
     GeneralFlowEnquiry event,
-    Emitter<GeneralFlowState> emit,
+    Emitter<ProcessFlowState> emit,
   ) async {
     Response<Enquiry>? stored;
     final endpoint = event.form.verifyEndpoint ?? '';
@@ -577,7 +577,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
   Future<void> _onSilentEnquiryFlow(
     SilentGeneralFlowEnquiry event,
-    Emitter<GeneralFlowState> emit,
+    Emitter<ProcessFlowState> emit,
   ) async {
     try {
       emit(SilentEnquiringGeneralFlow(event.activityType));
@@ -603,7 +603,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
   Future<void> _onSubEnquiryGeneralFlow(
     GeneralFlowSubEnquiry event,
-    Emitter<GeneralFlowState> emit,
+    Emitter<ProcessFlowState> emit,
   ) async {
     Response<Enquiry>? stored;
     final key = '${event.endpoint}/${event.formId}/${event.hashValue}';
@@ -696,7 +696,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
   Future<void> _onSilentSubEnquiryFlow(
     SilentGeneralFlowSubEnquiry event,
-    Emitter<GeneralFlowState> emit,
+    Emitter<ProcessFlowState> emit,
   ) async {
     try {
       emit(SilentEnquiringGeneralFlow(event.activityType));
@@ -726,11 +726,11 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
     }
   }
 
-  Future<void> _onPrepareScheduler(PrepareScheduler event, Emitter<GeneralFlowState> emit) async {
-    Response<GeneralFlowFormData>? stored;
+  Future<void> _onPrepareScheduler(PrepareScheduler event, Emitter<ProcessFlowState> emit) async {
+    Response<ProcessFlowFormData>? stored;
     try {
       emit(
-        RetrievingGeneralFlowFormData(
+        RetrievingProcessFlowFormData(
           routeName: event.routeName,
           activityType: ActivityTypesConst.fblOnline,
         ),
@@ -747,14 +747,14 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         fblOnlineFormsMap[key] = stored;
         fblOnlineForms = stored;
         emit(
-          GeneralFlowFormDataRetrieved(
+          ProcessFlowFormDataRetrieved(
             fblOnlineFormData: fblOnlineForms,
             routeName: event.routeName,
             activityType: ActivityTypesConst.fblOnline,
           ),
         );
 
-        emit(const RetrievingGeneralFlowFormDataSilently(ActivityTypesConst.fblOnline));
+        emit(const RetrievingProcessFlowFormDataSilently(ActivityTypesConst.fblOnline));
       } else if (fblOnlineFormsMap[key] != null) {
         fblOnlineForms = fblOnlineFormsMap[key]!;
       }
@@ -775,7 +775,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
       if (stored == null || (stored.data?.fieldsDatum?.isEmpty ?? false)) {
         emit(
-          GeneralFlowFormDataRetrieved(
+          ProcessFlowFormDataRetrieved(
             fblOnlineFormData: fblOnlineForms,
             routeName: event.routeName,
             activityType: ActivityTypesConst.fblOnline,
@@ -783,7 +783,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         );
       } else {
         emit(
-          GeneralFlowFormDataRetrievedSilently(
+          ProcessFlowFormDataRetrievedSilently(
             fblOnlineFormData: fblOnlineForms,
             activityType: ActivityTypesConst.fblOnline,
           ),
@@ -794,7 +794,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         ResponseUtil.handleException(
           ex,
           (error) => emit(
-            RetrieveGeneralFlowFormDataError(
+            RetrieveProcessFlowFormDataError(
               result: error,
               routeName: event.routeName,
               activityType: ActivityTypesConst.fblOnline,
@@ -805,7 +805,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
         ResponseUtil.handleException(
           ex,
           (error) => emit(
-            SilentRetrieveGeneralFlowFormDataError(
+            SilentRetrieveProcessFlowFormDataError(
               result: error,
               activityType: ActivityTypesConst.fblOnline,
             ),
@@ -817,7 +817,7 @@ class GeneralFlowBloc extends Bloc<GeneralFlowEvent, GeneralFlowState> {
 
   Future<void> _onApproveReversalRequest(
     ApproveReversalRequestEvent event,
-    Emitter<GeneralFlowState> emit,
+    Emitter<ProcessFlowState> emit,
   ) async {
     try {
       emit(ApprovingReversalRequest(id: event.id));

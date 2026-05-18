@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:my_sage_agent/main.dart';
-import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../utils/navigator.util.dart';
+import 'package:my_sage_agent/utils/theme.util.dart';
 
 class ProfileLayout extends StatelessWidget {
   const ProfileLayout({
@@ -235,11 +234,7 @@ class ProfileLayout extends StatelessWidget {
       onPressed:
           onBackPressed ??
           () {
-            NavigatorUtil.pop(
-              context!,
-              nav: nav ?? MyApp.navigatorKey.currentState ?? Navigator.of(context),
-              showNavBar: showNavBarOnPop,
-            );
+            context?.pop();
           },
       icon: const Icon(Icons.arrow_back, color: Colors.black),
     );

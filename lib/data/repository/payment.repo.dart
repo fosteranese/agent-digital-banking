@@ -10,10 +10,10 @@ import 'package:my_sage_agent/data/models/collection/institution_form_data.dart'
 import 'package:my_sage_agent/data/models/collection/lov.dart';
 import 'package:my_sage_agent/data/models/collection/payment.dart';
 import 'package:my_sage_agent/data/models/collection/payment_categories.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_field.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form_data.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_field.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form_data.dart';
 import 'package:my_sage_agent/data/models/process_request.model.dart';
 import 'package:my_sage_agent/data/models/request_response.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
@@ -220,14 +220,14 @@ class PaymentRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>?> getStoredInstitutionFormData1(String id) async {
+  Future<Response<ProcessFlowFormData>?> getStoredInstitutionFormData1(String id) async {
     final result = await _db.read('institution-forms-1/$id');
 
     if (result == null || result['data'] == null) {
       return null;
     }
 
-    final data = GeneralFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
+    final data = ProcessFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -277,7 +277,7 @@ class PaymentRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>> retrieveInstitutionFormData1({
+  Future<Response<ProcessFlowFormData>> retrieveInstitutionFormData1({
     required String institutionId,
     required ActivityDatum activity,
   }) async {
@@ -306,10 +306,10 @@ class PaymentRepo {
             .toList() ??
         [];
 
-    final data = GeneralFlowFormData(
+    final data = ProcessFlowFormData(
       authMode: formData.authMode,
       institution: institution,
-      form: GeneralFlowForm(
+      form: ProcessFlowFormModel(
         categoryId: institution.catId,
         requireVerification: formData.form!.requireVerification,
         description: institution.description,
@@ -339,8 +339,8 @@ class PaymentRepo {
       ),
       fieldsDatum:
           formData.fieldsData!.map((item) {
-            return GeneralFlowFieldsDatum(
-              field: GeneralFlowField(
+            return ProcessFlowFieldsDatum(
+              field: ProcessFlowField(
                 createdBy: 'user',
                 dateCreated: DateTime.now(),
                 dateModified: DateTime.now(),
@@ -371,9 +371,9 @@ class PaymentRepo {
               lov: item.lov,
             );
           }).toList()..add(
-            GeneralFlowFieldsDatum(
+            ProcessFlowFieldsDatum(
               lov: paymentSources,
-              field: GeneralFlowField(
+              field: ProcessFlowField(
                 formId: formData.form!.formId,
                 fieldId: 'SourceAccount',
                 fieldName: 'SourceAccount',
@@ -421,7 +421,7 @@ class PaymentRepo {
   }
 
   Future<Response<FormVerificationResponse>> verifyForm({
-    required GeneralFlowFormData formData,
+    required ProcessFlowFormData formData,
     required Map<String, dynamic> payload,
   }) async {
     final response = await _fbl.post(
@@ -558,7 +558,7 @@ class PaymentRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>> retrieveFormData1({
+  Future<Response<ProcessFlowFormData>> retrieveFormData1({
     required String activityType,
     required String formId,
     String? payeeId,
@@ -638,7 +638,7 @@ class PaymentRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>?> getStoredCollectionForm1({
+  Future<Response<ProcessFlowFormData>?> getStoredCollectionForm1({
     required String activityType,
     required String formId,
     String? payeeId,

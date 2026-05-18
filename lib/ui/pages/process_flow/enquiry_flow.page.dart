@@ -5,10 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:my_sage_agent/blocs/general_flow/general_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
 import 'package:my_sage_agent/data/models/enquiry.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/ui/components/form/search_box.dart';
 import 'package:my_sage_agent/ui/layouts/main.layout.dart';
@@ -20,7 +20,7 @@ class EnquiryFlowPage extends StatefulWidget {
   static const routeName = '/process-flow/enquiry';
 
   final Enquiry? enquiry;
-  final GeneralFlowForm form;
+  final ProcessFlowFormModel form;
 
   @override
   State<EnquiryFlowPage> createState() => _EnquiryFlowPageState();
@@ -152,7 +152,7 @@ class _EnquiryFlowPageState extends State<EnquiryFlowPage> {
         final info = _list[index];
         return InkWell(
           onTap: (_enquiry?.hasEnquiry ?? false)
-              ? () => context.read<GeneralFlowBloc>().add(
+              ? () => context.read<ProcessFlowBloc>().add(
                   GeneralFlowSubEnquiry(
                     routeName: _id,
                     formId: info.formId ?? '',

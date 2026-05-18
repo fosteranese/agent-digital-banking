@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_sage_agent/constants/activity_type.const.dart';
 import 'package:my_sage_agent/data/models/collection/institution.dart';
 import 'package:my_sage_agent/data/models/enquiry.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_form.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_form.dart';
 import 'package:my_sage_agent/data/models/history/activity.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/user_response/activity_datum.dart';
@@ -196,7 +196,7 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       emit: emit,
       retrieveFunc: () async {
         switch (event.form) {
-          case GeneralFlowForm form:
+          case ProcessFlowFormModel form:
             switch (form.activityType) {
               case ActivityTypesConst.enquiry:
                 return await fblOnlineRepo.retrieveEnquiry(form.verifyEndpoint!);
@@ -236,7 +236,7 @@ class RetrieveDataBloc extends Bloc<RetrieveDataEvent, RetrieveDataState> {
       saveCurrent: true,
       getStoredFunc: () async {
         switch (event.form) {
-          case GeneralFlowForm form:
+          case ProcessFlowFormModel form:
             switch (form.activityType) {
               case ActivityTypesConst.enquiry:
                 return await fblOnlineRepo.getStoredEnquiry(form.verifyEndpoint!);

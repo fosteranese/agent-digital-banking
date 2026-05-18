@@ -1,4 +1,4 @@
-class GeneralFlowVerificationResponse {
+class ProcessFlowVerificationModel {
   String? formId;
   Map<String, dynamic>? formData;
   List<PreviewData>? previewData;
@@ -6,7 +6,7 @@ class GeneralFlowVerificationResponse {
   dynamic secondFactor;
   List<Map<String, dynamic>>? authMode;
 
-  GeneralFlowVerificationResponse({
+  ProcessFlowVerificationModel({
     this.formId,
     this.formData,
     this.previewData,
@@ -15,7 +15,7 @@ class GeneralFlowVerificationResponse {
     this.authMode,
   });
 
-  GeneralFlowVerificationResponse.fromMap(Map<String, dynamic> json) {
+  ProcessFlowVerificationModel.fromMap(Map<String, dynamic> json) {
     if (json["formId"] is String) {
       formId = json["formId"];
     }

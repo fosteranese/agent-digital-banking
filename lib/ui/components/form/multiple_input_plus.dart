@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-import 'package:my_sage_agent/blocs/payee/payee_bloc.dart';
 import 'package:my_sage_agent/constants/field.const.dart';
 import 'package:my_sage_agent/data/models/collection/fields_datum.dart';
 import 'package:my_sage_agent/data/models/collection/lov.dart';
-import 'package:my_sage_agent/data/models/general_flow/general_flow_fields_datum.dart';
-import 'package:my_sage_agent/data/models/payee/payees_response.dart';
+import 'package:my_sage_agent/data/models/process_flow/process_flow_fields_datum.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/form/amount_input.dart';
@@ -15,7 +12,6 @@ import 'package:my_sage_agent/ui/components/form/bank_account_input_plus.dart';
 import 'package:my_sage_agent/ui/components/form/date_picker.dart';
 import 'package:my_sage_agent/ui/components/form/input.dart';
 import 'package:my_sage_agent/ui/components/form/password_input.dart';
-import 'package:my_sage_agent/ui/components/form/payee_input.dart';
 import 'package:my_sage_agent/ui/components/form/phone_number_picker.dart';
 import 'package:my_sage_agent/ui/components/form/select.dart';
 import 'package:my_sage_agent/ui/formatters/decimal.formatter.dart';
@@ -27,19 +23,17 @@ class FormMultipleInputPlus extends StatefulWidget {
     required this.controllers,
     required this.controller,
     this.fieldData,
-    this.onPayeeSelectedOption,
     this.isFirst = false,
   });
 
   static const autoFill = '[++auto-fill++]';
   final bool isFirst;
-  final Map<String, (TextEditingController, GeneralFlowFieldsDatum)> controllers;
-  final (TextEditingController, GeneralFlowFieldsDatum) controller;
+  final Map<String, (TextEditingController, ProcessFlowFieldsDatum)> controllers;
+  final (TextEditingController, ProcessFlowFieldsDatum) controller;
   final dynamic fieldData;
-  final void Function(Payees)? onPayeeSelectedOption;
 
   static String? validate({
-    required GeneralFlowFieldsDatum generalFieldDatum,
+    required ProcessFlowFieldsDatum generalFieldDatum,
     required String value,
   }) {
     final label = (generalFieldDatum.field?.fieldCaption);
@@ -78,9 +72,9 @@ class FormMultipleInputPlus extends StatefulWidget {
   }
 
   static Map<String, dynamic>? getFormData({
-    required Map<String, (TextEditingController, GeneralFlowFieldsDatum)> controllers,
+    required Map<String, (TextEditingController, ProcessFlowFieldsDatum)> controllers,
     List<FieldsDatum>? fieldDatum,
-    List<GeneralFlowFieldsDatum>? preGeneralFieldDatum,
+    List<ProcessFlowFieldsDatum>? preGeneralFieldDatum,
     Map<String, dynamic>? formData,
   }) {
     Map<String, dynamic> payload = {};
@@ -266,39 +260,6 @@ class _FormMultipleInputPlusState extends State<FormMultipleInputPlus> {
               tooltip: _tooltip,
               maxLength: widget.controller.$2.field?.fieldLength,
               isNew: true,
-            );
-          case FieldDataTypesConst.payee:
-            return BlocProvider(
-              create: (context) => PayeeBloc(),
-              child: FormPayeeInput(
-                label: _label,
-                controller: widget.controller.$1,
-                placeholder: _placeholder,
-                readOnly: _readOnly,
-                tooltip: _tooltip,
-                formId: widget.controller.$2.field?.formId ?? '',
-                title: _label,
-              ),
-            );
-          case FieldDataTypesConst.payeeNumber:
-            return BlocProvider(
-              create: (context) => PayeeBloc(),
-              child: FormPayeeInput(
-                label: _label,
-                controller: widget.controller.$1,
-                placeholder: _placeholder,
-                keyboardType: TextInputType.number,
-                readOnly: _readOnly,
-                tooltip: _tooltip,
-                formId: widget.controller.$2.field?.formId ?? '',
-                title: _label,
-                onSelectedOption: (option) {
-                  if (widget.onPayeeSelectedOption != null) {
-                    widget.onPayeeSelectedOption!(option);
-                  }
-                },
-                maxLength: widget.controller.$2.field?.fieldLength,
-              ),
             );
           case FieldDataTypesConst.phoneBook:
             return FormPhonePicker(

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import '../../constants/status.const.dart';
 import '../database/db.dart';
-import '../models/general_flow/general_flow_category.dart';
-import '../models/general_flow/general_flow_form_data.dart';
+import '../models/process_flow/process_flow_category.dart';
+import '../models/process_flow/process_flow_form_data.dart';
 import '../models/collection/form_verification_response.dart';
 import '../models/collection/forms_datum.dart';
 import '../models/process_request.model.dart';
@@ -15,14 +15,14 @@ class QuickFlowRepo {
   final _db = Database();
   final _fbl = MainRemote();
 
-  Future<Response<GeneralFlowCategory>?> getStoredCategories(String endpoint) async {
+  Future<Response<ProcessFlowCategory>?> getStoredCategories(String endpoint) async {
     final result = await _db.read(endpoint);
 
     if (result == null || result['data'] == null) {
       return null;
     }
 
-    final data = GeneralFlowCategory.fromMap(result['data'] as Map<String, dynamic>);
+    final data = ProcessFlowCategory.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -34,14 +34,14 @@ class QuickFlowRepo {
     );
   }
 
-  Future<Response<GeneralFlowCategory>> retrieveCategories(String endpoint) async {
+  Future<Response<ProcessFlowCategory>> retrieveCategories(String endpoint) async {
     final response = await _fbl.post(path: endpoint, body: {}, isAuthenticated: true);
 
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
 
-    final data = GeneralFlowCategory.fromMap(response.data as Map<String, dynamic>);
+    final data = ProcessFlowCategory.fromMap(response.data as Map<String, dynamic>);
 
     if (data.forms?.isNotEmpty ?? false) {
       _db.add(
@@ -69,7 +69,7 @@ class QuickFlowRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>?> getStoredFormData({
+  Future<Response<ProcessFlowFormData>?> getStoredFormData({
     required String id,
     String? qrCode,
     String? payeeId,
@@ -81,7 +81,7 @@ class QuickFlowRepo {
       return null;
     }
 
-    final data = GeneralFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
+    final data = ProcessFlowFormData.fromMap(result['data'] as Map<String, dynamic>);
     return Response(
       code: result['code'].toString(),
       status: result['status'].toString(),
@@ -93,7 +93,7 @@ class QuickFlowRepo {
     );
   }
 
-  Future<Response<GeneralFlowFormData>> retrieveFormData({
+  Future<Response<ProcessFlowFormData>> retrieveFormData({
     required String id,
     String? qrCode,
     String? payeeId,
@@ -108,7 +108,7 @@ class QuickFlowRepo {
     if (response.status != StatusConstants.success) {
       return Future.error(response);
     }
-    final data = GeneralFlowFormData.fromMap(response.data as Map<String, dynamic>);
+    final data = ProcessFlowFormData.fromMap(response.data as Map<String, dynamic>);
 
     if (data.fieldsDatum?.isNotEmpty ?? false) {
       final qrCodeBase64 = (qrCode?.isNotEmpty ?? false) ? base64.encode(utf8.encode(qrCode!)) : '';
@@ -196,7 +196,7 @@ class QuickFlowRepo {
   }
 
   Future<Response<FormVerificationResponse>> verifyRequest({
-    required GeneralFlowFormData formData,
+    required ProcessFlowFormData formData,
     required Map<String, dynamic> payload,
   }) async {
     final response = await _fbl.post(
