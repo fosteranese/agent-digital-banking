@@ -10,34 +10,15 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
-import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
-import 'package:my_sage_agent/blocs/app/app_bloc.dart';
-import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
-import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
-import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
-import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
-import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
-import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
-import 'package:my_sage_agent/blocs/security_settings/security_settings_bloc.dart';
-import 'package:my_sage_agent/blocs/setup/setup_bloc.dart';
+import 'package:my_sage_agent/config/app_navigation_listener.dart';
+import 'package:my_sage_agent/config/app_providers.dart';
+import 'package:my_sage_agent/config/app_theme.dart';
 import 'package:my_sage_agent/data/database/db.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
-import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
-import 'package:my_sage_agent/data/repository/google_map.repo.dart';
-import 'package:my_sage_agent/data/repository/history.repo.dart';
-import 'package:my_sage_agent/data/repository/payment.repo.dart';
-import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
-import 'package:my_sage_agent/data/repository/reversal.repo.dart';
-import 'package:my_sage_agent/data/repository/team.repo.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/router/app_router.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
-import 'package:my_sage_agent/ui/pages/login/existing_device_login.page.dart';
-import 'package:my_sage_agent/ui/pages/login/new_device_login.page.dart';
-import 'package:my_sage_agent/ui/pages/update.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
-import 'package:my_sage_agent/utils/theme.util.dart';
-import 'package:uuid/uuid.dart';
 
 void main() {
   runZonedGuarded(
@@ -70,22 +51,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Timer _timer;
-  var _threadDetected = false;
+  Timer? _timer;
   Response<dynamic>? _error;
 
   @override
   void initState() {
-    if (1 != 1) {
-      _securityCheck();
-    }
+    _securityCheck();
     super.initState();
-    // isMounted = true;
   }
 
   void _securityCheck() {
     AppUtil.checkSecurity((threat, error) {
-      _threadDetected = true;
       _error = error;
       logger.e(threat);
       MyApp.navigatorKey.currentContext!.go(AppErrorPage.routeName, extra: _error);
@@ -95,40 +71,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (_) => FblOnlineRepo()),
-        RepositoryProvider(create: (_) => QuickFlowRepo()),
-        RepositoryProvider(create: (_) => PaymentRepo()),
-        RepositoryProvider(create: (_) => HistoryRepo()),
-        RepositoryProvider(create: (_) => TeamRepo()),
-        RepositoryProvider(create: (_) => ReversalRepo()),
-        RepositoryProvider(create: (_) => GoogleMapRepo()),
-      ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => AppBloc()..add(DeviceStatusCheckEvent())),
-          BlocProvider(create: (context) => AuthBloc()),
-          BlocProvider(create: (context) => SecuritySettingsBloc()),
-          BlocProvider(create: (context) => ProcessFlowBloc()),
-          BlocProvider(
-            create: (context) => RetrieveDataBloc(
-              fblOnlineRepo: context.read<FblOnlineRepo>(),
-              quickflow: context.read<QuickFlowRepo>(),
-              paymentRepo: context.read<PaymentRepo>(),
-              historyRepo: context.read<HistoryRepo>(),
-              teamRepo: context.read<TeamRepo>(),
-              reversalRepo: context.read<ReversalRepo>(),
-              mapRepo: context.read<GoogleMapRepo>(),
-            ),
-          ),
-          BlocProvider(
-            create: (context) => PushNotificationBloc()..add(const LoadPushNotification()),
-          ),
-          BlocProvider(create: (context) => BiometricBloc()),
-          BlocProvider(create: (context) => ActivityBloc()),
-          BlocProvider(create: (context) => SetupBloc()),
-          BlocProvider(create: (context) => OtpBloc()),
-        ],
+      providers: buildRepositories(),
+      child: Builder(
+        builder: (context) => MultiBlocProvider(
+          providers: buildBlocs(context),
         child: MaterialApp.router(
           title: 'MySage Agent',
           debugShowCheckedModeBanner: false,
@@ -158,142 +104,30 @@ class _MyAppState extends State<MyApp> {
               },
             );
           },
-          theme: ThemeData(
-            fontFamily: PrimaryTextStyle().fontFamily,
-            fontFamilyFallback: PrimaryTextStyle().fontFamilyFallback,
-            primaryColorDark: const Color(0xff191443),
-            primaryColorLight: const Color(0xffF2F8FF),
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.black,
-              primary: Colors.black,
-              secondary: ThemeUtil.secondaryColor,
-              brightness: Brightness.light,
-            ),
-            useMaterial3: true,
-            textTheme: TextTheme(
-              bodySmall: PrimaryTextStyle(
-                color: const Color(0xff919195),
-                fontWeight: FontWeight.w400,
-                fontSize: 13,
-              ),
-              displaySmall: PrimaryTextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 13,
-                color: const Color(0xff54534A),
-              ),
-              labelSmall: PrimaryTextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
-                color: const Color(0xff242424),
-              ),
-              titleSmall: PrimaryTextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-              headlineSmall: PrimaryTextStyle(fontSize: 13, fontWeight: FontWeight.w400),
-              bodyMedium: PrimaryTextStyle(
-                color: const Color(0xff242424),
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-              displayMedium: PrimaryTextStyle(
-                color: const Color(0xff54534A),
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-              ),
-              labelMedium: PrimaryTextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-              headlineMedium: PrimaryTextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xff828282),
-              ),
-              titleMedium: PrimaryTextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-              ),
-              headlineLarge: PrimaryTextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xff010203),
-              ),
-            ),
-          ),
+          theme: AppTheme.lightTheme,
           routerConfig: router,
           builder: _buildApp,
+        ),
         ),
       ),
     );
   }
 
   Widget _buildApp(BuildContext context, Widget? child) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<AppBloc, AppState>(
-          listener: (context, state) {
-            MyApp.routerRefreshNotifier.value = Uuid().v4();
-
-            if (_threadDetected || state is AppError) {
-              final error = state is AppError ? state.result : _error;
-              MyApp.navigatorKey.currentContext!.go(AppErrorPage.routeName, extra: error);
-
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            context.read<BiometricBloc>().add(const RetrieveBiometricSettings());
-
-            if (state is NewDevice) {
-              MyApp.navigatorKey.currentContext!.go(NewDeviceLoginPage.routeName);
-
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            if (state is UserExistOnDevice) {
-              MyApp.navigatorKey.currentContext!.go(ExistingDeviceLoginPage.routeName, extra: true);
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            if (state is ExistingDevice) {
-              MyApp.navigatorKey.currentContext!.go(NewDeviceLoginPage.routeName);
-              FlutterNativeSplash.remove();
-              return;
-            }
-
-            if (state is AppError) {
-              MyApp.navigatorKey.currentContext!.go(AppErrorPage.routeName, extra: state.result);
-              FlutterNativeSplash.remove();
-              return;
-            }
-          },
-        ),
-        BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            MyApp.routerRefreshNotifier.value = Uuid().v4();
-
-            if (state is LoggedOut) {
-              MyApp.navigatorKey.currentContext!.go(
-                ExistingDeviceLoginPage.routeName,
-                extra: false,
-              );
-              return;
-            }
-
-            if (state is UpdateForced) {
-              FlutterNativeSplash.remove();
-              MyApp.navigatorKey.currentContext!.go(UpdatePage.routeName, extra: state.result);
-              return;
-            }
-          },
-        ),
-      ],
-      child: child!,
-    );
+    return AppNavigationListener(child: child!);
   }
 
   @override
   void dispose() {
     AppUtil.locationStream.cancel();
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 }
+
+// class MyHttpOverrides extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext? context) {
+//     return super.createHttpClient(context)..badCertificateCallback = (cert, host, port) => true;
+//   }
+// }

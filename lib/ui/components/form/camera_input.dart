@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'package:my_sage_agent/constants/camera_error_codes.const.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/wizard.dart';
@@ -214,7 +215,7 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
         .catchError((Object e) {
           if (e is CameraException) {
             switch (e.code) {
-              case 'CameraAccessDenied':
+              case CameraErrorCodes.accessDenied:
                 logger.d('User denied camera access.');
                 MessageUtil.displayErrorDialog(
                   MyApp.navigatorKey.currentContext!,
@@ -283,25 +284,25 @@ class _MyCameraState extends State<MyCamera> with WidgetsBindingObserver {
       // ]);
     } on CameraException catch (e) {
       switch (e.code) {
-        case 'CameraAccessDenied':
+        case CameraErrorCodes.accessDenied:
           showInSnackBar('You have denied camera access.');
           break;
-        case 'CameraAccessDeniedWithoutPrompt':
+        case CameraErrorCodes.accessDeniedWithoutPrompt:
           // iOS only
           showInSnackBar('Please go to Settings app to enable camera access.');
           break;
-        case 'CameraAccessRestricted':
+        case CameraErrorCodes.accessRestricted:
           // iOS only
           showInSnackBar('Camera access is restricted.');
           break;
-        case 'AudioAccessDenied':
+        case CameraErrorCodes.audioAccessDenied:
           showInSnackBar('You have denied audio access.');
           break;
-        case 'AudioAccessDeniedWithoutPrompt':
+        case CameraErrorCodes.audioAccessDeniedWithoutPrompt:
           // iOS only
           showInSnackBar('Please go to Settings app to enable audio access.');
           break;
-        case 'AudioAccessRestricted':
+        case CameraErrorCodes.audioAccessRestricted:
           // iOS only
           showInSnackBar('Audio access is restricted.');
           break;

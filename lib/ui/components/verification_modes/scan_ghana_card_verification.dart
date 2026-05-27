@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 
+import 'package:my_sage_agent/constants/camera_error_codes.const.dart';
 import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/main.dart';
 import 'package:my_sage_agent/ui/components/card_detection_overlay.dart';
@@ -108,11 +109,11 @@ class _ScanGhanaCardVerificationState extends State<ScanGhanaCardVerification> {
     } catch (e) {
       if (e is CameraException) {
         switch (e.code) {
-          case 'CameraAccessDenied':
+          case CameraErrorCodes.accessDenied:
             _isPermissionStatus = e.code;
             break;
 
-          case 'CameraAccessDeniedWithoutPrompt':
+          case CameraErrorCodes.accessDeniedWithoutPrompt:
             _isPermissionStatus = e.code;
             break;
 

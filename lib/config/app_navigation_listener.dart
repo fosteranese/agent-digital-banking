@@ -22,8 +22,17 @@ class AppNavigationListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+<<<<<<< HEAD
         BlocListener<AppBloc, AppState>(listener: _handleAppStateChange),
         BlocListener<AuthBloc, AuthState>(listener: _handleAuthStateChange),
+=======
+        BlocListener<AppBloc, AppState>(
+          listener: _handleAppStateChange,
+        ),
+        BlocListener<AuthBloc, AuthState>(
+          listener: _handleAuthStateChange,
+        ),
+>>>>>>> 04f979f1dd16ece0f9565a79fe58ce493925dbd8
       ],
       child: child,
     );

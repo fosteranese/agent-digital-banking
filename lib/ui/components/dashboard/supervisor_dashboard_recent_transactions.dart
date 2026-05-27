@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/constants/app_assets.const.dart';
 import 'package:my_sage_agent/ui/components/dashboard/supervisor_pending_reversals.dart';
 import 'package:my_sage_agent/ui/components/history/collection_summary_item.dart';
 import 'package:my_sage_agent/ui/components/stick_heder.dart';
@@ -101,25 +102,25 @@ class _SupervisorDashboardRecentTransactionsState
                         CollectionSummaryItem(
                           amount: AppUtil.currentUser?.supervisorData?.cashCollected ?? 0,
                           title: 'Cash Collected',
-                          icon: 'assets/img/cash-collected.svg',
+                          icon: AppAssets.iconCashCollected,
                           onTap: null,
                         ),
                         CollectionSummaryItem(
                           amount: AppUtil.currentUser?.supervisorData?.momoCollected ?? 0,
                           title: 'MoMo Collected',
-                          icon: 'assets/img/wallet.svg',
+                          icon: AppAssets.iconWallet,
                           onTap: null,
                         ),
                         CollectionSummaryItem(
                           amount: AppUtil.currentUser?.supervisorData?.cashAtHand ?? 0,
                           title: 'Cash at Hand',
-                          icon: 'assets/img/cash-collected.svg',
+                          icon: AppAssets.iconCashCollected,
                           onTap: null,
                         ),
                         CollectionSummaryItem(
                           amount: AppUtil.currentUser?.supervisorData?.cashDeposited ?? 0,
                           title: 'Cash Deposited',
-                          icon: 'assets/img/money.svg',
+                          icon: AppAssets.iconMoney,
                           onTap: null,
                         ),
                       ],

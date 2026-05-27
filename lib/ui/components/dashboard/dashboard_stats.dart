@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_sage_agent/constants/app_assets.const.dart';
+import 'package:my_sage_agent/constants/app_colors.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
@@ -10,8 +12,8 @@ class DashboardStats extends StatelessWidget {
   static final List<Map<String, dynamic>> _cards = [
     {
       'color': ThemeUtil.primaryColor,
-      'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/cash-collected.svg',
+      'iconColor': AppColors.dashboardCardIconOverlay,
+      'icon': AppAssets.iconCashCollected,
       'title': '',
       'caption': 'Cash Collected',
       'value': () {
@@ -19,9 +21,9 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': Color(0xff727600),
-      'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/wallet.svg',
+      'color': AppColors.dashboardMoMoCollected,
+      'iconColor': AppColors.dashboardCardIconOverlay,
+      'icon': AppAssets.iconWallet,
       'title': '',
       'caption': 'MoMo Collected',
       'value': () {
@@ -29,9 +31,9 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': Color(0xff054C86),
-      'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/cash-collected.svg',
+      'color': AppColors.dashboardCashAtHand,
+      'iconColor': AppColors.dashboardCardIconOverlay,
+      'icon': AppAssets.iconCashCollected,
       'title': '',
       'caption': 'Cash at Hand',
       'value': () {
@@ -39,9 +41,9 @@ class DashboardStats extends StatelessWidget {
       },
     },
     {
-      'color': Color(0xff003F37),
-      'iconColor': Color(0x29FFFFFF),
-      'icon': 'assets/img/money.svg',
+      'color': AppColors.dashboardCashDeposited,
+      'iconColor': AppColors.dashboardCardIconOverlay,
+      'icon': AppAssets.iconMoney,
       'title': '',
       'caption': 'Cash Deposited',
       'value': () {
@@ -56,7 +58,7 @@ class DashboardStats extends StatelessWidget {
       child: Container(
         height: 170,
         padding: EdgeInsets.symmetric(vertical: 20),
-        color: Color(0xffF3F4F9),
+        color: AppColors.dashboardCardBackground,
         child: PageView(
           padEnds: false,
           controller: PageController(viewportFraction: 0.8),
