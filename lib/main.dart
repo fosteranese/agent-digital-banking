@@ -11,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 
 import 'package:my_sage_agent/config/app_navigation_listener.dart';
-import 'package:my_sage_agent/config/app_providers.dart';
 import 'package:my_sage_agent/config/app_theme.dart';
 import 'package:my_sage_agent/data/database/db.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
@@ -19,6 +18,24 @@ import 'package:my_sage_agent/logger.dart';
 import 'package:my_sage_agent/router/app_router.dart';
 import 'package:my_sage_agent/ui/pages/app_error.page.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
+
+import 'package:my_sage_agent/blocs/activity/activity_bloc.dart';
+import 'package:my_sage_agent/blocs/app/app_bloc.dart';
+import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
+import 'package:my_sage_agent/blocs/biometric/biometric_bloc.dart';
+import 'package:my_sage_agent/blocs/notification/notification_bloc.dart';
+import 'package:my_sage_agent/blocs/otp/otp_bloc.dart';
+import 'package:my_sage_agent/blocs/process_flow/process_flow_bloc.dart';
+import 'package:my_sage_agent/blocs/retrieve_data/retrieve_data_bloc.dart';
+import 'package:my_sage_agent/blocs/security_settings/security_settings_bloc.dart';
+import 'package:my_sage_agent/blocs/setup/setup_bloc.dart';
+import 'package:my_sage_agent/data/repository/fbl_online.repo.dart';
+import 'package:my_sage_agent/data/repository/google_map.repo.dart';
+import 'package:my_sage_agent/data/repository/history.repo.dart';
+import 'package:my_sage_agent/data/repository/payment.repo.dart';
+import 'package:my_sage_agent/data/repository/quickflow.repo.dart';
+import 'package:my_sage_agent/data/repository/reversal.repo.dart';
+import 'package:my_sage_agent/data/repository/team.repo.dart';
 
 void main() {
   runZonedGuarded(
@@ -71,10 +88,38 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
-      providers: buildRepositories(),
-      child: Builder(
-        builder: (context) => MultiBlocProvider(
-          providers: buildBlocs(context),
+      providers: [
+        RepositoryProvider(create: (_) => FblOnlineRepo()),
+        RepositoryProvider(create: (_) => QuickFlowRepo()),
+        RepositoryProvider(create: (_) => PaymentRepo()),
+        RepositoryProvider(create: (_) => HistoryRepo()),
+        RepositoryProvider(create: (_) => TeamRepo()),
+        RepositoryProvider(create: (_) => ReversalRepo()),
+        RepositoryProvider(create: (_) => GoogleMapRepo()),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AppBloc()..add(DeviceStatusCheckEvent())),
+          BlocProvider(create: (_) => AuthBloc()),
+          BlocProvider(create: (_) => SecuritySettingsBloc()),
+          BlocProvider(
+            create: (context) => RetrieveDataBloc(
+              fblOnlineRepo: context.read<FblOnlineRepo>(),
+              quickflow: context.read<QuickFlowRepo>(),
+              paymentRepo: context.read<PaymentRepo>(),
+              historyRepo: context.read<HistoryRepo>(),
+              teamRepo: context.read<TeamRepo>(),
+              reversalRepo: context.read<ReversalRepo>(),
+              mapRepo: context.read<GoogleMapRepo>(),
+            ),
+          ),
+          BlocProvider(create: (_) => PushNotificationBloc()..add(const LoadPushNotification())),
+          BlocProvider(create: (_) => BiometricBloc()),
+          BlocProvider(create: (_) => ActivityBloc()),
+          BlocProvider(create: (_) => SetupBloc()),
+          BlocProvider(create: (_) => OtpBloc()),
+          BlocProvider(create: (_) => ProcessFlowBloc()),
+        ],
         child: MaterialApp.router(
           title: 'MySage Agent',
           debugShowCheckedModeBanner: false,
@@ -108,12 +153,11 @@ class _MyAppState extends State<MyApp> {
           routerConfig: router,
           builder: _buildApp,
         ),
-        ),
       ),
     );
   }
 
-  Widget _buildApp(BuildContext context, Widget? child) {
+  Widget _buildApp(_, Widget? child) {
     return AppNavigationListener(child: child!);
   }
 
@@ -124,10 +168,3 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 }
-
-// class MyHttpOverrides extends HttpOverrides {
-//   @override
-//   HttpClient createHttpClient(SecurityContext? context) {
-//     return super.createHttpClient(context)..badCertificateCallback = (cert, host, port) => true;
-//   }
-// }

@@ -22,19 +22,16 @@ class AppNavigationListener extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<AppBloc, AppState>(
-          listener: _handleAppStateChange,
-        ),
-        BlocListener<AuthBloc, AuthState>(
-          listener: _handleAuthStateChange,
-        ),
+        BlocListener<AppBloc, AppState>(listener: _handleAppStateChange),
+        BlocListener<AuthBloc, AuthState>(listener: _handleAuthStateChange),
       ],
       child: child,
     );
   }
 
-  void _handleAppStateChange(BuildContext context, AppState state) {
+  void _handleAppStateChange(_, AppState state) {
     MyApp.routerRefreshNotifier.value = const Uuid().v4();
+    final context = MyApp.navigatorKey.currentContext!;
 
     if (state is AppError) {
       _navigateToError(context, state.result);
