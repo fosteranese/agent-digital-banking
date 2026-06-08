@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
 
 class TabItem {
-  TabItem({required this.title, this.id});
+  TabItem({required this.title, this.id, this.onPressed});
   final String title;
   final String? id;
+  final void Function(BuildContext context)? onPressed;
 }
 
 class MyTabHeader extends StatefulWidget {
@@ -42,6 +43,7 @@ class _MyTabHeaderState extends State<MyTabHeader> with SingleTickerProviderStat
         onTap: (index) {
           _selectedTab.value = index;
           widget.controller.value = widget.tabItems[index].id ?? '';
+          widget.tabItems[index].onPressed?.call(context);
         },
         tabAlignment: .fill,
         labelStyle: PrimaryTextStyle(fontSize: 14, fontWeight: .w400),

@@ -51,6 +51,7 @@ class _MyTabHeader2State extends State<MyTabHeader2> with SingleTickerProviderSt
         onTap: (index) {
           _selectedTab.value = index;
           widget.controller.value = widget.tabItems[index].id ?? '';
+          widget.tabItems[index].onPressed?.call(context);
         },
         isScrollable: widget.scrollable,
         labelStyle: PrimaryTextStyle(fontSize: 14, fontWeight: .w400),

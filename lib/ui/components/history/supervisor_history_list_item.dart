@@ -16,11 +16,9 @@ class SupervisorHistoryListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:
-          onTap ??
-          () {
-            context.push(SupervisorReceiptPage.routeName, extra: record);
-          },
+      onTap: () {
+        context.push(SupervisorReceiptPage.routeName, extra: record);
+      },
       enableFeedback: true,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),

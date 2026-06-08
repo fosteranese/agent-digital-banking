@@ -10,6 +10,7 @@ import 'package:my_sage_agent/ui/components/tab_header.dart';
 import 'package:my_sage_agent/ui/components/tab_header_2.dart';
 import 'package:my_sage_agent/utils/app.util.dart';
 import 'package:my_sage_agent/utils/theme.util.dart';
+import 'package:uuid/uuid.dart';
 
 class CollectionHeader extends StatelessWidget {
   const CollectionHeader({super.key, required this.filterBy, this.onFilter});
@@ -76,6 +77,7 @@ class CollectionHeader extends StatelessWidget {
                   scrollable: true,
                   tabItems: [
                     TabItem(
+                      onPressed: _onPressed,
                       title: getTitle(
                         cashAtHand,
                         FormsConst.cashAtHand.id,
@@ -84,6 +86,7 @@ class CollectionHeader extends StatelessWidget {
                       id: FormsConst.cashAtHand.id,
                     ),
                     TabItem(
+                      onPressed: _onPressed,
                       title: getTitle(
                         summaryDeposited,
                         FormsConst.deposit.id,
@@ -92,6 +95,7 @@ class CollectionHeader extends StatelessWidget {
                       id: FormsConst.deposit.id,
                     ),
                     TabItem(
+                      onPressed: _onPressed,
                       title: getTitle(
                         summaryMomo,
                         FormsConst.mobileMoney.id,
@@ -100,6 +104,7 @@ class CollectionHeader extends StatelessWidget {
                       id: FormsConst.mobileMoney.id,
                     ),
                     TabItem(
+                      onPressed: _onPressed,
                       title: getTitle(summaryCash, FormsConst.cash.id, FormsConst.cash.name),
                       id: FormsConst.cash.id,
                     ),
@@ -109,6 +114,16 @@ class CollectionHeader extends StatelessWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  void _onPressed(BuildContext context) {
+    context.read<RetrieveDataBloc>().add(
+      RetrieveSupervisorCollectionSummaryEvent(
+        id: Uuid().v4(),
+        action: 'RetrieveSupervisorCollectionSummaryEvent',
+        skipSavedData: true,
       ),
     );
   }

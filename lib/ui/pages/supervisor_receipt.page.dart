@@ -29,7 +29,7 @@ class _SupervisorReceiptPageState extends State<SupervisorReceiptPage> {
       backgroundColor: Colors.white,
       showBackBtn: true,
       showNavBarOnPop: false,
-      title: 'Transaction Details',
+      title: 'Activity Details',
       sliver: SliverFillRemaining(
         hasScrollBody: false,
         child: Container(

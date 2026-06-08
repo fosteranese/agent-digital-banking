@@ -116,6 +116,16 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 skipSavedData: true,
               ),
             );
+
+            if (_currentIndex.value == 1) {
+              Future.delayed(Duration(seconds: 2), () {
+                RetrieveSupervisorCollectionSummaryEvent(
+                  id: Uuid().v4(),
+                  action: 'RetrieveSupervisorCollectionSummaryEvent',
+                  skipSavedData: true,
+                );
+              });
+            }
           } else if (_currentIndex.value == 2) {
             context.read<RetrieveDataBloc>().add(
               RetrieveActivitiesEvent(

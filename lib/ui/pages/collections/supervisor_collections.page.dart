@@ -38,6 +38,16 @@ class _SupervisorCollectionsPageState extends State<SupervisorCollectionsPage> {
 
     _fToast.init(context);
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<RetrieveDataBloc>().add(
+        RetrieveSupervisorCollectionSummaryEvent(
+          id: Uuid().v4(),
+          action: 'RetrieveSupervisorCollectionSummaryEvent',
+          skipSavedData: false,
+        ),
+      );
+    });
   }
 
   List<CollectionSummary> get _list {

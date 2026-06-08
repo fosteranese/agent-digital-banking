@@ -146,12 +146,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       final record = list[index];
 
                       if (record is ServiceRequest) {
-                        return SupervisorHistoryListItem(
-                          record: record,
-                          onTap: () {
-                            context.push(ReceiptPage.routeName, extra: record);
-                          },
-                        );
+                        return SupervisorHistoryListItem(record: record);
                       }
 
                       return HistoryListItem(
