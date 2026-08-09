@@ -70,8 +70,7 @@ class AppUtil {
 
   static Future<void> checkSecurity(
     void Function(String threat, Response<dynamic> error) callbackAction,
-  ) =>
-      AuthService.checkSecurity(callbackAction);
+  ) => AuthService.checkSecurity(callbackAction);
 
   static UserResponse? get currentUser => AuthService.currentUser;
 

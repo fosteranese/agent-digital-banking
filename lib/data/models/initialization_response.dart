@@ -13,6 +13,7 @@ class InitializationResponse {
   List<KeyValueModel>? regions;
   List<KeyValueModel>? occupations;
   List<KeyValueModel>? sectors;
+  List<KeyValueModel>? customerTypes;
   String? imageBaseUrl;
   String? imageDirectory;
 
@@ -29,6 +30,7 @@ class InitializationResponse {
     this.regions,
     this.occupations,
     this.sectors,
+    this.customerTypes,
     this.imageBaseUrl,
     this.imageDirectory,
   });
@@ -97,6 +99,16 @@ class InitializationResponse {
               return KeyValueModel.fromMap(e);
             }).toList();
     }
+    if (json["customerTypes"] is List) {
+      customerTypes = json["customerTypes"] == null
+          ? null
+          : (json["customerTypes"] as List).map((e) {
+              if (e is String) {
+                return KeyValueModel.fromJson(e);
+              }
+              return KeyValueModel.fromMap(e);
+            }).toList();
+    }
     if (json["imageBaseUrl"] is String) {
       imageBaseUrl = json["imageBaseUrl"];
     }
@@ -137,6 +149,9 @@ class InitializationResponse {
     if (sectors != null) {
       data["sectors"] = regions?.map((e) => e.toJson()).toList();
     }
+    if (customerTypes != null) {
+      data["customerTypes"] = customerTypes?.map((e) => e.toJson()).toList();
+    }
     data["imageBaseUrl"] = imageBaseUrl;
     data["imageDirectory"] = imageDirectory;
     return data;
@@ -155,6 +170,7 @@ class InitializationResponse {
     List<KeyValueModel>? regions,
     List<KeyValueModel>? occupations,
     List<KeyValueModel>? sectors,
+    List<KeyValueModel>? customerTypes,
     String? imageBaseUrl,
     String? imageDirectory,
   }) {
@@ -171,6 +187,7 @@ class InitializationResponse {
       regions: regions ?? this.regions,
       occupations: occupations ?? this.occupations,
       sectors: sectors ?? this.sectors,
+      customerTypes: customerTypes ?? this.customerTypes,
       imageBaseUrl: imageBaseUrl ?? this.imageBaseUrl,
       imageDirectory: imageDirectory ?? this.imageDirectory,
     );

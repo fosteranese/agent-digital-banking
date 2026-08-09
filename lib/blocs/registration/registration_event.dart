@@ -19,6 +19,7 @@ class SavePersonalInfo extends RegistrationEvent {
     required this.maritalStatus,
     required this.occupation,
     required this.sector,
+    required this.customerType,
   });
 
   final String id;
@@ -31,6 +32,7 @@ class SavePersonalInfo extends RegistrationEvent {
   final String maritalStatus;
   final String occupation;
   final String sector;
+  final String customerType;
 
   @override
   List<Object> get props => [
@@ -44,6 +46,7 @@ class SavePersonalInfo extends RegistrationEvent {
     maritalStatus,
     occupation,
     sector,
+    customerType,
   ];
 }
 

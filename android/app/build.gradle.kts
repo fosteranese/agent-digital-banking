@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.mysage.agent"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37 // flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

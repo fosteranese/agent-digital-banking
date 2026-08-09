@@ -48,6 +48,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
   final maritalStatusController = TextEditingController();
   final occupationController = TextEditingController();
   final sectorController = TextEditingController();
+  final customerTypeController = TextEditingController();
 
   final address1Controller = TextEditingController();
   final address2Controller = TextEditingController();
@@ -195,6 +196,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
                             maritalStatus: maritalStatusController,
                             occupation: occupationController,
                             sector: sectorController,
+                            customerType: customerTypeController,
                           ),
                           RegisterClientStep2(
                             address1: address1Controller,
@@ -498,6 +500,16 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
       return;
     }
 
+    final customerType = customerTypeController.text.trim();
+    if (customerType.isEmpty) {
+      MessageUtil.displayErrorDialog(
+        context,
+        title: 'Validation Failed',
+        message: 'Customer Type is required.\nEnter the customer type to proceed.',
+      );
+      return;
+    }
+
     _registrationBloc.add(
       SavePersonalInfo(
         id: Uuid().v4(),
@@ -510,6 +522,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
         maritalStatus: maritalStatus,
         occupation: occupation,
         sector: sector,
+        customerType: customerType,
       ),
     );
   }
@@ -701,6 +714,7 @@ class _RegisterClientPageState extends State<RegisterClientPage> {
     maritalStatusController.dispose();
     occupationController.dispose();
     sectorController.dispose();
+    customerTypeController.dispose();
 
     address1Controller.dispose();
     address2Controller.dispose();

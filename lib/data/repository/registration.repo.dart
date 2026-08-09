@@ -19,6 +19,7 @@ class RegistrationRepo {
     required String maritalStatus,
     required String occupation,
     required String sector,
+    required String customerType,
   }) async {
     final response = await _fbl.post(
       path: 'FieldExecutive/initiateAccountOpening',
@@ -32,6 +33,7 @@ class RegistrationRepo {
         'maritalStatus': maritalStatus,
         'occupation': occupation,
         'sector': sector,
+        'customerType': customerType,
       },
       isAuthenticated: true,
     );

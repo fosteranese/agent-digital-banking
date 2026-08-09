@@ -38,6 +38,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         maritalStatus: event.maritalStatus,
         occupation: event.occupation,
         sector: event.sector,
+        customerType: event.customerType,
       );
       personalInfoToken = result;
 

@@ -51,6 +51,10 @@ class _ExpandedSectionState extends State<ExpandedSection> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    return SizeTransition(axisAlignment: 1.0, sizeFactor: animation, child: widget.child);
+    return SizeTransition(
+      alignment: const Alignment(-1.0, 1.0),
+      sizeFactor: animation,
+      child: widget.child,
+    );
   }
 }

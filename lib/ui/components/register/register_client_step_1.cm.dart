@@ -18,6 +18,7 @@ class RegisterClientStep1 extends StatelessWidget {
     required this.maritalStatus,
     required this.occupation,
     required this.sector,
+    required this.customerType,
   });
   final TextEditingController firstName;
   final TextEditingController lastName;
@@ -28,6 +29,7 @@ class RegisterClientStep1 extends StatelessWidget {
   final TextEditingController maritalStatus;
   final TextEditingController occupation;
   final TextEditingController sector;
+  final TextEditingController customerType;
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +105,16 @@ class RegisterClientStep1 extends StatelessWidget {
               title: 'Select sector',
               options:
                   AppUtil.data.sectors
+                      ?.map((item) => FormSelectOption(value: item.key ?? 'N/A', text: item.value))
+                      .toList() ??
+                  [],
+            ),
+            FormSelect(
+              controller: customerType,
+              label: 'Customer Type *',
+              title: 'Select customer type',
+              options:
+                  AppUtil.data.customerTypes
                       ?.map((item) => FormSelectOption(value: item.key ?? 'N/A', text: item.value))
                       .toList() ??
                   [],
