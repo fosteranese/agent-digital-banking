@@ -147,22 +147,20 @@ class _BaseFormInputState extends State<BaseFormInput> {
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(widget.label, style: _labelStyle),
           ),
-        SizedBox(
-          height: widget.multiLine ? 150 : widget.inputHeight ?? 50,
-          child:
-              widget.showNumberToolbar &&
-                  (widget.keyboardType != null &&
-                      (widget.keyboardType!.index == 2 || widget.keyboardType!.index == 3))
-              ? KeyboardActions(
-                  autoScroll: false,
-                  overscroll: 0,
-                  disableScroll: true,
-                  enable: true,
-                  config: _buildConfig(context),
+        widget.showNumberToolbar &&
+                (widget.keyboardType != null &&
+                    (widget.keyboardType!.index == 2 || widget.keyboardType!.index == 3))
+            ? KeyboardActions.done(
+                enabled: true,
+                ensureVisible: false,
+                theme: KeyboardActionsThemeData(barColor: Colors.grey[200]),
+                onDismissed: (_) => _onValidate(),
+                child: SizedBox(
+                  height: widget.multiLine ? 150 : widget.inputHeight ?? 50,
                   child: _input,
-                )
-              : _input,
-        ),
+                ),
+              )
+            : SizedBox(height: widget.multiLine ? 150 : widget.inputHeight ?? 50, child: _input),
         if (widget.bottomSpace > 0) SizedBox(height: widget.bottomSpace),
       ],
     );
@@ -218,32 +216,6 @@ class _BaseFormInputState extends State<BaseFormInput> {
             (widget.keyboardType!.index == 2 || widget.keyboardType!.index == 3)
         ? const EdgeInsets.only(bottom: 40.0)
         : const EdgeInsets.all(0.0);
-  }
-
-  KeyboardActionsConfig _buildConfig(BuildContext context) {
-    return KeyboardActionsConfig(
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      keyboardBarColor: Colors.grey[200],
-      nextFocus: true,
-      actions: [
-        KeyboardActionsItem(
-          focusNode: _focus,
-          toolbarButtons: [
-            (node) {
-              return GestureDetector(
-                onTap: () {
-                  if (widget.focus == null) {
-                    _focus.unfocus(disposition: UnfocusDisposition.scope);
-                  }
-                  _onValidate();
-                },
-                child: const Padding(padding: EdgeInsets.all(8.0), child: Text('Done')),
-              );
-            },
-          ],
-        ),
-      ],
-    );
   }
 
   Widget? get _suffixIcon {

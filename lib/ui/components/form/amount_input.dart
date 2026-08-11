@@ -40,34 +40,32 @@ class _AmountInputState extends State<AmountInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      height: _hasMax ? 142 : 120,
-      width: double.maxFinite,
-      color: Color(0xffF1F4FF),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Enter amount',
-            style: PrimaryTextStyle(
-              fontSize: 14,
-              color: Color(0xff4F4F4F),
-              fontWeight: FontWeight.normal,
+    return KeyboardActions.done(
+      enabled: true,
+      ensureVisible: false,
+      theme: KeyboardActionsThemeData(barColor: Colors.grey[200]),
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        height: _hasMax ? 142 : 120,
+        width: double.maxFinite,
+        color: Color(0xffF1F4FF),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Enter amount',
+              style: PrimaryTextStyle(
+                fontSize: 14,
+                color: Color(0xff4F4F4F),
+                fontWeight: FontWeight.normal,
+              ),
             ),
-          ),
 
-          // Spacer(),
-          Expanded(
-            child: KeyboardActions(
-              autoScroll: false,
-              overscroll: 0,
-              disableScroll: true,
-              enable: true,
-              config: _buildConfig(context),
+            // Spacer(),
+            Expanded(
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -159,43 +157,19 @@ class _AmountInputState extends State<AmountInput> {
                 ],
               ),
             ),
-          ),
-          // Spacer(),
-          if (_hasMax)
-            Text(
-              'Maximum Amount: GHS ${widget.controller.$2.field?.trasactionLimitAmount}',
-              style: PrimaryTextStyle(
-                fontSize: 14,
-                color: Color(0xff919195),
-                fontWeight: FontWeight.normal,
+            // Spacer(),
+            if (_hasMax)
+              Text(
+                'Maximum Amount: GHS ${widget.controller.$2.field?.trasactionLimitAmount}',
+                style: PrimaryTextStyle(
+                  fontSize: 14,
+                  color: Color(0xff919195),
+                  fontWeight: FontWeight.normal,
+                ),
               ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  KeyboardActionsConfig _buildConfig(BuildContext context) {
-    return KeyboardActionsConfig(
-      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
-      keyboardBarColor: Colors.grey[200],
-      nextFocus: true,
-      actions: [
-        KeyboardActionsItem(
-          focusNode: _focus,
-          toolbarButtons: [
-            (node) {
-              return GestureDetector(
-                onTap: () {
-                  _focus.unfocus(disposition: UnfocusDisposition.scope);
-                  // _onValidate();
-                },
-                child: const Padding(padding: EdgeInsets.all(8.0), child: Text('Done')),
-              );
-            },
           ],
         ),
-      ],
+      ),
     );
   }
 }

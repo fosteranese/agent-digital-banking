@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_sage_agent/blocs/auth/auth_bloc.dart';
 import 'package:my_sage_agent/data/device_info.dart';
+import 'package:my_sage_agent/data/models/initialization_response.dart';
 import 'package:my_sage_agent/data/models/push_notification.dart';
 import 'package:my_sage_agent/data/models/response.modal.dart';
 import 'package:my_sage_agent/data/models/user_response/user_response.dart';
@@ -76,9 +77,9 @@ class AppUtil {
 
   static set currentUser(UserResponse? user) => AuthService.currentUser = user;
 
-  static dynamic get data => AuthService.data;
+  static InitializationResponse get data => AuthService.data;
 
-  static set data(dynamic value) => AuthService.data = value;
+  static set data(InitializationResponse value) => AuthService.data = value;
 
   static Database get db => AuthService.db;
 
